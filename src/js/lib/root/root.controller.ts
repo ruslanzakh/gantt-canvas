@@ -68,7 +68,7 @@ export class RootController {
 				const hover = x < offsetX && offsetX < xx && y < offsetY && offsetY < yy;
 				if(el.data.hover != hover) {
 					el.data.hover = hover;
-					this.root.view.render();
+					this.root.render();
 				}
 			} else if(el.type === 'Square') {
 				const xx = el.data.x + el.data.w;
@@ -76,7 +76,7 @@ export class RootController {
 				const hover = el.data.x < offsetX && offsetX < xx && el.data.y < offsetY && offsetY < yy;
 				if(el.data.hover != hover) {
 					el.data.hover = hover;
-					this.root.view.render();
+					this.root.render();
 				}
 			}
 		})

@@ -4,7 +4,9 @@ import { getDate, setDate } from '../utils/date';
 
 interface GridDate {
 	ts: number;
-	title: string
+	title: string;
+	month: number;
+	year: number;
 }
 
 export class GridStore {
@@ -69,7 +71,9 @@ export class GridStore {
 	add(date: Date, unshift = false) {
 		const elem = {
 			ts: date.getTime(),
-			title: date.getDate().toString() + '.' + date.getMonth(),
+			title: date.getDate().toString(),
+			month: date.getMonth(),
+			year: date.getFullYear()
 		}
 		if(unshift) this.data.unshift(elem);
 		else this.data.push(elem);

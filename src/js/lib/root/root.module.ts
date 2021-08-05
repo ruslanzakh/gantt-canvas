@@ -1,4 +1,5 @@
 import { GridModule } from '../grid/grid.module';
+import { TasksModule } from '../tasks/tasks.module';
 import { RootStore, TaskProp } from './root.store';
 import { RootView } from './root.view';
 import { RootController } from './root.controller';
@@ -15,6 +16,7 @@ export class RootModule {
 	view: RootView;
 	controller: RootController;
 	grid: GridModule;
+	tasks: TasksModule;
 	elements: any;
 	data = [
 		{
@@ -43,11 +45,17 @@ export class RootModule {
 		this.controller = new RootController(this);
 		this.view = new RootView(this);
 		this.grid = new GridModule(this);
+		this.tasks = new TasksModule(this);
 		this.init();
 	}
 
 	init() {
 		this.grid.init();
+		this.tasks.init();
+		this.render();
+	}
+
+	render() {
 		this.view.render();
 	}
 

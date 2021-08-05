@@ -1,0 +1,27 @@
+import { RootModule } from '../root/root.module';
+import { TasksStore  } from './tasks.store';
+import { TasksView  } from './tasks.view';
+import { TasksController  } from './tasks.controller';
+
+export class TasksModule {
+
+	root: RootModule;
+	store: TasksStore;
+	view: TasksView;
+	controller: TasksController;
+
+	constructor(root: RootModule) {
+		this.root = root;
+		this.store = new TasksStore(root, this);
+		this.view = new TasksView(root, this);
+		this.controller = new TasksController(root, this);
+	}
+
+	init() {
+		console.log(this.root.store.tasks);
+		
+		// this.store.initialData();
+		// this.service.showCurrentDay();
+	}
+
+}

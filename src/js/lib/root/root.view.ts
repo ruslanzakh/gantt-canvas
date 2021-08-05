@@ -14,18 +14,14 @@ export class RootView {
 
 	constructor(root: RootModule) {
 		this.root = root;
+		this.updateCanvasSizeAndRender = this.updateCanvasSizeAndRender.bind(this);
 		this.updateCanvasSize();
 		this.attachEvents();
 		this.scrollbar = new ScrollbarEntity(root, {x: 10, y: 10});
 	}
 
 	destroy() {
-		window.removeEventListener('resize', this.updateCanvasSize);
-	}
-
-	updateCanvasSize() {
-		this.root.canvas.width = this.root.root.offsetWidth;
-		this.root.canvas.height = this.root.root.offsetHeight;
+		this.destroyEvents();
 	}
 
 	render() {
@@ -47,16 +43,27 @@ export class RootView {
 		});
 
 		this.root.grid.view.render();
+		this.root.tasks.view.render();
 		this.scrollbar.render();
 		// requestAnimationFrame(() => this.render());
 	}
 
 	attachEvents() {
-		window.addEventListener('resize', this.updateCanvasSize.bind(this));
+		window.addEventListener('resize', this.updateCanvasSizeAndRender.bind(this));
 	}
 
 	destroyEvents() {
-		window.removeEventListener('resize', this.updateCanvasSize);
+		window.removeEventListener('resize', this.updateCanvasSizeAndRender.bind(this));
+	}
+
+	updateCanvasSizeAndRender() {
+		this.updateCanvasSize();
+		this.root.render();
+	}
+
+	updateCanvasSize() {
+		this.root.canvas.width = this.root.root.offsetWidth;
+		this.root.canvas.height = this.root.root.offsetHeight;
 	}
 
 	handleChangeOffsetX(difference = 10, needRender = true) {
