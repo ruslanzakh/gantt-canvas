@@ -11,6 +11,7 @@ export class RootView {
 	offsetX = 10;
 	offsetY = 0;
 	scaleX = 1;
+	scaleY = 1;
 
 	constructor(root: RootModule) {
 		this.root = root;
@@ -27,25 +28,15 @@ export class RootView {
 	render() {
 		const { width, height } = this.root.canvas;
 		this.root.ctx.clearRect(0, 0, width, height);
+
 		this.root.ctx.fillStyle = '#ffffff';
 		this.root.ctx.rect(0, 0, width, height);
 		this.root.ctx.fill();
-		this.root.data.forEach((el) => {
-			let item = undefined;
-			if(el.type === 'Circle') {
-				// @ts-ignore
-				item = new Circle(this.root, el.data);
-			} else if(el.type === 'Square') {
-				// @ts-ignore
-				item = new Square(this.root, el.data);
-			}
-			item.render();
-		});
+
 
 		this.root.grid.view.render();
 		this.root.tasks.view.render();
 		this.scrollbar.render();
-		// requestAnimationFrame(() => this.render());
 	}
 
 	attachEvents() {

@@ -19,4 +19,9 @@ export class RootStore {
 		this.root = root;
 		this.tasks = props.tasks;
 	}
+
+	updateTasks(tasks: TaskProp[]) {
+		this.tasks = tasks;
+	}
+
 }

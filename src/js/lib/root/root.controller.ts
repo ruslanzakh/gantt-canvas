@@ -11,13 +11,14 @@ export class RootController {
 	constructor(root: RootModule) {
 		this.root = root;
 		this.attachEvents();
-		this.on('mousemove', this.handleMouseMoveTest.bind(this))
 	}
 
 	attachEvents() {
 		this.handleMouseMove = debounce(this.handleMouseMove.bind(this), 32);
-		this.root.canvas.addEventListener('mousemove', this.handleMouseMove)
-		this.root.canvas.addEventListener('click', this.handleClick.bind(this))
+		this.root.canvas.addEventListener('mousemove', this.handleMouseMove);
+		this.root.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
+		this.root.canvas.addEventListener('mouseup', this.handleMouseUp.bind(this));
+		this.root.canvas.addEventListener('click', this.handleClick.bind(this));
 	}
 
 	destroyEvents() {
@@ -37,6 +38,26 @@ export class RootController {
 	handleMouseMove(event: MouseEvent) {
 		if(!this.events.mousemove) return;
 		this.events.mousemove.every(cb => {
+			// @ts-ignore
+			if(event._stopPropagation) return false;
+			cb(event);
+			return true;
+		});
+	}
+
+	handleMouseDown(event: MouseEvent) {
+		if(!this.events.mousedown) return;
+		this.events.mousedown.every(cb => {
+			// @ts-ignore
+			if(event._stopPropagation) return false;
+			cb(event);
+			return true;
+		});
+	}
+
+	handleMouseUp(event: MouseEvent) {
+		if(!this.events.mouseup) return;
+		this.events.mouseup.every(cb => {
 			// @ts-ignore
 			if(event._stopPropagation) return false;
 			cb(event);

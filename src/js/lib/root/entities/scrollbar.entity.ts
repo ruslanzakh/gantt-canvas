@@ -15,6 +15,7 @@ export class ScrollbarEntity {
 	width = 20;
 	height = 20;
 	between = 5;
+	isHover = false;
 
 	constructor(root: RootModule, { x, y }: ScrollbarProps) {
 		this.root = root;
@@ -60,7 +61,9 @@ export class ScrollbarEntity {
 		if(this.isMinusClick(event) || this.isPlusClick(event)) {
 			this.root.controller.stopPropagation(event);
 			this.root.view.setCursor('pointer');
-		} else {
+			this.isHover = true;
+		} else if(this.isHover) {
+			this.isHover = false;
 			this.root.view.setCursor('auto');
 		}
 	}
@@ -77,12 +80,13 @@ export class ScrollbarEntity {
 
 	renderPlus() {
 		const ctx = this.root.ctx;
-
+		ctx.strokeStyle = 'black'
 		ctx.beginPath();
 		const x = this.x + this.width + this.between;
 		ctx.rect(x, this.y,  this.width,  this.height);
 		ctx.stroke();
 		ctx.font = "20px serif";
+		ctx.fillStyle = "#000";
   		ctx.fillText(">", x + 3, this.y + this.height - 3);
 	}
 

@@ -6,6 +6,7 @@ import { RootController } from './root.controller';
 
 export interface RootModuleProps {
 	tasks: TaskProp[];
+	handleChange(tasks: TaskProp[]);
 }
 
 export class RootModule {
@@ -17,6 +18,7 @@ export class RootModule {
 	controller: RootController;
 	grid: GridModule;
 	tasks: TasksModule;
+	handleChange: RootModuleProps['handleChange'];
 	elements: any;
 	data = [
 		{
@@ -31,7 +33,7 @@ export class RootModule {
 			type: 'Square',
 			data: {
 				x: 300,
-				y: 100,
+				y: 300,
 				w: 100,
 				h: 50
 			}
@@ -46,6 +48,7 @@ export class RootModule {
 		this.view = new RootView(this);
 		this.grid = new GridModule(this);
 		this.tasks = new TasksModule(this);
+		this.handleChange = props.handleChange;
 		this.init();
 	}
 

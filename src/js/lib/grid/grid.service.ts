@@ -1,6 +1,6 @@
 import { RootModule } from '../root/root.module';
 import { GridModule } from './grid.module';
-import { getDateWithSet } from '../utils/date';
+import { getDate, getDateWithSet } from '../utils/date';
 
 export class GridService {
 	root: RootModule;
@@ -21,7 +21,7 @@ export class GridService {
 	addDatesAfter(offsetX) {
 		const data = this.module.store.data;
 		const fullDataWidth = data.length * this.module.view.colWidth;
-		if(offsetX < fullDataWidth - this.root.canvas.width) return;
+		if(offsetX < (fullDataWidth - this.root.canvas.width - this.module.view.colWidth)) return;
 	
 		const date = getDateWithSet(data[data.length - 1].ts, 1);
 		this.module.store.add(date);
@@ -37,6 +37,28 @@ export class GridService {
 		const offsetX = index * this.module.view.colWidth;
 		
 		this.root.view.handleSetOffsetX(offsetX, false);
+	}
+
+
+	getXByTs(ts: number): number {
+		const date = getDate(ts);
+		const dateTs = date.getTime();
+		const item = this.module.view.columns.find(el => el.ts === dateTs);
+		return item?.x || 0;
+	}
+
+	getXXByTs(ts: number): number {
+		const date = getDate(ts);
+		const dateTs = date.getTime();
+		const item = this.module.view.columns.find(el => el.ts === dateTs);
+		return item?.x + this.module.view.colWidth || 0;
+	}
+
+	getTsByX(x: number): number {
+		const colWidth = this.module.view.colWidth
+		const col = this.module.view.columns
+			.find(el => el.x <= x && el.x + colWidth > x);
+		return col?.ts || 0;
 	}
 
 }

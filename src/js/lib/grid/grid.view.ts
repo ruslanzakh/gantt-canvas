@@ -2,6 +2,7 @@ import { RootModule } from '../root/root.module';
 import { GridModule } from './grid.module';
 import { ColumnEntity, ColumnRender } from './entities/column.entity';
 import { MonthEntity, MonthRender } from './entities/month.entity';
+import { RowEntity, RowRender } from './entities/row.entity';
 
 const MONTHS = [
 	'январь',
@@ -21,26 +22,41 @@ const MONTHS = [
 interface RichedColumnRender extends ColumnRender {
 	month: number;
 	year: number;
+	ts: number;
 }
 export class GridView {
 	root: RootModule;
 	module: GridModule;
 	columnEntity: ColumnEntity;
 	monthEntity: MonthEntity;
+	rowEntity: RowEntity;
 
 	constructor(root: RootModule, module: GridModule) {
 		this.root = root;
 		this.module = module;
 		this.columnEntity = new ColumnEntity(root);
 		this.monthEntity = new MonthEntity(root);
+		this.rowEntity = new RowEntity(root);
 	}
 
 	get colWidth() {
 		return 40 * this.root.view.scaleX;
 	}
 
+	get rowHeight() {
+		return 30 * this.root.view.scaleY;
+	}
+
 	get monthHeight() {
 		return 40;
+	}
+
+	get dayHeight() {
+		return 30;
+	}
+
+	get rowsOffsetX() {
+		return this.monthHeight + this.dayHeight;
 	}
 
 	get columns(): RichedColumnRender[] {
@@ -54,6 +70,7 @@ export class GridView {
 			if(x > width) break;
 			if(x < -this.colWidth) continue;
 			data.push({
+				ts: el.ts,
 				x,
 				title: el.title,
 				month: el.month,
@@ -83,13 +100,33 @@ export class GridView {
 		return Object.values(data);
 	}
 
+	get rows(): RowRender[] {
+		const data = [];
+		let odd = true;
+		for(let i = this.rowsOffsetX + this.rowHeight; i <= this.root.canvas.height; i += this.rowHeight) {
+			data.push({y: i, odd});
+			odd = !odd;
+		}
+		
+		return data;
+	}
+
 	render() {
+		this.rows.forEach((x) => {
+			this.rowEntity.renderItem(x, this.rowHeight);
+		});
+		const colCommon = {
+			monthHeight: this.monthHeight,
+			width: this.colWidth,
+			dayHeight: this.dayHeight,
+		}
 		this.columns.forEach((x) => {
-			this.columnEntity.renderItem(x, this.monthHeight, this.colWidth);
+			this.columnEntity.renderItem(x, colCommon);
 		});
 		this.months.forEach((x) => {
 			this.monthEntity.renderItem(x, this.monthHeight);
 		});
+
 		
 	}
 
