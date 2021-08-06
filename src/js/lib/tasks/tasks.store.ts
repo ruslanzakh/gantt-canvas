@@ -35,9 +35,8 @@ export class TasksStore {
 		this.clearModTasks();
 	}
 
-	addModTasks(task: TaskProp) {
+	addModTask(task: TaskProp) {
 		this.modifiedTasks[task.id] = task;
-		this.root.render();
 	}
 
 	setHoverId(id: null | string, resize: null | string) {

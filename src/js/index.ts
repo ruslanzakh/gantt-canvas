@@ -20,7 +20,7 @@ const tasks = [
 		title: 'Task 3',
 		start_date_ts: 1628004121049,
 		end_date_ts: 1628763321049,
-		next_ids: []
+		next_ids: ['task4']
 	},
 	{
 		id: 'task4',

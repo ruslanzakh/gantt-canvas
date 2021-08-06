@@ -60,13 +60,11 @@ export class RootView {
 	handleChangeOffsetX(difference = 10, needRender = true) {
 		this.offsetX += difference;
 		if(this.offsetX < 0) this.offsetX = 0;
-		if(needRender) {
-			this.render();
-			if(difference < 0)
-				this.root.grid.service.addDatesBefore(this.offsetX)
-			else
-				this.root.grid.service.addDatesAfter(this.offsetX)
-		}
+		if(difference < 0)
+			this.root.grid.service.addDatesBefore(this.offsetX)
+		else
+			this.root.grid.service.addDatesAfter(this.offsetX)
+		if(needRender) this.render();
 	}
 
 	handleSetOffsetX(offsetX = 0, needRender = true) {

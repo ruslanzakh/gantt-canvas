@@ -20,7 +20,7 @@ export class TasksView {
 		const data = this.module.store.tasks.map((task, index) => {
 			const x = this.root.grid.service.getXByTs(task.start_date_ts);
 			const xx = this.root.grid.service.getXXByTs(task.end_date_ts);
-			const w = xx - x; 
+			const w = xx - x;
 			return {
 				...task,
 				hover: hoverId === task.id,

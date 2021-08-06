@@ -34,7 +34,8 @@ export class TaskEntity {
 		return { hover, resize };
 	}
 
-	renderItem({x, y, w, title, hover, next_ids}: TaskRender, h: number) {
+	renderItem({x, y, w, title, hover}: TaskRender, h: number) {
+		if(x >= this.root.canvas.width || w === 0) return;
 		const ctx = this.root.ctx;
 		ctx.beginPath();
 		ctx.rect(x, y + 5, w, h - 10);
@@ -47,13 +48,15 @@ export class TaskEntity {
 	}
 
 	renderArrow(id: string, x: number, y: number, h: number) {
+		const task = this.root.tasks.service.getViewTaskById(id);
+		if(!task) return;
+		if((task.x === this.root.canvas.width && x === this.root.canvas.width) || (x === 0 && task.x === 0)) return;
+		const targetY = task.y + (h / 2);
 		const ctx = this.root.ctx;
-		const task = this.root.tasks.service.getTaskById(id);
 		ctx.strokeStyle = '#2acc69';
 		ctx.fillStyle = '#2acc69';
-		if(!task) return;
+		
 		if(task.x > x) {
-			const targetY = task.y + (h / 2)
 			ctx.beginPath();
 			ctx.moveTo(x, y);
 			ctx.lineTo(x + 10, y);
@@ -62,7 +65,6 @@ export class TaskEntity {
 			ctx.stroke();
 			this.renderArrowHead(x + 10,  targetY, task.x, targetY)
 		} else {
-			const targetY = task.y + (h / 2)
 			ctx.beginPath();
 			ctx.moveTo(x, y);
 			ctx.lineTo(x + 10, y);

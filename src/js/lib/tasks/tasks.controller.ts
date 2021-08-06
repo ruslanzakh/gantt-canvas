@@ -8,13 +8,13 @@ export class TasksController {
 	destroyMouseDown: Function;
 	destroyMouseMove: Function;
 	destroyResizeMouseMove: Function;
-	destroyResizeMouseUp: Function;
 	moveMode: boolean = false;
 	resizeMoveMode: string | null = null;
 
 	constructor(root: RootModule, module: TasksModule) {
 		this.root = root;
 		this.module = module;
+		this.handleResizeMouseUp = this.handleResizeMouseUp.bind(this);
 	}
 
 	attachEvents() {
@@ -33,34 +33,22 @@ export class TasksController {
 		if(resize) {
 			this.resizeMoveMode = resize;
 			this.destroyResizeMouseMove = this.root.controller.on('mousemove', this.handleResizeMouseMove.bind(this));
-			this.destroyResizeMouseUp = this.root.controller.on('mouseup', this.handleResizeMouseUp.bind(this));
+			document.addEventListener('mouseup', this.handleResizeMouseUp);
 		}
 	}
 
 	handleResizeMouseMove(event: MouseEvent) {
-		const task = this.module.store.tasks.find(task => task.id === this.module.store.hoverId);
-		
-		const dateTs = getDate(this.root.grid.service.getTsByX(event.offsetX)).getTime();
-		if(this.resizeMoveMode === 'right') {
-			const newTask = {...task, end_date_ts: dateTs};
-			if(newTask.start_date_ts > dateTs) newTask.start_date_ts = dateTs;
-			this.module.store.addModTasks(newTask);
-		} else if(this.resizeMoveMode === 'left') {
-			const newTask = {...task, start_date_ts: dateTs};
-			if(newTask.end_date_ts < dateTs) newTask.end_date_ts = dateTs;
-			this.module.store.addModTasks(newTask);
-		}
-		
+		this.module.service.resizeTask(event);
 	}
 
 	handleResizeMouseUp() {
 		const tasks = Object.values(this.module.store.modifiedTasks);
 		this.root.handleChange(tasks);
-		
+		this.module.service.clearScrollInterval();
 		this.module.store.saveModTasks();
 		this.resizeMoveMode = null;
 		this.destroyResizeMouseMove();
-		this.destroyResizeMouseUp();
+		document.removeEventListener('mouseup', this.handleResizeMouseUp);
 	}
 
 	handleMouseMove(event: MouseEvent) {

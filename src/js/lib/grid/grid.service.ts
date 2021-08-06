@@ -43,15 +43,21 @@ export class GridService {
 	getXByTs(ts: number): number {
 		const date = getDate(ts);
 		const dateTs = date.getTime();
-		const item = this.module.view.columns.find(el => el.ts === dateTs);
-		return item?.x || 0;
+		const { columns } = this.module.view;
+		const item = columns.find((el, index) => el.ts <= dateTs && columns[index + 1]?.ts > dateTs);
+		if(item) return item.x;
+		const isStart = columns[0].ts > ts;
+		return isStart ? 0 : this.root.canvas.width;
 	}
 
 	getXXByTs(ts: number): number {
 		const date = getDate(ts);
 		const dateTs = date.getTime();
-		const item = this.module.view.columns.find(el => el.ts === dateTs);
-		return item?.x + this.module.view.colWidth || 0;
+		const { columns, colWidth } = this.module.view;
+		const item = columns.find((el, index) => el.ts <= dateTs && columns[index + 1]?.ts > dateTs);
+		if(item) return item.x + colWidth;
+		const isStart = columns[0].ts > ts;
+		return isStart ? 0 : this.root.canvas.width;
 	}
 
 	getTsByX(x: number): number {

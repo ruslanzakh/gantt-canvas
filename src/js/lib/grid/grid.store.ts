@@ -39,7 +39,6 @@ export class GridStore {
 
 	fillPrevData() {
 		const date = getDate();
-		setDate(date, -1);
 		let prev = 0;
 		const firstDateTs = this.firstDate ?? null;
 		do {

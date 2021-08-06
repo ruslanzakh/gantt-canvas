@@ -10,14 +10,20 @@ export interface TaskProp {
 
 export interface RootStoreProps {
 	tasks: TaskProp[],
+	moveDependedOnResizeRight?: boolean;
+	moveDependedOnResizeLeft?: boolean;
 }
 
 export class RootStore {
 	root: RootModule;
 	tasks: TaskProp[];
+	moveDependedOnResizeRight: boolean;
+	moveDependedOnResizeLeft: boolean;
 	constructor(root: RootModule, props: RootStoreProps) {
 		this.root = root;
 		this.tasks = props.tasks;
+		this.moveDependedOnResizeRight = props.moveDependedOnResizeRight ?? true;
+		this.moveDependedOnResizeLeft = props.moveDependedOnResizeLeft ?? false;
 	}
 
 	updateTasks(tasks: TaskProp[]) {
