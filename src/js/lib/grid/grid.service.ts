@@ -28,7 +28,7 @@ export class GridService {
 	}
 
 	showCurrentDay() {
-		const columnLength = (this.root.canvas.width / 40) / 2;
+		const columnLength = (this.root.canvas.width / this.module.view.colWidth) / 2;
 		const date = getDateWithSet(undefined, -columnLength);
 		const dateTs = date.getTime();
 		const index = this.module.store.data
@@ -40,24 +40,16 @@ export class GridService {
 	}
 
 
-	getXByTs(ts: number): number {
-		const date = getDate(ts);
-		const dateTs = date.getTime();
-		const { columns } = this.module.view;
-		const item = columns.find((el, index) => el.ts <= dateTs && columns[index + 1]?.ts > dateTs);
-		if(item) return item.x;
-		const isStart = columns[0].ts > ts;
-		return isStart ? 0 : this.root.canvas.width;
+
+	getPosXByTs(ts: number): number {
+		const firstTs = this.getTsByX(0);
+		const diff = ts - firstTs;
+		return diff / this.module.view.tsHasOneX;
 	}
 
-	getXXByTs(ts: number): number {
-		const date = getDate(ts);
-		const dateTs = date.getTime();
-		const { columns, colWidth } = this.module.view;
-		const item = columns.find((el, index) => el.ts <= dateTs && columns[index + 1]?.ts > dateTs);
-		if(item) return item.x + colWidth;
-		const isStart = columns[0].ts > ts;
-		return isStart ? 0 : this.root.canvas.width;
+	getPosByFullDayTs(ts: number, end = false): number {
+		const date = getDate(ts, end);
+		return this.getPosXByTs(date.getTime());
 	}
 
 	getTsByX(x: number): number {
@@ -65,6 +57,15 @@ export class GridService {
 		const col = this.module.view.columns
 			.find(el => el.x <= x && el.x + colWidth > x);
 		return col?.ts || 0;
+	}
+
+
+	getTsByOffsetDiff(x: number): number {
+		const columns = this.module.view.columns;
+		const colHasTs = columns[1].ts - columns[0].ts;
+		const colWidth = this.module.view.colWidth;
+		const relativeOffset = x / colWidth;
+		return colHasTs * relativeOffset;
 	}
 
 }

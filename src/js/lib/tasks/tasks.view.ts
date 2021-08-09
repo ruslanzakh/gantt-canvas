@@ -1,12 +1,16 @@
 import { RootModule } from '../root/root.module';
 import { TasksModule } from './tasks.module';
 import { TaskEntity, TaskRender } from './entities/task.entity';
-
+interface ObjectList {
+	[index: string]: TaskRender
+}
 export class TasksView {
 	root: RootModule;
 	module: TasksModule;
 	taskEntity: TaskEntity;
 
+	modifiedTasks: ObjectList = {};
+	renderTasks: TaskRender[] = [];
 
 	constructor(root: RootModule, module: TasksModule) {
 		this.root = root;
@@ -14,12 +18,19 @@ export class TasksView {
 		this.taskEntity = new TaskEntity(root);
 	}
 
-	get tasks(): TaskRender[] {
+	fillRenderTasks() {
 		const rowHeight = this.root.grid.view.rowHeight;
 		const hoverId = this.module.store.hoverId;
-		const data = this.module.store.tasks.map((task, index) => {
-			const x = this.root.grid.service.getXByTs(task.start_date_ts);
-			const xx = this.root.grid.service.getXXByTs(task.end_date_ts);
+		// const { firstVisibleTS, lastVisibleTS} = this.root.grid.view;
+		const data = this.module.store.tasks
+			// todo - можно оставить пока на случай, если я вдруг решузаполнять пустые строки
+			// .filter(({start_date_ts, end_date_ts}) =>{
+			// 	if(start_date_ts < firstVisibleTS && end_date_ts < firstVisibleTS) return false;
+			// 	if(start_date_ts > lastVisibleTS && end_date_ts > lastVisibleTS) return false;
+			// 	return true;
+			// })
+		.map((task, index) => {
+			const {x, xx} = this.module.service.getTaskPos(task);
 			const w = xx - x;
 			return {
 				...task,
@@ -29,14 +40,30 @@ export class TasksView {
 				w
 			}
 		});
-		return data;
+		this.renderTasks = data;
+	}
+
+	get tasks() {
+		return this.renderTasks.map(task => {
+			if(this.modifiedTasks[task.id]) return this.modifiedTasks[task.id];
+			return task;
+		})
 	}
 
 	get rowHeight() {
 		return this.root.grid.view.rowHeight;
 	}
 
+	clearModTasks() {
+		this.modifiedTasks = {};
+	}
+
+	addModTask(task: TaskRender) {
+		this.modifiedTasks[task.id] = task;
+	}
+
 	render() {
+		this.fillRenderTasks();
 		this.tasks.forEach((el) => {
 			el.next_ids.forEach((id) => {
 				const x = el.x + el.w;

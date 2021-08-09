@@ -30,6 +30,9 @@ export class GridView {
 	columnEntity: ColumnEntity;
 	monthEntity: MonthEntity;
 	rowEntity: RowEntity;
+	columns: RichedColumnRender[] = [];
+	firstVisibleTS: number = 0;
+	lastVisibleTS: number = 0;
 
 	constructor(root: RootModule, module: GridModule) {
 		this.root = root;
@@ -43,9 +46,18 @@ export class GridView {
 		return 40 * this.root.view.scaleX;
 	}
 
+	get colTs() {
+		return 24 * 60 * 60 * 1000;
+	}
+
+	get tsHasOneX() {
+		return this.colTs / this.colWidth;
+	}
+
 	get rowHeight() {
 		return 30 * this.root.view.scaleY;
 	}
+	
 
 	get monthHeight() {
 		return 40;
@@ -59,8 +71,9 @@ export class GridView {
 		return this.monthHeight + this.dayHeight;
 	}
 
-	get columns(): RichedColumnRender[] {
+	fillColumns() {
 		const offsetX = this.root.view.offsetX;
+		
 		const width = this.root.canvas.width;
 		const length = this.module.store.data.length;
 		const data: RichedColumnRender[] = [];
@@ -77,7 +90,7 @@ export class GridView {
 				year: el.year,
 			});
 		}
-		return data;
+		this.columns = data;
 	}
 
 
@@ -111,7 +124,15 @@ export class GridView {
 		return data;
 	}
 
+
+	updateStore() {
+		this.fillColumns();
+		this.firstVisibleTS = this.columns[0].ts;
+		this.lastVisibleTS = this.columns[this.columns.length - 1].ts + this.colTs;
+	}
+
 	render() {
+		this.updateStore();
 		this.rows.forEach((x) => {
 			this.rowEntity.renderItem(x, this.rowHeight);
 		});

@@ -19,13 +19,13 @@ export class TasksService {
 		return task || null;
 	}
 
-	getStoreTaskById(id: string) {
-		const task = this.module.store.tasks.find(task => task.id === id);
+	getRootStoreTaskById(id: string) {
+		const task = this.root.store.tasks.find(task => task.id === id);
 		return task || null;
 	}
 
 	getStoreDependedTasksById(id: string, tasks: TaskProp[] = []) {
-		const task = this.getStoreTaskById(id);
+		const task = this.getRootStoreTaskById(id);
 		tasks.push(task);
 		task.next_ids.forEach(id => {
 			if(tasks.find(task => task.id === id)) return;
@@ -52,7 +52,7 @@ export class TasksService {
 	}
 
 	getHoveredTask() {
-		return this.getStoreTaskById(this.module.store.hoverId);
+		return this.getRootStoreTaskById(this.module.store.hoverId);
 	}
 
 	resizeTask(event: MouseEvent) {
@@ -62,15 +62,40 @@ export class TasksService {
 		this.root.render();
 	}
 
+	handleMoveTask(event: MouseEvent) {
+		if(this.intervalChangeOffset) return this.module.service.scrollX(event);
+		this.moveTask(event.offsetX);
+		this.module.service.scrollX(event);
+		this.root.render();
+	}
+
+	moveTask(offsetX: number) {
+		const task = this.getHoveredTask();
+		if(!task || !this.module.controller.mouseDownOffsetX) return;
+		const diff = this.getDiff(offsetX, task.all_day);
+		if(diff === 0) return;
+		
+		if(this.root.store.moveDependedOnMove) {
+			this.moveDependedTasks(task, diff)
+		} else {
+			this.moveCurrentTask(task, diff)
+		}
+	}
+
+	moveDependedTasks(task: TaskProp, diff) {
+		const tasks = this.getStoreDependedTasksById(task.id);
+		tasks.forEach((el) => this.saveMoveDependedTask(el, diff));
+	}
+
+	moveCurrentTask(task: TaskProp, diff) {
+		this.saveMoveDependedTask(task, diff)
+	}
+
 	resizeTaskByResizeMode(offsetX: number) {
 		const resizeMoveMode = this.module.controller.resizeMoveMode;
 		const task = this.getHoveredTask();
 		if(!task) return;
-		const dateTs = getDate(this.root.grid.service.getTsByX(offsetX)).getTime();
-		const taskTs = resizeMoveMode === 'right' ?
-			task.end_date_ts : task.start_date_ts;
-		const tasksDateTs = getDate(taskTs).getTime();
-		const diff = dateTs - tasksDateTs;
+		const diff = this.getDiff(offsetX, task.all_day);
 		if(diff === 0) return;
 
 		if(resizeMoveMode === 'right') {
@@ -109,11 +134,11 @@ export class TasksService {
 		this.module.store.addModTask(newTask);
 	}
 
-	saveMoveDependedTask(task: TaskProp, diff: number) {
+	saveMoveDependedTask(task: TaskProp, diff: number, all_day = false) {
 		const newTask = {
 			...task,
+			start_date_ts: task.start_date_ts + diff,
 			end_date_ts: task.end_date_ts + diff,
-			start_date_ts: task.start_date_ts  + diff,
 		};
 		this.module.store.addModTask(newTask);
 	}
@@ -145,7 +170,9 @@ export class TasksService {
 		
 		if(changeOffsetValue !== 0 && !this.intervalChangeOffset) {
 			this.intervalChangeOffset = setInterval(() => {
-				this.resizeTaskByResizeMode(offsetX);
+				this.module.controller.mouseDownOffsetX -= changeOffsetValue;
+				if(this.module.controller.resizeMoveMode) this.resizeTaskByResizeMode(offsetX);
+				else this.moveTask(event.offsetX);
 				this.root.view.handleChangeOffsetX(changeOffsetValue)
 			}, 150)
 		} else if(changeOffsetValue === 0 ) {
@@ -159,6 +186,28 @@ export class TasksService {
 			clearInterval(this.intervalChangeOffset);
 			this.intervalChangeOffset = null;
 		}
+	}
+
+	getDiff(offsetX: number, all_day = false) {
+		const offsetDiff = offsetX - this.module.controller.mouseDownOffsetX;
+		let diff = this.root.grid.service.getTsByOffsetDiff(offsetDiff);
+		if(all_day || this.root.store.save_time) {
+			const colTs = this.root.grid.view.colTs;
+			const dayDiff = (diff - diff % colTs) / colTs;
+			diff = colTs * dayDiff;
+		}
+		return diff;
+	}
+
+	getTaskPos(task: TaskProp) {
+		const x = task.all_day
+			? this.root.grid.service.getPosByFullDayTs(task.start_date_ts)
+			: this.root.grid.service.getPosXByTs(task.start_date_ts);
+		let xx = task.all_day
+			? this.root.grid.service.getPosByFullDayTs(task.end_date_ts, true)
+			: this.root.grid.service.getPosXByTs(task.end_date_ts);
+		if(xx === x) xx += 10;
+		return {x, xx};
 	}
 
 

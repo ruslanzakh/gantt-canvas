@@ -27,8 +27,10 @@ export class TaskEntity {
 		const yy = y + h;
 		const hover = x < offsetX && offsetX < xx && y < offsetY && offsetY < yy;
 		if(!hover) return { hover, resize };
-		const leftResizeX = x + (w * 0.2);
-		const rightResizeX = xx - (w * 0.2);
+		let resizeWidth = (w * 0.2);
+		if(resizeWidth > 30) resizeWidth = 30;
+		const leftResizeX = x + resizeWidth;
+		const rightResizeX = xx - resizeWidth;
 		if(leftResizeX > offsetX) resize = 'left';
 		else if(rightResizeX < offsetX) resize = 'right';
 		return { hover, resize };
@@ -50,7 +52,9 @@ export class TaskEntity {
 	renderArrow(id: string, x: number, y: number, h: number) {
 		const task = this.root.tasks.service.getViewTaskById(id);
 		if(!task) return;
-		if((task.x === this.root.canvas.width && x === this.root.canvas.width) || (x === 0 && task.x === 0)) return;
+		if((task.x <= 0 || task.x >= this.root.canvas.width) &&
+			(x <= 0 || x >= this.root.canvas.width)) return;
+
 		const targetY = task.y + (h / 2);
 		const ctx = this.root.ctx;
 		ctx.strokeStyle = '#2acc69';
