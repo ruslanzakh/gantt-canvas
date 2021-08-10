@@ -13,58 +13,24 @@ export class GridStore {
 	root: RootModule;
 	module: GridModule;
 
-	data: GridDate[] = [];
+	dates: GridDate[] = [];
 
 	constructor(root: RootModule, module: GridModule) {
 		this.root = root;
 		this.module = module;
 	}
 
-	get firstDate() {
-		return new Date('07.07.21').getTime();
-	}
-	
-	get lastDate() {
-		return new Date('09.09.21').getTime();
-	}
-
-	get columnLength() {
-		return this.root.canvas.width / this.module.view.colWidth;
-	}
-
 	initialData() {
-		this.fillPrevData();
-		this.fillNextData();
-	}
-
-	fillPrevData() {
-		const date = getDate();
-		let prev = 0;
-		const firstDateTs = this.firstDate ?? null;
-		do {
-			setDate(date, -1);
-			prev++;
-			this.add(date, true);
-		} while(firstDateTs && date.getTime() > firstDateTs);
-		for(let i = prev; i < this.columnLength; i++) {
-			setDate(date, -1);
-			this.add(date, true);
+		if(true) {
+			const [start_date_ts, end_date_ts] = this.root.tasks.service.getFirstAndLastDeadline();
+			const date = getDate(start_date_ts);
+			do {
+				setDate(date, 1);
+				this.add(date);
+			} while(date.getTime() <= end_date_ts);
 		}
-	}
-
-	fillNextData() {
-		const date = getDate();
-		let next = 0;
-		const lastDateTs = this.lastDate ?? null;
-		do {
-			next++;
-			this.add(date);
-			setDate(date, 1);
-		} while(lastDateTs && date.getTime() < lastDateTs);
-		for(let i = next; i <= this.columnLength; i++) {
-			this.add(date);
-			setDate(date, 1);
-		}
+		this.module.service.addDatesBefore(this.root.view.offsetX);
+		this.module.service.addDatesAfter(this.root.view.offsetX);
 	}
 
 	add(date: Date, unshift = false) {
@@ -74,8 +40,8 @@ export class GridStore {
 			month: date.getMonth(),
 			year: date.getFullYear()
 		}
-		if(unshift) this.data.unshift(elem);
-		else this.data.push(elem);
+		if(unshift) this.dates.unshift(elem);
+		else this.dates.push(elem);
 	}
 
 

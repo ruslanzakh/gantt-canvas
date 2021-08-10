@@ -1,6 +1,6 @@
 import { RootModule } from '../root/root.module';
 import { GridModule } from './grid.module';
-import { getDate, getDateWithSet } from '../utils/date';
+import { getDate, getDateWithSet, setDate } from '../utils/date';
 
 export class GridService {
 	root: RootModule;
@@ -12,34 +12,49 @@ export class GridService {
 	}
 
 	addDatesBefore(offsetX) {
-		if(offsetX > 0) return;
-		const data = this.module.store.data;
-		const date = getDateWithSet(data[0].ts, -1);
+		if(offsetX > this.root.canvas.width) return;
+		
+		const data = this.module.store.dates;
+		const { colsOnScreen, colWidth } = this.module.view;
+		const length = -offsetX / colWidth;
+		const date = getDate(data[0]?.ts);
+		setDate(date, -1);
 		this.module.store.add(date, true);
+		
+		for(let i = 0; i < length + colsOnScreen; i++) {
+			offsetX += colWidth;
+			setDate(date, -1);
+			this.module.store.add(date, true);
+		}
+		this.root.view.offsetX = offsetX;
 	}
 
 	addDatesAfter(offsetX) {
-		const data = this.module.store.data;
-		const fullDataWidth = data.length * this.module.view.colWidth;
-		if(offsetX < (fullDataWidth - this.root.canvas.width - this.module.view.colWidth)) return;
-	
-		const date = getDateWithSet(data[data.length - 1].ts, 1);
-		this.module.store.add(date);
+		const data = this.module.store.dates;
+		const fullDataWidth = this.getFullAvailableWidth();
+		const { colsOnScreen, colWidth } = this.module.view;
+		const width = fullDataWidth - this.root.canvas.width - colWidth
+		if(offsetX < width) return;
+		const length = ((offsetX - width) / colWidth);
+		const date = getDate(data[data.length - 1].ts);
+		for(let i = 0; i < length + colsOnScreen; i++) {
+			setDate(date, 1);
+			this.module.store.add(date);
+		}
 	}
 
 	showCurrentDay() {
-		const columnLength = (this.root.canvas.width / this.module.view.colWidth) / 2;
-		const date = getDateWithSet(undefined, -columnLength);
+		const columnLength = this.module.view.colsOnScreen / 3;
+		const date = getDate();
+		setDate(date, -columnLength);
+		
 		const dateTs = date.getTime();
-		const index = this.module.store.data
+		const index = this.module.store.dates
 			.map((({ts}) => ts))
 			.indexOf(dateTs);
 		const offsetX = index * this.module.view.colWidth;
-		
 		this.root.view.handleSetOffsetX(offsetX, false);
 	}
-
-
 
 	getPosXByTs(ts: number): number {
 		const firstTs = this.getTsByX(0);
@@ -47,7 +62,7 @@ export class GridService {
 		return diff / this.module.view.tsHasOneX;
 	}
 
-	getPosByFullDayTs(ts: number, end = false): number {
+	getPosXByFullDayTs(ts: number, end = false): number {
 		const date = getDate(ts, end);
 		return this.getPosXByTs(date.getTime());
 	}
@@ -59,13 +74,31 @@ export class GridService {
 		return col?.ts || 0;
 	}
 
-
 	getTsByOffsetDiff(x: number): number {
 		const columns = this.module.view.columns;
+		if(!columns.length) return 0;
 		const colHasTs = columns[1].ts - columns[0].ts;
 		const colWidth = this.module.view.colWidth;
 		const relativeOffset = x / colWidth;
 		return colHasTs * relativeOffset;
+	}
+
+	getFullAvailableWidth() {
+		const canvas = this.root.canvas;
+		const colWidth = this.module.view.colWidth;
+		let fullWidth = colWidth * this.module.store.dates.length;
+		if(fullWidth < canvas.width) fullWidth = canvas.width;
+
+		return fullWidth;
+	}
+
+	validateOffsetX() {
+		const offsetX = this.root.view.offsetX;
+		if(offsetX < this.root.canvas.width) {
+			this.addDatesBefore(offsetX);
+		} else if(offsetX > this.getFullAvailableWidth() - this.root.canvas.width) {
+			this.addDatesAfter(offsetX);
+		}
 	}
 
 }

@@ -63,7 +63,7 @@ const getNextIds = (tasks, end_date_ts: number) => {
 
 function getTasks() {
 	const tasks = [];
-	for(let i = 0; i <= 100; i++ ){
+	for(let i = 0; i <= 10; i++ ){
 		const start_date_ts = getStartDateTs();
 		const end_date_ts = start_date_ts + (Math.floor(Math.random() * 5) * 24 * 60 * 60 * 1000)
 
@@ -80,7 +80,8 @@ function getTasks() {
 	return tasks;
 }
 new Gantt('#app', {
-	tasks,
+	// tasks: tasks,
+	tasks: getTasks(),
 	handleChange(tasks) {
 		console.log(tasks);
 	}

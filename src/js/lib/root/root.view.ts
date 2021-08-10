@@ -2,13 +2,15 @@ import { RootModule } from './root.module';
 import Circle from '../models/Circle';
 import Square from '../models/Square';
 import { ScrollbarEntity } from './entities/scrollbar.entity';
+import { ScrollbarXEntity } from './entities/scrollbar-x.entity';
 
 
 export class RootView {
 	root: RootModule;
 	scrollbar: ScrollbarEntity;
+	scrollbarX: ScrollbarXEntity;
 
-	offsetX = 10;
+	offsetX = 0;
 	offsetY = 0;
 	scaleX = 1;
 	scaleY = 1;
@@ -19,6 +21,7 @@ export class RootView {
 		this.updateCanvasSize();
 		this.attachEvents();
 		this.scrollbar = new ScrollbarEntity(root, {x: 10, y: 10});
+		this.scrollbarX = new ScrollbarXEntity(root);
 	}
 
 	destroy() {
@@ -37,6 +40,7 @@ export class RootView {
 		this.root.grid.view.render();
 		this.root.tasks.view.render();
 		this.scrollbar.render();
+		this.scrollbarX.render();
 	}
 
 	attachEvents() {
@@ -60,15 +64,19 @@ export class RootView {
 	handleChangeOffsetX(difference = 10, needRender = true) {
 		this.offsetX += difference;
 		if(this.offsetX < 0) this.offsetX = 0;
-		if(difference < 0)
-			this.root.grid.service.addDatesBefore(this.offsetX)
-		else
-			this.root.grid.service.addDatesAfter(this.offsetX)
+		this.root.grid.service.validateOffsetX();
+		// if(difference < 0)
+		// 	this.root.grid.service.addDatesBefore(this.offsetX)
+		// else
+		// 	this.root.grid.service.addDatesAfter(this.offsetX)
 		if(needRender) this.render();
 	}
 
 	handleSetOffsetX(offsetX = 0, needRender = true) {
 		this.offsetX = offsetX;
+		if(this.offsetX < 0) this.offsetX = 0;
+		this.root.grid.service.validateOffsetX();
+
 		if(needRender) this.render();
 	}
 

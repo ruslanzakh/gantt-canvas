@@ -45,6 +45,10 @@ export class GridView {
 	get colWidth() {
 		return 40 * this.root.view.scaleX;
 	}
+	
+	get colsOnScreen() {
+		return this.root.canvas.width / this.module.view.colWidth;
+	}
 
 	get colTs() {
 		return 24 * 60 * 60 * 1000;
@@ -75,11 +79,13 @@ export class GridView {
 		const offsetX = this.root.view.offsetX;
 		
 		const width = this.root.canvas.width;
-		const length = this.module.store.data.length;
+		const length = this.module.store.dates.length;
 		const data: RichedColumnRender[] = [];
+		
 		for(let i = 0; i < length; i++) {
-			const el = this.module.store.data[i];
+			const el = this.module.store.dates[i];
 			const x = (i * this.colWidth) - offsetX;
+			
 			if(x > width) break;
 			if(x < -this.colWidth) continue;
 			data.push({

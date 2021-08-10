@@ -201,14 +201,48 @@ export class TasksService {
 
 	getTaskPos(task: TaskProp) {
 		const x = task.all_day
-			? this.root.grid.service.getPosByFullDayTs(task.start_date_ts)
+			? this.root.grid.service.getPosXByFullDayTs(task.start_date_ts)
 			: this.root.grid.service.getPosXByTs(task.start_date_ts);
 		let xx = task.all_day
-			? this.root.grid.service.getPosByFullDayTs(task.end_date_ts, true)
+			? this.root.grid.service.getPosXByFullDayTs(task.end_date_ts, true)
 			: this.root.grid.service.getPosXByTs(task.end_date_ts);
 		if(xx === x) xx += 10;
 		return {x, xx};
 	}
 
 
+	getFirstTaskByDeadline() {
+		const task = this.root.store.tasks.reduce((prev, item) => {
+			if(!prev) return item;
+			if(prev.start_date_ts > item.start_date_ts) return item;
+			return prev;
+		}, null);
+		return task;
+	}
+
+	getLastTaskByDeadline() {
+		const task = this.root.store.tasks.reduce((prev, item) => {
+			if(!prev) return item;
+			if(prev.end_date_ts < item.end_date_ts) return item;
+			return prev;
+		}, null);
+		return task;
+	}
+
+
+	getFirstDeadline() {
+		const firstTask = this.getFirstTaskByDeadline();
+		return firstTask?.start_date_ts ?? 0;
+	}
+
+	getLastDeadline() {
+		const lastTask = this.getLastTaskByDeadline();
+		return lastTask?.end_date_ts ?? 0;
+	}
+
+	getFirstAndLastDeadline() {
+		const start_date_ts = this.getFirstDeadline();
+		const end_date_ts = this.getLastDeadline();
+		return [start_date_ts, end_date_ts];
+	}
 }
