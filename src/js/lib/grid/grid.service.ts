@@ -92,6 +92,15 @@ export class GridService {
 		return fullWidth;
 	}
 
+	getFullAvailableHeight() {
+		const canvas = this.root.canvas;
+		const rowHeight = this.module.view.rowHeight;
+		let fullHeight = rowHeight * this.root.store.tasks.length;
+		if(fullHeight < canvas.height) fullHeight = canvas.height;
+
+		return fullHeight;
+	}
+
 	validateOffsetX() {
 		const offsetX = this.root.view.offsetX;
 		if(offsetX < this.root.canvas.width) {

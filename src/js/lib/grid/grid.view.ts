@@ -31,8 +31,7 @@ export class GridView {
 	monthEntity: MonthEntity;
 	rowEntity: RowEntity;
 	columns: RichedColumnRender[] = [];
-	firstVisibleTS: number = 0;
-	lastVisibleTS: number = 0;
+	rows: RowRender[];
 
 	constructor(root: RootModule, module: GridModule) {
 		this.root = root;
@@ -71,7 +70,11 @@ export class GridView {
 		return 30;
 	}
 
-	get rowsOffsetX() {
+	get headerHeight() {
+		return this.monthHeight + this.dayHeight;
+	}
+
+	get rowsOffsetY() {
 		return this.monthHeight + this.dayHeight;
 	}
 
@@ -119,22 +122,29 @@ export class GridView {
 		return Object.values(data);
 	}
 
-	get rows(): RowRender[] {
-		const data = [];
+	fillRows() {
 		let odd = true;
-		for(let i = this.rowsOffsetX + this.rowHeight; i <= this.root.canvas.height; i += this.rowHeight) {
-			data.push({y: i, odd});
+		const offsetY = this.root.view.offsetY;
+		const height = this.root.canvas.height;
+		const data: RowRender[] = [];
+		const length = this.root.store.tasks.length;
+		const headerOffset = this.rowsOffsetY + this.rowHeight;
+
+		for(let i = 0; i <= length; i++) {
+			const y = (i * this.rowHeight) + headerOffset - offsetY;
+			if(y > height) break;
+			if(y < this.rowsOffsetY) continue;
+			data.push({y, odd});
 			odd = !odd;
 		}
 		
-		return data;
+		this.rows = data;
 	}
 
 
 	updateStore() {
 		this.fillColumns();
-		this.firstVisibleTS = this.columns[0].ts;
-		this.lastVisibleTS = this.columns[this.columns.length - 1].ts + this.colTs;
+		this.fillRows();
 	}
 
 	render() {

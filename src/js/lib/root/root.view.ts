@@ -3,12 +3,14 @@ import Circle from '../models/Circle';
 import Square from '../models/Square';
 import { ScrollbarEntity } from './entities/scrollbar.entity';
 import { ScrollbarXEntity } from './entities/scrollbar-x.entity';
+import { ScrollbarYEntity } from './entities/scrollbar-y.entity';
 
 
 export class RootView {
 	root: RootModule;
 	scrollbar: ScrollbarEntity;
 	scrollbarX: ScrollbarXEntity;
+	scrollbarY: ScrollbarYEntity;
 
 	offsetX = 0;
 	offsetY = 0;
@@ -22,6 +24,7 @@ export class RootView {
 		this.attachEvents();
 		this.scrollbar = new ScrollbarEntity(root, {x: 10, y: 10});
 		this.scrollbarX = new ScrollbarXEntity(root);
+		this.scrollbarY = new ScrollbarYEntity(root);
 	}
 
 	destroy() {
@@ -41,6 +44,7 @@ export class RootView {
 		this.root.tasks.view.render();
 		this.scrollbar.render();
 		this.scrollbarX.render();
+		this.scrollbarY.render();
 	}
 
 	attachEvents() {
@@ -77,6 +81,12 @@ export class RootView {
 		if(this.offsetX < 0) this.offsetX = 0;
 		this.root.grid.service.validateOffsetX();
 
+		if(needRender) this.render();
+	}
+
+	handleSetOffsetY(offsetY = 0, needRender = true) {
+		this.offsetY = offsetY;
+		if(this.offsetY < 0) this.offsetY = 0;
 		if(needRender) this.render();
 	}
 
