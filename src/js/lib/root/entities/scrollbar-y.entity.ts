@@ -63,15 +63,12 @@ export class ScrollbarYEntity {
 
 	handleBackgroundMouseDown(event: MouseEvent) {
 		let { offsetY } = event;
-		const fullHeight= this.root.grid.service.getFullAvailableHeight();
-		offsetY = offsetY - this.top
-		if(offsetY > this.backgroundLineHeight - this.getLineYAndHeight().height) {
-			offsetY = this.backgroundLineHeight - this.getLineYAndHeight().height;
-		}
-		
+		const viewHeight = this.root.canvas.height - this.root.grid.view.headerHeight - this.root.view.scrollbarY.bottomOffset;
+		const fullHeight = this.root.grid.service.getFullAvailableHeight() - viewHeight;
+		offsetY = offsetY - this.top;
+
 		const scale = fullHeight / this.backgroundLineHeight;
-		let scaledOffset = scale * (offsetY - this.top);
-		
+		let scaledOffset = scale * offsetY;
 		this.root.view.handleSetOffsetY(scaledOffset);
 	}
 
@@ -98,7 +95,7 @@ export class ScrollbarYEntity {
 	}
 
 	getLineYAndHeight() {
-		const fullHeight= this.root.grid.service.getFullAvailableHeight();
+		const fullHeight = this.root.grid.service.getFullAvailableHeight();
 		
 		const y = (this.root.view.offsetY / fullHeight) * this.backgroundLineHeight;
 		const height = (this.backgroundLineHeight / fullHeight) * this.backgroundLineHeight;
