@@ -33,7 +33,7 @@ export class TasksView {
 					w
 				}
 			});
-		this.renderTasks = data;
+		this.renderTasks = data.filter(task => task.y >= this.root.grid.view.rowsOffsetY);
 	}
 
 	get tasks() {
