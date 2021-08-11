@@ -19,6 +19,7 @@ export class RootController {
 		this.root.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
 		this.root.canvas.addEventListener('mouseup', this.handleMouseUp.bind(this));
 		this.root.canvas.addEventListener('click', this.handleClick.bind(this));
+		this.root.canvas.addEventListener('wheel', this.handleScroll.bind(this));
 	}
 
 	destroyEvents() {
@@ -69,6 +70,20 @@ export class RootController {
 	handleClick(event: MouseEvent) {
 		if(!this.events.click) return;
 		this.events.click.forEach(cb => cb(event));
+	}
+
+	handleScroll(event: WheelEvent) {
+		if(event.shiftKey) {
+			let offsetX = this.root.view.offsetX + event.deltaY;
+			if(offsetX < 0) offsetX = 0;
+			this.root.view.handleSetOffsetX(offsetX);
+		} else {
+			let offsetY = this.root.view.offsetY + event.deltaY;
+			const maxHeight = this.root.grid.service.getFullAvailableHeight() - this.root.canvas.height;
+			if(offsetY < 0) offsetY = 0;
+			else if(offsetY > maxHeight) offsetY = maxHeight; 
+			this.root.view.handleSetOffsetY(offsetY);
+		}
 	}
 
 	
