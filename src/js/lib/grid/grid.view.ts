@@ -32,6 +32,7 @@ export class GridView {
 	rowEntity: RowEntity;
 	columns: RichedColumnRender[] = [];
 	rows: RowRender[];
+	firstTsOnScreen = 0;
 
 	constructor(root: RootModule, module: GridModule) {
 		this.root = root;
@@ -145,6 +146,7 @@ export class GridView {
 	updateStore() {
 		this.fillColumns();
 		this.fillRows();
+		this.firstTsOnScreen = this.module.service.getTsByX(0);
 	}
 
 	render() {

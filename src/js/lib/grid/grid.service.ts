@@ -57,7 +57,7 @@ export class GridService {
 	}
 
 	getPosXByTs(ts: number): number {
-		const firstTs = this.getTsByX(0);
+		const firstTs = this.module.view.firstTsOnScreen;
 		const diff = ts - firstTs;
 		return diff / this.module.view.tsHasOneX;
 	}
@@ -71,7 +71,9 @@ export class GridService {
 		const colWidth = this.module.view.colWidth
 		const col = this.module.view.columns
 			.find(el => el.x <= x && el.x + colWidth > x);
-		return col?.ts || 0;
+		if(!col) return 0;
+		const ts = col.ts + ((x - col.x) * this.module.view.tsHasOneX)
+		return ts;
 	}
 
 	getTsByOffsetDiff(x: number): number {
