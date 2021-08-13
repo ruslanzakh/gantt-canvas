@@ -4,7 +4,7 @@ import Square from '../models/Square';
 import { ScrollbarEntity } from './entities/scrollbar.entity';
 import { ScrollbarXEntity } from './entities/scrollbar-x.entity';
 import { ScrollbarYEntity } from './entities/scrollbar-y.entity';
-
+import { animate, timing } from '../utils/animate';
 
 export class RootView {
 	root: RootModule;
@@ -69,25 +69,56 @@ export class RootView {
 		this.offsetX += difference;
 		if(this.offsetX < 0) this.offsetX = 0;
 		this.root.grid.service.validateOffsetX();
-		// if(difference < 0)
-		// 	this.root.grid.service.addDatesBefore(this.offsetX)
-		// else
-		// 	this.root.grid.service.addDatesAfter(this.offsetX)
 		if(needRender) this.render();
 	}
 
-	handleSetOffsetX(offsetX = 0, needRender = true) {
-		this.offsetX = offsetX;
-		if(this.offsetX < 0) this.offsetX = 0;
-		this.root.grid.service.validateOffsetX();
+	handleSetOffsetX(offsetX = 0, needRender = true, needAnimate = false) {
+		if(needAnimate) {
+			const initialOffset = this.offsetX;
+			const diff = offsetX - initialOffset;
+			const positiveDiff = diff > 0 ? diff : diff * -1;
+			const duration = (positiveDiff / this.root.grid.service.getFullAvailableWidth()) * 1500
+			animate({
+				duration,
+				timing,
+				draw: (progress) => {
+					this.offsetX = initialOffset + (diff * progress);
+					if(this.offsetX < 0) this.offsetX = 0;
+					this.root.grid.service.validateOffsetX();
+					this.render();
+				}
+			})
 
-		if(needRender) this.render();
+		} else {
+			this.offsetX = offsetX;
+			if(this.offsetX < 0) this.offsetX = 0;
+			this.root.grid.service.validateOffsetX();
+			if(needRender) this.render();
+		}
+
 	}
 
-	handleSetOffsetY(offsetY = 0, needRender = true) {
-		this.offsetY = offsetY;
-		if(this.offsetY < 0) this.offsetY = 0;
-		if(needRender) this.render();
+	handleSetOffsetY(offsetY = 0, needRender = true, needAnimate = false) {
+		if(needAnimate) {
+			const initialOffset = this.offsetY;
+			const diff = offsetY - initialOffset;
+			const positiveDiff = diff > 0 ? diff : diff * -1;
+			const duration = (positiveDiff / this.root.grid.service.getFullAvailableHeight()) * 1500
+			animate({
+				duration,
+				timing,
+				draw: (progress) => {
+					this.offsetY = initialOffset + (diff * progress);
+					if(this.offsetY < 0) this.offsetY = 0;
+					this.render();
+				}
+			})
+
+		} else {
+			this.offsetY = offsetY;
+			if(this.offsetY < 0) this.offsetY = 0;
+			if(needRender) this.render();
+		}
 	}
 
 	setCursor(cursor: string) {

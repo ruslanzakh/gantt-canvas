@@ -8,6 +8,10 @@ interface EventsList {
 export class RootController {
 	root: RootModule;
 	events: EventsList = {};
+
+	touchOffsetX: number | null = null;
+	touchOffsetY: number | null = null;
+
 	constructor(root: RootModule) {
 		this.root = root;
 		this.attachEvents();
@@ -20,6 +24,9 @@ export class RootController {
 		this.root.canvas.addEventListener('mouseup', this.handleMouseUp.bind(this));
 		this.root.canvas.addEventListener('click', this.handleClick.bind(this));
 		this.root.canvas.addEventListener('wheel', this.handleScroll.bind(this));
+		this.root.canvas.addEventListener('touchstart', this.handleTouchStart.bind(this));
+		this.root.canvas.addEventListener('touchmove', this.handleTouchMove.bind(this));
+		this.root.canvas.addEventListener('touchend', this.handleTouchEnd.bind(this));
 	}
 
 	destroyEvents() {
@@ -79,12 +86,44 @@ export class RootController {
 			this.root.view.handleSetOffsetX(offsetX);
 		} else {
 			let offsetY = this.root.view.offsetY + event.deltaY;
-			const viewHeight = this.root.canvas.height - this.root.grid.view.headerHeight - this.root.view.scrollbarY.bottomOffset;
-			const maxHeight = this.root.grid.service.getFullAvailableHeight() - viewHeight;
+			const maxHeight = this.root.grid.service.getFullAvailableGridHeight();
 			if(offsetY < 0) offsetY = 0;
 			else if(offsetY > maxHeight) offsetY = maxHeight; 
 			this.root.view.handleSetOffsetY(offsetY);
 		}
+	}
+
+	handleTouchStart(event: TouchEvent) {
+		const offsetX = event.touches[0]?.screenX;
+		const offsetY = event.touches[0]?.screenY;
+		if(offsetX) this.touchOffsetX = offsetX;
+		if(offsetY) this.touchOffsetY = offsetY;
+		
+	}
+
+
+	handleTouchMove(event: TouchEvent) {
+		const offsetX = event.changedTouches[0]?.screenX;
+		const offsetY = event.changedTouches[0]?.screenY;
+		if(offsetX && this.touchOffsetX !== null) {
+			const diff = this.touchOffsetX - offsetX;
+			let offset = this.root.view.offsetX + this.root.view.scrollbarX.getScaledOffset(diff / 10);
+			this.root.view.handleSetOffsetX(offset);
+			this.touchOffsetX = offsetX;
+		}
+		if(offsetY && this.touchOffsetY !== null) {
+			const diff = this.touchOffsetY - offsetY;
+			let offset = this.root.view.offsetY + this.root.view.scrollbarY.getScaledOffset(this.root.view.scrollbarY.top + diff / 10);
+			this.root.view.handleSetOffsetY(offset);
+			this.touchOffsetY = offsetY;
+		}
+		
+	}
+
+
+	handleTouchEnd() {
+		this.touchOffsetX = null;
+		this.touchOffsetY = null;
 	}
 
 	

@@ -101,6 +101,11 @@ export class GridService {
 		return fullHeight;
 	}
 
+	getFullAvailableGridHeight() {
+		const viewHeight = this.root.canvas.height - this.root.grid.view.headerHeight - this.root.view.scrollbarY.bottomOffset;
+		return this.root.grid.service.getFullAvailableHeight() - viewHeight;
+	}
+
 	validateOffsetX() {
 		const offsetX = this.root.view.offsetX;
 		if(offsetX < this.root.canvas.width) {
