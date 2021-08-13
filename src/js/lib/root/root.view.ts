@@ -84,7 +84,7 @@ export class RootView {
 				draw: (progress) => {
 					this.offsetX = initialOffset + (diff * progress);
 					if(this.offsetX < 0) this.offsetX = 0;
-					this.root.grid.service.validateOffsetX();
+					if(progress === 1 || diff > 0) this.root.grid.service.validateOffsetX();
 					this.render();
 				}
 			})
