@@ -9,7 +9,7 @@ export interface TaskProp {
 	next_ids: string[];
 }
 
-export interface RootStoreProps {
+export interface RootApiProps {
 	tasks: TaskProp[],
 	moveDependedOnResizeRight?: boolean;
 	moveDependedOnResizeLeft?: boolean;
@@ -17,14 +17,14 @@ export interface RootStoreProps {
 	save_time?: boolean;
 }
 
-export class RootStore {
+export class RootApi {
 	root: RootModule;
 	tasks: TaskProp[];
 	moveDependedOnResizeRight: boolean;
 	moveDependedOnResizeLeft: boolean;
 	moveDependedOnMove: boolean;
 	save_time: boolean;
-	constructor(root: RootModule, props: RootStoreProps) {
+	constructor(root: RootModule, props: RootApiProps) {
 		this.root = root;
 		this.tasks = props.tasks;
 		this.moveDependedOnResizeRight = props.moveDependedOnResizeRight ?? true;

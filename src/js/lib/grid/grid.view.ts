@@ -129,7 +129,7 @@ export class GridView {
 		const offsetY = this.root.view.offsetY;
 		const height = this.root.canvas.height;
 		const data: RowRender[] = [];
-		const length = this.root.store.tasks.length;
+		const length = this.root.api.tasks.length;
 		const headerOffset = this.rowsOffsetY + this.rowHeight;
 
 		for(let i = 0; i <= length; i++) {

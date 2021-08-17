@@ -1,6 +1,6 @@
 import { RootModule } from '../root/root.module';
 import { TasksModule } from './tasks.module';
-import { TaskProp } from '../root/root.store';
+import { TaskProp } from '../root/root.api';
 
 interface ObjectList {
 	[index: string]: TaskProp
@@ -24,7 +24,7 @@ export class TasksStore {
 	}
 
 	get tasks() {
-		return this.root.store.tasks.map(task => {
+		return this.root.api.tasks.map(task => {
 			if(this.modifiedTasks[task.id]) return this.modifiedTasks[task.id];
 			return task;
 		})
@@ -35,7 +35,7 @@ export class TasksStore {
 	}
 
 	saveModTasks() {
-		this.root.store.updateTasks(this.tasks);
+		this.root.api.updateTasks(this.tasks);
 		this.clearModTasks();
 	}
 

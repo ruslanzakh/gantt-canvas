@@ -1,6 +1,6 @@
 import { GridModule } from '../grid/grid.module';
 import { TasksModule } from '../tasks/tasks.module';
-import { RootStore, TaskProp } from './root.store';
+import { RootApi, TaskProp } from './root.api';
 import { RootView } from './root.view';
 import { RootController } from './root.controller';
 
@@ -13,7 +13,7 @@ export class RootModule {
 	root: HTMLElement;
 	canvas: HTMLCanvasElement;
 	ctx: CanvasRenderingContext2D;
-	store: RootStore;
+	api: RootApi;
 	view: RootView;
 	controller: RootController;
 	grid: GridModule;
@@ -43,7 +43,7 @@ export class RootModule {
 	constructor(el: string, props: RootModuleProps) {
 		this.root = document.querySelector(el);
 		this.createInitialCanvas();
-		this.store = new RootStore(this, props);
+		this.api = new RootApi(this, props);
 		this.controller = new RootController(this);
 		this.view = new RootView(this);
 		this.grid = new GridModule(this);

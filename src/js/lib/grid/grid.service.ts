@@ -97,7 +97,7 @@ export class GridService {
 	getFullAvailableHeight() {
 		const canvas = this.root.canvas;
 		const rowHeight = this.module.view.rowHeight;
-		let fullHeight = rowHeight * this.root.store.tasks.length;
+		let fullHeight = rowHeight * this.root.api.tasks.length;
 		if(fullHeight < canvas.height) fullHeight = canvas.height;
 
 		return fullHeight;

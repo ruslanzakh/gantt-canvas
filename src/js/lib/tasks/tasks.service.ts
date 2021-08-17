@@ -1,7 +1,7 @@
 import { RootModule } from '../root/root.module';
 import { TasksModule } from './tasks.module';
 import { getDate } from '../utils/date';
-import { TaskProp } from '../root/root.store';
+import { TaskProp } from '../root/root.api';
 
 export class TasksService {
 	root: RootModule;
@@ -20,7 +20,7 @@ export class TasksService {
 	}
 
 	getRootStoreTaskById(id: string) {
-		const task = this.root.store.tasks.find(task => task.id === id);
+		const task = this.root.api.tasks.find(task => task.id === id);
 		return task || null;
 	}
 
@@ -28,7 +28,7 @@ export class TasksService {
 		const rowHeight = this.root.grid.view.rowHeight;
 		const hoverId = this.module.store.hoverId;
 		const task = this.getRootStoreTaskById(id);
-		const index = this.root.store.tasks.indexOf(task)
+		const index = this.root.api.tasks.indexOf(task)
 		const { x, xx } = this.module.service.getTaskPos(task);
 		const w = xx - x;
 		return {
@@ -108,7 +108,7 @@ export class TasksService {
 		const diff = this.getDiff(offsetX, task.all_day);
 		if(diff === 0) return;
 		
-		if(this.root.store.moveDependedOnMove) {
+		if(this.root.api.moveDependedOnMove) {
 			this.moveDependedTasks(task, diff)
 		} else {
 			this.moveCurrentTask(task, diff)
@@ -139,7 +139,7 @@ export class TasksService {
 	}
 
 	resizeRighSideTask(task: TaskProp, diff: number) {
-		if(this.root.store.moveDependedOnResizeRight)
+		if(this.root.api.moveDependedOnResizeRight)
 			this.resizeDependedRightSideTasks(task, diff);
 		else
 			this.saveResizeRightCurrentTask(task, diff);
@@ -147,7 +147,7 @@ export class TasksService {
 
 
 	resizeLeftSideTask(task: TaskProp, diff: number) {
-		if(this.root.store.moveDependedOnResizeLeft)
+		if(this.root.api.moveDependedOnResizeLeft)
 			this.resizeDependedLeftSideTasks(task, diff);
 		else
 			this.saveResizeLeftCurrentTask(task, diff);
@@ -225,7 +225,7 @@ export class TasksService {
 	getDiff(offsetX: number, all_day = false) {
 		const offsetDiff = offsetX - this.module.controller.mouseDownOffsetX;
 		let diff = this.root.grid.service.getTsByOffsetDiff(offsetDiff);
-		if(all_day || this.root.store.save_time) {
+		if(all_day || this.root.api.save_time) {
 			const colTs = this.root.grid.view.colTs;
 			const dayDiff = (diff - diff % colTs) / colTs;
 			diff = colTs * dayDiff;
@@ -246,7 +246,7 @@ export class TasksService {
 
 
 	getFirstTaskByDeadline() {
-		const task = this.root.store.tasks.reduce((prev, item) => {
+		const task = this.root.api.tasks.reduce((prev, item) => {
 			if(!prev) return item;
 			if(prev.start_date_ts > item.start_date_ts) return item;
 			return prev;
@@ -255,7 +255,7 @@ export class TasksService {
 	}
 
 	getLastTaskByDeadline() {
-		const task = this.root.store.tasks.reduce((prev, item) => {
+		const task = this.root.api.tasks.reduce((prev, item) => {
 			if(!prev) return item;
 			if(prev.end_date_ts < item.end_date_ts) return item;
 			return prev;
