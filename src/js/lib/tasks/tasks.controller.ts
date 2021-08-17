@@ -39,12 +39,12 @@ export class TasksController {
 		this.mouseDownOffsetX = event.offsetX;
 		if(depFromId) {
 			this.addDepMode = true;
-			this.destroyAddDepMove = this.root.controller.on('mousemove', this.handleAddDepMove.bind(this));
+			this.destroyAddDepMove = this.root.controller.on('mousemove', this.handleAddDepMouseMove.bind(this));
 			document.addEventListener('mouseup', this.handleAddDepMouseUp);
 		}
 		else if(resize) {
 			this.resizeMoveMode = resize;
-			this.destroyResizeMouseMove = this.root.controller.on('mousemove', this.handleResizeMouseMove.bind(this));
+			this.destroyResizeMouseMove = this.root.controller.on('mousemove', this.handleResizeTaskMouseMove.bind(this));
 			document.addEventListener('mouseup', this.handleResizeMouseUp);
 		} else {
 			this.destroyTaskMove = this.root.controller.on('mousemove', this.handleTaskMove.bind(this));
@@ -52,8 +52,8 @@ export class TasksController {
 		}
 	}
 
-	handleResizeMouseMove(event: MouseEvent) {
-		this.module.service.resizeTask(event);
+	handleResizeTaskMouseMove(event: MouseEvent) {
+		this.module.service.handleResizeTaskMouseMove(event);
 	}
 
 	handleResizeMouseUp() {
@@ -66,45 +66,26 @@ export class TasksController {
 		this.destroyResizeMouseMove();
 		document.removeEventListener('mouseup', this.handleResizeMouseUp);
 	}
-
-	handleAddDepMove(event: MouseEvent) {
-		this.module.service.handleAddDepMove(event);
+	/** Start Add Dependencies */
+	handleAddDepMouseMove(event: MouseEvent) {
+		this.module.service.handleAddDepMouseMove(event);
 	}
 
 	handleAddDepMouseUp(event: MouseEvent) {
-		const {hoverId} = this.module.service.getHoverId(event);
-		if(hoverId && hoverId !== this.module.store.hoverId) {
-			const hoveredTask = this.module.service.getRootStoreTaskById(hoverId);
-			const currentTask = this.module.service.getRootStoreTaskById(this.module.store.hoverId);
-			if(hoveredTask && currentTask) {
-				if(!currentTask.next_ids.includes(hoverId)) {
-					const task = {...currentTask, next_ids: [...currentTask.next_ids, hoverId]}
-					this.module.store.addModTask(task);
-					this.module.store.saveModTasks();
-					this.root.api.handleChange([task]);
-				}
-			}
-		}
-		this.module.service.clearScrollInterval();
-		this.destroyAddDepMove();
 		this.mouseDownOffsetX = null;
 		this.addDepMode = false;
-		this.module.store.addDepOffsetX = null;
-		this.module.store.addDepOffsetY = null;
-		this.module.store.setHoverConnectionTask(null);
+		this.module.service.handleAddDepMouseUp(event)
+		this.destroyAddDepMove();
 		document.removeEventListener('mouseup', this.handleAddDepMouseUp);
-		if(hoverId && hoverId === this.module.store.hoverId) this.root.render()
 	}
+	/** End Add Dependencies */
 
 	handleTaskMove(event: MouseEvent) {
-		this.module.service.handleMoveTask(event);
+		this.module.service.handleMoveTaskMouseMove(event);
 	}
 
 	handleTaskMoveMouseUp() {
-		const tasks = Object.values(this.module.store.modifiedTasks);
-		this.root.api.handleChange(tasks);
-		this.module.service.clearScrollInterval();
-		this.module.store.saveModTasks();
+		this.module.service.handleMoveTaskMouseUp();
 		this.destroyTaskMove();
 		this.mouseDownOffsetX = null;
 		document.removeEventListener('mouseup', this.handleTaskMoveMouseUp);
@@ -118,7 +99,6 @@ export class TasksController {
 			return this.module.store.setHoverConnectionTask(hoverId);
 		}
 		const { hoverId, resize } = this.module.service.getHoverId(event);
-		console.log(hoverId);
 		
 		this.module.store.setHoverId(hoverId, resize);
 	}
