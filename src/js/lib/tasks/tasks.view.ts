@@ -23,6 +23,7 @@ export class TasksView {
 	fillRenderTasks() {
 		const rowHeight = this.root.grid.view.rowHeight;
 		const hoverId = this.module.store.hoverId;
+		const hoverConnectionTask = this.module.store.hoverConnectionTask;
 		const data = this.module.store.tasks
 			.map((task, index) => {
 				const {x, xx} = this.module.service.getTaskPos(task);
@@ -30,6 +31,7 @@ export class TasksView {
 				return {
 					...task,
 					hover: hoverId === task.id,
+					hoverConnection: hoverConnectionTask === task.id,
 					y: (rowHeight * index) + this.root.grid.view.rowsOffsetY - this.root.view.offsetY,
 					x,
 					w

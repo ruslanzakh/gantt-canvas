@@ -13,6 +13,7 @@ export class TasksStore {
 
 	hoverId: null | string = null;
 	hoverResize: null | string = null;
+	hoverConnectionTask: null | string = null;
 
 	addDepOffsetX: number | null = null;
 	addDepOffsetY: number | null = null;
@@ -53,6 +54,9 @@ export class TasksStore {
 			this.hoverId = id;
 			this.root.render();
 		}
+	}
+	setHoverConnectionTask(id: null | string) {
+		this.hoverConnectionTask = id;
 	}
 
 

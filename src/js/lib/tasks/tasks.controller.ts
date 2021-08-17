@@ -92,6 +92,7 @@ export class TasksController {
 		this.addDepMode = false;
 		this.module.store.addDepOffsetX = null;
 		this.module.store.addDepOffsetY = null;
+		this.module.store.setHoverConnectionTask(null);
 		document.removeEventListener('mouseup', this.handleAddDepMouseUp);
 	}
 
@@ -111,8 +112,12 @@ export class TasksController {
 
 
 	handleMouseMove(event: MouseEvent) {
-		if(this.resizeMoveMode || this.mouseDownOffsetX) return;
-		const {hoverId, resize} = this.module.service.getHoverId(event);
+		if(this.resizeMoveMode) return;
+		if(this.mouseDownOffsetX) {
+			const { hoverId } = this.module.service.getHoverId(event);
+			return this.module.store.setHoverConnectionTask(hoverId);
+		}
+		const { hoverId, resize } = this.module.service.getHoverId(event);
 		this.module.store.setHoverId(hoverId, resize);
 	}
 

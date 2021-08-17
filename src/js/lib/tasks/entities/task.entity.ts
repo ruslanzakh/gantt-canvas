@@ -7,6 +7,7 @@ export interface TaskRender {
 	y: number;
 	w: number
 	hover: boolean
+	hoverConnection: boolean
 	title: string;
 	next_ids: string[];
 }
@@ -40,12 +41,12 @@ export class TaskEntity {
 		return { hover, resize, depFrom };
 	}
 
-	renderItem({x, y, w, title, hover}: TaskRender, h: number) {
+	renderItem({x, y, w, title, hover, hoverConnection}: TaskRender, h: number) {
 		if(x >= this.root.canvas.width || w === 0) return;
 		const ctx = this.root.ctx;
 		ctx.beginPath();
 		ctx.rect(x, y + 5, w, h - 10);
-		ctx.fillStyle = hover ? this.hoverFillColor : this.fillColor;
+		ctx.fillStyle = (hover || hoverConnection) ? this.hoverFillColor : this.fillColor;
 		ctx.stroke();
 		ctx.fill();
 		ctx.font = "14px serif";
