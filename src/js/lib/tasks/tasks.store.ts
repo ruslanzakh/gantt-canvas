@@ -5,7 +5,6 @@ import { ObjectList } from '../utils/interfaces';
 
 export class TasksStore {
 	root: RootModule;
-	module: TasksModule;
 
 	modifiedTasks: ObjectList<Task> = {};
 
@@ -16,9 +15,8 @@ export class TasksStore {
 	addDepOffsetX: number | null = null;
 	addDepOffsetY: number | null = null;
 
-	constructor(root: RootModule, module: TasksModule) {
+	constructor(root: RootModule) {
 		this.root = root;
-		this.module = module;
 	}
 
 	get tasks() {
@@ -53,9 +51,9 @@ export class TasksStore {
 			this.root.render();
 		}
 	}
+
 	setHoverConnectionTask(id: null | string) {
 		this.hoverConnectionTask = id;
 	}
-
 
 }

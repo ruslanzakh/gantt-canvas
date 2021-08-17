@@ -14,7 +14,7 @@ export class TasksModule {
 
 	constructor(root: RootModule) {
 		this.root = root;
-		this.store = new TasksStore(root, this);
+		this.store = new TasksStore(root);
 		this.service = new TasksService(root, this);
 		this.view = new TasksView(root, this);
 		this.controller = new TasksController(root, this);
