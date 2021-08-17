@@ -15,15 +15,20 @@ export interface RootApiProps {
 	moveDependedOnResizeLeft?: boolean;
 	moveDependedOnMove?: boolean;
 	save_time?: boolean;
+	handleChange?(tasks: Task[]): Promise<void>;
 }
 
 export class RootApi {
+
 	root: RootModule;
+
 	tasks: Task[];
 	moveDependedOnResizeRight: boolean;
 	moveDependedOnResizeLeft: boolean;
 	moveDependedOnMove: boolean;
 	save_time: boolean;
+	handleChange?: RootApiProps['handleChange'];
+
 	constructor(root: RootModule, props: RootApiProps) {
 		this.root = root;
 		this.tasks = props.tasks;
@@ -31,10 +36,13 @@ export class RootApi {
 		this.moveDependedOnResizeLeft = props.moveDependedOnResizeLeft ?? false;
 		this.moveDependedOnMove = props.moveDependedOnMove ?? true;
 		this.save_time = props.save_time ?? true;
+		this.handleChange = props.handleChange;
 	}
 
 	updateTasks(tasks: Task[]) {
 		this.tasks = tasks;
 	}
+
+
 
 }

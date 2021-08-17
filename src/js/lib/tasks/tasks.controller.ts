@@ -58,7 +58,7 @@ export class TasksController {
 
 	handleResizeMouseUp() {
 		const tasks = Object.values(this.module.store.modifiedTasks);
-		this.root.handleChange(tasks);
+		this.root.api.handleChange(tasks);
 		this.module.service.clearScrollInterval();
 		this.module.store.saveModTasks();
 		this.resizeMoveMode = null;
@@ -81,7 +81,7 @@ export class TasksController {
 					const task = {...currentTask, next_ids: [...currentTask.next_ids, hoverId]}
 					this.module.store.addModTask(task);
 					this.module.store.saveModTasks();
-					this.root.handleChange([task]);
+					this.root.api.handleChange([task]);
 				}
 			}
 		}
@@ -102,7 +102,7 @@ export class TasksController {
 
 	handleTaskMoveMouseUp() {
 		const tasks = Object.values(this.module.store.modifiedTasks);
-		this.root.handleChange(tasks);
+		this.root.api.handleChange(tasks);
 		this.module.service.clearScrollInterval();
 		this.module.store.saveModTasks();
 		this.destroyTaskMove();
