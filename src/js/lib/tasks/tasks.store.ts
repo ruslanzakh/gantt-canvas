@@ -1,9 +1,9 @@
 import { RootModule } from '../root/root.module';
 import { TasksModule } from './tasks.module';
-import { TaskProp } from '../root/root.api';
+import { Task } from '../root/root.api';
 
 interface ObjectList {
-	[index: string]: TaskProp
+	[index: string]: Task
 }
 export class TasksStore {
 	root: RootModule;
@@ -39,7 +39,7 @@ export class TasksStore {
 		this.clearModTasks();
 	}
 
-	addModTask(task: TaskProp) {
+	addModTask(task: Task) {
 		this.modifiedTasks[task.id] = task;
 	}
 

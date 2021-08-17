@@ -1,12 +1,12 @@
 import { GridModule } from '../grid/grid.module';
 import { TasksModule } from '../tasks/tasks.module';
-import { RootApi, TaskProp } from './root.api';
+import { RootApi, Task } from './root.api';
 import { RootView } from './root.view';
 import { RootController } from './root.controller';
 
 export interface RootModuleProps {
-	tasks: TaskProp[];
-	handleChange(tasks: TaskProp[]);
+	tasks: Task[];
+	handleChange(tasks: Task[]);
 }
 
 export class RootModule {

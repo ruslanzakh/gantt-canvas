@@ -1,6 +1,6 @@
 import { RootModule } from './root.module';
 
-export interface TaskProp {
+export interface Task {
 	id: string;
 	title: string;
 	start_date_ts: number;
@@ -10,7 +10,7 @@ export interface TaskProp {
 }
 
 export interface RootApiProps {
-	tasks: TaskProp[],
+	tasks: Task[],
 	moveDependedOnResizeRight?: boolean;
 	moveDependedOnResizeLeft?: boolean;
 	moveDependedOnMove?: boolean;
@@ -19,7 +19,7 @@ export interface RootApiProps {
 
 export class RootApi {
 	root: RootModule;
-	tasks: TaskProp[];
+	tasks: Task[];
 	moveDependedOnResizeRight: boolean;
 	moveDependedOnResizeLeft: boolean;
 	moveDependedOnMove: boolean;
@@ -33,7 +33,7 @@ export class RootApi {
 		this.save_time = props.save_time ?? true;
 	}
 
-	updateTasks(tasks: TaskProp[]) {
+	updateTasks(tasks: Task[]) {
 		this.tasks = tasks;
 	}
 

@@ -1,7 +1,6 @@
 import { RootModule } from '../root/root.module';
 import { TasksModule } from './tasks.module';
-import { getDate } from '../utils/date';
-import { TaskProp } from '../root/root.api';
+import { Task } from '../root/root.api';
 
 export class TasksService {
 	root: RootModule;
@@ -41,7 +40,7 @@ export class TasksService {
 
 	}
 
-	getStoreDependedTasksById(id: string, tasks: TaskProp[] = []) {
+	getStoreDependedTasksById(id: string, tasks: Task[] = []) {
 		const task = this.getRootStoreTaskById(id);
 		tasks.push(task);
 		task.next_ids.forEach(id => {
@@ -115,12 +114,12 @@ export class TasksService {
 		}
 	}
 
-	moveDependedTasks(task: TaskProp, diff) {
+	moveDependedTasks(task: Task, diff) {
 		const tasks = this.getStoreDependedTasksById(task.id);
 		tasks.forEach((el) => this.saveMoveDependedTask(el, diff));
 	}
 
-	moveCurrentTask(task: TaskProp, diff) {
+	moveCurrentTask(task: Task, diff) {
 		this.saveMoveDependedTask(task, diff)
 	}
 
@@ -138,7 +137,7 @@ export class TasksService {
 		}
 	}
 
-	resizeRighSideTask(task: TaskProp, diff: number) {
+	resizeRighSideTask(task: Task, diff: number) {
 		if(this.root.api.moveDependedOnResizeRight)
 			this.resizeDependedRightSideTasks(task, diff);
 		else
@@ -146,14 +145,14 @@ export class TasksService {
 	}
 
 
-	resizeLeftSideTask(task: TaskProp, diff: number) {
+	resizeLeftSideTask(task: Task, diff: number) {
 		if(this.root.api.moveDependedOnResizeLeft)
 			this.resizeDependedLeftSideTasks(task, diff);
 		else
 			this.saveResizeLeftCurrentTask(task, diff);
 	}
 
-	resizeDependedRightSideTasks(task: TaskProp, diff: number) {
+	resizeDependedRightSideTasks(task: Task, diff: number) {
 		const tasks = this.getStoreDependedTasksById(task.id);
 		tasks.forEach((el) => {
 			if(el.id === task.id) this.saveResizeRightCurrentTask(el, diff);
@@ -161,13 +160,13 @@ export class TasksService {
 		});
 	}
 
-	saveResizeRightCurrentTask(task: TaskProp, diff: number) {
+	saveResizeRightCurrentTask(task: Task, diff: number) {
 		const newTask = {...task, end_date_ts: task.end_date_ts + diff};
 		if(newTask.start_date_ts > newTask.end_date_ts) newTask.start_date_ts = newTask.end_date_ts;
 		this.module.store.addModTask(newTask);
 	}
 
-	saveMoveDependedTask(task: TaskProp, diff: number, all_day = false) {
+	saveMoveDependedTask(task: Task, diff: number, all_day = false) {
 		const newTask = {
 			...task,
 			start_date_ts: task.start_date_ts + diff,
@@ -177,7 +176,7 @@ export class TasksService {
 	}
 
 
-	resizeDependedLeftSideTasks(task: TaskProp, diff: number) {
+	resizeDependedLeftSideTasks(task: Task, diff: number) {
 		const tasks = this.getStoreDependedTasksById(task.id);
 		tasks.forEach((el) => {
 			if(el.id === task.id) this.saveResizeLeftCurrentTask(el, diff);
@@ -185,7 +184,7 @@ export class TasksService {
 		});
 	}
 
-	saveResizeLeftCurrentTask(task: TaskProp, diff: number) {
+	saveResizeLeftCurrentTask(task: Task, diff: number) {
 		const newTask = {...task, start_date_ts: task.start_date_ts + diff};
 		if(newTask.start_date_ts > newTask.end_date_ts) newTask.end_date_ts = newTask.start_date_ts;
 		this.module.store.addModTask(newTask);
@@ -233,7 +232,7 @@ export class TasksService {
 		return diff;
 	}
 
-	getTaskPos(task: TaskProp) {
+	getTaskPos(task: Task) {
 		const x = task.all_day
 			? this.root.grid.service.getPosXByFullDayTs(task.start_date_ts)
 			: this.root.grid.service.getPosXByTs(task.start_date_ts);
