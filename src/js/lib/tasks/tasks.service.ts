@@ -54,7 +54,8 @@ export class TasksService {
 		let hoverId: string | null = null;
 		let resize: string | null = null;
 		let depFromId: string | null = null;
-		const { tasks, taskEntity, rowHeight } = this.module.view;
+		const { tasks, taskEntity } = this.module.view;
+		const rowHeight = this.root.grid.view.rowHeight;
 		for(let item of tasks) {
 			const data = taskEntity.isHover(event, item, rowHeight);
 			if(data.depFrom) {

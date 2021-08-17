@@ -1,15 +1,13 @@
 import { RootModule } from '../root/root.module';
 import { TasksModule } from './tasks.module';
 import { Task } from '../root/root.api';
+import { ObjectList } from '../utils/interfaces';
 
-interface ObjectList {
-	[index: string]: Task
-}
 export class TasksStore {
 	root: RootModule;
 	module: TasksModule;
 
-	modifiedTasks: ObjectList = {};
+	modifiedTasks: ObjectList<Task> = {};
 
 	hoverId: null | string = null;
 	hoverResize: null | string = null;

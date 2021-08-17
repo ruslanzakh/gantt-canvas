@@ -118,6 +118,8 @@ export class TasksController {
 			return this.module.store.setHoverConnectionTask(hoverId);
 		}
 		const { hoverId, resize } = this.module.service.getHoverId(event);
+		console.log(hoverId);
+		
 		this.module.store.setHoverId(hoverId, resize);
 	}
 
