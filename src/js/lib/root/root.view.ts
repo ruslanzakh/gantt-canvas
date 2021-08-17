@@ -40,11 +40,12 @@ export class RootView {
 		this.root.ctx.fill();
 
 
-		this.root.grid.view.render();
+		this.root.grid.view.renderGrid();
 		this.root.tasks.view.render();
 		this.scrollbar.render();
 		this.scrollbarX.render();
 		this.scrollbarY.render();
+		this.root.grid.view.renderHeader();
 	}
 
 	attachEvents() {

@@ -10,7 +10,9 @@ export class TasksView {
 	taskEntity: TaskEntity;
 
 	modifiedTasks: ObjectList = {};
+	tasksForArrows: TaskRender[] = [];
 	renderTasks: TaskRender[] = [];
+	tasks: TaskRender[] = [];
 
 	constructor(root: RootModule, module: TasksModule) {
 		this.root = root;
@@ -33,11 +35,13 @@ export class TasksView {
 					w
 				}
 			});
-		this.renderTasks = data.filter(task => task.y >= this.root.grid.view.rowsOffsetY);
+		this.tasksForArrows = data;
+		this.renderTasks = data.filter(task => task.y >= this.root.grid.view.rowsOffsetY && task.y <= this.root.canvas.height);
 	}
 
-	get tasks() {
-		return this.renderTasks.map(task => {
+
+	fillTasks() {
+		this.tasks = this.renderTasks.map(task => {
 			if(this.modifiedTasks[task.id]) return this.modifiedTasks[task.id];
 			return task;
 		})
@@ -57,13 +61,22 @@ export class TasksView {
 
 	render() {
 		this.fillRenderTasks();
-		this.tasks.forEach((el) => {
+		this.fillTasks();
+		this.tasksForArrows.forEach((el) => {
 			el.next_ids.forEach((id) => {
 				const x = el.x + el.w;
 				const y = el.y + (this.rowHeight / 2)
 				this.taskEntity.renderArrow(id, x, y, this.rowHeight);
 			})
 		});
+		if(this.module.store.hoverId && this.module.controller.addDepMode) {
+			this.taskEntity.renderArrowFrom(
+				this.module.store.hoverId,
+				this.module.store.addDepOffsetX,
+				this.module.store.addDepOffsetY,
+				this.rowHeight);
+
+		}
 		this.tasks.forEach((x) => {
 			this.taskEntity.renderItem(x, this.rowHeight);
 		});

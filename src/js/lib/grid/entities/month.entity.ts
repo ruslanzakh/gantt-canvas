@@ -26,10 +26,14 @@ export class MonthEntity {
 		ctx.lineTo(xx, height);
 		ctx.stroke(); 
 		const width = xx - x;
-		if(width < 100) return;
+		if(width < 200) return;
 		const middle = (xx + x) / 2;
 		ctx.font = "20px serif";
 		ctx.fillStyle = '#000';
-  		ctx.fillText(title, middle, 25);
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+  		ctx.fillText(title, middle, height / 2);
+		ctx.textAlign = 'left';
+		ctx.textBaseline = 'alphabetic'
 	}
 }

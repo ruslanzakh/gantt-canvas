@@ -14,6 +14,9 @@ export class TasksStore {
 	hoverId: null | string = null;
 	hoverResize: null | string = null;
 
+	addDepOffsetX: number | null = null;
+	addDepOffsetY: number | null = null;
+
 	constructor(root: RootModule, module: TasksModule) {
 		this.root = root;
 		this.module = module;

@@ -16,6 +16,8 @@ export class TaskEntity {
 	fillColor = 'blue';
 	hoverFillColor = 'red';
 
+	depRadius = 8;
+
 	constructor(root: RootModule) {
 		this.root = root;
 	}
@@ -23,17 +25,19 @@ export class TaskEntity {
 	isHover(event: MouseEvent, {x, y, w}: TaskRender, h: number) {
 		const { offsetX, offsetY } = event;
 		let resize = null;
-		const xx = x + w;
+		let depFrom = null;
+		const xx = x + w + this.depRadius;
 		const yy = y + h;
 		const hover = x < offsetX && offsetX < xx && y < offsetY && offsetY < yy;
-		if(!hover) return { hover, resize };
+		if(!hover) return { hover, resize, depFrom };
 		let resizeWidth = (w * 0.2);
 		if(resizeWidth > 30) resizeWidth = 30;
 		const leftResizeX = x + resizeWidth;
-		const rightResizeX = xx - resizeWidth;
-		if(leftResizeX > offsetX) resize = 'left';
+		const rightResizeX = x + w - resizeWidth;
+		if(xx - this.depRadius < offsetX) depFrom = true;
+		else if(leftResizeX > offsetX) resize = 'left';
 		else if(rightResizeX < offsetX) resize = 'right';
-		return { hover, resize };
+		return { hover, resize, depFrom };
 	}
 
 	renderItem({x, y, w, title, hover}: TaskRender, h: number) {
@@ -47,13 +51,23 @@ export class TaskEntity {
 		ctx.font = "14px serif";
 		ctx.fillStyle = '#fff';
   		ctx.fillText(title, x + 5, y + 20);
+		if(hover) this.renderRightDep(x + w, y + 15)
+	}
+
+	renderRightDep(x: number, y: number) {
+		const ctx = this.root.ctx;
+		ctx.beginPath();
+		ctx.arc(x, y, this.depRadius, Math.PI * 1.5,  Math.PI * 2.5);
+		ctx.strokeStyle = 'black';
+		ctx.stroke();
+		ctx.fill();
 	}
 
 	renderArrow(id: string, x: number, y: number, h: number) {
-		const task = this.root.tasks.service.getViewTaskById(id);
+		const task = this.root.tasks.service.getRenderedViewTaskById(id) ||  this.root.tasks.service.getViewTaskById(id);
 		if(!task) return;
-		if((task.x <= 0 || task.x >= this.root.canvas.width) &&
-			(x <= 0 || x >= this.root.canvas.width)) return;
+		// if((task.x <= 0 || task.x >= this.root.canvas.width) &&
+		// 	(x <= 0 || x >= this.root.canvas.width)) return;
 
 		const targetY = task.y + (h / 2);
 		const ctx = this.root.ctx;
@@ -81,6 +95,39 @@ export class TaskEntity {
 
 		}
 	}
+	renderArrowFrom(id: string, x: number, y: number, h: number) {
+		const task = this.root.tasks.service.getRenderedViewTaskById(id) ||  this.root.tasks.service.getViewTaskById(id);
+		
+		if(!task) return;
+
+		let sourceY = task.y + (h / 2);
+		const sourceX = task.x + task.w;
+		const ctx = this.root.ctx;
+		ctx.strokeStyle = 'orange';
+		ctx.fillStyle = 'orange';
+
+		if(task.x + task.w + this.depRadius > x) {
+			ctx.beginPath();
+			ctx.moveTo(sourceX, sourceY);
+			ctx.lineTo(sourceX + 10, sourceY);
+			ctx.lineTo(sourceX + 10, y + (h / 2));
+			ctx.lineTo(x - 20, y + (h / 2));
+			ctx.lineTo(x - 20, y);
+			ctx.lineTo(x, y);
+			ctx.stroke();
+			this.renderArrowHead(x - 20, y, x, y);
+		} else {
+			ctx.beginPath();
+			ctx.moveTo(sourceX, sourceY);
+			ctx.lineTo(sourceX + 10, sourceY);
+			ctx.lineTo(sourceX + 10, y);
+			ctx.lineTo(x, y);
+			ctx.stroke();
+			this.renderArrowHead(x - 20,  y, x, y);
+
+		}
+	}
+	
 
 	renderArrowHead(fromx, fromy, tox, toy){
 		const ctx = this.root.ctx;

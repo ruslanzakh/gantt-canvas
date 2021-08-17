@@ -14,7 +14,7 @@ export class TasksService {
 		this.module = module;
 	}
 
-	getViewTaskById(id: string) {
+	getRenderedViewTaskById(id: string) {
 		const task = this.module.view.tasks.find(task => task.id === id);
 		return task || null;
 	}
@@ -22,6 +22,23 @@ export class TasksService {
 	getRootStoreTaskById(id: string) {
 		const task = this.root.store.tasks.find(task => task.id === id);
 		return task || null;
+	}
+
+	getViewTaskById(id: string) {
+		const rowHeight = this.root.grid.view.rowHeight;
+		const hoverId = this.module.store.hoverId;
+		const task = this.getRootStoreTaskById(id);
+		const index = this.root.store.tasks.indexOf(task)
+		const { x, xx } = this.module.service.getTaskPos(task);
+		const w = xx - x;
+		return {
+			...task,
+			hover: hoverId === task.id,
+			y: (rowHeight * index) + this.root.grid.view.rowsOffsetY - this.root.view.offsetY,
+			x,
+			w
+		}
+
 	}
 
 	getStoreDependedTasksById(id: string, tasks: TaskProp[] = []) {
@@ -37,9 +54,13 @@ export class TasksService {
 	getHoverId(event: MouseEvent) {
 		let hoverId: string | null = null;
 		let resize: string | null = null;
+		let depFromId: string | null = null;
 		const { tasks, taskEntity, rowHeight } = this.module.view;
 		for(let item of tasks) {
 			const data = taskEntity.isHover(event, item, rowHeight);
+			if(data.depFrom) {
+				depFromId = item.id;
+			}
 			if(data.resize) {
 				resize = data.resize
 			}
@@ -48,11 +69,23 @@ export class TasksService {
 				break;
 			}
 		}
-		return { hoverId, resize };
+		return { hoverId, resize, depFromId };
 	}
 
 	getHoveredTask() {
 		return this.getRootStoreTaskById(this.module.store.hoverId);
+	}
+
+	handleAddDepMove(event: MouseEvent) {
+		if(this.intervalChangeOffset) return this.module.service.scrollX(event);
+		this.addDepMove(event);
+		this.module.service.scrollX(event);
+		this.root.render();
+	}
+
+	addDepMove(event: MouseEvent) {
+		this.module.store.addDepOffsetX = event.offsetX;
+		this.module.store.addDepOffsetY = event.offsetY;
 	}
 
 	resizeTask(event: MouseEvent) {
@@ -171,7 +204,8 @@ export class TasksService {
 		if(changeOffsetValue !== 0 && !this.intervalChangeOffset) {
 			this.intervalChangeOffset = setInterval(() => {
 				this.module.controller.mouseDownOffsetX -= changeOffsetValue;
-				if(this.module.controller.resizeMoveMode) this.resizeTaskByResizeMode(offsetX);
+				if(this.module.controller.addDepMode) this.addDepMove(event)
+				else if(this.module.controller.resizeMoveMode) this.resizeTaskByResizeMode(offsetX);
 				else this.moveTask(event.offsetX);
 				this.root.view.handleChangeOffsetX(changeOffsetValue)
 			}, 150)
