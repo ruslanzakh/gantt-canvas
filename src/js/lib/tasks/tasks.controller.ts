@@ -82,7 +82,6 @@ export class TasksController {
 					this.module.store.addModTask(task);
 					this.module.store.saveModTasks();
 					this.root.handleChange([task]);
-
 				}
 			}
 		}
@@ -94,6 +93,7 @@ export class TasksController {
 		this.module.store.addDepOffsetY = null;
 		this.module.store.setHoverConnectionTask(null);
 		document.removeEventListener('mouseup', this.handleAddDepMouseUp);
+		if(hoverId && hoverId === this.module.store.hoverId) this.root.render()
 	}
 
 	handleTaskMove(event: MouseEvent) {
