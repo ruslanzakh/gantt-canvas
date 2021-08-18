@@ -1,15 +1,16 @@
 import { RootModule } from '../root/root.module';
-import { getDate } from '../utils/date';
 import { TasksModule } from './tasks.module';
 
 export class TasksController {
 	root: RootModule;
 	module: TasksModule;
+
 	destroyMouseDown: Function;
 	destroyMouseMove: Function;
 	destroyResizeMouseMove: Function;
 	destroyTaskMove: Function;
 	destroyAddDepMove: Function;
+
 	moveMode: boolean = false;
 	addDepMode: boolean = false;
 	resizeMoveMode: string | null = null;
@@ -51,21 +52,32 @@ export class TasksController {
 			document.addEventListener('mouseup', this.handleTaskMoveMouseUp);
 		}
 	}
+	
+	handleMouseMove(event: MouseEvent) {
+		if(this.resizeMoveMode) return;
+		if(this.mouseDownOffsetX) {
+			const { hoverId } = this.module.service.getHoverId(event);
+			return this.module.store.setHoverConnectionTask(hoverId);
+		}
+		const { hoverId, resize } = this.module.service.getHoverId(event);
+		
+		this.module.store.setHoverId(hoverId, resize);
+	}
 
+	/** Start Resize Task */
 	handleResizeTaskMouseMove(event: MouseEvent) {
 		this.module.service.handleResizeTaskMouseMove(event);
 	}
 
 	handleResizeMouseUp() {
-		const tasks = Object.values(this.module.store.modifiedTasks);
-		this.root.api.handleChange(tasks);
-		this.module.service.clearScrollInterval();
-		this.module.store.saveModTasks();
+		this.module.service.handleResizeTaskMouseUp();
 		this.resizeMoveMode = null;
 		this.mouseDownOffsetX = null;
 		this.destroyResizeMouseMove();
 		document.removeEventListener('mouseup', this.handleResizeMouseUp);
 	}
+	/** End Resize Task */
+
 	/** Start Add Dependencies */
 	handleAddDepMouseMove(event: MouseEvent) {
 		this.module.service.handleAddDepMouseMove(event);
@@ -80,6 +92,7 @@ export class TasksController {
 	}
 	/** End Add Dependencies */
 
+	/** Start Move Task */
 	handleTaskMove(event: MouseEvent) {
 		this.module.service.handleMoveTaskMouseMove(event);
 	}
@@ -90,17 +103,6 @@ export class TasksController {
 		this.mouseDownOffsetX = null;
 		document.removeEventListener('mouseup', this.handleTaskMoveMouseUp);
 	}
-
-
-	handleMouseMove(event: MouseEvent) {
-		if(this.resizeMoveMode) return;
-		if(this.mouseDownOffsetX) {
-			const { hoverId } = this.module.service.getHoverId(event);
-			return this.module.store.setHoverConnectionTask(hoverId);
-		}
-		const { hoverId, resize } = this.module.service.getHoverId(event);
-		
-		this.module.store.setHoverId(hoverId, resize);
-	}
+	/** End Move Task */
 
 }

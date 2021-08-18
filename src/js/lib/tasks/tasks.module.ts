@@ -22,7 +22,6 @@ export class TasksModule {
 
 	init() {
 		this.controller.attachEvents();
-		// this.service.showCurrentDay();
 	}
 
 }

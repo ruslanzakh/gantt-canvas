@@ -191,19 +191,17 @@ export class TasksService {
 			}
 		}
 		this.clearScrollInterval();
-		this.module.store.addDepOffsetX = null;
-		this.module.store.addDepOffsetY = null;
+		this.module.store.updateDepOffsets(null, null);
 		this.module.store.setHoverConnectionTask(null);
 		if(hoverId && hoverId === this.module.store.hoverId) this.root.render()
 	}
 
 	updateDepOffsets(event: MouseEvent) {
-		this.module.store.addDepOffsetX = event.offsetX;
-		this.module.store.addDepOffsetY = event.offsetY;
+		this.module.store.updateDepOffsets(event.offsetX, event.offsetY);
 	}
 	/** End Add Dependencies */
 
-	/** Start Task */
+	/** Start Resize Task */
 	handleResizeTaskMouseMove(event: MouseEvent) {
 		if(this.intervalChangeOffset) return this.scrollX(event);
 		this.resizeTaskByResizeMode(event.offsetX);
@@ -266,6 +264,13 @@ export class TasksService {
 		const newTask = {...task, start_date_ts: task.start_date_ts + diff};
 		if(newTask.start_date_ts > newTask.end_date_ts) newTask.end_date_ts = newTask.start_date_ts;
 		this.module.store.addModTask(newTask);
+	}
+
+	handleResizeTaskMouseUp() {
+		const tasks = Object.values(this.module.store.modifiedTasks);
+		this.root.api.handleChange(tasks);
+		this.clearScrollInterval();
+		this.module.store.saveModTasks();
 	}
 
 	/** End Resize Task */

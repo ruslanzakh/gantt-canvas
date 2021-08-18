@@ -56,4 +56,9 @@ export class TasksStore {
 		this.hoverConnectionTask = id;
 	}
 
+	updateDepOffsets(offsetX: number | null, offsetY: number | null) {
+		this.addDepOffsetX = offsetX;
+		this.addDepOffsetY = offsetY;
+	}
+
 }
