@@ -1,11 +1,10 @@
 import { RootModule } from '../../root/root.module';
 
-
 export interface TaskRender {
 	id: string;
 	x: number;
 	y: number;
-	w: number
+	w: number;
 	hover: boolean
 	hoverConnection: boolean
 	title: string;
@@ -23,13 +22,17 @@ export class TaskEntity {
 		this.root = root;
 	}
 
-	isHover(event: MouseEvent, {x, y, w}: TaskRender, h: number) {
+	isHover(event: MouseEvent, {x, y, w}: TaskRender) {
+		const h = this.root.grid.view.rowHeight;
 		const { offsetX, offsetY } = event;
 		let resize = null;
 		let depFrom = null;
 		const xx = x + w + this.depRadius;
 		const yy = y + h;
-		const hover = x < offsetX && offsetX < xx && y < offsetY && offsetY < yy;
+		const hover = x < offsetX 
+			&& offsetX < xx
+			&& y < offsetY
+			&& offsetY < yy;
 		if(!hover) return { hover, resize, depFrom };
 		let resizeWidth = (w * 0.2);
 		if(resizeWidth > 30) resizeWidth = 30;
@@ -41,7 +44,8 @@ export class TaskEntity {
 		return { hover, resize, depFrom };
 	}
 
-	renderItem({x, y, w, title, hover, hoverConnection}: TaskRender, h: number) {
+	renderItem({x, y, w, title, hover, hoverConnection}: TaskRender) {
+		const h = this.root.grid.view.rowHeight;
 		if(x >= this.root.canvas.width || w === 0) return;
 		const ctx = this.root.ctx;
 		ctx.beginPath();
@@ -64,9 +68,12 @@ export class TaskEntity {
 		ctx.fill();
 	}
 
-	renderArrow(id: string, x: number, y: number, h: number) {
+	renderArrow(id: string, source: TaskRender) {
+		const h = this.root.grid.view.rowHeight;
 		const task = this.root.tasks.service.getRenderedViewTaskById(id) ||  this.root.tasks.service.getViewTaskById(id);
 		if(!task) return;
+		let x = source.x + source.w;
+		let y = source.y + (h / 2);
 		// if((task.x <= 0 || task.x >= this.root.canvas.width) &&
 		// 	(x <= 0 || x >= this.root.canvas.width)) return;
 
@@ -96,11 +103,12 @@ export class TaskEntity {
 
 		}
 	}
-	renderArrowFrom(id: string, x: number, y: number, h: number) {
+
+	renderArrowFrom(id: string, x: number, y: number) {
 		const task = this.root.tasks.service.getRenderedViewTaskById(id) ||  this.root.tasks.service.getViewTaskById(id);
 		
 		if(!task) return;
-
+		const h = this.root.grid.view.rowHeight;
 		let sourceY = task.y + (h / 2);
 		const sourceX = task.x + task.w;
 		const ctx = this.root.ctx;
@@ -129,7 +137,6 @@ export class TaskEntity {
 		}
 	}
 	
-
 	renderArrowHead(fromx, fromy, tox, toy){
 		const ctx = this.root.ctx;
 		//variables to be used when creating the arrow

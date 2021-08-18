@@ -47,32 +47,22 @@ export class TasksView {
 	}
 
 	renderArrows() {
-		const rowHeight = this.root.grid.view.rowHeight;
 		this.tasksForArrows.forEach((el) => {
-			el.next_ids.forEach((id) => {
-				const x = el.x + el.w;
-				const y = el.y + (rowHeight / 2)
-				this.taskEntity.renderArrow(id, x, y, rowHeight);
-			})
+			el.next_ids.forEach(id => this.taskEntity.renderArrow(id, el));
 		});
 	}
 
 	renderArrowFrom() {
-		const rowHeight = this.root.grid.view.rowHeight;
 		if(this.module.store.hoverId && this.module.controller.addDepMode) {
 			this.taskEntity.renderArrowFrom(
 				this.module.store.hoverId,
 				this.module.store.addDepOffsetX,
-				this.module.store.addDepOffsetY,
-				rowHeight);
+				this.module.store.addDepOffsetY);
 		}
 	}
 
 	renderTasks() {
-		const rowHeight = this.root.grid.view.rowHeight;
-		this.tasks.forEach((x) => {
-			this.taskEntity.renderItem(x, rowHeight);
-		});
+		this.tasks.forEach(x => this.taskEntity.renderItem(x));
 	}
 
 
