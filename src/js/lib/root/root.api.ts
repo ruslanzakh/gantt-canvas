@@ -16,6 +16,7 @@ export interface RootApiProps {
 	moveDependedOnMove?: boolean;
 	saveTime?: boolean;
 	minTaskWidth?: number;
+	showMonthMiddle?: boolean;
 	handleChange?(tasks: Task[]): Promise<void>;
 }
 
@@ -29,6 +30,7 @@ export class RootApi {
 	moveDependedOnMove: boolean;
 	saveTime: boolean;
 	minTaskWidth: number;
+	showMonthMiddle: boolean;
 	handleChange?: RootApiProps['handleChange'];
 
 	constructor(root: RootModule, props: RootApiProps) {
@@ -39,6 +41,7 @@ export class RootApi {
 		this.moveDependedOnMove = props.moveDependedOnMove ?? true;
 		this.saveTime = props.saveTime ?? true;
 		this.minTaskWidth = props.minTaskWidth ?? 20;
+		this.showMonthMiddle = props.showMonthMiddle ?? false;
 		this.handleChange = props.handleChange;
 	}
 

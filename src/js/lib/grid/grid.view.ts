@@ -23,6 +23,7 @@ interface RichedColumnRender extends ColumnRender {
 	month: number;
 	year: number;
 	ts: number;
+	isMiddleMonth: boolean;
 }
 export class GridView {
 
@@ -102,6 +103,8 @@ export class GridView {
 				title: el.title,
 				month: el.month,
 				year: el.year,
+				isStartMonth: el.isStartMonth,
+				isMiddleMonth: el.isMiddleMonth,
 			});
 		}
 		this.columns = data;
@@ -109,7 +112,7 @@ export class GridView {
 
 
 	fillMonths() {
-		const data = this.columns.reduce((prev, {month, x, year}) => {
+		const data = this.columns.reduce((prev, {month, x, year, isMiddleMonth}) => {
 			const xx = x + this.colWidth;
 			const label = month + '.' + year;
 			if(!prev[label]) {
@@ -122,6 +125,7 @@ export class GridView {
 			}
 			if(prev[label].x > x) prev[label].x = x;
 			if(prev[label].xx < xx) prev[label].xx = xx;
+			if(isMiddleMonth) prev[label].middle = x + (this.colWidth / 2);
 			return prev;
 		}, {});
 		this.months = Object.values(data);

@@ -3,6 +3,7 @@ import { RootModule } from '../../root/root.module';
 export interface ColumnRender {
 	x: number;
 	title: string;
+	isStartMonth: boolean;
 }
 
 export interface ColumnRenderCommon {
@@ -19,12 +20,16 @@ export class ColumnEntity {
 	}
 
 
-	renderDay({x, title}: ColumnRender, { monthHeight, width, dayHeight }: ColumnRenderCommon) {
+	renderDay({x, title, isStartMonth}: ColumnRender, { monthHeight, width, dayHeight }: ColumnRenderCommon) {
 		const ctx = this.root.ctx;
 		ctx.beginPath();
 		ctx.strokeStyle = '#ccc'
 		ctx.moveTo(x, monthHeight + dayHeight);
-		ctx.lineTo(x + width, monthHeight + dayHeight); 
+		ctx.lineTo(x + width, monthHeight + dayHeight);
+		if(isStartMonth) {
+			ctx.moveTo(x, monthHeight);
+			ctx.lineTo(x, monthHeight + dayHeight);
+		}
 		ctx.stroke();
 		ctx.font = "20px serif";
 		ctx.fillStyle = '#000';

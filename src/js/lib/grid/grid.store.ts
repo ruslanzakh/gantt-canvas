@@ -1,12 +1,14 @@
 import { RootModule } from '../root/root.module';
 import { GridModule } from './grid.module';
-import { getDate, setDate } from '../utils/date';
+import { getDate, setDate, getDaysInMonth } from '../utils/date';
 
 interface GridDate {
 	ts: number;
 	title: string;
 	month: number;
 	year: number;
+	isStartMonth: boolean;
+	isMiddleMonth: boolean;
 }
 
 export class GridStore {
@@ -34,11 +36,15 @@ export class GridStore {
 	}
 
 	add(date: Date, unshift = false) {
+		const day = date.getDate();
+		const middleDayInMonth = Math.floor(getDaysInMonth(date.getMonth() + 1, date.getFullYear()) / 2);
 		const elem = {
 			ts: date.getTime(),
 			title: date.getDate().toString(),
 			month: date.getMonth(),
-			year: date.getFullYear()
+			year: date.getFullYear(),
+			isStartMonth: day === 1,
+			isMiddleMonth: day === middleDayInMonth,
 		}
 		if(unshift) this.dates.unshift(elem);
 		else this.dates.push(elem);

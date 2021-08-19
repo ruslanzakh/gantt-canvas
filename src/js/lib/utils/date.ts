@@ -14,3 +14,7 @@ export const getDateWithSet = (ts?: number | string, diff = 0) => {
 	if(diff !== 0) setDate(date, diff);
 	return date;
 }
+
+export const getDaysInMonth = (month: number, year: number) => {
+	return new Date(year, month, 0).getDate();
+}
