@@ -95,6 +95,7 @@ export class RootController {
 	}
 
 	handleTouchStart(event: TouchEvent) {
+		event.preventDefault();
 		const offsetX = event.touches[0]?.screenX;
 		const offsetY = event.touches[0]?.screenY;
 		if(offsetX) this.touchOffsetX = offsetX;
@@ -104,17 +105,18 @@ export class RootController {
 
 
 	handleTouchMove(event: TouchEvent) {
+		event.preventDefault();
 		const offsetX = event.changedTouches[0]?.screenX;
 		const offsetY = event.changedTouches[0]?.screenY;
 		if(offsetX && this.touchOffsetX !== null) {
 			const diff = this.touchOffsetX - offsetX;
-			let offset = this.root.view.offsetX + this.root.view.scrollbarX.getScaledOffset(diff / 10);
+			let offset = this.root.view.offsetX + diff;
 			this.root.view.handleSetOffsetX(offset);
 			this.touchOffsetX = offsetX;
 		}
 		if(offsetY && this.touchOffsetY !== null) {
 			const diff = this.touchOffsetY - offsetY;
-			let offset = this.root.view.offsetY + this.root.view.scrollbarY.getScaledOffset(this.root.view.scrollbarY.top + diff / 10);
+			let offset = this.root.view.offsetY + diff;
 			this.root.view.handleSetOffsetY(offset);
 			this.touchOffsetY = offsetY;
 		}
@@ -123,6 +125,7 @@ export class RootController {
 
 
 	handleTouchEnd() {
+		event.preventDefault();
 		this.touchOffsetX = null;
 		this.touchOffsetY = null;
 	}
