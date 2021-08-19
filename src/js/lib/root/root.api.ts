@@ -26,6 +26,21 @@ export interface RootApiProps {
 	monthTitleColor?: string;
 	monthTitleShowYear?: boolean;
 
+	dayHeight?: number;
+	renderDayStartMonthLine?: boolean;
+	dayStartMonthLine?: string;
+	dayBottomLineColor?: string;
+	dayColor?: string;
+	dayFont?: string;
+
+	dayColWidth?: number;
+	rowHeight?: number;
+
+	colLineColor?: string;
+	rowLineColor?: string;
+	rowEvenBackground?: string;
+	rowOddBackground?: string;
+
 	handleChange?(tasks: Task[]): Promise<void>;
 }
 
@@ -49,6 +64,21 @@ export class RootApi {
 	monthTitleColor: string;
 	monthTitleShowYear: boolean;
 
+	dayHeight: number;
+	renderDayStartMonthLine: boolean;
+	dayStartMonthLine: string;
+	dayBottomLineColor: string;
+	dayColor: string;
+	dayFont: string;
+
+	dayColWidth: number;
+	rowHeight: number;
+
+	colLineColor: string;
+	rowLineColor: string;
+	rowEvenBackground: string;
+	rowOddBackground: string;
+
 	handleChange?: RootApiProps['handleChange'];
 
 	constructor(root: RootModule, props: RootApiProps) {
@@ -64,10 +94,24 @@ export class RootApi {
 		this.monthHeight = props.monthHeight ?? 55;
 		this.renderMonthBottomLine = props.renderMonthBottomLine ?? false;
 		this.renderMonthLeftLine = props.renderMonthLeftLine ?? false;
-		this.monthLineColor = props.monthLineColor ?? '#ccc';
+		this.monthLineColor = props.monthLineColor ?? '#EAEAEA';
 		this.monthTitleFont = props.monthTitleFont ?? '600 20px Arial';
 		this.monthTitleColor = props.monthTitleColor ?? '#222';
 		this.monthTitleShowYear = props.monthTitleShowYear ?? true;
+
+		this.dayHeight = props.dayHeight ?? 28;
+		this.renderDayStartMonthLine = props.renderDayStartMonthLine ?? false;
+		this.dayStartMonthLine = props.dayStartMonthLine ?? '#EAEAEA';
+		this.dayBottomLineColor = props.dayBottomLineColor ?? '#EAEAEA';
+		this.dayFont = props.dayFont ?? '500 14px Arial';
+		this.dayColor = props.dayColor ?? '#222';
+
+		this.dayColWidth = props.dayColWidth ?? 38;
+		this.rowHeight = props.rowHeight ?? 36;
+		this.colLineColor = props.colLineColor ?? '#EAEAEA';
+		this.rowLineColor = props.rowLineColor ?? '#EAEAEA';
+		this.rowEvenBackground = props.rowEvenBackground ?? '#fff';
+		this.rowOddBackground = props.rowOddBackground ?? '#fff';
 
 		this.handleChange = props.handleChange;
 	}

@@ -8,9 +8,6 @@ export interface RowRender {
 export class RowEntity {
 	root: RootModule;
 
-	evenColor = '#fff';
-	oddColor = '#f1efef';
-
 	constructor(root: RootModule) {
 		this.root = root;
 	}
@@ -19,7 +16,12 @@ export class RowEntity {
 		const ctx = this.root.ctx;
 		ctx.beginPath();
 		ctx.rect(0, y, this.root.canvas.width, rowHeight);
-		ctx.fillStyle = odd ? this.oddColor : this.evenColor;
+		ctx.fillStyle = odd ? this.root.api.rowOddBackground :this.root.api.rowEvenBackground;
 		ctx.fill();
+		ctx.beginPath();
+		ctx.strokeStyle = this.root.api.rowLineColor;
+		ctx.moveTo(0, y + rowHeight);
+		ctx.lineTo(this.root.canvas.width, y + rowHeight);
+		ctx.stroke();
 	}
 }

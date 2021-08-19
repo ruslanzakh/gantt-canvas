@@ -49,7 +49,7 @@ export class GridView {
 	}
 
 	get colWidth() {
-		return 40 * this.root.view.scaleX;
+		return this.root.api.dayColWidth * this.root.view.scaleX;
 	}
 	
 	get colsOnScreen() {
@@ -65,7 +65,7 @@ export class GridView {
 	}
 
 	get rowHeight() {
-		return 30 * this.root.view.scaleY;
+		return this.root.api.rowHeight * this.root.view.scaleY;
 	}
 	
 	get monthHeight() {
@@ -73,7 +73,7 @@ export class GridView {
 	}
 
 	get dayHeight() {
-		return 30;
+		return this.root.api.dayHeight;
 	}
 
 	get headerHeight() {
@@ -139,12 +139,12 @@ export class GridView {
 	}
 
 	fillRows() {
-		let odd = false;
+		let odd = true;
 		const height = this.root.canvas.height;
 		const data: RowRender[] = [];
 		const length = this.root.api.tasks.length;
 		const headerOffset = this.rowsOffsetY + this.rowHeight;
-		const offsetY = headerOffset - this.root.view.offsetY;
+		const offsetY = headerOffset - this.root.view.offsetY - this.rowHeight;
 		const minY = this.rowsOffsetY - this.rowHeight;
 		for(let i = 0; i <= length; i++) {
 			const y = (i * this.rowHeight) + offsetY;
