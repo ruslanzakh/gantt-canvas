@@ -41,6 +41,23 @@ export interface RootApiProps {
 	rowEvenBackground?: string;
 	rowOddBackground?: string;
 
+
+	taskDefaultBackground?: string;
+	taskDefaultHoverBackground?: string;
+	taskDefaultColor?: string;
+	taskDefaultHoverColor?: string;
+	taskDefaultOutlineColor?: string;
+	taskHeight?: number;
+	taskFont?: string;
+	taskPadding?: number;
+
+	depRadius?: number;
+	depLineColor?: string;
+	depBackground?: string;
+
+	arrowColor?: string;
+	arrowActiveColor?: string;
+
 	handleChange?(tasks: Task[]): Promise<void>;
 }
 
@@ -79,6 +96,22 @@ export class RootApi {
 	rowEvenBackground: string;
 	rowOddBackground: string;
 
+	taskDefaultBackground: string;
+	taskDefaultHoverBackground: string;
+	taskDefaultColor: string;
+	taskDefaultHoverColor: string;
+	taskDefaultOutlineColor: string;
+	taskHeight: number;
+	taskPadding: number;
+	taskFont: string;
+
+	depRadius: number;
+	depLineColor: string;
+	depBackground: string;
+
+	arrowColor: string;
+	arrowActiveColor: string;
+
 	handleChange?: RootApiProps['handleChange'];
 
 	constructor(root: RootModule, props: RootApiProps) {
@@ -112,6 +145,22 @@ export class RootApi {
 		this.rowLineColor = props.rowLineColor ?? '#EAEAEA';
 		this.rowEvenBackground = props.rowEvenBackground ?? '#fff';
 		this.rowOddBackground = props.rowOddBackground ?? '#fff';
+
+		this.taskDefaultBackground = props.taskDefaultBackground ?? '#F0F0F0';
+		this.taskDefaultHoverBackground = props.taskDefaultHoverBackground ?? '#333333';
+		this.taskDefaultColor = props.taskDefaultColor ?? '#222';
+		this.taskDefaultHoverColor = props.taskDefaultHoverColor ?? '#fff';
+		this.taskDefaultOutlineColor = props.taskDefaultOutlineColor ?? '#222';
+		this.taskHeight = props.taskHeight ?? 30;
+		this.taskPadding = props.taskPadding ?? 5;
+		this.taskFont = props.taskFont ?? "14px serif";
+
+		this.depRadius = props.depRadius ?? 8;
+		this.depLineColor = props.depLineColor ?? '#222';
+		this.depBackground = props.depBackground ?? '#fff';
+
+		this.arrowColor = props.arrowColor ?? "#555";
+		this.arrowActiveColor = props.arrowActiveColor ?? "#88BECF";
 
 		this.handleChange = props.handleChange;
 	}

@@ -13,10 +13,6 @@ export interface TaskRender {
 
 export class TaskEntity {
 	root: RootModule;
-	fillColor = 'blue';
-	hoverFillColor = 'red';
-
-	depRadius = 8;
 
 	constructor(root: RootModule) {
 		this.root = root;
@@ -27,7 +23,7 @@ export class TaskEntity {
 		const { offsetX, offsetY } = event;
 		let resize = null;
 		let depFrom = null;
-		const xx = x + w + this.depRadius;
+		const xx = x + w + this.root.api.depRadius;
 		const yy = y + h;
 		const hover = x < offsetX 
 			&& offsetX < xx
@@ -38,7 +34,7 @@ export class TaskEntity {
 		if(resizeWidth > 30) resizeWidth = 30;
 		const leftResizeX = x + resizeWidth;
 		const rightResizeX = x + w - resizeWidth;
-		if(xx - this.depRadius < offsetX) depFrom = true;
+		if(xx - this.root.api.depRadius < offsetX) depFrom = true;
 		else if(leftResizeX > offsetX) resize = 'left';
 		else if(rightResizeX < offsetX) resize = 'right';
 		return { hover, resize, depFrom };
@@ -49,21 +45,40 @@ export class TaskEntity {
 		if(x >= this.root.canvas.width || w === 0) return;
 		const ctx = this.root.ctx;
 		ctx.beginPath();
-		ctx.rect(x, y + 5, w, h - 10);
-		ctx.fillStyle = (hover || hoverConnection) ? this.hoverFillColor : this.fillColor;
-		ctx.stroke();
+		const top = ((h - this.root.api.taskHeight) / 2) + y;
+		ctx.rect(x, top, w, this.root.api.taskHeight);
+		ctx.fillStyle = (hover || hoverConnection) 
+			? this.root.api.taskDefaultHoverBackground
+			: this.root.api.taskDefaultBackground;
+	
 		ctx.fill();
-		ctx.font = "14px serif";
-		ctx.fillStyle = '#fff';
-  		ctx.fillText(title, x + 5, y + 20);
-		if(hover) this.renderRightDep(x + w, y + 15)
+		
+		ctx.font = this.root.api.taskFont;
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+		console.log(ctx.measureText(title));
+		
+		if(ctx.measureText(title).width < (w - (this.root.api.taskPadding * 2))) {
+			ctx.fillStyle = (hover || hoverConnection) 
+				? this.root.api.taskDefaultHoverColor
+				: this.root.api.taskDefaultColor;
+			ctx.textAlign = 'center';
+			ctx.fillText(title, x + (w / 2), top + (this.root.api.taskHeight / 2));
+		} else {
+			ctx.fillStyle = this.root.api.taskDefaultOutlineColor;
+			ctx.textAlign = 'left';
+			ctx.fillText(title, x + w + (this.root.api.depRadius * 2), top + (this.root.api.taskHeight / 2));
+		}
+		if(hover) this.renderRightDep(x + w, top + (this.root.api.taskHeight / 2))
 	}
 
 	renderRightDep(x: number, y: number) {
 		const ctx = this.root.ctx;
 		ctx.beginPath();
-		ctx.arc(x, y, this.depRadius, Math.PI * 1.5,  Math.PI * 2.5);
-		ctx.strokeStyle = 'black';
+		
+		ctx.fillStyle = this.root.api.depBackground;
+		ctx.arc(x, y, this.root.api.depRadius, Math.PI * 1.5,  Math.PI * 2.5);
+		ctx.strokeStyle = this.root.api.depLineColor;
 		ctx.stroke();
 		ctx.fill();
 	}
@@ -79,8 +94,8 @@ export class TaskEntity {
 
 		const targetY = task.y + (h / 2);
 		const ctx = this.root.ctx;
-		ctx.strokeStyle = '#2acc69';
-		ctx.fillStyle = '#2acc69';
+		ctx.strokeStyle =  this.root.api.arrowColor;
+		ctx.fillStyle =  this.root.api.arrowColor;
 		
 		if(task.x > x) {
 			ctx.beginPath();
@@ -112,10 +127,10 @@ export class TaskEntity {
 		let sourceY = task.y + (h / 2);
 		const sourceX = task.x + task.w;
 		const ctx = this.root.ctx;
-		ctx.strokeStyle = 'orange';
-		ctx.fillStyle = 'orange';
+		ctx.strokeStyle = this.root.api.arrowActiveColor;
+		ctx.fillStyle = this.root.api.arrowActiveColor;
 
-		if(task.x + task.w + this.depRadius > x) {
+		if(task.x + task.w + this.root.api.depRadius > x) {
 			ctx.beginPath();
 			ctx.moveTo(sourceX, sourceY);
 			ctx.lineTo(sourceX + 10, sourceY);
