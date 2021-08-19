@@ -14,7 +14,7 @@ export interface RootApiProps {
 	moveDependedOnResizeRight?: boolean;
 	moveDependedOnResizeLeft?: boolean;
 	moveDependedOnMove?: boolean;
-	save_time?: boolean;
+	saveTime?: boolean;
 	minTaskWidth?: number;
 	handleChange?(tasks: Task[]): Promise<void>;
 }
@@ -27,7 +27,7 @@ export class RootApi {
 	moveDependedOnResizeRight: boolean;
 	moveDependedOnResizeLeft: boolean;
 	moveDependedOnMove: boolean;
-	save_time: boolean;
+	saveTime: boolean;
 	minTaskWidth: number;
 	handleChange?: RootApiProps['handleChange'];
 
@@ -37,7 +37,7 @@ export class RootApi {
 		this.moveDependedOnResizeRight = props.moveDependedOnResizeRight ?? true;
 		this.moveDependedOnResizeLeft = props.moveDependedOnResizeLeft ?? false;
 		this.moveDependedOnMove = props.moveDependedOnMove ?? true;
-		this.save_time = props.save_time ?? true;
+		this.saveTime = props.saveTime ?? true;
 		this.minTaskWidth = props.minTaskWidth ?? 20;
 		this.handleChange = props.handleChange;
 	}

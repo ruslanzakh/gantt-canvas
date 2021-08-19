@@ -1,6 +1,6 @@
 import { RootModule } from '../root/root.module';
 import { GridModule } from './grid.module';
-import { ColumnEntity, ColumnRender } from './entities/column.entity';
+import { ColumnEntity, ColumnRender, ColumnRenderCommon } from './entities/column.entity';
 import { MonthEntity, MonthRender } from './entities/month.entity';
 import { RowEntity, RowRender } from './entities/row.entity';
 
@@ -25,14 +25,18 @@ interface RichedColumnRender extends ColumnRender {
 	ts: number;
 }
 export class GridView {
+
 	root: RootModule;
 	module: GridModule;
+
 	columnEntity: ColumnEntity;
 	monthEntity: MonthEntity;
 	rowEntity: RowEntity;
+
 	columns: RichedColumnRender[] = [];
 	rows: RowRender[];
 	months: MonthRender[];
+
 	firstTsOnScreen = 0;
 
 	constructor(root: RootModule, module: GridModule) {
@@ -48,7 +52,7 @@ export class GridView {
 	}
 	
 	get colsOnScreen() {
-		return this.root.canvas.width / this.module.view.colWidth;
+		return this.root.canvas.width / this.colWidth;
 	}
 
 	get colTs() {
@@ -63,7 +67,6 @@ export class GridView {
 		return 30 * this.root.view.scaleY;
 	}
 	
-
 	get monthHeight() {
 		return 40;
 	}
@@ -91,8 +94,8 @@ export class GridView {
 			const el = this.module.store.dates[i];
 			const x = (i * this.colWidth) - offsetX;
 			
-			if(x > width) break;
 			if(x < -this.colWidth) continue;
+			if(x > width) break;
 			data.push({
 				ts: el.ts,
 				x,
@@ -126,23 +129,22 @@ export class GridView {
 
 	fillRows() {
 		let odd = true;
-		const offsetY = this.root.view.offsetY;
 		const height = this.root.canvas.height;
 		const data: RowRender[] = [];
 		const length = this.root.api.tasks.length;
 		const headerOffset = this.rowsOffsetY + this.rowHeight;
-
+		const offsetY = headerOffset - this.root.view.offsetY;
+	
 		for(let i = 0; i <= length; i++) {
-			const y = (i * this.rowHeight) + headerOffset - offsetY;
+			const y = (i * this.rowHeight) + offsetY;
 			if(y > height) break;
 			if(y < this.rowsOffsetY) continue;
-			data.push({y, odd});
+			data.push({ y, odd });
 			odd = !odd;
 		}
 		
 		this.rows = data;
 	}
-
 
 	updateStore() {
 		this.fillColumns();
@@ -153,17 +155,10 @@ export class GridView {
 
 	renderGrid() {
 		this.updateStore();
-		this.rows.forEach((x) => {
-			this.rowEntity.renderItem(x, this.rowHeight);
-		});
-		const colCommon = {
-			monthHeight: this.monthHeight,
-			width: this.colWidth,
-			dayHeight: this.dayHeight,
-		}
-		this.columns.forEach((x) => {
-			this.columnEntity.renderCol(x, colCommon);
-		});
+		this.rows.forEach(x => this.rowEntity.renderItem(x, this.rowHeight));
+
+		const colCommon = this.getColumnCommonData();
+		this.columns.forEach(x => this.columnEntity.renderCol(x, colCommon));
 		
 	}
 
@@ -175,17 +170,17 @@ export class GridView {
 		this.root.ctx.rect(0, 0, width, this.rowsOffsetY);
 		this.root.ctx.fill();
 
-		const colCommon = {
+		const colCommon = this.getColumnCommonData();
+		this.columns.forEach(x => this.columnEntity.renderDay(x, colCommon));
+		this.months.forEach(x => this.monthEntity.renderItem(x, this.monthHeight));
+	}
+
+	getColumnCommonData(): ColumnRenderCommon {
+		return  {
 			monthHeight: this.monthHeight,
 			width: this.colWidth,
 			dayHeight: this.dayHeight,
 		}
-		this.columns.forEach((x) => {
-			this.columnEntity.renderDay(x, colCommon);
-		});
-		this.months.forEach((x) => {
-			this.monthEntity.renderItem(x, this.monthHeight);
-		});
 	}
 
 }

@@ -29,8 +29,8 @@ export class GridStore {
 				this.add(date);
 			} while(date.getTime() <= end_date_ts);
 		}
-		this.module.service.addDatesBefore(this.root.view.offsetX);
-		this.module.service.addDatesAfter(this.root.view.offsetX);
+		this.addDatesBefore(this.root.view.offsetX);
+		this.addDatesAfter(this.root.view.offsetX);
 	}
 
 	add(date: Date, unshift = false) {
@@ -42,6 +42,39 @@ export class GridStore {
 		}
 		if(unshift) this.dates.unshift(elem);
 		else this.dates.push(elem);
+	}
+
+	
+	addDatesBefore(offsetX) {
+		if(offsetX > this.root.canvas.width) return;
+		
+		const data = this.dates;
+		const { colsOnScreen, colWidth } = this.module.view;
+		const length = -offsetX / colWidth;
+		const date = getDate(data[0]?.ts);
+		setDate(date, -1);
+		this.add(date, true);
+		
+		for(let i = 0; i < length + colsOnScreen; i++) {
+			offsetX += colWidth;
+			setDate(date, -1);
+			this.add(date, true);
+		}
+		this.root.view.offsetX = offsetX;
+	}
+
+	addDatesAfter(offsetX) {
+		const data = this.dates;
+		const fullDataWidth = this.module.service.getFullAvailableWidth();
+		const { colsOnScreen, colWidth } = this.module.view;
+		const width = fullDataWidth - this.root.canvas.width - colWidth
+		if(offsetX < width) return;
+		const length = ((offsetX - width) / colWidth);
+		const date = getDate(data[data.length - 1].ts);
+		for(let i = 0; i < length + colsOnScreen; i++) {
+			setDate(date, 1);
+			this.add(date);
+		}
 	}
 
 

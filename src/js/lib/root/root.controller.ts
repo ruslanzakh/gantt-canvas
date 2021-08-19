@@ -19,13 +19,14 @@ export class RootController {
 
 	attachEvents() {
 		this.handleMouseMove = debounce(this.handleMouseMove.bind(this), 32);
+		this.handleTouchMove = debounce(this.handleTouchMove.bind(this), 32);
 		this.root.canvas.addEventListener('mousemove', this.handleMouseMove);
 		this.root.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
 		this.root.canvas.addEventListener('mouseup', this.handleMouseUp.bind(this));
 		this.root.canvas.addEventListener('click', this.handleClick.bind(this));
 		this.root.canvas.addEventListener('wheel', this.handleScroll.bind(this));
 		this.root.canvas.addEventListener('touchstart', this.handleTouchStart.bind(this));
-		this.root.canvas.addEventListener('touchmove', this.handleTouchMove.bind(this));
+		this.root.canvas.addEventListener('touchmove', this.handleTouchMove);
 		this.root.canvas.addEventListener('touchend', this.handleTouchEnd.bind(this));
 	}
 
@@ -130,32 +131,6 @@ export class RootController {
 	stopPropagation(event: MouseEvent) {
 		// @ts-ignore
 		event._stopPropagation = true;
-	}
-
-	handleMouseMoveTest(event: MouseEvent) {
-		const { offsetX, offsetY } = event;
-		this.root.data.forEach((el) => {
-			if(el.type === 'Circle') {
-				const r = el.data.r;
-				const x = el.data.x - r;
-				const xx = el.data.x + r;
-				const y = el.data.y - r;
-				const yy = el.data.y + r;
-				const hover = x < offsetX && offsetX < xx && y < offsetY && offsetY < yy;
-				if(el.data.hover != hover) {
-					el.data.hover = hover;
-					this.root.render();
-				}
-			} else if(el.type === 'Square') {
-				const xx = el.data.x + el.data.w;
-				const yy = el.data.y + el.data.h;
-				const hover = el.data.x < offsetX && offsetX < xx && el.data.y < offsetY && offsetY < yy;
-				if(el.data.hover != hover) {
-					el.data.hover = hover;
-					this.root.render();
-				}
-			}
-		})
 	}
 
 }

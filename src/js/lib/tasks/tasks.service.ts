@@ -158,7 +158,7 @@ export class TasksService {
 	getDiff(offsetX: number, all_day = false) {
 		const offsetDiff = offsetX - this.module.controller.mouseDownOffsetX;
 		let diff = this.root.grid.service.getTsByOffsetDiff(offsetDiff);
-		if(all_day || this.root.api.save_time) {
+		if(all_day || this.root.api.saveTime) {
 			const colTs = this.root.grid.view.colTs;
 			const dayDiff = (diff - diff % colTs) / colTs;
 			diff = colTs * dayDiff;

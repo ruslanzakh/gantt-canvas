@@ -1,6 +1,6 @@
 import { RootModule } from '../root/root.module';
 import { GridModule } from './grid.module';
-import { getDate, getDateWithSet, setDate } from '../utils/date';
+import { getDate, setDate } from '../utils/date';
 
 export class GridService {
 	root: RootModule;
@@ -9,38 +9,6 @@ export class GridService {
 	constructor(root: RootModule, module: GridModule) {
 		this.root = root;
 		this.module = module;
-	}
-
-	addDatesBefore(offsetX) {
-		if(offsetX > this.root.canvas.width) return;
-		
-		const data = this.module.store.dates;
-		const { colsOnScreen, colWidth } = this.module.view;
-		const length = -offsetX / colWidth;
-		const date = getDate(data[0]?.ts);
-		setDate(date, -1);
-		this.module.store.add(date, true);
-		
-		for(let i = 0; i < length + colsOnScreen; i++) {
-			offsetX += colWidth;
-			setDate(date, -1);
-			this.module.store.add(date, true);
-		}
-		this.root.view.offsetX = offsetX;
-	}
-
-	addDatesAfter(offsetX) {
-		const data = this.module.store.dates;
-		const fullDataWidth = this.getFullAvailableWidth();
-		const { colsOnScreen, colWidth } = this.module.view;
-		const width = fullDataWidth - this.root.canvas.width - colWidth
-		if(offsetX < width) return;
-		const length = ((offsetX - width) / colWidth);
-		const date = getDate(data[data.length - 1].ts);
-		for(let i = 0; i < length + colsOnScreen; i++) {
-			setDate(date, 1);
-			this.module.store.add(date);
-		}
 	}
 
 	showCurrentDay() {
@@ -110,9 +78,9 @@ export class GridService {
 	validateOffsetX() {
 		const offsetX = this.root.view.offsetX;
 		if(offsetX < this.root.canvas.width) {
-			this.addDatesBefore(offsetX);
+			this.module.store.addDatesBefore(offsetX);
 		} else if(offsetX > this.getFullAvailableWidth() - this.root.canvas.width) {
-			this.addDatesAfter(offsetX);
+			this.module.store.addDatesAfter(offsetX);
 		}
 	}
 
