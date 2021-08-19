@@ -128,19 +128,19 @@ export class GridView {
 	}
 
 	fillRows() {
-		let odd = true;
+		let odd = false;
 		const height = this.root.canvas.height;
 		const data: RowRender[] = [];
 		const length = this.root.api.tasks.length;
 		const headerOffset = this.rowsOffsetY + this.rowHeight;
 		const offsetY = headerOffset - this.root.view.offsetY;
-	
+		const minY = this.rowsOffsetY - this.rowHeight;
 		for(let i = 0; i <= length; i++) {
 			const y = (i * this.rowHeight) + offsetY;
-			if(y > height) break;
-			if(y < this.rowsOffsetY) continue;
-			data.push({ y, odd });
 			odd = !odd;
+			if(y > height) break;
+			if(y < minY) continue;
+			data.push({ y, odd });
 		}
 		
 		this.rows = data;
