@@ -1,4 +1,5 @@
 import { RootModule } from '../../root/root.module';
+import { capitalize } from '../../utils/string';
 
 export interface MonthRender {
 	x: number;
@@ -18,13 +19,16 @@ export class MonthEntity {
 	renderItem({x, xx, title, middle}: MonthRender, height: number) {
 		const ctx = this.root.ctx;
 		ctx.beginPath();
-		ctx.strokeStyle = '#ccc'
-		ctx.moveTo(x, 0);
-		ctx.lineTo(x, height);
-		ctx.stroke();
+		ctx.strokeStyle = this.root.api.monthLineColor;
+		if(this.root.api.renderMonthLeftLine) {
+			ctx.moveTo(x, 0);
+			ctx.lineTo(x, height);
+		}
 
-		ctx.moveTo(x, height);
-		ctx.lineTo(xx, height);
+		if(this.root.api.renderMonthBottomLine) {
+			ctx.moveTo(x, height);
+			ctx.lineTo(xx, height);
+		}
 		ctx.stroke(); 
 		if(this.root.api.showMonthMiddle) {
 			const width = xx - x;
@@ -32,11 +36,11 @@ export class MonthEntity {
 			middle = (xx + x) / 2;
 		}
 		if(middle) {
-			ctx.font = "20px serif";
-			ctx.fillStyle = '#000';
+			ctx.font = this.root.api.monthTitleFont;
+			ctx.fillStyle = this.root.api.monthTitleColor;
 			ctx.textAlign = 'center';
 			ctx.textBaseline = 'middle';
-			ctx.fillText(title, middle, height / 2);
+			ctx.fillText(capitalize(title), middle, height / 2);
 			ctx.textAlign = 'left';
 			ctx.textBaseline = 'alphabetic'
 		}

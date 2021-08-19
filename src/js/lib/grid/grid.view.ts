@@ -69,7 +69,7 @@ export class GridView {
 	}
 	
 	get monthHeight() {
-		return 40;
+		return this.root.api.monthHeight;
 	}
 
 	get dayHeight() {
@@ -117,7 +117,7 @@ export class GridView {
 			const label = month + '.' + year;
 			if(!prev[label]) {
 				prev[label] = {
-					title: MONTHS[month] + year ,
+					title: this.getMonthTitle(month, year) ,
 					x: x,
 					xx: xx,
 				};
@@ -129,6 +129,13 @@ export class GridView {
 			return prev;
 		}, {});
 		this.months = Object.values(data);
+	}
+
+	getMonthTitle(month: number, year: number) {
+		if(this.root.api.monthTitleShowYear) {
+			return MONTHS[month] + ' ' + year;
+		}
+		return MONTHS[month];
 	}
 
 	fillRows() {
