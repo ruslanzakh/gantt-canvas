@@ -4,6 +4,7 @@ export interface ColumnRender {
 	x: number;
 	title: string;
 	isStartMonth: boolean;
+	today: boolean;
 }
 
 export interface ColumnRenderCommon {
@@ -43,12 +44,17 @@ export class ColumnEntity {
 		ctx.textBaseline = 'alphabetic';
 	}
 
-	renderCol({x}: ColumnRender, { monthHeight }: ColumnRenderCommon) {
+	renderCol({x, today}: ColumnRender, { monthHeight }: ColumnRenderCommon) {
 		const ctx = this.root.ctx;
 		ctx.beginPath();
 		ctx.strokeStyle = this.root.api.colLineColor;
 		ctx.moveTo(x, monthHeight);
 		ctx.lineTo(x, this.root.canvas.height); 
 		ctx.stroke();
+		if(today) {
+			ctx.fillStyle = this.root.api.dayTodayBackground;
+			ctx.fillRect(x, monthHeight, this.root.grid.view.colWidth, this.root.canvas.height);
+			ctx.fill();
+		}
 	}
 }

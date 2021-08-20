@@ -105,6 +105,7 @@ export class GridView {
 				year: el.year,
 				isStartMonth: el.isStartMonth,
 				isMiddleMonth: el.isMiddleMonth,
+				today: el.today,
 			});
 		}
 		this.columns = data;

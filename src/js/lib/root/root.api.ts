@@ -32,6 +32,7 @@ export interface RootApiProps {
 	dayBottomLineColor?: string;
 	dayColor?: string;
 	dayFont?: string;
+	dayTodayBackground?: string;
 
 	dayColWidth?: number;
 	rowHeight?: number;
@@ -89,6 +90,7 @@ export class RootApi {
 	dayBottomLineColor: string;
 	dayColor: string;
 	dayFont: string;
+	dayTodayBackground: string;
 
 	dayColWidth: number;
 	rowHeight: number;
@@ -140,6 +142,7 @@ export class RootApi {
 		this.renderDayStartMonthLine = props.renderDayStartMonthLine ?? false;
 		this.dayStartMonthLine = props.dayStartMonthLine ?? '#EAEAEA';
 		this.dayBottomLineColor = props.dayBottomLineColor ?? '#EAEAEA';
+		this.dayTodayBackground = props.dayTodayBackground ?? 'rgba(255,165,0,0.2)';
 		this.dayFont = props.dayFont ?? '500 14px Arial';
 		this.dayColor = props.dayColor ?? '#222';
 
