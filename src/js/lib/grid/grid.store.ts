@@ -24,7 +24,7 @@ export class GridStore {
 	}
 
 	initialData() {
-		if(true) {
+		if(this.root.api.renderAllTasksFromStart) {
 			const [start_date_ts, end_date_ts] = this.root.tasks.service.getFirstAndLastDeadline();
 			const date = getDate(start_date_ts);
 			do {
@@ -34,6 +34,17 @@ export class GridStore {
 		}
 		this.addDatesBefore(this.root.view.offsetX);
 		this.addDatesAfter(this.root.view.offsetX);
+		
+	}
+
+	fillDataBefore(ts: number) {
+		const date = getDate(this.dates[0].ts);
+		if(date.getTime() > ts) {
+			do {
+				setDate(date, -1);
+				this.add(date, true);
+			} while(date.getTime() > ts);
+		}
 	}
 
 	add(date: Date, unshift = false) {

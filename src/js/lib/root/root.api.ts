@@ -15,7 +15,8 @@ export interface RootApiProps {
 	moveDependedOnResizeLeft?: boolean;
 	moveDependedOnMove?: boolean;
 	saveTime?: boolean;
-	minTaskWidth?: number;
+	startFromToday?: boolean;
+	renderAllTasksFromStart?: boolean;
 
 	showMonthMiddle?: boolean;
 	monthHeight?: number;
@@ -52,6 +53,7 @@ export interface RootApiProps {
 	taskFont?: string;
 	taskPadding?: number;
 	taskRadius?: number;
+	minTaskWidth?: number;
 
 	depRadius?: number;
 	depLineColor?: string;
@@ -73,7 +75,8 @@ export class RootApi {
 	moveDependedOnResizeLeft: boolean;
 	moveDependedOnMove: boolean;
 	saveTime: boolean;
-	minTaskWidth: number;
+	startFromToday: boolean;
+	renderAllTasksFromStart: boolean;
 
 	showMonthMiddle: boolean;
 	monthHeight: number;
@@ -109,6 +112,7 @@ export class RootApi {
 	taskPadding: number;
 	taskRadius: number;
 	taskFont: string;
+	minTaskWidth: number;
 
 	depRadius: number;
 	depLineColor: string;
@@ -127,7 +131,8 @@ export class RootApi {
 		this.moveDependedOnResizeLeft = props.moveDependedOnResizeLeft ?? false;
 		this.moveDependedOnMove = props.moveDependedOnMove ?? true;
 		this.saveTime = props.saveTime ?? true;
-		this.minTaskWidth = props.minTaskWidth ?? 20;
+		this.startFromToday = props.startFromToday ?? true;
+		this.renderAllTasksFromStart = props.renderAllTasksFromStart ?? true;
 		this.showMonthMiddle = props.showMonthMiddle ?? false;
 
 		this.monthHeight = props.monthHeight ?? 55;
@@ -162,6 +167,7 @@ export class RootApi {
 		this.taskPadding = props.taskPadding ?? 5;
 		this.taskRadius = props.taskRadius ?? 4;
 		this.taskFont = props.taskFont ?? "14px serif";
+		this.minTaskWidth = props.minTaskWidth ?? 20;
 
 		this.depRadius = props.depRadius ?? 8;
 		this.depLineColor = props.depLineColor ?? '#222';

@@ -19,7 +19,7 @@ export class GridModule {
 
 	init() {
 		this.store.initialData();
-		this.service.showCurrentDay();
+		if(this.root.api.startFromToday) this.service.showCurrentDay();
 	}
 
 }

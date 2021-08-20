@@ -20,7 +20,16 @@ export class GridService {
 		const index = this.module.store.dates
 			.map((({ts}) => ts))
 			.indexOf(dateTs);
-		const offsetX = index * this.module.view.colWidth;
+		let offsetX = index * this.module.view.colWidth;
+		if(offsetX < 0) {
+			const diff = dateTs - this.module.store.dates[0].ts;
+			if(diff > 0) {
+				offsetX = diff / this.module.view.tsHasOneX;
+			} else {
+				this.module.store.fillDataBefore(dateTs);
+				offsetX = 0;
+			}
+		}
 		this.root.view.handleSetOffsetX(offsetX, false);
 	}
 

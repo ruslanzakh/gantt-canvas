@@ -41,7 +41,11 @@ const tasks = [
 	},
 ]
 
-
+// 1577912400000
+// 1609448400000
+// 1640984400000
+// 1704056400000
+// 1735592400000
 const getStartDateTs = (min = 1609448400000, max = 1640984400000) => {
 	const diff = max - min;
 	const random = Math.floor(Math.random() * diff);
@@ -80,8 +84,8 @@ function getTasks() {
 	return tasks;
 }
 new Gantt('#app', {
-	tasks: tasks,
-	// tasks: getTasks(),
+	// tasks: tasks,
+	tasks: getTasks(),
 	handleChange(tasks) {
 		console.log(tasks);
 	}
