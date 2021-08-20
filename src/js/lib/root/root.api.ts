@@ -50,6 +50,7 @@ export interface RootApiProps {
 	taskHeight?: number;
 	taskFont?: string;
 	taskPadding?: number;
+	taskRadius?: number;
 
 	depRadius?: number;
 	depLineColor?: string;
@@ -57,6 +58,7 @@ export interface RootApiProps {
 
 	arrowColor?: string;
 	arrowActiveColor?: string;
+	arrowRadius?: number;
 
 	handleChange?(tasks: Task[]): Promise<void>;
 }
@@ -103,6 +105,7 @@ export class RootApi {
 	taskDefaultOutlineColor: string;
 	taskHeight: number;
 	taskPadding: number;
+	taskRadius: number;
 	taskFont: string;
 
 	depRadius: number;
@@ -111,6 +114,7 @@ export class RootApi {
 
 	arrowColor: string;
 	arrowActiveColor: string;
+	arrowRadius: number;
 
 	handleChange?: RootApiProps['handleChange'];
 
@@ -153,6 +157,7 @@ export class RootApi {
 		this.taskDefaultOutlineColor = props.taskDefaultOutlineColor ?? '#222';
 		this.taskHeight = props.taskHeight ?? 30;
 		this.taskPadding = props.taskPadding ?? 5;
+		this.taskRadius = props.taskRadius ?? 4;
 		this.taskFont = props.taskFont ?? "14px serif";
 
 		this.depRadius = props.depRadius ?? 8;
@@ -161,6 +166,7 @@ export class RootApi {
 
 		this.arrowColor = props.arrowColor ?? "#555";
 		this.arrowActiveColor = props.arrowActiveColor ?? "#88BECF";
+		this.arrowRadius = props.arrowRadius ?? 4;
 
 		this.handleChange = props.handleChange;
 	}

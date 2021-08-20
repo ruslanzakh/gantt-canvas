@@ -1,5 +1,5 @@
 import { RootModule } from '../../root/root.module';
-
+import { roundRect } from '../../utils/canvas';
 export interface TaskRender {
 	id: string;
 	x: number;
@@ -46,17 +46,14 @@ export class TaskEntity {
 		const ctx = this.root.ctx;
 		ctx.beginPath();
 		const top = ((h - this.root.api.taskHeight) / 2) + y;
-		ctx.rect(x, top, w, this.root.api.taskHeight);
 		ctx.fillStyle = (hover || hoverConnection) 
 			? this.root.api.taskDefaultHoverBackground
 			: this.root.api.taskDefaultBackground;
 	
-		ctx.fill();
-		
+		roundRect(ctx, x, top, w, this.root.api.taskHeight, this.root.api.taskRadius, true, false);
 		ctx.font = this.root.api.taskFont;
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
-		console.log(ctx.measureText(title));
 		
 		if(ctx.measureText(title).width < (w - (this.root.api.taskPadding * 2))) {
 			ctx.fillStyle = (hover || hoverConnection) 
@@ -96,21 +93,26 @@ export class TaskEntity {
 		const ctx = this.root.ctx;
 		ctx.strokeStyle =  this.root.api.arrowColor;
 		ctx.fillStyle =  this.root.api.arrowColor;
-		
+		const r = this.root.api.arrowRadius;
 		if(task.x > x) {
 			ctx.beginPath();
 			ctx.moveTo(x, y);
-			ctx.lineTo(x + 10, y);
-			ctx.lineTo(x + 10, targetY);
+			ctx.lineTo(x + 10 - r, y);
+			ctx.quadraticCurveTo(x + 10, y, x + 10, targetY < y ? y - r : y + r);
+			ctx.lineTo(x + 10, targetY > y ? targetY - r : targetY + r);
+			ctx.quadraticCurveTo(x + 10, targetY, x + 10 + r, targetY);
 			ctx.lineTo(task.x, targetY);
 			ctx.stroke();
 			this.renderArrowHead(x + 10,  targetY, task.x, targetY)
 		} else {
 			ctx.beginPath();
 			ctx.moveTo(x, y);
-			ctx.lineTo(x + 10, y);
-			ctx.lineTo(x + 10, y + (h / 2));
-			ctx.lineTo(task.x - 20, y + (h / 2));
+			ctx.lineTo(x + 10 - r, y);
+			ctx.quadraticCurveTo(x + 10, y, x + 10, y + r);
+			ctx.lineTo(x + 10, y + (h / 2) - r);
+			ctx.quadraticCurveTo(x + 10, y + (h / 2), x + 10 - r, y + (h / 2));
+			ctx.lineTo(task.x - 20 + r, y + (h / 2));
+			ctx.quadraticCurveTo(task.x - 20, y + (h / 2), task.x - 20, targetY > y ? y + (h / 2) + r : y + (h / 2) - r);
 			ctx.lineTo(task.x - 20, targetY);
 			ctx.lineTo(task.x, targetY);
 			ctx.stroke();

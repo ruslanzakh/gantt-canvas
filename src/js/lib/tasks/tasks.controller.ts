@@ -101,6 +101,7 @@ export class TasksController {
 		this.module.service.handleMoveTaskMouseUp();
 		this.destroyTaskMove();
 		this.mouseDownOffsetX = null;
+		this.module.store.setHoverConnectionTask(null);
 		document.removeEventListener('mouseup', this.handleTaskMoveMouseUp);
 	}
 	/** End Move Task */

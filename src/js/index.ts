@@ -3,7 +3,7 @@ import Gantt from './lib';
 const tasks = [
 	{
 		id: 'task1',
-		title: 'Task 1',
+		title: 'Very Very long Task 1',
 		start_date_ts: 1627670084597,
 		end_date_ts: 1627680084597,
 		all_day: true,
@@ -80,8 +80,8 @@ function getTasks() {
 	return tasks;
 }
 new Gantt('#app', {
-	// tasks: tasks,
-	tasks: getTasks(),
+	tasks: tasks,
+	// tasks: getTasks(),
 	handleChange(tasks) {
 		console.log(tasks);
 	}
