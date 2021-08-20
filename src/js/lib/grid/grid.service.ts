@@ -71,17 +71,19 @@ export class GridService {
 		return fullWidth;
 	}
 
-	getFullAvailableHeight() {
-		const canvas = this.root.canvas;
-		let fullHeight = this.module.view.rowHeight * this.root.api.tasks.length;
-		if(fullHeight < canvas.height) fullHeight = canvas.height;
+	getViewHeight() {
+		return this.root.canvas.height - this.root.grid.view.headerHeight - this.root.view.scrollbarY.bottomOffset;
+	}
 
+	getFullAvailableHeight() {
+		let fullHeight = this.module.view.rowHeight * this.root.api.tasks.length;
+		const viewHeight = this.getViewHeight();
+		if(fullHeight < viewHeight) fullHeight = viewHeight;
 		return fullHeight;
 	}
 
-	getFullAvailableGridHeight() {
-		const viewHeight = this.root.canvas.height - this.root.grid.view.headerHeight - this.root.view.scrollbarY.bottomOffset;
-		return this.root.grid.service.getFullAvailableHeight() - viewHeight;
+	getLeftAvailableHeight() {
+		return this.root.grid.service.getFullAvailableHeight() - this.getViewHeight();
 	}
 
 	validateOffsetX() {

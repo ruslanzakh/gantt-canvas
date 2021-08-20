@@ -46,11 +46,11 @@ export class TaskEntity {
 		const ctx = this.root.ctx;
 		ctx.beginPath();
 		const top = ((h - this.root.api.taskHeight) / 2) + y;
-		ctx.fillStyle = (hover || hoverConnection) 
+		const fillStyle = (hover || hoverConnection) 
 			? this.root.api.taskDefaultHoverBackground
 			: this.root.api.taskDefaultBackground;
 	
-		roundRect(ctx, x, top, w, this.root.api.taskHeight, this.root.api.taskRadius, true, false);
+		roundRect(ctx, x, top, w, this.root.api.taskHeight, this.root.api.taskRadius, fillStyle);
 		ctx.font = this.root.api.taskFont;
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';

@@ -1,14 +1,10 @@
 import { RootModule } from './root.module';
-import Circle from '../models/Circle';
-import Square from '../models/Square';
-import { ScrollbarEntity } from './entities/scrollbar.entity';
 import { ScrollbarXEntity } from './entities/scrollbar-x.entity';
 import { ScrollbarYEntity } from './entities/scrollbar-y.entity';
 import { animate, timing } from '../utils/animate';
 
 export class RootView {
 	root: RootModule;
-	scrollbar: ScrollbarEntity;
 	scrollbarX: ScrollbarXEntity;
 	scrollbarY: ScrollbarYEntity;
 
@@ -22,7 +18,6 @@ export class RootView {
 		this.updateCanvasSizeAndRender = this.updateCanvasSizeAndRender.bind(this);
 		this.updateCanvasSize();
 		this.attachEvents();
-		this.scrollbar = new ScrollbarEntity(root, {x: 10, y: 10});
 		this.scrollbarX = new ScrollbarXEntity(root);
 		this.scrollbarY = new ScrollbarYEntity(root);
 	}
@@ -42,7 +37,6 @@ export class RootView {
 
 		this.root.grid.view.renderGrid();
 		this.root.tasks.view.render();
-		this.scrollbar.render();
 		this.scrollbarX.render();
 		this.scrollbarY.render();
 		this.root.grid.view.renderHeader();

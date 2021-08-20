@@ -63,6 +63,17 @@ export interface RootApiProps {
 	arrowActiveColor?: string;
 	arrowRadius?: number;
 
+	scrollbarXHeight?: number;
+	scrollbarXBackground?: string;
+	scrollbarXLineBackground?: string;
+	scrollbarXLineRadius?: number;
+
+	scrollbarYWidth?: number;
+	scrollbarYBackground?: string;
+	scrollbarYLineBackground?: string;
+	scrollbarYLineRadius: number;
+
+
 	handleChange?(tasks: Task[]): Promise<void>;
 }
 
@@ -122,6 +133,16 @@ export class RootApi {
 	arrowActiveColor: string;
 	arrowRadius: number;
 
+	scrollbarXHeight: number;
+	scrollbarXBackground: string;
+	scrollbarXLineBackground: string;
+	scrollbarXLineRadius: number;
+
+	scrollbarYWidth: number;
+	scrollbarYBackground: string;
+	scrollbarYLineBackground: string;
+	scrollbarYLineRadius: number;
+
 	handleChange?: RootApiProps['handleChange'];
 
 	constructor(root: RootModule, props: RootApiProps) {
@@ -176,6 +197,16 @@ export class RootApi {
 		this.arrowColor = props.arrowColor ?? "#555";
 		this.arrowActiveColor = props.arrowActiveColor ?? "#88BECF";
 		this.arrowRadius = props.arrowRadius ?? 4;
+
+		this.scrollbarXHeight = props.scrollbarXHeight ?? 12;
+		this.scrollbarXBackground = props.scrollbarXBackground ?? '#eee';
+		this.scrollbarXLineBackground = props.scrollbarXLineBackground ?? '#ccc';
+		this.scrollbarXLineRadius = props.scrollbarXLineRadius ?? 6;
+
+		this.scrollbarYWidth = props.scrollbarYWidth ?? 12;
+		this.scrollbarYBackground = props.scrollbarYBackground ?? '#eee';
+		this.scrollbarYLineBackground = props.scrollbarYLineBackground ?? '#ccc';
+		this.scrollbarYLineRadius = props.scrollbarYLineRadius ?? 6;
 
 		this.handleChange = props.handleChange;
 	}

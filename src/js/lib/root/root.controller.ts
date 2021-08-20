@@ -87,7 +87,7 @@ export class RootController {
 			this.root.view.handleSetOffsetX(offsetX);
 		} else {
 			let offsetY = this.root.view.offsetY + event.deltaY;
-			const maxHeight = this.root.grid.service.getFullAvailableGridHeight();
+			const maxHeight = this.root.grid.service.getLeftAvailableHeight();
 			if(offsetY < 0) offsetY = 0;
 			else if(offsetY > maxHeight) offsetY = maxHeight; 
 			this.root.view.handleSetOffsetY(offsetY);

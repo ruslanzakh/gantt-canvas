@@ -11,8 +11,8 @@ export const roundRect = (
 	width: number,
 	height: number,
 	radius: number | number[] | RoundRectRadius,
-	fill: boolean,
-	stroke: boolean
+	fill?: string,
+	stroke?: string
 ) => {
 
 	if (typeof radius === 'number') {
@@ -21,6 +21,8 @@ export const roundRect = (
 		radius = {tl: radius[0], tr: radius[1], br: radius[2], bl: radius[3]};
 	}
 
+	if(fill) ctx.fillStyle = fill;
+	if(stroke) ctx.strokeStyle = stroke;
 	ctx.beginPath();
 	ctx.moveTo(x + radius.tl, y);
 	ctx.lineTo(x + width - radius.tr, y);
@@ -38,4 +40,8 @@ export const roundRect = (
 	if (stroke) {
 		ctx.stroke();
 	}
+	// hack because without this hack sometimes doesn't fill rect
+	// don't understand why - magic
+	ctx.beginPath();
+	ctx.closePath();
 }

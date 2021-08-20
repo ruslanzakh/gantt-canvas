@@ -35,7 +35,7 @@ export class TasksView {
 		});
 
 		this.tasksForArrows = Object.values(data).filter(task => {
-			if(task.y >= rowsOffsetY && task.y <= this.root.canvas.height) return true;
+			if((task.y + rowHeight) >= rowsOffsetY && task.y <= this.root.canvas.height) return true;
 			return task.next_ids.some(id => {
 				const target = data[id];
 				if(!target) return false;
@@ -46,7 +46,7 @@ export class TasksView {
 				return true;
 			})
 		});
-		this.tasks = this.tasksForArrows.filter(task => task.y >= rowsOffsetY 
+		this.tasks = this.tasksForArrows.filter(task => (task.y + rowHeight) >= rowsOffsetY 
 			&& task.y <= this.root.canvas.height);
 	}
 

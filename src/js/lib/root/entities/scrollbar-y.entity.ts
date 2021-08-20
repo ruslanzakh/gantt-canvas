@@ -1,4 +1,5 @@
 import { RootModule } from '../root.module';
+import { roundRect } from '../../utils/canvas';
 
 export class ScrollbarYEntity {
 	root: RootModule;
@@ -41,6 +42,7 @@ export class ScrollbarYEntity {
 	}
 
 	isLineClick(event: MouseEvent) {
+		if(!this.needRender()) return;
 		const { offsetX, offsetY } = event;
 		const { y, height } = this.getLineYAndHeight();
 		if(offsetX < this.left) return false;
@@ -49,6 +51,7 @@ export class ScrollbarYEntity {
 	}
 
 	isBackgroundClick(event: MouseEvent) {
+		if(!this.needRender()) return;
 		const { offsetX, offsetY } = event;
 		return offsetX >= this.left && offsetY > this.top && offsetY < this.root.canvas.height - this.bottomOffset;
 	}
@@ -80,7 +83,7 @@ export class ScrollbarYEntity {
 	}
 
 	getScaledOffset(offsetY: number) {
-		const fullHeight = this.root.grid.service.getFullAvailableGridHeight();
+		const fullHeight = this.root.grid.service.getLeftAvailableHeight();
 		offsetY = offsetY - this.top;
 
 		const scale = fullHeight / this.backgroundLineHeight;
@@ -110,25 +113,30 @@ export class ScrollbarYEntity {
 		if(this.mouseDownOffset !== null) {
 			const diff = event.screenY - this.mouseDownOffset;
 			let offset = this.root.view.offsetY + this.getScaledOffset(this.top + diff);
-			const fullHeight = this.root.grid.service.getFullAvailableGridHeight();
+			const fullHeight = this.root.grid.service.getLeftAvailableHeight();
 			if(offset > fullHeight) offset = fullHeight;
 			this.root.view.handleSetOffsetY(offset);
 			this.mouseDownOffset = event.screenY;
 		}
 	}
 
+	needRender() {
+		return this.root.grid.service.getLeftAvailableHeight() > 0;
+	}
+
 	renderBackground() {
+		if(!this.needRender()) return;
 		const ctx = this.root.ctx;
-		const canvas = this.root.canvas;
 		ctx.fillStyle = '#eee';
 		ctx.fillRect(this.left, this.top, this.width, this.backgroundLineHeight);
 	}
 
-	renderLine() {
+	renderLine() {		
+		if(!this.needRender()) return;
 		const ctx = this.root.ctx;
-		ctx.fillStyle = 'red';
 		const { y, height } = this.getLineYAndHeight();
-		ctx.fillRect(this.left, y + this.top, this.width, height);
+		roundRect(ctx, this.left, y + this.top, this.width, height, this.root.api.scrollbarYLineRadius, this.root.api.scrollbarYLineBackground);
+		this.root.ctx.fillStyle = this.root.api.scrollbarYLineBackground;
 	}
 
 	getLineYAndHeight() {

@@ -1,4 +1,5 @@
 import { RootModule } from '../root.module';
+import { roundRect } from '../../utils/canvas';
 
 
 export class ScrollbarXEntity {
@@ -8,8 +9,6 @@ export class ScrollbarXEntity {
 	
 	mouseDownOffset: number | null = null;
 
-	height = 12;
-	right = 12;
 	isHover = false;
 
 	constructor(root: RootModule) {
@@ -19,11 +18,16 @@ export class ScrollbarXEntity {
 		this.handleMoveScrollbar = this.handleMoveScrollbar.bind(this);
 	}
 
+	get height() {
+		return this.root.api.scrollbarXHeight;
+	}
+
 	get top() {
 		return this.root.canvas.height - this.height;
 	}
+
 	get backgroundLineWidth() {
-		return this.root.canvas.width - this.right;
+		return this.root.canvas.width;
 	}
 
 	attachEvents() {
@@ -96,17 +100,15 @@ export class ScrollbarXEntity {
 
 	renderBackground() {
 		const ctx = this.root.ctx;
-		const canvas = this.root.canvas;
-		ctx.fillStyle = '#eee';
-		ctx.fillRect(0, this.top, this.backgroundLineWidth, canvas.height);
+		ctx.fillStyle = this.root.api.scrollbarXBackground;
+		ctx.fillRect(0, this.top, this.backgroundLineWidth, this.height);
 	}
 
 	renderLine() {
 		const ctx = this.root.ctx;
-		const canvas = this.root.canvas;
-		ctx.fillStyle = 'red';
 		const { x, width } = this.getLineXAndWidth();
-		ctx.fillRect(x, this.top, width, canvas.height);
+		ctx.fillStyle = this.root.api.scrollbarXLineBackground;
+		roundRect(ctx, x, this.top, width, this.height, this.root.api.scrollbarXLineRadius, this.root.api.scrollbarXLineBackground);
 	}
 
 	getLineXAndWidth() {

@@ -147,14 +147,16 @@ export class GridView {
 		const headerOffset = this.rowsOffsetY + this.rowHeight;
 		const offsetY = headerOffset - this.root.view.offsetY - this.rowHeight;
 		const minY = this.rowsOffsetY - this.rowHeight;
-		for(let i = 0; i <= length; i++) {
-			const y = (i * this.rowHeight) + offsetY;
-			odd = !odd;
+		let i = Math.floor((-offsetY + minY) / this.rowHeight);
+		let y = 0;
+		do {
+			y = (i * this.rowHeight) + offsetY;
+			i++;
+			odd = i % 2 === 1;
 			if(y > height) break;
 			if(y < minY) continue;
 			data.push({ y, odd });
-		}
-		
+		} while(y <= height)
 		this.rows = data;
 	}
 
