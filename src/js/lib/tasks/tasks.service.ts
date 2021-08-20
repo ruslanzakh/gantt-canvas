@@ -19,6 +19,11 @@ export class TasksService {
 		return task || null;
 	}
 
+	getModuleStoreTaskById(id: string) {
+		const task = this.module.store.tasks.find(task => task.id === id);
+		return task || null;
+	}
+
 	getRenderedViewTaskById(id: string) {
 		const task = this.module.view.tasks.find(task => task.id === id);
 		return task || null;
@@ -27,8 +32,8 @@ export class TasksService {
 	getViewTaskById(id: string) {
 		const { rowHeight, rowsOffsetY} = this.root.grid.view;
 		const hoverId = this.module.store.hoverId;
-		const task = this.getRootStoreTaskById(id);
-		const index = this.root.api.tasks.indexOf(task);
+		const task = this.getModuleStoreTaskById(id);
+		const index = this.module.store.tasks.indexOf(task);
 		const { x, xx } = this.getTaskPos(task);
 		const w = xx - x;
 		const offsetY = rowsOffsetY - this.root.view.offsetY;
