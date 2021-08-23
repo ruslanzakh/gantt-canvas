@@ -42,7 +42,7 @@ export class ScrollbarYEntity {
 	}
 
 	isLineClick(event: MouseEvent) {
-		if(!this.needRender()) return;
+		if(!this.needRender()) return false;
 		const { offsetX, offsetY } = event;
 		const { y, height } = this.getLineYAndHeight();
 		if(offsetX < this.left) return false;
@@ -51,7 +51,7 @@ export class ScrollbarYEntity {
 	}
 
 	isBackgroundClick(event: MouseEvent) {
-		if(!this.needRender()) return;
+		if(!this.needRender()) return false;
 		const { offsetX, offsetY } = event;
 		return offsetX >= this.left && offsetY > this.top && offsetY < this.root.canvas.height - this.bottomOffset;
 	}

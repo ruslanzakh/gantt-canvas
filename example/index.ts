@@ -1,4 +1,4 @@
-import Gantt from './lib';
+import Gantt from '../src';
 
 const tasks = [
 	{
