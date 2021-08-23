@@ -1,13 +1,13 @@
 {
   "name": "gantt-canvas",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "parcel example/index.html",
     "build": "parcel build example/index.html --public-url ./",
-    "prepublish": "tsc"
+    "prepack": "tsc"
   },
   "keywords": [],
   "author": "",
