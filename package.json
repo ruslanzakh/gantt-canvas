@@ -6,8 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "parcel example/index.html",
-    "build": "parcel build example/index.html --public-url ./",
-    "prepublish": "tsc"
+    "dev-build": "parcel build example/index.html --public-url ./",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
