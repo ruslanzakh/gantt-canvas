@@ -45,3 +45,16 @@ export const roundRect = (
 	ctx.beginPath();
 	ctx.closePath();
 }
+
+
+export const getEventTouchOffsets = (event: TouchEvent, canvas: HTMLCanvasElement) => {
+	const rect = canvas.getBoundingClientRect();
+	const x = event.changedTouches[0]?.clientX ?? 0;
+	const y = event.changedTouches[0]?.clientY ?? 0;
+
+	const x_rel = x - rect.left;
+	const y_rel = y - rect.top;
+	const offsetX = Math.round((x_rel * canvas.width) / rect.width);
+	const offsetY = Math.round((y_rel * canvas.height) / rect.height);
+	return { offsetX, offsetY };
+}

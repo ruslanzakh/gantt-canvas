@@ -1,5 +1,6 @@
 import { RootModule } from '../../root/root.module';
 import { roundRect } from '../../utils/canvas';
+import { EventOffsets } from '../../utils/interfaces';
 export interface TaskRender {
 	id: string;
 	x: number;
@@ -22,7 +23,7 @@ export class TaskEntity {
 		this.root = root;
 	}
 
-	isHover(event: MouseEvent, task: TaskRender) {
+	isHover(event: EventOffsets, task: TaskRender) {
 		const { x, y, w } = task;
 		const h = this.root.grid.view.rowHeight;
 		const { offsetX, offsetY } = event;
@@ -206,7 +207,7 @@ export class TaskEntity {
 		roundRect(ctx, rightX, top, width, height, this.root.api.taskRenderResizeControlsRadius, this.root.api.taskRenderResizeControlsColor);
 	}
 
-	isControlsHover(event: MouseEvent, task: TaskRender): string | null {
+	isControlsHover(event: EventOffsets, task: TaskRender): string | null {
 		if(this.root.api.taskRenderResizeControls) {
 			return this.isRenderedControlsHover(event, task);
 		}
@@ -222,7 +223,7 @@ export class TaskEntity {
 		return null;
 	}
 
-	isRenderedControlsHover(event: MouseEvent, task: TaskRender): string | null {
+	isRenderedControlsHover(event: EventOffsets, task: TaskRender): string | null {
 		const { offsetX, offsetY } = event;
 		const { x, y, w } = task;
 

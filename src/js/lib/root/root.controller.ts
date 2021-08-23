@@ -124,7 +124,16 @@ export class RootController {
 	}
 
 
-	handleTouchEnd() {
+	handleTouchEnd(event: TouchEvent) {
+
+		if(!this.events.touchend) return;
+		this.events.touchend.every(cb => {
+			// @ts-ignore
+			if(event._stopPropagation) return false;
+			cb(event);
+			return true;
+		});
+
 		event.preventDefault();
 		this.touchOffsetX = null;
 		this.touchOffsetY = null;

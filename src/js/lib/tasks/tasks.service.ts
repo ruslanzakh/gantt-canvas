@@ -1,6 +1,7 @@
 import { RootModule } from '../root/root.module';
 import { TasksModule } from './tasks.module';
 import { Task } from '../root/root.api';
+import { EventOffsets } from '../utils/interfaces';
 
 export class TasksService {
 	root: RootModule;
@@ -107,14 +108,13 @@ export class TasksService {
 	/** End getters */
 
 	/** Start commons */
-	getHoverId(event: MouseEvent) {
+	getHoverId(event: EventOffsets) {
 		let hoverId: string | null = null;
 		let resize: string | null = null;
 		let depFromId: string | null = null;
 		const { tasks, taskEntity } = this.module.view;
-		const rowHeight = this.root.grid.view.rowHeight;
 		for(let item of tasks) {
-			const data = taskEntity.isHover(event, item, rowHeight);
+			const data = taskEntity.isHover(event, item);
 
 			if(data.depFrom) depFromId = item.id;
 			if(data.resize) resize = data.resize;
@@ -171,6 +171,23 @@ export class TasksService {
 		return diff;
 	}
 	/** End commons */
+
+	handleClickTask(event: MouseEvent) {
+		if(!this.root.api.handleTaskClick) return;
+		const { hoverId } = this.getHoverId(event);
+		const hoveredTask = this.getRootStoreTaskById(hoverId);
+		if(!hoveredTask) return;
+		this.root.api.handleTaskClick(hoveredTask);
+	}
+
+	handleTouchTask(event: EventOffsets) {
+		if(!this.root.api.handleTaskClick) return;
+		const { hoverId } = this.module.service.getHoverId(event);
+		if(!hoverId) return;
+		const hoveredTask = this.getRootStoreTaskById(hoverId);
+		if(!hoveredTask) return;
+		this.root.api.handleTaskClick(hoveredTask);
+	}
 
 	/** Start Add Dependencies */
 	handleAddDepMouseMove(event: MouseEvent) {

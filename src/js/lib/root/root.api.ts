@@ -82,10 +82,11 @@ export interface RootApiProps {
 	scrollbarYWidth?: number;
 	scrollbarYBackground?: string;
 	scrollbarYLineBackground?: string;
-	scrollbarYLineRadius: number;
+	scrollbarYLineRadius?: number;
 
 
 	handleChange?(tasks: Task[]): Promise<void>;
+	handleTaskClick?(task: Task): Promise<void>;
 }
 
 export class RootApi {
@@ -162,6 +163,7 @@ export class RootApi {
 	scrollbarYLineRadius: number;
 
 	handleChange?: RootApiProps['handleChange'];
+	handleTaskClick?: RootApiProps['handleTaskClick'];
 
 	constructor(root: RootModule, props: RootApiProps) {
 		this.root = root;
@@ -234,6 +236,7 @@ export class RootApi {
 		this.scrollbarYLineRadius = props.scrollbarYLineRadius ?? 6;
 
 		this.handleChange = props.handleChange;
+		this.handleTaskClick = props.handleTaskClick;
 	}
 
 	updateTasks(tasks: Task[]) {

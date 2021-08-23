@@ -7,21 +7,28 @@ const tasks = [
 		start_date_ts: 1627670084597,
 		end_date_ts: 1627680084597,
 		all_day: true,
-		next_ids: ['task2', 'task3']
+		next_ids: ['task2', 'task3'],
+		background: 'orange',
+		backgroundHover: 'blue',
+		color: 'black',
+		colorHover: 'green',
 	},
 	{
 		id: 'task2',
 		title: 'Task 2',
 		start_date_ts: 1627904121049,
 		end_date_ts: 1628163321049,
-		next_ids: ['task3']
+		next_ids: ['task3'],
+		background: 'pink',
 	},
 	{
 		id: 'task3',
 		title: 'Task 3',
 		start_date_ts: 1628004121049,
 		end_date_ts: 1628763321049,
-		next_ids: ['task4']
+		next_ids: [],
+		background: 'red',
+		color: 'green',
 	},
 	{
 		id: 'task4',
@@ -29,15 +36,22 @@ const tasks = [
 		all_day: true,
 		start_date_ts: 1627670084597,
 		end_date_ts: 1628163321049,
-		next_ids: ['task3']
+		next_ids: []
 	},
 	{
 		id: 'task5',
-		title: 'Task 4',
+		title: 'Task 5',
 		start_date_ts: 1628163321049,
 		end_date_ts: 1628163321049,
 		all_day: true,
 		next_ids: ['task4']
+	},
+	{
+		id: 'task6',
+		title: 'Task 6',
+		start_date_ts: 1628163321049,
+		end_date_ts: 1628163321049,
+		next_ids: []
 	},
 ]
 
@@ -67,7 +81,7 @@ const getNextIds = (tasks, end_date_ts: number) => {
 
 function getTasks() {
 	const tasks = [];
-	for(let i = 0; i <= 1000; i++ ){
+	for(let i = 0; i <= 50; i++ ){
 		const start_date_ts = getStartDateTs();
 		const end_date_ts = start_date_ts + (Math.floor(Math.random() * 5) * 24 * 60 * 60 * 1000)
 
@@ -84,9 +98,13 @@ function getTasks() {
 	return tasks;
 }
 new Gantt('#app', {
-	// tasks: tasks,
-	tasks: getTasks(),
-	handleChange(tasks) {
+	tasks: tasks,
+	// tasks: getTasks().sort((a, b) => a.start_date_ts - b.start_date_ts),
+	// tasks: getTasks(),
+	handleChange: async (tasks) => {
 		console.log(tasks);
+	},
+	handleTaskClick: async (task) => {
+		console.log('handleTaskClick', task);
 	}
 });

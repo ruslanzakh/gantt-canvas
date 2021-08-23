@@ -1,4 +1,5 @@
 import { RootModule } from '../root/root.module';
+import { getEventTouchOffsets } from '../utils/canvas';
 import { TasksModule } from './tasks.module';
 
 export class TasksController {
@@ -10,6 +11,7 @@ export class TasksController {
 	destroyResizeMouseMove: Function;
 	destroyTaskMove: Function;
 	destroyAddDepMove: Function;
+	destroyTouchEnd: Function;
 
 	moveMode: boolean = false;
 	addDepMode: boolean = false;
@@ -27,11 +29,22 @@ export class TasksController {
 	attachEvents() {
 		this.destroyMouseDown = this.root.controller.on('mousedown', this.handleMouseDown.bind(this));
 		this.destroyMouseMove = this.root.controller.on('mousemove', this.handleMouseMove.bind(this));
+		this.destroyTouchEnd = this.root.controller.on('touchend', this.handleTouchEnd.bind(this));
 	}
 
 	destroyEvents() {
 		this.destroyMouseDown();
 		this.destroyMouseMove();
+		this.destroyTouchEnd();
+	}
+
+	handleTouchEnd(event: TouchEvent) {
+		const offsetX = event.changedTouches[0]?.screenX;
+		const offsetY = event.changedTouches[0]?.screenY;
+		if(offsetX !== this.root.controller.touchOffsetX
+			|| offsetY !== this.root.controller.touchOffsetY) return;
+		const eventOffsets = getEventTouchOffsets(event, this.root.canvas);
+		this.module.service.handleTouchTask(eventOffsets);
 	}
 
 	handleMouseDown(event: MouseEvent) {
@@ -97,9 +110,11 @@ export class TasksController {
 		this.module.service.handleMoveTaskMouseMove(event);
 	}
 
-	handleTaskMoveMouseUp() {
+	handleTaskMoveMouseUp(event: MouseEvent) {
+		if(this.mouseDownOffsetX === event.offsetX) this.module.service.handleClickTask(event);
 		this.module.service.handleMoveTaskMouseUp();
 		this.destroyTaskMove();
+		console.log(event.offsetX, this.mouseDownOffsetX);
 		this.mouseDownOffsetX = null;
 		this.module.store.setHoverConnectionTask(null);
 		document.removeEventListener('mouseup', this.handleTaskMoveMouseUp);
