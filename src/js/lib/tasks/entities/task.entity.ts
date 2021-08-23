@@ -9,6 +9,10 @@ export interface TaskRender {
 	hoverConnection: boolean
 	title: string;
 	next_ids: string[];
+	background?: string;
+	color?: string;
+	backgroundHover?: string;
+	colorHover?: string;
 }
 
 export class TaskEntity {
@@ -40,32 +44,17 @@ export class TaskEntity {
 		return { hover, resize, depFrom };
 	}
 
-	renderItem({x, y, w, title, hover, hoverConnection}: TaskRender) {
+	renderItem(task: TaskRender) {
+		const { x, y, w, hover } = task;
 		const h = this.root.grid.view.rowHeight;
 		if(x >= this.root.canvas.width || w === 0) return;
 		const ctx = this.root.ctx;
 		ctx.beginPath();
 		const top = ((h - this.root.api.taskHeight) / 2) + y;
-		const fillStyle = (hover || hoverConnection) 
-			? this.root.api.taskDefaultHoverBackground
-			: this.root.api.taskDefaultBackground;
+		const fillStyle = this.getTaskFillStyle(task);
 	
 		roundRect(ctx, x, top, w, this.root.api.taskHeight, this.root.api.taskRadius, fillStyle);
-		ctx.font = this.root.api.taskFont;
-		ctx.textAlign = 'center';
-		ctx.textBaseline = 'middle';
-		
-		if(ctx.measureText(title).width < (w - (this.root.api.taskPadding * 2))) {
-			ctx.fillStyle = (hover || hoverConnection) 
-				? this.root.api.taskDefaultHoverColor
-				: this.root.api.taskDefaultColor;
-			ctx.textAlign = 'center';
-			ctx.fillText(title, x + (w / 2), top + (this.root.api.taskHeight / 2));
-		} else {
-			ctx.fillStyle = this.root.api.taskDefaultOutlineColor;
-			ctx.textAlign = 'left';
-			ctx.fillText(title, x + w + (this.root.api.depRadius * 2), top + (this.root.api.taskHeight / 2));
-		}
+		this.renderTaskText(task, top);
 		if(hover) this.renderRightDep(x + w, top + (this.root.api.taskHeight / 2))
 	}
 
@@ -180,5 +169,40 @@ export class TaskEntity {
 		//draws the paths created above
 		ctx.stroke();
 		ctx.fill();
+	}
+
+
+	renderTaskText(task: TaskRender, top: number) {
+		const { x, w, title } = task;
+		const ctx = this.root.ctx;
+		ctx.font = this.root.api.taskFont;
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+		
+		if(ctx.measureText(title).width < (w - (this.root.api.taskPadding * 2))) {
+			ctx.fillStyle = this.getTaskColor(task);
+			ctx.textAlign = 'center';
+			ctx.fillText(title, x + (w / 2), top + (this.root.api.taskHeight / 2));
+		} else {
+			ctx.fillStyle = this.root.api.taskDefaultOutlineColor;
+			ctx.textAlign = 'left';
+			ctx.fillText(title, x + w + (this.root.api.depRadius * 2), top + (this.root.api.taskHeight / 2));
+		}
+	}
+
+	getTaskFillStyle(task: TaskRender): string {
+		const { hover, hoverConnection, background, backgroundHover } = task;
+		if(hover || hoverConnection) {
+			return backgroundHover ?? this.root.api.taskDefaultHoverBackground;
+		}
+		return background ?? this.root.api.taskDefaultBackground;
+	}
+
+	getTaskColor(task: TaskRender): string {
+		const {hover, hoverConnection, color, colorHover} = task;
+		if(hover || hoverConnection) {
+			return colorHover ?? this.root.api.taskDefaultHoverColor;
+		}
+		return color ?? this.root.api.taskDefaultColor;
 	}
 }

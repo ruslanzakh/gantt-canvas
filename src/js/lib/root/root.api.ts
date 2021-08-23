@@ -7,6 +7,10 @@ export interface Task {
 	all_day?: boolean;
 	end_date_ts: number;
 	next_ids: string[];
+	background?: string;
+	backgroundHover?: string;
+	color?: string;
+	colorHover?: string;
 }
 
 export interface RootApiProps {
