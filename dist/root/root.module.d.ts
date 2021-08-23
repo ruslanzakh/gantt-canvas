@@ -1,4 +1,4 @@
-import { GridModule } from 'grid/grid.module';
+import { GridModule } from '../grid/grid.module';
 import { TasksModule } from '../tasks/tasks.module';
 import { RootApi, RootApiProps } from './root.api';
 import { RootView } from './root.view';

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RootModule = void 0;
-var grid_module_1 = require("grid/grid.module");
+var grid_module_1 = require("../grid/grid.module");
 var tasks_module_1 = require("../tasks/tasks.module");
 var root_api_1 = require("./root.api");
 var root_view_1 = require("./root.view");

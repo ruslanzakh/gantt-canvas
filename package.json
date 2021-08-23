@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "parcel example/index.html",
     "build": "parcel build example/index.html --public-url ./",
-    "prepack": "tsc"
+    "prepublish": "tsc"
   },
   "keywords": [],
   "author": "",
