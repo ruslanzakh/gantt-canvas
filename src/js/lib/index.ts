@@ -1,10 +1,8 @@
-import { RootModule, RootModuleProps } from './root/root.module';
-
-export interface GanttProps extends RootModuleProps {};
+import { RootModule, RootApiProps } from './root/root.module';
 
 class Gantt {
 	root: RootModule;
-	constructor(el: string, props: GanttProps) {
+	constructor(el: string, props: RootApiProps) {
 		this.root = new RootModule(el, props);
 	}
 }

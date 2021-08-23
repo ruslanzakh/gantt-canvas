@@ -3,6 +3,7 @@ import { TasksModule } from '../tasks/tasks.module';
 import { RootApi, RootApiProps } from './root.api';
 import { RootView } from './root.view';
 import { RootController } from './root.controller';
+export { RootApiProps } from './root.api';
 
 
 export class RootModule {
