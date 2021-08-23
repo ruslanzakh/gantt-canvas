@@ -241,6 +241,7 @@ export class RootApi {
 
 	updateTasks(tasks: Task[]) {
 		this.tasks = tasks;
+		this.root.render();
 	}
 
 

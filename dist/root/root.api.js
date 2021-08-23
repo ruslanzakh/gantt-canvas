@@ -68,6 +68,7 @@ var RootApi = /** @class */ (function () {
     }
     RootApi.prototype.updateTasks = function (tasks) {
         this.tasks = tasks;
+        this.root.render();
     };
     return RootApi;
 }());
