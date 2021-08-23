@@ -8,7 +8,7 @@ export function animate(options: AnimateOptions) {
 
 	var start = performance.now();
   
-	requestAnimationFrame(function animate(time) {
+	requestAnimationFrame(function animate(time: number) {
 	  // timeFraction от 0 до 1
 	  var timeFraction = (time - start) / options.duration;
 	  if (timeFraction > 1) timeFraction = 1;
@@ -27,8 +27,8 @@ export function animate(options: AnimateOptions) {
 
 export const timing = makeEaseOut(circle)
 
-function makeEaseOut(timing) {
-	return function(timeFraction) {
+function makeEaseOut(timing: (fraction: number) => number) {
+	return function(timeFraction: number) {
 		return 1 - timing(1 - timeFraction);
 	}
 }

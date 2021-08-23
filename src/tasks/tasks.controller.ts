@@ -6,12 +6,12 @@ export class TasksController {
 	root: RootModule;
 	module: TasksModule;
 
-	destroyMouseDown: Function;
-	destroyMouseMove: Function;
-	destroyResizeMouseMove: Function;
-	destroyTaskMove: Function;
-	destroyAddDepMove: Function;
-	destroyTouchEnd: Function;
+	destroyMouseDown?: Function;
+	destroyMouseMove?: Function;
+	destroyResizeMouseMove?: Function;
+	destroyTaskMove?: Function;
+	destroyAddDepMove?: Function;
+	destroyTouchEnd?: Function;
 
 	moveMode: boolean = false;
 	addDepMode: boolean = false;
@@ -33,9 +33,9 @@ export class TasksController {
 	}
 
 	destroyEvents() {
-		this.destroyMouseDown();
-		this.destroyMouseMove();
-		this.destroyTouchEnd();
+		this.destroyMouseDown && this.destroyMouseDown();
+		this.destroyMouseMove && this.destroyMouseMove();
+		this.destroyTouchEnd && this.destroyTouchEnd();
 	}
 
 	handleTouchEnd(event: TouchEvent) {
@@ -86,7 +86,7 @@ export class TasksController {
 		this.module.service.handleResizeTaskMouseUp();
 		this.resizeMoveMode = null;
 		this.mouseDownOffsetX = null;
-		this.destroyResizeMouseMove();
+		this.destroyResizeMouseMove && this.destroyResizeMouseMove();
 		document.removeEventListener('mouseup', this.handleResizeMouseUp);
 	}
 	/** End Resize Task */
@@ -100,7 +100,7 @@ export class TasksController {
 		this.mouseDownOffsetX = null;
 		this.addDepMode = false;
 		this.module.service.handleAddDepMouseUp(event)
-		this.destroyAddDepMove();
+		this.destroyAddDepMove && this.destroyAddDepMove();
 		document.removeEventListener('mouseup', this.handleAddDepMouseUp);
 	}
 	/** End Add Dependencies */
@@ -113,7 +113,7 @@ export class TasksController {
 	handleTaskMoveMouseUp(event: MouseEvent) {
 		if(this.mouseDownOffsetX === event.offsetX) this.module.service.handleClickTask(event);
 		this.module.service.handleMoveTaskMouseUp();
-		this.destroyTaskMove();
+		this.destroyTaskMove && this.destroyTaskMove();
 		console.log(event.offsetX, this.mouseDownOffsetX);
 		this.mouseDownOffsetX = null;
 		this.module.store.setHoverConnectionTask(null);

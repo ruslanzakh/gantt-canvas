@@ -146,7 +146,7 @@ export class TaskEntity {
 		}
 	}
 	
-	renderArrowHead(fromx, fromy, tox, toy){
+	renderArrowHead(fromx: number, fromy: number, tox: number, toy: number){
 		const ctx = this.root.ctx;
 		//variables to be used when creating the arrow
 		var headlen = 10;

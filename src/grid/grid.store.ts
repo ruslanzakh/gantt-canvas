@@ -66,7 +66,7 @@ export class GridStore {
 	}
 
 	
-	addDatesBefore(offsetX) {
+	addDatesBefore(offsetX: number) {
 		if(offsetX > this.root.canvas.width) return;
 		
 		const data = this.dates;
@@ -84,7 +84,7 @@ export class GridStore {
 		this.root.view.offsetX = offsetX;
 	}
 
-	addDatesAfter(offsetX) {
+	addDatesAfter(offsetX: number) {
 		const data = this.dates;
 		const fullDataWidth = this.module.service.getFullAvailableWidth();
 		const { colsOnScreen, colWidth } = this.module.view;

@@ -67,8 +67,8 @@ export class TasksView {
 		if(this.module.store.hoverId && this.module.controller.addDepMode) {
 			this.taskEntity.renderArrowFrom(
 				this.module.store.hoverId,
-				this.module.store.addDepOffsetX,
-				this.module.store.addDepOffsetY);
+				this.module.store.addDepOffsetX || 0,
+				this.module.store.addDepOffsetY || 0);
 		}
 	}
 

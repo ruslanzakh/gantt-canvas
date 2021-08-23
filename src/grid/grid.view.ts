@@ -3,6 +3,7 @@ import { GridModule } from './grid.module';
 import { ColumnEntity, ColumnRender, ColumnRenderCommon } from './entities/column.entity';
 import { MonthEntity, MonthRender } from './entities/month.entity';
 import { RowEntity, RowRender } from './entities/row.entity';
+import { ObjectList } from '../utils/interfaces';
 
 const MONTHS = [
 	'январь',
@@ -35,8 +36,8 @@ export class GridView {
 	rowEntity: RowEntity;
 
 	columns: RichedColumnRender[] = [];
-	rows: RowRender[];
-	months: MonthRender[];
+	rows: RowRender[] = [];
+	months: MonthRender[] = [];
 
 	firstTsOnScreen = 0;
 
@@ -113,7 +114,7 @@ export class GridView {
 
 
 	fillMonths() {
-		const data = this.columns.reduce((prev, {month, x, year, isMiddleMonth}) => {
+		const data = this.columns.reduce((prev: ObjectList<MonthRender>, {month, x, year, isMiddleMonth}) => {
 			const xx = x + this.colWidth;
 			const label = month + '.' + year;
 			if(!prev[label]) {

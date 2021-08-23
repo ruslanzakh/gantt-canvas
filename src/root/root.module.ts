@@ -17,8 +17,15 @@ export class RootModule {
 	tasks: TasksModule;
 
 	constructor(el: string, props: RootApiProps) {
-		this.root = document.querySelector(el);
-		this.createInitialCanvas();
+		const elem: HTMLElement | null = document.querySelector(el);
+		if(!elem) throw new Error('Root element doesn\'t found');
+		this.root = elem;
+		this.canvas = document.createElement('canvas');
+		this.root.append(this.canvas);
+		const ctx = this.canvas.getContext('2d');
+		if(!ctx) throw new Error('Canvas context doesn\'t gotten');
+		this.ctx = ctx;
+	
 		this.api = new RootApi(this, props);
 		this.controller = new RootController(this);
 		this.view = new RootView(this);
@@ -35,12 +42,6 @@ export class RootModule {
 
 	render() {
 		this.view.render();
-	}
-
-	createInitialCanvas() {
-		this.canvas = document.createElement('canvas');
-		this.root.append(this.canvas);
-		this.ctx = this.canvas.getContext('2d');
 	}
 
 }

@@ -7,7 +7,7 @@ export class TasksService {
 	root: RootModule;
 	module: TasksModule;
 
-	intervalChangeOffset: ReturnType<typeof setInterval> = null;
+	intervalChangeOffset: ReturnType<typeof setInterval> | null = null;
 
 	constructor(root: RootModule, module: TasksModule) {
 		this.root = root;
@@ -15,7 +15,8 @@ export class TasksService {
 	}
 
 	/** Start getters */
-	getRootStoreTaskById(id: string) {
+	getRootStoreTaskById(id: string | null) {
+		if(!id) return null;
 		const task = this.root.api.tasks.find(task => task.id === id);
 		return task || null;
 	}
@@ -34,6 +35,7 @@ export class TasksService {
 		const { rowHeight, rowsOffsetY} = this.root.grid.view;
 		const hoverId = this.module.store.hoverId;
 		const task = this.getModuleStoreTaskById(id);
+		if(!task) return null;
 		const index = this.module.store.tasks.indexOf(task);
 		const { x, xx } = this.getTaskPos(task);
 		const w = xx - x;
@@ -49,6 +51,7 @@ export class TasksService {
 
 	getStoreDependedTasksById(id: string, tasks: Task[] = []) {
 		const task = this.getRootStoreTaskById(id);
+		if(!task) return tasks;
 		tasks.push(task);
 		task.next_ids.forEach(id => {
 			if(tasks.find(task => task.id === id)) return;
@@ -73,20 +76,20 @@ export class TasksService {
 	}
 
 	getFirstTaskByDeadline() {
-		const task = this.root.api.tasks.reduce((prev, item) => {
+		const task = this.root.api.tasks.reduce((prev: Task, item: Task) => {
 			if(!prev) return item;
 			if(prev.start_date_ts > item.start_date_ts) return item;
 			return prev;
-		}, null);
+		},  this.root.api.tasks[0]);
 		return task;
 	}
 
 	getLastTaskByDeadline() {
-		const task = this.root.api.tasks.reduce((prev, item) => {
+		const task = this.root.api.tasks.reduce((prev: Task, item: Task) => {
 			if(!prev) return item;
 			if(prev.end_date_ts < item.end_date_ts) return item;
 			return prev;
-		}, null);
+		}, this.root.api.tasks[0]);
 		return task;
 	}
 
@@ -139,7 +142,7 @@ export class TasksService {
 		
 		if(changeOffsetValue !== 0 && !this.intervalChangeOffset) {
 			this.intervalChangeOffset = setInterval(() => {
-				this.module.controller.mouseDownOffsetX -= changeOffsetValue;
+				this.module.controller.mouseDownOffsetX = (this.module.controller.mouseDownOffsetX || 0) -changeOffsetValue;
 
 				if(this.module.controller.addDepMode) this.updateDepOffsets(event)
 				else if(this.module.controller.resizeMoveMode) this.resizeTaskByResizeMode(offsetX);
@@ -161,7 +164,7 @@ export class TasksService {
 	}
 
 	getDiff(offsetX: number, all_day = false) {
-		const offsetDiff = offsetX - this.module.controller.mouseDownOffsetX;
+		const offsetDiff = offsetX - (this.module.controller.mouseDownOffsetX || 0);
 		let diff = this.root.grid.service.getTsByOffsetDiff(offsetDiff);
 		if(all_day || this.root.api.saveTime) {
 			const colTs = this.root.grid.view.colTs;
@@ -175,6 +178,7 @@ export class TasksService {
 	handleClickTask(event: MouseEvent) {
 		if(!this.root.api.handleTaskClick) return;
 		const { hoverId } = this.getHoverId(event);
+		if(!hoverId) return;
 		const hoveredTask = this.getRootStoreTaskById(hoverId);
 		if(!hoveredTask) return;
 		this.root.api.handleTaskClick(hoveredTask);
@@ -199,7 +203,7 @@ export class TasksService {
 
 	handleAddDepMouseUp(event: MouseEvent) {
 		const { hoverId } = this.getHoverId(event);
-		if(hoverId && hoverId !== this.module.store.hoverId) {
+		if(hoverId && this.module.store.hoverId && hoverId !== this.module.store.hoverId) {
 			const hoveredTask = this.getRootStoreTaskById(hoverId);
 			const currentTask = this.getRootStoreTaskById(this.module.store.hoverId);
 			if(hoveredTask && currentTask && !currentTask.next_ids.includes(hoverId)) {
@@ -209,7 +213,7 @@ export class TasksService {
 				};
 				this.module.store.addModTask(task);
 				this.module.store.saveModTasks();
-				this.root.api.handleChange([task]);
+				this.root.api.handleChange && this.root.api.handleChange([task]);
 			}
 		}
 		this.clearScrollInterval();
@@ -290,7 +294,7 @@ export class TasksService {
 
 	handleResizeTaskMouseUp() {
 		const tasks = Object.values(this.module.store.modifiedTasks);
-		this.root.api.handleChange(tasks);
+		this.root.api.handleChange && this.root.api.handleChange(tasks);
 		this.clearScrollInterval();
 		this.module.store.saveModTasks();
 	}
@@ -318,7 +322,7 @@ export class TasksService {
 		}
 	}
 
-	moveDependedTasks(task: Task, diff) {
+	moveDependedTasks(task: Task, diff: number) {
 		const tasks = this.getStoreDependedTasksById(task.id);
 		tasks.forEach((el) => this.saveMoveTask(el, diff));
 	}
@@ -334,7 +338,7 @@ export class TasksService {
 
 	handleMoveTaskMouseUp() {
 		const tasks = Object.values(this.module.store.modifiedTasks);
-		this.root.api.handleChange(tasks);
+		this.root.api.handleChange && this.root.api.handleChange(tasks);
 		this.clearScrollInterval();
 		this.module.store.saveModTasks();
 	}

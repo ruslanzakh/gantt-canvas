@@ -13,7 +13,8 @@ export class ScrollbarXEntity {
 
 	constructor(root: RootModule) {
 		this.root = root;
-		this.attachEvents();
+		this.destroyHandleMouseDown = this.root.controller.on('mousedown', this.handleMouseDown.bind(this));
+		this.destroyMouseMove = this.root.controller.on('mousemove', this.handleMouseMove.bind(this));
 		this.handleMouseUp = this.handleMouseUp.bind(this);
 		this.handleMoveScrollbar = this.handleMoveScrollbar.bind(this);
 	}
@@ -28,11 +29,6 @@ export class ScrollbarXEntity {
 
 	get backgroundLineWidth() {
 		return this.root.canvas.width;
-	}
-
-	attachEvents() {
-		this.destroyHandleMouseDown = this.root.controller.on('mousedown', this.handleMouseDown.bind(this));
-		this.destroyMouseMove = this.root.controller.on('mousemove', this.handleMouseMove.bind(this));
 	}
 
 	destroyEvents() {

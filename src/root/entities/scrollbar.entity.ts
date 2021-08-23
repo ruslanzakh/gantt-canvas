@@ -21,10 +21,6 @@ export class ScrollbarEntity {
 		this.root = root;
 		this.x = x;
 		this.y = y;
-		this.attachEvents();
-	}
-
-	attachEvents() {
 		this.destroyHandleClick = this.root.controller.on('click', this.handleClick.bind(this));
 		this.destroyMouseMove = this.root.controller.on('mousemove', this.handleMouseMove.bind(this));
 	}

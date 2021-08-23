@@ -34,10 +34,9 @@ export class RootController {
 		this.root.canvas.removeEventListener('mousemove', this.handleMouseMove);
 	}
 
-	on(event: string, callback) {
+	on<T extends Event>(event: string, callback: (event: T) => void) {
 		if(!this.events[event]) this.events[event] = [];
 		this.events[event].push(callback);
-		console.log(this.events);
 		
 		return () => {
 			this.events[event] = this.events[event].filter(cb => cb !== callback);
