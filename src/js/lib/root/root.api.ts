@@ -64,9 +64,11 @@ export interface RootApiProps {
 	taskRenderResizeControlsColor?: string;
 	taskRenderResizeControlsRadius?: number;
 
-	depRadius?: number;
-	depLineColor?: string;
-	depBackground?: string;
+	taskRenderDepControl?: boolean;
+	taskRenderDepRadius?: number;
+	taskRenderDepLineColor?: string;
+	taskRenderDepBackground?: string;
+	taskRenderDepOffsetX?: number;
 
 	arrowColor?: string;
 	arrowActiveColor?: string;
@@ -139,9 +141,11 @@ export class RootApi {
 	taskRenderResizeControlsColor: string;
 	taskRenderResizeControlsRadius: number;
 
-	depRadius: number;
-	depLineColor: string;
-	depBackground: string;
+	taskRenderDepControl: boolean;
+	taskRenderDepRadius: number;
+	taskRenderDepLineColor: string;
+	taskRenderDepBackground: string;
+	taskRenderDepOffsetX: number;
 
 	arrowColor: string;
 	arrowActiveColor: string;
@@ -202,16 +206,18 @@ export class RootApi {
 		this.taskPadding = props.taskPadding ?? 5;
 		this.taskRadius = props.taskRadius ?? 4;
 		this.taskFont = props.taskFont ?? "14px serif";
-		this.minTaskWidth = props.minTaskWidth ?? 20;
+		this.minTaskWidth = props.minTaskWidth ?? 25;
 
 		this.taskRenderResizeControls = props.taskRenderResizeControls ?? true;
 		this.taskRenderResizeControlsWidth = props.taskRenderResizeControlsWidth ?? 6;
 		this.taskRenderResizeControlsColor = props.taskRenderResizeControlsColor ?? '#fff';
 		this.taskRenderResizeControlsRadius = props.taskRenderResizeControlsRadius ?? 4;
 
-		this.depRadius = props.depRadius ?? 8;
-		this.depLineColor = props.depLineColor ?? '#222';
-		this.depBackground = props.depBackground ?? '#fff';
+		this.taskRenderDepControl = props.taskRenderDepControl ?? true;
+		this.taskRenderDepRadius = props.taskRenderDepRadius ?? 7;
+		this.taskRenderDepOffsetX = props.taskRenderDepOffsetX ?? 7;
+		this.taskRenderDepLineColor = props.taskRenderDepLineColor ?? '#222';
+		this.taskRenderDepBackground = props.taskRenderDepBackground ?? '#fff';
 
 		this.arrowColor = props.arrowColor ?? "#555";
 		this.arrowActiveColor = props.arrowActiveColor ?? "#88BECF";

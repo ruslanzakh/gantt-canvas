@@ -28,7 +28,7 @@ export class TaskEntity {
 		const { offsetX, offsetY } = event;
 		let resize = null;
 		let depFrom = null;
-		const xx = x + w + this.root.api.depRadius;
+		const xx = this.getTaskXX(x, w);
 		const yy = y + h;
 		const hover = x < offsetX 
 			&& offsetX < xx
@@ -36,9 +36,8 @@ export class TaskEntity {
 			&& offsetY < yy;
 		if(!hover) return { hover, resize, depFrom };
 
-		if(xx - this.root.api.depRadius < offsetX) depFrom = true;
+		if(this.root.api.taskRenderDepControl && (xx - this.root.api.taskRenderDepRadius - this.getDepOffsetX() < offsetX)) depFrom = true;
 		else resize = this.isControlsHover(event, task);
-		console.log(resize);
 		
 		return { hover, resize, depFrom };
 	}
@@ -60,12 +59,13 @@ export class TaskEntity {
 	}
 
 	renderRightDep(x: number, y: number) {
+		if(!this.root.api.taskRenderDepControl) return;
 		const ctx = this.root.ctx;
 		ctx.beginPath();
 		
-		ctx.fillStyle = this.root.api.depBackground;
-		ctx.arc(x, y, this.root.api.depRadius, Math.PI * 1.5,  Math.PI * 2.5);
-		ctx.strokeStyle = this.root.api.depLineColor;
+		ctx.fillStyle = this.root.api.taskRenderDepBackground;
+		ctx.arc(x + this.getDepOffsetX(), y, this.root.api.taskRenderDepRadius, 0, Math.PI * 2);
+		ctx.strokeStyle = this.root.api.taskRenderDepLineColor;
 		ctx.stroke();
 		ctx.fill();
 	}
@@ -84,23 +84,24 @@ export class TaskEntity {
 		ctx.strokeStyle =  this.root.api.arrowColor;
 		ctx.fillStyle =  this.root.api.arrowColor;
 		const r = this.root.api.arrowRadius;
+		const startOffsetX = this.getDepOffsetX() || 10;
 		if(task.x > x) {
 			ctx.beginPath();
 			ctx.moveTo(x, y);
-			ctx.lineTo(x + 10 - r, y);
-			ctx.quadraticCurveTo(x + 10, y, x + 10, targetY < y ? y - r : y + r);
-			ctx.lineTo(x + 10, targetY > y ? targetY - r : targetY + r);
-			ctx.quadraticCurveTo(x + 10, targetY, x + 10 + r, targetY);
+			ctx.lineTo(x + startOffsetX - r, y);
+			ctx.quadraticCurveTo(x + startOffsetX, y, x + startOffsetX, targetY < y ? y - r : y + r);
+			ctx.lineTo(x + startOffsetX, targetY > y ? targetY - r : targetY + r);
+			ctx.quadraticCurveTo(x + startOffsetX, targetY, x + startOffsetX + r, targetY);
 			ctx.lineTo(task.x, targetY);
 			ctx.stroke();
-			this.renderArrowHead(x + 10,  targetY, task.x, targetY)
+			this.renderArrowHead(x + startOffsetX,  targetY, task.x, targetY)
 		} else {
 			ctx.beginPath();
 			ctx.moveTo(x, y);
-			ctx.lineTo(x + 10 - r, y);
-			ctx.quadraticCurveTo(x + 10, y, x + 10, y + r);
-			ctx.lineTo(x + 10, y + (h / 2) - r);
-			ctx.quadraticCurveTo(x + 10, y + (h / 2), x + 10 - r, y + (h / 2));
+			ctx.lineTo(x + startOffsetX - r, y);
+			ctx.quadraticCurveTo(x + startOffsetX, y, x + startOffsetX, y + r);
+			ctx.lineTo(x + startOffsetX, y + (h / 2) - r);
+			ctx.quadraticCurveTo(x + startOffsetX, y + (h / 2), x + startOffsetX - r, y + (h / 2));
 			ctx.lineTo(task.x - 20 + r, y + (h / 2));
 			ctx.quadraticCurveTo(task.x - 20, y + (h / 2), task.x - 20, targetY > y ? y + (h / 2) + r : y + (h / 2) - r);
 			ctx.lineTo(task.x - 20, targetY);
@@ -121,12 +122,12 @@ export class TaskEntity {
 		const ctx = this.root.ctx;
 		ctx.strokeStyle = this.root.api.arrowActiveColor;
 		ctx.fillStyle = this.root.api.arrowActiveColor;
-
-		if(task.x + task.w + this.root.api.depRadius > x) {
+		const startOffsetX = this.getDepOffsetX();
+		if(task.x + task.w + this.root.api.taskRenderDepRadius > x) {
 			ctx.beginPath();
 			ctx.moveTo(sourceX, sourceY);
-			ctx.lineTo(sourceX + 10, sourceY);
-			ctx.lineTo(sourceX + 10, y + (h / 2));
+			ctx.lineTo(sourceX + startOffsetX, sourceY);
+			ctx.lineTo(sourceX + startOffsetX, y + (h / 2));
 			ctx.lineTo(x - 20, y + (h / 2));
 			ctx.lineTo(x - 20, y);
 			ctx.lineTo(x, y);
@@ -135,8 +136,8 @@ export class TaskEntity {
 		} else {
 			ctx.beginPath();
 			ctx.moveTo(sourceX, sourceY);
-			ctx.lineTo(sourceX + 10, sourceY);
-			ctx.lineTo(sourceX + 10, y);
+			ctx.lineTo(sourceX + startOffsetX, sourceY);
+			ctx.lineTo(sourceX + startOffsetX, y);
 			ctx.lineTo(x, y);
 			ctx.stroke();
 			this.renderArrowHead(x - 20,  y, x, y);
@@ -187,7 +188,8 @@ export class TaskEntity {
 		} else {
 			ctx.fillStyle = this.root.api.taskDefaultOutlineColor;
 			ctx.textAlign = 'left';
-			ctx.fillText(title, x + w + (this.root.api.depRadius * 2), top + (this.root.api.taskHeight / 2));
+			const offsetX = this.getDepOffsetX()
+			ctx.fillText(title, x + w + offsetX + (this.root.api.taskRenderDepRadius * 2), top + (this.root.api.taskHeight / 2));
 		}
 	}
 
@@ -242,6 +244,18 @@ export class TaskEntity {
 	getTaskTop(y: number) {
 		const h = this.root.grid.view.rowHeight;
 		return ((h - this.root.api.taskHeight) / 2) + y;
+	}
+
+	getTaskXX(x: number, w: number) {
+		let xx = x + w;
+		if(this.root.api.taskRenderDepControl)
+			xx += this.getDepOffsetX() + this.root.api.taskRenderDepRadius;
+		return xx;
+	}
+
+	getDepOffsetX() {
+		if(!this.root.api.taskRenderDepControl) return 0;
+		return this.root.api.taskRenderDepRadius + this.root.api.taskRenderDepOffsetX;
 	}
 
 	getTaskFillStyle(task: TaskRender): string {
