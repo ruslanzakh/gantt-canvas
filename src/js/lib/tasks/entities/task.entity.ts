@@ -22,7 +22,8 @@ export class TaskEntity {
 		this.root = root;
 	}
 
-	isHover(event: MouseEvent, {x, y, w}: TaskRender) {
+	isHover(event: MouseEvent, task: TaskRender) {
+		const { x, y, w } = task;
 		const h = this.root.grid.view.rowHeight;
 		const { offsetX, offsetY } = event;
 		let resize = null;
@@ -34,28 +35,28 @@ export class TaskEntity {
 			&& y < offsetY
 			&& offsetY < yy;
 		if(!hover) return { hover, resize, depFrom };
-		let resizeWidth = (w * 0.2);
-		if(resizeWidth > 30) resizeWidth = 30;
-		const leftResizeX = x + resizeWidth;
-		const rightResizeX = x + w - resizeWidth;
+
 		if(xx - this.root.api.depRadius < offsetX) depFrom = true;
-		else if(leftResizeX > offsetX) resize = 'left';
-		else if(rightResizeX < offsetX) resize = 'right';
+		else resize = this.isControlsHover(event, task);
+		console.log(resize);
+		
 		return { hover, resize, depFrom };
 	}
 
 	renderItem(task: TaskRender) {
 		const { x, y, w, hover } = task;
-		const h = this.root.grid.view.rowHeight;
 		if(x >= this.root.canvas.width || w === 0) return;
 		const ctx = this.root.ctx;
 		ctx.beginPath();
-		const top = ((h - this.root.api.taskHeight) / 2) + y;
+		const top =this.getTaskTop(y);
 		const fillStyle = this.getTaskFillStyle(task);
 	
 		roundRect(ctx, x, top, w, this.root.api.taskHeight, this.root.api.taskRadius, fillStyle);
 		this.renderTaskText(task, top);
-		if(hover) this.renderRightDep(x + w, top + (this.root.api.taskHeight / 2))
+		if(hover) {
+			this.renderResizeControls(task, top);
+			this.renderRightDep(x + w, top + (this.root.api.taskHeight / 2));
+		}
 	}
 
 	renderRightDep(x: number, y: number) {
@@ -188,6 +189,59 @@ export class TaskEntity {
 			ctx.textAlign = 'left';
 			ctx.fillText(title, x + w + (this.root.api.depRadius * 2), top + (this.root.api.taskHeight / 2));
 		}
+	}
+
+	renderResizeControls(task: TaskRender, top: number) {
+		if(!this.root.api.taskRenderResizeControls) return;
+		const { x, w } = task;
+		const ctx = this.root.ctx;
+		const leftX = x + this.root.api.taskPadding
+		top += this.root.api.taskPadding;
+		const width = this.root.api.taskRenderResizeControlsWidth;
+		const height = this.root.api.taskHeight - (this.root.api.taskPadding * 2);
+		const rightX = x + w - width - this.root.api.taskPadding;
+		roundRect(ctx, leftX, top, width, height, this.root.api.taskRenderResizeControlsRadius, this.root.api.taskRenderResizeControlsColor);
+		roundRect(ctx, rightX, top, width, height, this.root.api.taskRenderResizeControlsRadius, this.root.api.taskRenderResizeControlsColor);
+	}
+
+	isControlsHover(event: MouseEvent, task: TaskRender): string | null {
+		if(this.root.api.taskRenderResizeControls) {
+			return this.isRenderedControlsHover(event, task);
+		}
+
+		const { offsetX } = event;
+		const { x, w } = task;
+		let resizeWidth = (w * 0.2);
+		if(resizeWidth > 30) resizeWidth = 30;
+		const leftResizeX = x + resizeWidth;
+		const rightResizeX = x + w - resizeWidth;
+		if(leftResizeX > offsetX) return 'left';
+		else if(rightResizeX < offsetX) return 'right';
+		return null;
+	}
+
+	isRenderedControlsHover(event: MouseEvent, task: TaskRender): string | null {
+		const { offsetX, offsetY } = event;
+		const { x, y, w } = task;
+
+		const top = this.getTaskTop(y);
+		const startY = top + this.root.api.taskPadding;
+		const endY = startY + this.root.api.taskHeight - (this.root.api.taskPadding * 2);
+		if(offsetY < startY || offsetY > endY) return null;
+		
+		const width = this.root.api.taskRenderResizeControlsWidth;
+		const leftStartX = x + this.root.api.taskPadding;
+		const leftEndX = leftStartX + width;
+		if(offsetX > leftStartX && offsetX < leftEndX) return 'left';
+		const rightStartX = x + w - width - this.root.api.taskPadding;
+		const rightEndX = rightStartX + width;
+		if(offsetX > rightStartX && offsetX < rightEndX) return 'right';
+		return null;
+	}
+
+	getTaskTop(y: number) {
+		const h = this.root.grid.view.rowHeight;
+		return ((h - this.root.api.taskHeight) / 2) + y;
 	}
 
 	getTaskFillStyle(task: TaskRender): string {

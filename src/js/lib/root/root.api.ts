@@ -59,6 +59,11 @@ export interface RootApiProps {
 	taskRadius?: number;
 	minTaskWidth?: number;
 
+	taskRenderResizeControls?: boolean;
+	taskRenderResizeControlsWidth?: number;
+	taskRenderResizeControlsColor?: string;
+	taskRenderResizeControlsRadius?: number;
+
 	depRadius?: number;
 	depLineColor?: string;
 	depBackground?: string;
@@ -129,6 +134,11 @@ export class RootApi {
 	taskFont: string;
 	minTaskWidth: number;
 
+	taskRenderResizeControls: boolean;
+	taskRenderResizeControlsWidth: number;
+	taskRenderResizeControlsColor: string;
+	taskRenderResizeControlsRadius: number;
+
 	depRadius: number;
 	depLineColor: string;
 	depBackground: string;
@@ -193,6 +203,11 @@ export class RootApi {
 		this.taskRadius = props.taskRadius ?? 4;
 		this.taskFont = props.taskFont ?? "14px serif";
 		this.minTaskWidth = props.minTaskWidth ?? 20;
+
+		this.taskRenderResizeControls = props.taskRenderResizeControls ?? true;
+		this.taskRenderResizeControlsWidth = props.taskRenderResizeControlsWidth ?? 6;
+		this.taskRenderResizeControlsColor = props.taskRenderResizeControlsColor ?? '#fff';
+		this.taskRenderResizeControlsRadius = props.taskRenderResizeControlsRadius ?? 4;
 
 		this.depRadius = props.depRadius ?? 8;
 		this.depLineColor = props.depLineColor ?? '#222';
