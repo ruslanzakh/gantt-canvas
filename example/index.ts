@@ -55,6 +55,7 @@ const tasks = [
 		stroke: 'orange',
 		strokeHover: 'blue',
 		underline: true,
+		outlineColor: 'red',
 	},
 ]
 

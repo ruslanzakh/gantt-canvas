@@ -18,6 +18,7 @@ export interface TaskRender {
 	stroke?: string;
 	strokeHover?: string;
 	underline?: boolean;
+	outlineColor?: string;
 }
 
 export class TaskEntity {
@@ -193,7 +194,7 @@ export class TaskEntity {
 			if(task.underline)
 				renderUnderline(ctx, title, x + (w / 2), top + (this.root.api.taskHeight / 4));
 		} else {
-			ctx.fillStyle = this.root.api.taskDefaultOutlineColor;
+			ctx.fillStyle = task.outlineColor ?? this.root.api.taskDefaultOutlineColor;
 			ctx.textAlign = 'left';
 			const offsetX = this.getDepOffsetX()
 			ctx.fillText(title, x + w + offsetX + (this.root.api.taskRenderDepRadius * 2), top + (this.root.api.taskHeight / 2));
