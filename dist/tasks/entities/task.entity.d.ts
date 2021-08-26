@@ -14,6 +14,8 @@ export interface TaskRender {
     color?: string;
     backgroundHover?: string;
     colorHover?: string;
+    stroke?: string;
+    strokeHover?: string;
 }
 export declare class TaskEntity {
     root: RootModule;

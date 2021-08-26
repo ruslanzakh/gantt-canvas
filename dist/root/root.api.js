@@ -36,6 +36,8 @@ var RootApi = /** @class */ (function () {
         this.rowOddBackground = (_2 = props.rowOddBackground) !== null && _2 !== void 0 ? _2 : '#fff';
         this.taskDefaultBackground = (_3 = props.taskDefaultBackground) !== null && _3 !== void 0 ? _3 : '#F0F0F0';
         this.taskDefaultHoverBackground = (_4 = props.taskDefaultHoverBackground) !== null && _4 !== void 0 ? _4 : '#333333';
+        this.taskDefaultStrokeColor = props.taskDefaultStrokeColor;
+        this.taskDefaultHoverStrokeColor = props.taskDefaultHoverStrokeColor;
         this.taskDefaultColor = (_5 = props.taskDefaultColor) !== null && _5 !== void 0 ? _5 : '#222';
         this.taskDefaultHoverColor = (_6 = props.taskDefaultHoverColor) !== null && _6 !== void 0 ? _6 : '#fff';
         this.taskDefaultOutlineColor = (_7 = props.taskDefaultOutlineColor) !== null && _7 !== void 0 ? _7 : '#222';

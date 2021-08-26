@@ -51,7 +51,9 @@ const tasks = [
 		title: 'Task 6',
 		start_date_ts: 1628163321049,
 		end_date_ts: 1628163321049,
-		next_ids: []
+		next_ids: [],
+		stroke: 'orange',
+		strokeHover: 'blue'
 	},
 ]
 
@@ -101,6 +103,8 @@ const gantt = new Gantt('#app', {
 	tasks: tasks,
 	// tasks: getTasks().sort((a, b) => a.start_date_ts - b.start_date_ts),
 	// tasks: getTasks(),
+	taskDefaultStrokeColor: 'red',
+	taskDefaultHoverStrokeColor: 'green',
 	handleChange: async (tasks) => {
 		console.log(tasks);
 	},

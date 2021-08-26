@@ -27,6 +27,8 @@ export declare class TasksService {
         backgroundHover?: string | undefined;
         color?: string | undefined;
         colorHover?: string | undefined;
+        stroke?: string | undefined;
+        strokeHover?: string | undefined;
     } | null;
     getStoreDependedTasksById(id: string, tasks?: Task[]): Task[];
     getHoveredTask(): Task | null;

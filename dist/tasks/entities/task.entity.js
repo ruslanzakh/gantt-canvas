@@ -236,10 +236,14 @@ var TaskEntity = /** @class */ (function () {
         return background !== null && background !== void 0 ? background : this.root.api.taskDefaultBackground;
     };
     TaskEntity.prototype.getTaskStrokeStyle = function (task) {
-        var error = task.error;
-        if (!error || !this.root.api.taskErrorStrokeColor)
-            return;
-        return this.root.api.taskErrorStrokeColor;
+        var hover = task.hover, hoverConnection = task.hoverConnection, error = task.error, stroke = task.stroke, strokeHover = task.strokeHover;
+        var _a = this.root.api, taskErrorStrokeColor = _a.taskErrorStrokeColor, taskDefaultStrokeColor = _a.taskDefaultStrokeColor, taskDefaultHoverStrokeColor = _a.taskDefaultHoverStrokeColor;
+        if (error && taskErrorStrokeColor)
+            return taskErrorStrokeColor;
+        if (hover || hoverConnection) {
+            return strokeHover !== null && strokeHover !== void 0 ? strokeHover : taskDefaultHoverStrokeColor;
+        }
+        return stroke !== null && stroke !== void 0 ? stroke : taskDefaultStrokeColor;
     };
     TaskEntity.prototype.getTaskColor = function (task) {
         var hover = task.hover, hoverConnection = task.hoverConnection, color = task.color, colorHover = task.colorHover;

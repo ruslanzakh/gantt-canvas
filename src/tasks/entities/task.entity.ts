@@ -15,6 +15,8 @@ export interface TaskRender {
 	color?: string;
 	backgroundHover?: string;
 	colorHover?: string;
+	stroke?: string;
+	strokeHover?: string;
 }
 
 export class TaskEntity {
@@ -269,9 +271,13 @@ export class TaskEntity {
 	}
 
 	getTaskStrokeStyle(task: TaskRender): string | undefined {
-		const { error } = task;
-		if(!error || !this.root.api.taskErrorStrokeColor) return;
-		return this.root.api.taskErrorStrokeColor;
+		const { hover, hoverConnection, error, stroke, strokeHover } = task;
+		const { taskErrorStrokeColor, taskDefaultStrokeColor, taskDefaultHoverStrokeColor } = this.root.api;
+		if(error && taskErrorStrokeColor) return taskErrorStrokeColor;
+		if(hover || hoverConnection) {
+			return strokeHover ?? taskDefaultHoverStrokeColor;
+		}
+		return stroke ?? taskDefaultStrokeColor;
 	}
 
 	getTaskColor(task: TaskRender): string {

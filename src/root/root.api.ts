@@ -11,6 +11,8 @@ export interface Task {
 	backgroundHover?: string;
 	color?: string;
 	colorHover?: string;
+	stroke?: string;
+	strokeHover?: string;
 }
 
 export interface RootApiProps {
@@ -51,6 +53,8 @@ export interface RootApiProps {
 
 	taskDefaultBackground?: string;
 	taskDefaultHoverBackground?: string;
+	taskDefaultStrokeColor?: string;
+	taskDefaultHoverStrokeColor?: string;
 	taskDefaultColor?: string;
 	taskDefaultHoverColor?: string;
 	taskDefaultOutlineColor?: string;
@@ -131,6 +135,8 @@ export class RootApi {
 
 	taskDefaultBackground: string;
 	taskDefaultHoverBackground: string;
+	taskDefaultStrokeColor?: string;
+	taskDefaultHoverStrokeColor?: string;
 	taskDefaultColor: string;
 	taskDefaultHoverColor: string;
 	taskDefaultOutlineColor: string;
@@ -206,6 +212,8 @@ export class RootApi {
 
 		this.taskDefaultBackground = props.taskDefaultBackground ?? '#F0F0F0';
 		this.taskDefaultHoverBackground = props.taskDefaultHoverBackground ?? '#333333';
+		this.taskDefaultStrokeColor = props.taskDefaultStrokeColor;
+		this.taskDefaultHoverStrokeColor = props.taskDefaultHoverStrokeColor;
 		this.taskDefaultColor = props.taskDefaultColor ?? '#222';
 		this.taskDefaultHoverColor = props.taskDefaultHoverColor ?? '#fff';
 		this.taskDefaultOutlineColor = props.taskDefaultOutlineColor ?? '#222';
