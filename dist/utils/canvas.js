@@ -49,7 +49,6 @@ var getEventTouchOffsets = function (event, canvas) {
 exports.getEventTouchOffsets = getEventTouchOffsets;
 var renderUnderline = function (ctx, text, x, y) {
     var metrics = exports.measureText(ctx, text);
-    console.log(metrics);
     var fontSize = Math.floor(metrics.actualHeight * 1.4); // 140% the height 
     switch (ctx.textAlign) {
         case "center":
@@ -70,7 +69,7 @@ var renderUnderline = function (ctx, text, x, y) {
     ctx.save();
     ctx.beginPath();
     ctx.strokeStyle = ctx.fillStyle;
-    ctx.lineWidth = Math.ceil(fontSize * 0.08);
+    ctx.lineWidth = Math.ceil(fontSize * 0.04);
     ctx.moveTo(x, y);
     ctx.lineTo(x + metrics.width, y);
     ctx.stroke();

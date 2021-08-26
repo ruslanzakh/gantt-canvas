@@ -252,7 +252,6 @@ export class TasksService {
 		const task = this.getHoveredTask();
 		if(!task) return;
 		const diff = this.getDiff(offsetX, task.all_day);
-		if(diff === 0) return;
 
 		if(resizeMoveMode === 'right') {
 			this.resizeTaskRightSide(task, diff)

@@ -62,7 +62,6 @@ export const getEventTouchOffsets = (event: TouchEvent, canvas: HTMLCanvasElemen
 
 export const renderUnderline = (ctx: CanvasRenderingContext2D, text: string, x: number, y: number) => {
 	let metrics = measureText(ctx, text);
-	console.log(metrics);
 	
 	let fontSize = Math.floor(metrics.actualHeight * 1.4); // 140% the height 
 	switch (ctx.textAlign) {
@@ -76,7 +75,7 @@ export const renderUnderline = (ctx: CanvasRenderingContext2D, text: string, x: 
 	ctx.save();
 	ctx.beginPath();
 	ctx.strokeStyle = ctx.fillStyle;
-	ctx.lineWidth = Math.ceil(fontSize * 0.08);
+	ctx.lineWidth = Math.ceil(fontSize * 0.04);
 	ctx.moveTo(x, y);
 	ctx.lineTo(x + metrics.width, y);
 	ctx.stroke();

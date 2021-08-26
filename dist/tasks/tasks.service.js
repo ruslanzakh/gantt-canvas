@@ -258,8 +258,6 @@ var TasksService = /** @class */ (function () {
         if (!task)
             return;
         var diff = this.getDiff(offsetX, task.all_day);
-        if (diff === 0)
-            return;
         if (resizeMoveMode === 'right') {
             this.resizeTaskRightSide(task, diff);
         }
