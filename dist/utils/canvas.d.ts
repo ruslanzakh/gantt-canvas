@@ -9,3 +9,9 @@ export declare const getEventTouchOffsets: (event: TouchEvent, canvas: HTMLCanva
     offsetX: number;
     offsetY: number;
 };
+export declare const renderUnderline: (ctx: CanvasRenderingContext2D, text: string, x: number, y: number) => void;
+export declare const measureText: (ctx: CanvasRenderingContext2D, text: string) => {
+    width: number;
+    height: number;
+    actualHeight: number;
+};

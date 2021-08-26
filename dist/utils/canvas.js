@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getEventTouchOffsets = exports.roundRect = void 0;
+exports.measureText = exports.renderUnderline = exports.getEventTouchOffsets = exports.roundRect = void 0;
 var roundRect = function (ctx, x, y, width, height, radius, fill, stroke) {
     if (typeof radius === 'number') {
         radius = { tl: radius, tr: radius, br: radius, bl: radius };
@@ -47,3 +47,43 @@ var getEventTouchOffsets = function (event, canvas) {
     return { offsetX: offsetX, offsetY: offsetY };
 };
 exports.getEventTouchOffsets = getEventTouchOffsets;
+var renderUnderline = function (ctx, text, x, y) {
+    var metrics = exports.measureText(ctx, text);
+    console.log(metrics);
+    var fontSize = Math.floor(metrics.actualHeight * 1.4); // 140% the height 
+    switch (ctx.textAlign) {
+        case "center":
+            x -= (metrics.width / 2);
+            break;
+        case "right":
+            x -= metrics.width;
+            break;
+    }
+    switch (ctx.textBaseline) {
+        case "top":
+            y += (fontSize);
+            break;
+        case "middle":
+            y += (fontSize / 2);
+            break;
+    }
+    ctx.save();
+    ctx.beginPath();
+    ctx.strokeStyle = ctx.fillStyle;
+    ctx.lineWidth = Math.ceil(fontSize * 0.08);
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + metrics.width, y);
+    ctx.stroke();
+    ctx.restore();
+};
+exports.renderUnderline = renderUnderline;
+var measureText = function (ctx, text) {
+    var metrics = ctx.measureText(text);
+    return {
+        width: Math.floor(metrics.width),
+        // @ts-ignore
+        height: Math.floor(metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent),
+        actualHeight: Math.floor(metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent)
+    };
+};
+exports.measureText = measureText;

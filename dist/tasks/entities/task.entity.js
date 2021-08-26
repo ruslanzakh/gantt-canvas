@@ -147,21 +147,30 @@ var TaskEntity = /** @class */ (function () {
         ctx.fill();
     };
     TaskEntity.prototype.renderTaskText = function (task, top) {
+        var _a;
         var x = task.x, w = task.w, title = task.title;
         var ctx = this.root.ctx;
-        ctx.font = this.root.api.taskFont;
+        var _b = this.root.api, taskFont = _b.taskFont, taskPadding = _b.taskPadding, taskRenderResizeControls = _b.taskRenderResizeControls, taskRenderResizeControlsWidth = _b.taskRenderResizeControlsWidth, taskHeight = _b.taskHeight, taskDefaultOutlineColor = _b.taskDefaultOutlineColor, taskRenderDepRadius = _b.taskRenderDepRadius;
+        ctx.font = taskFont;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        if (ctx.measureText(title).width < (w - (this.root.api.taskPadding * 2))) {
+        var maxWidth = w - (taskPadding * 2);
+        if (taskRenderResizeControls)
+            maxWidth -= (taskRenderResizeControlsWidth * 2) + (taskPadding * 2);
+        if (ctx.measureText(title).width < maxWidth) {
             ctx.fillStyle = this.getTaskColor(task);
             ctx.textAlign = 'center';
-            ctx.fillText(title, x + (w / 2), top + (this.root.api.taskHeight / 2));
+            ctx.fillText(title, x + (w / 2), top + (taskHeight / 2));
+            if (task.underline)
+                canvas_1.renderUnderline(ctx, title, x + (w / 2), top + (taskHeight / 4));
         }
         else {
-            ctx.fillStyle = this.root.api.taskDefaultOutlineColor;
+            ctx.fillStyle = (_a = task.outlineColor) !== null && _a !== void 0 ? _a : taskDefaultOutlineColor;
             ctx.textAlign = 'left';
             var offsetX = this.getDepOffsetX();
-            ctx.fillText(title, x + w + offsetX + (this.root.api.taskRenderDepRadius * 2), top + (this.root.api.taskHeight / 2));
+            ctx.fillText(title, x + w + offsetX + (taskRenderDepRadius * 2), top + (taskHeight / 2));
+            if (task.underline)
+                canvas_1.renderUnderline(ctx, title, x + w + offsetX + (taskRenderDepRadius * 2), top + (taskHeight / 4));
         }
     };
     TaskEntity.prototype.renderResizeControls = function (task, top) {

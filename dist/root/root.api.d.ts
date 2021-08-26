@@ -12,6 +12,8 @@ export interface Task {
     colorHover?: string;
     stroke?: string;
     strokeHover?: string;
+    underline?: boolean;
+    outlineColor?: string;
 }
 export interface RootApiProps {
     tasks: Task[];

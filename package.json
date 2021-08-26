@@ -1,6 +1,6 @@
 {
   "name": "gantt-canvas",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "parcel-bundler": "^1.12.5",
     "sass": "^1.36.0",
