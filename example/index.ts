@@ -53,7 +53,8 @@ const tasks = [
 		end_date_ts: 1628163321049,
 		next_ids: [],
 		stroke: 'orange',
-		strokeHover: 'blue'
+		strokeHover: 'blue',
+		underline: true,
 	},
 ]
 

@@ -1,5 +1,5 @@
 import { RootModule } from '../../root/root.module';
-import { roundRect } from '../../utils/canvas';
+import { roundRect, renderUnderline } from '../../utils/canvas';
 import { EventOffsets } from '../../utils/interfaces';
 export interface TaskRender {
 	id: string;
@@ -17,6 +17,7 @@ export interface TaskRender {
 	colorHover?: string;
 	stroke?: string;
 	strokeHover?: string;
+	underline?: boolean;
 }
 
 export class TaskEntity {
@@ -189,11 +190,15 @@ export class TaskEntity {
 			ctx.fillStyle = this.getTaskColor(task);
 			ctx.textAlign = 'center';
 			ctx.fillText(title, x + (w / 2), top + (this.root.api.taskHeight / 2));
+			if(task.underline)
+				renderUnderline(ctx, title, x + (w / 2), top + (this.root.api.taskHeight / 4));
 		} else {
 			ctx.fillStyle = this.root.api.taskDefaultOutlineColor;
 			ctx.textAlign = 'left';
 			const offsetX = this.getDepOffsetX()
 			ctx.fillText(title, x + w + offsetX + (this.root.api.taskRenderDepRadius * 2), top + (this.root.api.taskHeight / 2));
+			if(task.underline)
+				renderUnderline(ctx, title, x + w + offsetX + (this.root.api.taskRenderDepRadius * 2), top + (this.root.api.taskHeight / 4));
 		}
 	}
 

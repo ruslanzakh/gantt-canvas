@@ -13,6 +13,7 @@ export interface Task {
 	colorHover?: string;
 	stroke?: string;
 	strokeHover?: string;
+	underline?: boolean;
 }
 
 export interface RootApiProps {

@@ -58,3 +58,38 @@ export const getEventTouchOffsets = (event: TouchEvent, canvas: HTMLCanvasElemen
 	const offsetY = Math.round((y_rel * canvas.height) / rect.height);
 	return { offsetX, offsetY };
 }
+
+
+export const renderUnderline = (ctx: CanvasRenderingContext2D, text: string, x: number, y: number) => {
+	let metrics = measureText(ctx, text);
+	console.log(metrics);
+	
+	let fontSize = Math.floor(metrics.actualHeight * 1.4); // 140% the height 
+	switch (ctx.textAlign) {
+		case "center" : x -= (metrics.width / 2) ; break
+		case "right"  : x -= metrics.width       ; break
+	}
+	switch (ctx.textBaseline) {
+		case "top"    : y += (fontSize)     ; break
+		case "middle" : y += (fontSize / 2) ; break
+	}
+	ctx.save();
+	ctx.beginPath();
+	ctx.strokeStyle = ctx.fillStyle;
+	ctx.lineWidth = Math.ceil(fontSize * 0.08);
+	ctx.moveTo(x, y);
+	ctx.lineTo(x + metrics.width, y);
+	ctx.stroke();
+	ctx.restore();
+}
+
+
+export const measureText = (ctx: CanvasRenderingContext2D, text: string) => {
+	let metrics = ctx.measureText(text)
+	return {
+		width: Math.floor(metrics.width),
+		// @ts-ignore
+		height: Math.floor(metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent),
+		actualHeight: Math.floor(metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent)
+	}
+}
