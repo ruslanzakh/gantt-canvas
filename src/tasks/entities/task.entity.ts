@@ -183,23 +183,34 @@ export class TaskEntity {
 	renderTaskText(task: TaskRender, top: number) {
 		const { x, w, title } = task;
 		const ctx = this.root.ctx;
-		ctx.font = this.root.api.taskFont;
+		const {
+			taskFont,
+			taskPadding,
+			taskRenderResizeControls,
+			taskRenderResizeControlsWidth,
+			taskHeight,
+			taskDefaultOutlineColor,
+			taskRenderDepRadius,
+		} = this.root.api;
+		ctx.font = taskFont;
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
 		
-		if(ctx.measureText(title).width < (w - (this.root.api.taskPadding * 2))) {
+		let maxWidth = w - (taskPadding * 2);
+		if(taskRenderResizeControls) maxWidth -= (taskRenderResizeControlsWidth * 2) + (taskPadding * 2);
+		if(ctx.measureText(title).width < maxWidth) {
 			ctx.fillStyle = this.getTaskColor(task);
 			ctx.textAlign = 'center';
-			ctx.fillText(title, x + (w / 2), top + (this.root.api.taskHeight / 2));
+			ctx.fillText(title, x + (w / 2), top + (taskHeight / 2));
 			if(task.underline)
-				renderUnderline(ctx, title, x + (w / 2), top + (this.root.api.taskHeight / 4));
+				renderUnderline(ctx, title, x + (w / 2), top + (taskHeight / 4));
 		} else {
-			ctx.fillStyle = task.outlineColor ?? this.root.api.taskDefaultOutlineColor;
+			ctx.fillStyle = task.outlineColor ?? taskDefaultOutlineColor;
 			ctx.textAlign = 'left';
 			const offsetX = this.getDepOffsetX()
-			ctx.fillText(title, x + w + offsetX + (this.root.api.taskRenderDepRadius * 2), top + (this.root.api.taskHeight / 2));
+			ctx.fillText(title, x + w + offsetX + (taskRenderDepRadius * 2), top + (taskHeight / 2));
 			if(task.underline)
-				renderUnderline(ctx, title, x + w + offsetX + (this.root.api.taskRenderDepRadius * 2), top + (this.root.api.taskHeight / 4));
+				renderUnderline(ctx, title, x + w + offsetX + (taskRenderDepRadius * 2), top + (taskHeight / 4));
 		}
 	}
 
