@@ -11,16 +11,16 @@ export class GridService {
 		this.module = module;
 	}
 
-	showDay(ts?: number) {
+	showDay(ts?: number, needRender?: boolean, needAnimate?: boolean) {
 		const columnLength = this.module.view.colsOnScreen / 3;
 		const date = getDate(ts);
 		setDate(date, -columnLength);
 		
 		const dateTs = date.getTime();
-		this.showDayByTs(dateTs);
+		this.showDayByTs(dateTs, needRender, needAnimate);
 	}
 
-	showDayByTs(dateTs: number) {
+	showDayByTs(dateTs: number, needRender?: boolean, needAnimate?: boolean) {
 		let offsetX = 0;
 		const diff = dateTs - this.module.store.dates[0].ts;
 		if(diff > 0) {
@@ -28,7 +28,7 @@ export class GridService {
 		} else {
 			this.module.store.fillDataBefore(dateTs);
 		}
-		this.root.view.handleSetOffsetX(offsetX, false);
+		this.root.view.handleSetOffsetX(offsetX, needRender, needAnimate);
 	}
 
 	getPosXByTs(ts: number): number {

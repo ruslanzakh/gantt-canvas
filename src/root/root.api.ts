@@ -259,13 +259,11 @@ export class RootApi {
 	}
 
 	scrollToToday() {
-		this.root.grid.service.showDay();
-		this.root.render();
+		this.root.grid.service.showDay(undefined, true, true);
 	}
 
 	scrollToTask(id: string) {
 		this.root.tasks.service.scrollToTask(id);
-		this.root.render();
 	}
 
 

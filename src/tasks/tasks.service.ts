@@ -202,7 +202,7 @@ export class TasksService {
 	scrollToTask(id: string) {
 		const task = this.getRootStoreTaskById(id);
 		if(!task) return;
-		this.root.grid.service.showDay(task.start_date_ts);
+		this.root.grid.service.showDay(task.start_date_ts, true, true);
 	}
 
 	/** Start Add Dependencies */
