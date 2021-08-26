@@ -7,14 +7,14 @@ var GridService = /** @class */ (function () {
         this.root = root;
         this.module = module;
     }
-    GridService.prototype.showDay = function (ts) {
+    GridService.prototype.showDay = function (ts, needRender, needAnimate) {
         var columnLength = this.module.view.colsOnScreen / 3;
         var date = date_1.getDate(ts);
         date_1.setDate(date, -columnLength);
         var dateTs = date.getTime();
-        this.showDayByTs(dateTs);
+        this.showDayByTs(dateTs, needRender, needAnimate);
     };
-    GridService.prototype.showDayByTs = function (dateTs) {
+    GridService.prototype.showDayByTs = function (dateTs, needRender, needAnimate) {
         var offsetX = 0;
         var diff = dateTs - this.module.store.dates[0].ts;
         if (diff > 0) {
@@ -23,7 +23,7 @@ var GridService = /** @class */ (function () {
         else {
             this.module.store.fillDataBefore(dateTs);
         }
-        this.root.view.handleSetOffsetX(offsetX, false);
+        this.root.view.handleSetOffsetX(offsetX, needRender, needAnimate);
     };
     GridService.prototype.getPosXByTs = function (ts) {
         var firstTs = this.module.view.firstTsOnScreen;

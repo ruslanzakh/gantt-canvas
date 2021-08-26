@@ -75,12 +75,10 @@ var RootApi = /** @class */ (function () {
         this.root.render();
     };
     RootApi.prototype.scrollToToday = function () {
-        this.root.grid.service.showDay();
-        this.root.render();
+        this.root.grid.service.showDay(undefined, true, true);
     };
     RootApi.prototype.scrollToTask = function (id) {
         this.root.tasks.service.scrollToTask(id);
-        this.root.render();
     };
     return RootApi;
 }());

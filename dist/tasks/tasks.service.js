@@ -212,7 +212,7 @@ var TasksService = /** @class */ (function () {
         var task = this.getRootStoreTaskById(id);
         if (!task)
             return;
-        this.root.grid.service.showDay(task.start_date_ts);
+        this.root.grid.service.showDay(task.start_date_ts, true, true);
     };
     /** Start Add Dependencies */
     TasksService.prototype.handleAddDepMouseMove = function (event) {
