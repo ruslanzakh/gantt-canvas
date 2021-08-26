@@ -71,8 +71,13 @@ export class TasksService {
 		let xx = task.all_day
 			? this.root.grid.service.getPosXByFullDayTs(task.end_date_ts, true)
 			: this.root.grid.service.getPosXByTs(task.end_date_ts);
+		let error = false;
+		if(xx < x) {
+			xx = x;
+			error = true;
+		}
 		if(xx === x) xx += this.root.api.minTaskWidth;
-		return { x, xx };
+		return { x, xx, error };
 	}
 
 	getFirstTaskByDeadline() {

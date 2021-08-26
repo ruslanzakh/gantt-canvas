@@ -5,6 +5,7 @@ export interface TaskRender {
     x: number;
     y: number;
     w: number;
+    error?: boolean;
     hover: boolean;
     hoverConnection: boolean;
     title: string;
@@ -39,5 +40,6 @@ export declare class TaskEntity {
     getTaskXX(x: number, w: number): number;
     getDepOffsetX(): number;
     getTaskFillStyle(task: TaskRender): string;
+    getTaskStrokeStyle(task: TaskRender): string | undefined;
     getTaskColor(task: TaskRender): string;
 }

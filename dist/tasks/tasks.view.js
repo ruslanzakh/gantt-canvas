@@ -28,10 +28,10 @@ var TasksView = /** @class */ (function () {
         var offsetY = rowsOffsetY - this.root.view.offsetY;
         var data = {};
         tasks.forEach(function (task, index) {
-            var _a = _this.module.service.getTaskPos(task), x = _a.x, xx = _a.xx;
+            var _a = _this.module.service.getTaskPos(task), x = _a.x, xx = _a.xx, error = _a.error;
             var w = xx - x;
             var y = (rowHeight * index) + offsetY;
-            data[task.id] = __assign(__assign({}, task), { hover: hoverId === task.id, hoverConnection: hoverConnectionTask === task.id, y: y, x: x, w: w });
+            data[task.id] = __assign(__assign({}, task), { hover: hoverId === task.id, hoverConnection: hoverConnectionTask === task.id, y: y, x: x, w: w, error: error });
         });
         this.tasksForArrows = Object.values(data).filter(function (task) {
             if ((task.y + rowHeight) >= rowsOffsetY && task.y <= _this.root.canvas.height)

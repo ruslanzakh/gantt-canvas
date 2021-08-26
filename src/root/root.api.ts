@@ -58,6 +58,7 @@ export interface RootApiProps {
 	taskFont?: string;
 	taskPadding?: number;
 	taskRadius?: number;
+	taskErrorStrokeColor?: string;
 	minTaskWidth?: number;
 
 	taskRenderResizeControls?: boolean;
@@ -137,6 +138,7 @@ export class RootApi {
 	taskPadding: number;
 	taskRadius: number;
 	taskFont: string;
+	taskErrorStrokeColor?: string;
 	minTaskWidth: number;
 
 	taskRenderResizeControls: boolean;
@@ -211,6 +213,7 @@ export class RootApi {
 		this.taskPadding = props.taskPadding ?? 5;
 		this.taskRadius = props.taskRadius ?? 4;
 		this.taskFont = props.taskFont ?? "14px serif";
+		this.taskErrorStrokeColor = props.taskErrorStrokeColor;
 		this.minTaskWidth = props.minTaskWidth ?? 25;
 
 		this.taskRenderResizeControls = props.taskRenderResizeControls ?? true;

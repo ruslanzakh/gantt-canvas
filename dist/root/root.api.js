@@ -43,6 +43,7 @@ var RootApi = /** @class */ (function () {
         this.taskPadding = (_9 = props.taskPadding) !== null && _9 !== void 0 ? _9 : 5;
         this.taskRadius = (_10 = props.taskRadius) !== null && _10 !== void 0 ? _10 : 4;
         this.taskFont = (_11 = props.taskFont) !== null && _11 !== void 0 ? _11 : "14px serif";
+        this.taskErrorStrokeColor = props.taskErrorStrokeColor;
         this.minTaskWidth = (_12 = props.minTaskWidth) !== null && _12 !== void 0 ? _12 : 25;
         this.taskRenderResizeControls = (_13 = props.taskRenderResizeControls) !== null && _13 !== void 0 ? _13 : true;
         this.taskRenderResizeControlsWidth = (_14 = props.taskRenderResizeControlsWidth) !== null && _14 !== void 0 ? _14 : 6;

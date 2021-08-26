@@ -50,6 +50,7 @@ export interface RootApiProps {
     taskFont?: string;
     taskPadding?: number;
     taskRadius?: number;
+    taskErrorStrokeColor?: string;
     minTaskWidth?: number;
     taskRenderResizeControls?: boolean;
     taskRenderResizeControlsWidth?: number;
@@ -114,6 +115,7 @@ export declare class RootApi {
     taskPadding: number;
     taskRadius: number;
     taskFont: string;
+    taskErrorStrokeColor?: string;
     minTaskWidth: number;
     taskRenderResizeControls: boolean;
     taskRenderResizeControlsWidth: number;

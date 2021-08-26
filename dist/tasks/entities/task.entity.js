@@ -34,7 +34,8 @@ var TaskEntity = /** @class */ (function () {
         ctx.beginPath();
         var top = this.getTaskTop(y);
         var fillStyle = this.getTaskFillStyle(task);
-        canvas_1.roundRect(ctx, x, top, w, this.root.api.taskHeight, this.root.api.taskRadius, fillStyle);
+        var strokeStyle = this.getTaskStrokeStyle(task);
+        canvas_1.roundRect(ctx, x, top, w, this.root.api.taskHeight, this.root.api.taskRadius, fillStyle, strokeStyle);
         this.renderTaskText(task, top);
         if (hover) {
             this.renderResizeControls(task, top);
@@ -233,6 +234,12 @@ var TaskEntity = /** @class */ (function () {
             return backgroundHover !== null && backgroundHover !== void 0 ? backgroundHover : this.root.api.taskDefaultHoverBackground;
         }
         return background !== null && background !== void 0 ? background : this.root.api.taskDefaultBackground;
+    };
+    TaskEntity.prototype.getTaskStrokeStyle = function (task) {
+        var error = task.error;
+        if (!error || !this.root.api.taskErrorStrokeColor)
+            return;
+        return this.root.api.taskErrorStrokeColor;
     };
     TaskEntity.prototype.getTaskColor = function (task) {
         var hover = task.hover, hoverConnection = task.hoverConnection, color = task.color, colorHover = task.colorHover;

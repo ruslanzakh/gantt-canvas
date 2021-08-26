@@ -32,6 +32,7 @@ export declare class TasksService {
     getTaskPos(task: Task): {
         x: number;
         xx: number;
+        error: boolean;
     };
     getFirstTaskByDeadline(): Task;
     getLastTaskByDeadline(): Task;

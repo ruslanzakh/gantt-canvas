@@ -6,6 +6,7 @@ export interface TaskRender {
 	x: number;
 	y: number;
 	w: number;
+	error?: boolean
 	hover: boolean
 	hoverConnection: boolean
 	title: string;
@@ -50,8 +51,8 @@ export class TaskEntity {
 		ctx.beginPath();
 		const top =this.getTaskTop(y);
 		const fillStyle = this.getTaskFillStyle(task);
-	
-		roundRect(ctx, x, top, w, this.root.api.taskHeight, this.root.api.taskRadius, fillStyle);
+		const strokeStyle = this.getTaskStrokeStyle(task);
+		roundRect(ctx, x, top, w, this.root.api.taskHeight, this.root.api.taskRadius, fillStyle, strokeStyle);
 		this.renderTaskText(task, top);
 		if(hover) {
 			this.renderResizeControls(task, top);
@@ -265,6 +266,12 @@ export class TaskEntity {
 			return backgroundHover ?? this.root.api.taskDefaultHoverBackground;
 		}
 		return background ?? this.root.api.taskDefaultBackground;
+	}
+
+	getTaskStrokeStyle(task: TaskRender): string | undefined {
+		const { error } = task;
+		if(!error || !this.root.api.taskErrorStrokeColor) return;
+		return this.root.api.taskErrorStrokeColor;
 	}
 
 	getTaskColor(task: TaskRender): string {

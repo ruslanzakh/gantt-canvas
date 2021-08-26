@@ -23,14 +23,15 @@ export class TasksView {
 		const offsetY = rowsOffsetY - this.root.view.offsetY;
 		const data: ObjectList<TaskRender> = {};
 		tasks.forEach((task, index) => {
-			const { x, xx } = this.module.service.getTaskPos(task);
+			const { x, xx, error } = this.module.service.getTaskPos(task);
 			const w = xx - x;
 			const y = (rowHeight * index) + offsetY;
 			data[task.id] = {
 				...task,
 				hover: hoverId === task.id,
 				hoverConnection: hoverConnectionTask === task.id,
-				y, x, w
+				y, x, w,
+				error
 			}
 		});
 
