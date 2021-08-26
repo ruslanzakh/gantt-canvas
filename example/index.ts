@@ -97,7 +97,7 @@ function getTasks() {
 	}
 	return tasks;
 }
-new Gantt('#app', {
+const gantt = new Gantt('#app', {
 	tasks: tasks,
 	// tasks: getTasks().sort((a, b) => a.start_date_ts - b.start_date_ts),
 	// tasks: getTasks(),
@@ -108,3 +108,10 @@ new Gantt('#app', {
 		console.log('handleTaskClick', task);
 	}
 });
+
+const scrollToday = document.getElementById('scroll-today');
+if(scrollToday) {
+	scrollToday.addEventListener('click', function() {
+		gantt.scrollToday();
+	})
+}

@@ -70,6 +70,10 @@ var RootApi = /** @class */ (function () {
         this.tasks = tasks;
         this.root.render();
     };
+    RootApi.prototype.scrollToday = function () {
+        this.root.grid.service.showCurrentDay();
+        this.root.render();
+    };
     return RootApi;
 }());
 exports.RootApi = RootApi;

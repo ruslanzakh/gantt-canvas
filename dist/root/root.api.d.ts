@@ -137,4 +137,5 @@ export declare class RootApi {
     handleTaskClick?: RootApiProps['handleTaskClick'];
     constructor(root: RootModule, props: RootApiProps);
     updateTasks(tasks: Task[]): void;
+    scrollToday(): void;
 }

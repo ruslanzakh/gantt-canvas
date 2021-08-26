@@ -244,6 +244,10 @@ export class RootApi {
 		this.root.render();
 	}
 
+	scrollToday() {
+		this.root.grid.service.showCurrentDay();
+		this.root.render();
+	}
 
 
 }
