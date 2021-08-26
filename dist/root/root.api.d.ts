@@ -37,6 +37,7 @@ export interface RootApiProps {
     dayColWidth?: number;
     rowHeight?: number;
     colLineColor?: string;
+    colStartMonthLineColor?: string;
     rowLineColor?: string;
     rowEvenBackground?: string;
     rowOddBackground?: string;
@@ -100,6 +101,7 @@ export declare class RootApi {
     dayColWidth: number;
     rowHeight: number;
     colLineColor: string;
+    colStartMonthLineColor?: string;
     rowLineColor: string;
     rowEvenBackground: string;
     rowOddBackground: string;

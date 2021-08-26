@@ -43,6 +43,7 @@ export interface RootApiProps {
 	rowHeight?: number;
 
 	colLineColor?: string;
+	colStartMonthLineColor?: string;
 	rowLineColor?: string;
 	rowEvenBackground?: string;
 	rowOddBackground?: string;
@@ -122,6 +123,7 @@ export class RootApi {
 	rowHeight: number;
 
 	colLineColor: string;
+	colStartMonthLineColor?: string;
 	rowLineColor: string;
 	rowEvenBackground: string;
 	rowOddBackground: string;
@@ -195,6 +197,7 @@ export class RootApi {
 		this.dayColWidth = props.dayColWidth ?? 38;
 		this.rowHeight = props.rowHeight ?? 36;
 		this.colLineColor = props.colLineColor ?? '#EAEAEA';
+		this.colStartMonthLineColor = props.colStartMonthLineColor;
 		this.rowLineColor = props.rowLineColor ?? '#EAEAEA';
 		this.rowEvenBackground = props.rowEvenBackground ?? '#fff';
 		this.rowOddBackground = props.rowOddBackground ?? '#fff';

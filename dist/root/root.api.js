@@ -30,6 +30,7 @@ var RootApi = /** @class */ (function () {
         this.dayColWidth = (_x = props.dayColWidth) !== null && _x !== void 0 ? _x : 38;
         this.rowHeight = (_y = props.rowHeight) !== null && _y !== void 0 ? _y : 36;
         this.colLineColor = (_z = props.colLineColor) !== null && _z !== void 0 ? _z : '#EAEAEA';
+        this.colStartMonthLineColor = props.colStartMonthLineColor;
         this.rowLineColor = (_0 = props.rowLineColor) !== null && _0 !== void 0 ? _0 : '#EAEAEA';
         this.rowEvenBackground = (_1 = props.rowEvenBackground) !== null && _1 !== void 0 ? _1 : '#fff';
         this.rowOddBackground = (_2 = props.rowOddBackground) !== null && _2 !== void 0 ? _2 : '#fff';

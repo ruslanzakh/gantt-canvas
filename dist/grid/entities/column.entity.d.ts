@@ -14,5 +14,5 @@ export declare class ColumnEntity {
     root: RootModule;
     constructor(root: RootModule);
     renderDay({ x, title, isStartMonth }: ColumnRender, { monthHeight, width, dayHeight }: ColumnRenderCommon): void;
-    renderCol({ x, today }: ColumnRender, { monthHeight }: ColumnRenderCommon): void;
+    renderCol({ x, today, isStartMonth }: ColumnRender, { monthHeight }: ColumnRenderCommon): void;
 }

@@ -44,10 +44,13 @@ export class ColumnEntity {
 		ctx.textBaseline = 'alphabetic';
 	}
 
-	renderCol({x, today}: ColumnRender, { monthHeight }: ColumnRenderCommon) {
+	renderCol({x, today, isStartMonth}: ColumnRender, { monthHeight }: ColumnRenderCommon) {
 		const ctx = this.root.ctx;
 		ctx.beginPath();
 		ctx.strokeStyle = this.root.api.colLineColor;
+		if(isStartMonth && this.root.api.colStartMonthLineColor) {
+			ctx.strokeStyle = this.root.api.colStartMonthLineColor;
+		} 
 		ctx.moveTo(x, monthHeight);
 		ctx.lineTo(x, this.root.canvas.height); 
 		ctx.stroke();

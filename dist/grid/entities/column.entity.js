@@ -30,11 +30,14 @@ var ColumnEntity = /** @class */ (function () {
         ctx.textBaseline = 'alphabetic';
     };
     ColumnEntity.prototype.renderCol = function (_a, _b) {
-        var x = _a.x, today = _a.today;
+        var x = _a.x, today = _a.today, isStartMonth = _a.isStartMonth;
         var monthHeight = _b.monthHeight;
         var ctx = this.root.ctx;
         ctx.beginPath();
         ctx.strokeStyle = this.root.api.colLineColor;
+        if (isStartMonth && this.root.api.colStartMonthLineColor) {
+            ctx.strokeStyle = this.root.api.colStartMonthLineColor;
+        }
         ctx.moveTo(x, monthHeight);
         ctx.lineTo(x, this.root.canvas.height);
         ctx.stroke();
