@@ -7,27 +7,21 @@ var GridService = /** @class */ (function () {
         this.root = root;
         this.module = module;
     }
-    GridService.prototype.showCurrentDay = function () {
+    GridService.prototype.showDay = function (ts) {
         var columnLength = this.module.view.colsOnScreen / 3;
-        var date = date_1.getDate();
+        var date = date_1.getDate(ts);
         date_1.setDate(date, -columnLength);
         var dateTs = date.getTime();
-        var index = this.module.store.dates
-            .map((function (_a) {
-            var ts = _a.ts;
-            return ts;
-        }))
-            .indexOf(dateTs);
-        var offsetX = index * this.module.view.colWidth;
-        if (offsetX < 0) {
-            var diff = dateTs - this.module.store.dates[0].ts;
-            if (diff > 0) {
-                offsetX = diff / this.module.view.tsHasOneX;
-            }
-            else {
-                this.module.store.fillDataBefore(dateTs);
-                offsetX = 0;
-            }
+        this.showDayByTs(dateTs);
+    };
+    GridService.prototype.showDayByTs = function (dateTs) {
+        var offsetX = 0;
+        var diff = dateTs - this.module.store.dates[0].ts;
+        if (diff > 0) {
+            offsetX = diff / this.module.view.tsHasOneX;
+        }
+        else {
+            this.module.store.fillDataBefore(dateTs);
         }
         this.root.view.handleSetOffsetX(offsetX, false);
     };
@@ -41,14 +35,18 @@ var GridService = /** @class */ (function () {
         var date = date_1.getDate(ts, end);
         return this.getPosXByTs(date.getTime());
     };
-    GridService.prototype.getTsByX = function (x) {
+    GridService.prototype.getFirstTsOnScreen = function () {
         var colWidth = this.module.view.colWidth;
         var col = this.module.view.columns
-            .find(function (el) { return el.x <= x && el.x + colWidth > x; });
+            .find(function (el) { return el.x <= 0 && el.x + colWidth > 0; });
         if (!col)
             return 0;
-        var ts = col.ts + ((x - col.x) * this.module.view.tsHasOneX);
+        var ts = col.ts + ((-col.x) * this.module.view.tsHasOneX);
         return ts;
+    };
+    GridService.prototype.getTsByX = function (x) {
+        var firstTs = this.module.view.firstTsOnScreen;
+        return (x * this.module.view.tsHasOneX) + firstTs;
     };
     GridService.prototype.getTsByOffsetDiff = function (x) {
         var columns = this.module.view.columns;

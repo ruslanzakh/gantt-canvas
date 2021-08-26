@@ -3,7 +3,8 @@ import { Task } from './root/root.api';
 declare class Gantt {
     root: RootModule;
     updateTasks: (tasks: Task[]) => void;
-    scrollToday: () => void;
+    scrollToToday: () => void;
+    scrollToTask: (id: string) => void;
     constructor(el: string, props: RootApiProps);
 }
 export default Gantt;

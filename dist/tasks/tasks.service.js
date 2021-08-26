@@ -45,11 +45,11 @@ var TasksService = /** @class */ (function () {
         if (!task)
             return null;
         var index = this.module.store.tasks.indexOf(task);
-        var _b = this.getTaskPos(task), x = _b.x, xx = _b.xx;
+        var _b = this.getTaskPos(task), x = _b.x, xx = _b.xx, error = _b.error;
         var w = xx - x;
         var offsetY = rowsOffsetY - this.root.view.offsetY;
         var y = (rowHeight * index) + offsetY;
-        return __assign(__assign({}, task), { hover: hoverId === task.id, y: y, x: x, w: w });
+        return __assign(__assign({}, task), { hover: hoverId === task.id, y: y, x: x, w: w, error: error });
     };
     TasksService.prototype.getStoreDependedTasksById = function (id, tasks) {
         var _this = this;
@@ -207,6 +207,12 @@ var TasksService = /** @class */ (function () {
         if (!hoveredTask)
             return;
         this.root.api.handleTaskClick(hoveredTask);
+    };
+    TasksService.prototype.scrollToTask = function (id) {
+        var task = this.getRootStoreTaskById(id);
+        if (!task)
+            return;
+        this.root.grid.service.showDay(task.start_date_ts);
     };
     /** Start Add Dependencies */
     TasksService.prototype.handleAddDepMouseMove = function (event) {

@@ -37,14 +37,15 @@ export class TasksService {
 		const task = this.getModuleStoreTaskById(id);
 		if(!task) return null;
 		const index = this.module.store.tasks.indexOf(task);
-		const { x, xx } = this.getTaskPos(task);
+		const { x, xx, error } = this.getTaskPos(task);
 		const w = xx - x;
 		const offsetY = rowsOffsetY - this.root.view.offsetY;
 		const y = (rowHeight * index) + offsetY;
 		return {
 			...task,
 			hover: hoverId === task.id,
-			y, x, w
+			y, x, w,
+			error
 		}
 
 	}
@@ -196,6 +197,12 @@ export class TasksService {
 		const hoveredTask = this.getRootStoreTaskById(hoverId);
 		if(!hoveredTask) return;
 		this.root.api.handleTaskClick(hoveredTask);
+	}
+	
+	scrollToTask(id: string) {
+		const task = this.getRootStoreTaskById(id);
+		if(!task) return;
+		this.root.grid.service.showDay(task.start_date_ts);
 	}
 
 	/** Start Add Dependencies */

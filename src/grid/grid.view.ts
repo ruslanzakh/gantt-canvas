@@ -165,7 +165,7 @@ export class GridView {
 		this.fillColumns();
 		this.fillRows();
 		this.fillMonths();
-		this.firstTsOnScreen = this.module.service.getTsByX(0);
+		this.firstTsOnScreen = this.module.service.getFirstTsOnScreen();
 	}
 
 	renderGrid() {

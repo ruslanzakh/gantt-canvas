@@ -16,6 +16,7 @@ export declare class TasksService {
         y: number;
         x: number;
         w: number;
+        error: boolean;
         id: string;
         title: string;
         start_date_ts: number;
@@ -52,6 +53,7 @@ export declare class TasksService {
     /** End commons */
     handleClickTask(event: MouseEvent): void;
     handleTouchTask(event: EventOffsets): void;
+    scrollToTask(id: string): void;
     /** Start Add Dependencies */
     handleAddDepMouseMove(event: MouseEvent): void;
     handleAddDepMouseUp(event: MouseEvent): void;

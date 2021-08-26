@@ -14,7 +14,7 @@ var GridModule = /** @class */ (function () {
     GridModule.prototype.init = function () {
         this.store.initialData();
         if (this.root.api.startFromToday)
-            this.service.showCurrentDay();
+            this.service.showDay();
     };
     return GridModule;
 }());

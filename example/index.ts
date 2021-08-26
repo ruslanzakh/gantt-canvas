@@ -112,6 +112,12 @@ const gantt = new Gantt('#app', {
 const scrollToday = document.getElementById('scroll-today');
 if(scrollToday) {
 	scrollToday.addEventListener('click', function() {
-		gantt.scrollToday();
+		gantt.scrollToToday();
+	})
+}
+const scrollTask = document.getElementById('scroll-task');
+if(scrollTask) {
+	scrollTask.addEventListener('click', function() {
+		gantt.scrollToTask('task1');
 	})
 }

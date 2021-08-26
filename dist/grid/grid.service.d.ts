@@ -4,9 +4,11 @@ export declare class GridService {
     root: RootModule;
     module: GridModule;
     constructor(root: RootModule, module: GridModule);
-    showCurrentDay(): void;
+    showDay(ts?: number): void;
+    showDayByTs(dateTs: number): void;
     getPosXByTs(ts: number): number;
     getPosXByFullDayTs(ts: number, end?: boolean): number;
+    getFirstTsOnScreen(): number;
     getTsByX(x: number): number;
     getTsByOffsetDiff(x: number): number;
     getFullAvailableWidth(): number;

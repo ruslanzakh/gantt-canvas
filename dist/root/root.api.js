@@ -72,8 +72,12 @@ var RootApi = /** @class */ (function () {
         this.tasks = tasks;
         this.root.render();
     };
-    RootApi.prototype.scrollToday = function () {
-        this.root.grid.service.showCurrentDay();
+    RootApi.prototype.scrollToToday = function () {
+        this.root.grid.service.showDay();
+        this.root.render();
+    };
+    RootApi.prototype.scrollToTask = function (id) {
+        this.root.tasks.service.scrollToTask(id);
         this.root.render();
     };
     return RootApi;

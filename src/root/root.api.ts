@@ -250,8 +250,13 @@ export class RootApi {
 		this.root.render();
 	}
 
-	scrollToday() {
-		this.root.grid.service.showCurrentDay();
+	scrollToToday() {
+		this.root.grid.service.showDay();
+		this.root.render();
+	}
+
+	scrollToTask(id: string) {
+		this.root.tasks.service.scrollToTask(id);
 		this.root.render();
 	}
 
