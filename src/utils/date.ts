@@ -9,6 +9,10 @@ export const setDate = (date: Date, diff: number) => {
 	date.setDate(date.getDate() + diff);
 }
 
+export const setDateTs = (date: Date, diff: number) => {
+	return new Date(date.getTime() + diff);
+}
+
 export const getDateWithSet = (ts?: number | string, diff = 0) => {
 	const date = getDate(ts);
 	if(diff !== 0) setDate(date, diff);

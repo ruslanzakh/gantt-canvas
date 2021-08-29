@@ -1,6 +1,6 @@
 import { RootModule } from '../root/root.module';
 import { GridModule } from './grid.module';
-import { getDate, setDate, getDaysInMonth } from '../utils/date';
+import { getDate, getDaysInMonth, setDateTs } from '../utils/date';
 
 interface GridDate {
 	ts: number;
@@ -26,9 +26,9 @@ export class GridStore {
 	initialData() {
 		if(this.root.api.renderAllTasksFromStart) {
 			const [start_date_ts, end_date_ts] = this.root.tasks.service.getFirstAndLastDeadline();
-			const date = getDate(start_date_ts);
+			let date = getDate(start_date_ts);
 			do {
-				setDate(date, 1);
+				date = setDateTs(date, this.module.view.colTs);
 				this.add(date);
 			} while(date.getTime() <= end_date_ts);
 		}
@@ -38,10 +38,10 @@ export class GridStore {
 	}
 
 	fillDataBefore(ts: number) {
-		const date = getDate(this.dates[0].ts);
+		let date = getDate(this.dates[0].ts);
 		if(date.getTime() > ts) {
 			do {
-				setDate(date, -1);
+				date = setDateTs(date, -this.module.view.colTs);
 				this.add(date, true);
 			} while(date.getTime() > ts);
 		}
@@ -72,13 +72,13 @@ export class GridStore {
 		const data = this.dates;
 		const { colsOnScreen, colWidth } = this.module.view;
 		const length = -offsetX / colWidth;
-		const date = getDate(data[0]?.ts);
-		setDate(date, -1);
+		let date = getDate(data[0]?.ts);
+		date = setDateTs(date, -this.module.view.colTs);
 		this.add(date, true);
 		
 		for(let i = 0; i < length + colsOnScreen; i++) {
 			offsetX += colWidth;
-			setDate(date, -1);
+			date = setDateTs(date, -this.module.view.colTs);
 			this.add(date, true);
 		}
 		this.root.view.offsetX = offsetX;
@@ -91,9 +91,9 @@ export class GridStore {
 		const width = fullDataWidth - this.root.canvas.width - colWidth
 		if(offsetX < width) return;
 		const length = ((offsetX - width) / colWidth);
-		const date = getDate(data[data.length - 1].ts);
+		let date = getDate(data[data.length - 1].ts);
 		for(let i = 0; i < length + colsOnScreen; i++) {
-			setDate(date, 1);
+			date = setDateTs(date, this.module.view.colTs);
 			this.add(date);
 		}
 	}

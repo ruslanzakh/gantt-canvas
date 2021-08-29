@@ -17,6 +17,8 @@ export interface Task {
 	outlineColor?: string;
 }
 
+export type ViewMode = 'day' | 'week';
+
 export interface RootApiProps {
 	tasks: Task[],
 	moveDependedOnResizeRight?: boolean;
@@ -25,6 +27,7 @@ export interface RootApiProps {
 	showTime?: boolean;
 	startFromToday?: boolean;
 	renderAllTasksFromStart?: boolean;
+	viewMode?: ViewMode;
 
 	showMonthMiddle?: boolean;
 	monthHeight?: number;
@@ -108,6 +111,7 @@ export class RootApi {
 	showTime: boolean;
 	startFromToday: boolean;
 	renderAllTasksFromStart: boolean;
+	viewMode: ViewMode;
 
 	showMonthMiddle: boolean;
 	monthHeight: number;
@@ -187,6 +191,7 @@ export class RootApi {
 		this.startFromToday = props.startFromToday ?? true;
 		this.renderAllTasksFromStart = props.renderAllTasksFromStart ?? true;
 		this.showMonthMiddle = props.showMonthMiddle ?? false;
+		this.viewMode = props.viewMode ?? 'week';
 
 		this.monthHeight = props.monthHeight ?? 55;
 		this.renderMonthBottomLine = props.renderMonthBottomLine ?? true;
