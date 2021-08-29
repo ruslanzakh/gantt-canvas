@@ -7,6 +7,8 @@ var RootController = /** @class */ (function () {
         this.events = {};
         this.touchOffsetX = null;
         this.touchOffsetY = null;
+        this.previousTouchOffsetX = null;
+        this.previousTouchOffsetY = null;
         this.root = root;
         this.attachEvents();
     }
@@ -112,12 +114,17 @@ var RootController = /** @class */ (function () {
             var diff = this.touchOffsetX - offsetX;
             var offset = this.root.view.offsetX + diff;
             this.root.view.handleSetOffsetX(offset);
+            this.previousTouchOffsetX = this.touchOffsetX;
             this.touchOffsetX = offsetX;
         }
         if (offsetY && this.touchOffsetY !== null) {
             var diff = this.touchOffsetY - offsetY;
             var offset = this.root.view.offsetY + diff;
+            var maxHeight = this.root.grid.service.getLeftAvailableHeight();
+            if (offset > maxHeight)
+                offset = maxHeight;
             this.root.view.handleSetOffsetY(offset);
+            this.previousTouchOffsetY = this.touchOffsetY;
             this.touchOffsetY = offsetY;
         }
     };
@@ -131,9 +138,29 @@ var RootController = /** @class */ (function () {
             cb(event);
             return true;
         });
+        if (this.previousTouchOffsetX && this.touchOffsetX) {
+            var diff = this.previousTouchOffsetX - this.touchOffsetX;
+            if (diff > 30 || diff < -30) {
+                diff *= 10;
+                this.root.view.handleSetOffsetX(this.root.view.offsetX + diff, true, true);
+            }
+        }
+        if (this.previousTouchOffsetY && this.touchOffsetY) {
+            var diff = this.previousTouchOffsetY - this.touchOffsetY;
+            if (diff > 30 || diff < -30) {
+                diff *= 10;
+                var offset = this.root.view.offsetY + diff;
+                var maxHeight = this.root.grid.service.getLeftAvailableHeight();
+                if (offset > maxHeight)
+                    offset = maxHeight;
+                this.root.view.handleSetOffsetY(offset, true, true);
+            }
+        }
         event.preventDefault();
         this.touchOffsetX = null;
         this.touchOffsetY = null;
+        this.previousTouchOffsetX = null;
+        this.previousTouchOffsetY = null;
     };
     RootController.prototype.stopPropagation = function (event) {
         // @ts-ignore

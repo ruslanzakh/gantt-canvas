@@ -6,7 +6,7 @@ interface GridDate {
     month: number;
     year: number;
     isStartMonth: boolean;
-    isMiddleMonth: boolean;
+    isMiddleDayMonth: boolean;
     today: boolean;
 }
 export declare class GridStore {

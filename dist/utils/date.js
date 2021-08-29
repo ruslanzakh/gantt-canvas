@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getDaysInMonth = exports.getDateWithSet = exports.setDate = exports.getDate = void 0;
+exports.getDaysInMonth = exports.getDateWithSet = exports.setDateTs = exports.setDate = exports.getDate = void 0;
 var getDate = function (ts, end) {
     if (end === void 0) { end = false; }
     var date = ts ? new Date(ts) : new Date();
@@ -15,6 +15,10 @@ var setDate = function (date, diff) {
     date.setDate(date.getDate() + diff);
 };
 exports.setDate = setDate;
+var setDateTs = function (date, diff) {
+    return new Date(date.getTime() + diff);
+};
+exports.setDateTs = setDateTs;
 var getDateWithSet = function (ts, diff) {
     if (diff === void 0) { diff = 0; }
     var date = exports.getDate(ts);

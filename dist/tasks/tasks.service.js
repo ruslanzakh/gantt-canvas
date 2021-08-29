@@ -181,7 +181,7 @@ var TasksService = /** @class */ (function () {
         var offsetDiff = offsetX - (this.module.controller.mouseDownOffsetX || 0);
         var diff = this.root.grid.service.getTsByOffsetDiff(offsetDiff);
         if (all_day || !this.root.api.showTime) {
-            var colTs = this.root.grid.view.colTs;
+            var colTs = this.root.grid.view.dayTs;
             var dayDiff = (diff - diff % colTs) / colTs;
             diff = colTs * dayDiff;
         }

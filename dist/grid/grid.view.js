@@ -32,7 +32,9 @@ var GridView = /** @class */ (function () {
     }
     Object.defineProperty(GridView.prototype, "colWidth", {
         get: function () {
-            return this.root.api.dayColWidth * this.root.view.scaleX;
+            if (this.root.api.viewMode === 'day')
+                return this.root.api.dayColWidth * this.root.view.scaleX;
+            return this.root.api.monthViewColWidth * this.root.view.scaleX;
         },
         enumerable: false,
         configurable: true
@@ -46,7 +48,23 @@ var GridView = /** @class */ (function () {
     });
     Object.defineProperty(GridView.prototype, "colTs", {
         get: function () {
+            if (this.root.api.viewMode === 'day')
+                return this.dayTs;
+            return this.weekTs;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(GridView.prototype, "dayTs", {
+        get: function () {
             return 24 * 60 * 60 * 1000;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(GridView.prototype, "weekTs", {
+        get: function () {
+            return this.dayTs * 7;
         },
         enumerable: false,
         configurable: true
@@ -112,7 +130,7 @@ var GridView = /** @class */ (function () {
                 month: el.month,
                 year: el.year,
                 isStartMonth: el.isStartMonth,
-                isMiddleMonth: el.isMiddleMonth,
+                isMiddleDayMonth: el.isMiddleDayMonth,
                 today: el.today,
             });
         }
@@ -121,7 +139,7 @@ var GridView = /** @class */ (function () {
     GridView.prototype.fillMonths = function () {
         var _this = this;
         var data = this.columns.reduce(function (prev, _a) {
-            var month = _a.month, x = _a.x, year = _a.year, isMiddleMonth = _a.isMiddleMonth;
+            var month = _a.month, x = _a.x, year = _a.year, isMiddleDayMonth = _a.isMiddleDayMonth;
             var xx = x + _this.colWidth;
             var label = month + '.' + year;
             if (!prev[label]) {
@@ -136,7 +154,7 @@ var GridView = /** @class */ (function () {
                 prev[label].x = x;
             if (prev[label].xx < xx)
                 prev[label].xx = xx;
-            if (isMiddleMonth)
+            if (isMiddleDayMonth)
                 prev[label].middle = x + (_this.colWidth / 2);
             return prev;
         }, {});
@@ -152,7 +170,6 @@ var GridView = /** @class */ (function () {
         var odd = true;
         var height = this.root.canvas.height;
         var data = [];
-        var length = this.root.api.tasks.length;
         var headerOffset = this.rowsOffsetY + this.rowHeight;
         var offsetY = headerOffset - this.root.view.offsetY - this.rowHeight;
         var minY = this.rowsOffsetY - this.rowHeight;

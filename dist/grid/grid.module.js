@@ -12,6 +12,7 @@ var GridModule = /** @class */ (function () {
         this.service = new grid_service_1.GridService(root, this);
     }
     GridModule.prototype.init = function () {
+        this.store.dates = [];
         this.store.initialData();
         if (this.root.api.startFromToday)
             this.service.showDay();

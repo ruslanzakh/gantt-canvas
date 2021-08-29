@@ -20,11 +20,10 @@ var MonthEntity = /** @class */ (function () {
             ctx.lineTo(xx, height);
         }
         ctx.stroke();
-        if (this.root.api.showMonthMiddle) {
+        if (this.root.api.showMonthMiddle || (this.root.api.viewMode === 'week')) {
             var width = xx - x;
-            if (width < 200)
-                return;
-            middle = (xx + x) / 2;
+            if (width >= (ctx.measureText(title).width * 1.5))
+                middle = (xx + x) / 2;
         }
         if (middle) {
             ctx.font = this.root.api.monthTitleFont;

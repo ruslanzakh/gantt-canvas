@@ -4,10 +4,19 @@ var root_module_1 = require("./root/root.module");
 var Gantt = /** @class */ (function () {
     function Gantt(el, props) {
         this.root = new root_module_1.RootModule(el, props);
-        this.updateTasks = this.root.api.updateTasks;
-        this.scrollToToday = this.root.api.scrollToToday;
-        this.scrollToTask = this.root.api.scrollToTask;
     }
+    Gantt.prototype.updateTasks = function (tasks) {
+        this.root.api.updateTasks(tasks);
+    };
+    Gantt.prototype.scrollToToday = function () {
+        this.root.api.scrollToToday();
+    };
+    Gantt.prototype.scrollToTask = function (id) {
+        this.root.api.scrollToTask(id);
+    };
+    Gantt.prototype.updateViewMode = function (mode) {
+        this.root.api.updateViewMode(mode);
+    };
     return Gantt;
 }());
 exports.default = Gantt;

@@ -7,6 +7,8 @@ export declare class RootController {
     events: EventsList;
     touchOffsetX: number | null;
     touchOffsetY: number | null;
+    previousTouchOffsetX: number | null;
+    previousTouchOffsetY: number | null;
     constructor(root: RootModule);
     attachEvents(): void;
     destroyEvents(): void;

@@ -145,14 +145,14 @@ export class RootController {
 		if(this.previousTouchOffsetX && this.touchOffsetX) {
 			let diff = this.previousTouchOffsetX - this.touchOffsetX;
 			if(diff > 30 || diff < -30) {
-				diff *= 7;
+				diff *= 10;
 				this.root.view.handleSetOffsetX(this.root.view.offsetX  + diff, true, true);
 			}
 		}
 		if(this.previousTouchOffsetY && this.touchOffsetY) {
 			let diff = this.previousTouchOffsetY - this.touchOffsetY;
 			if(diff > 30 || diff < -30) {
-				diff *= 5;
+				diff *= 10;
 				let offset = this.root.view.offsetY  + diff;
 				const maxHeight = this.root.grid.service.getLeftAvailableHeight();
 				if(offset > maxHeight) offset = maxHeight;

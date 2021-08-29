@@ -66,6 +66,8 @@ var RootView = /** @class */ (function () {
             var diff_1 = offsetX - initialOffset_1;
             var positiveDiff = diff_1 > 0 ? diff_1 : diff_1 * -1;
             var duration = (positiveDiff / this.root.grid.service.getFullAvailableWidth()) * 1500;
+            if (diff_1 === 0)
+                return;
             animate_1.animate({
                 duration: duration,
                 timing: animate_1.timing,
@@ -98,6 +100,8 @@ var RootView = /** @class */ (function () {
             var diff_2 = offsetY - initialOffset_2;
             var positiveDiff = diff_2 > 0 ? diff_2 : diff_2 * -1;
             var duration = (positiveDiff / this.root.grid.service.getFullAvailableHeight()) * 1500;
+            if (diff_2 === 0)
+                return;
             animate_1.animate({
                 duration: duration,
                 timing: animate_1.timing,

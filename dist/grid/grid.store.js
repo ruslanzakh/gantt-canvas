@@ -13,7 +13,7 @@ var GridStore = /** @class */ (function () {
             var _a = this.root.tasks.service.getFirstAndLastDeadline(), start_date_ts = _a[0], end_date_ts = _a[1];
             var date = date_1.getDate(start_date_ts);
             do {
-                date_1.setDate(date, 1);
+                date = date_1.setDateTs(date, this.module.view.colTs);
                 this.add(date);
             } while (date.getTime() <= end_date_ts);
         }
@@ -24,7 +24,7 @@ var GridStore = /** @class */ (function () {
         var date = date_1.getDate(this.dates[0].ts);
         if (date.getTime() > ts) {
             do {
-                date_1.setDate(date, -1);
+                date = date_1.setDateTs(date, -this.module.view.colTs);
                 this.add(date, true);
             } while (date.getTime() > ts);
         }
@@ -32,7 +32,11 @@ var GridStore = /** @class */ (function () {
     GridStore.prototype.add = function (date, unshift) {
         if (unshift === void 0) { unshift = false; }
         var day = date.getDate();
-        var middleDayInMonth = Math.floor(date_1.getDaysInMonth(date.getMonth() + 1, date.getFullYear()) / 2);
+        var isMiddleDayMonth = false;
+        if (this.root.api.viewMode === 'day') {
+            var middleDayInMonth = Math.floor(date_1.getDaysInMonth(date.getMonth() + 1, date.getFullYear()) / 2);
+            isMiddleDayMonth = day === middleDayInMonth;
+        }
         var todayTs = date_1.getDate().getTime();
         var today = todayTs === date_1.getDate(date.getTime()).getTime();
         var elem = {
@@ -41,7 +45,7 @@ var GridStore = /** @class */ (function () {
             month: date.getMonth(),
             year: date.getFullYear(),
             isStartMonth: day === 1,
-            isMiddleMonth: day === middleDayInMonth,
+            isMiddleDayMonth: isMiddleDayMonth,
             today: today,
         };
         if (unshift)
@@ -57,11 +61,11 @@ var GridStore = /** @class */ (function () {
         var _b = this.module.view, colsOnScreen = _b.colsOnScreen, colWidth = _b.colWidth;
         var length = -offsetX / colWidth;
         var date = date_1.getDate((_a = data[0]) === null || _a === void 0 ? void 0 : _a.ts);
-        date_1.setDate(date, -1);
+        date = date_1.setDateTs(date, -this.module.view.colTs);
         this.add(date, true);
         for (var i = 0; i < length + colsOnScreen; i++) {
             offsetX += colWidth;
-            date_1.setDate(date, -1);
+            date = date_1.setDateTs(date, -this.module.view.colTs);
             this.add(date, true);
         }
         this.root.view.offsetX = offsetX;
@@ -76,7 +80,7 @@ var GridStore = /** @class */ (function () {
         var length = ((offsetX - width) / colWidth);
         var date = date_1.getDate(data[data.length - 1].ts);
         for (var i = 0; i < length + colsOnScreen; i++) {
-            date_1.setDate(date, 1);
+            date = date_1.setDateTs(date, this.module.view.colTs);
             this.add(date);
         }
     };

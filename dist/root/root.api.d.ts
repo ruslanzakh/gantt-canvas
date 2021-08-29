@@ -15,6 +15,7 @@ export interface Task {
     underline?: boolean;
     outlineColor?: string;
 }
+export declare type ViewMode = 'day' | 'week';
 export interface RootApiProps {
     tasks: Task[];
     moveDependedOnResizeRight?: boolean;
@@ -23,6 +24,7 @@ export interface RootApiProps {
     showTime?: boolean;
     startFromToday?: boolean;
     renderAllTasksFromStart?: boolean;
+    viewMode?: ViewMode;
     showMonthMiddle?: boolean;
     monthHeight?: number;
     renderMonthBottomLine?: boolean;
@@ -39,6 +41,7 @@ export interface RootApiProps {
     dayFont?: string;
     dayTodayBackground?: string;
     dayColWidth?: number;
+    monthViewColWidth?: number;
     rowHeight?: number;
     colLineColor?: string;
     colStartMonthLineColor?: string;
@@ -90,6 +93,7 @@ export declare class RootApi {
     showTime: boolean;
     startFromToday: boolean;
     renderAllTasksFromStart: boolean;
+    viewMode: ViewMode;
     showMonthMiddle: boolean;
     monthHeight: number;
     renderMonthBottomLine: boolean;
@@ -106,6 +110,7 @@ export declare class RootApi {
     dayFont: string;
     dayTodayBackground: string;
     dayColWidth: number;
+    monthViewColWidth: number;
     rowHeight: number;
     colLineColor: string;
     colStartMonthLineColor?: string;
@@ -151,4 +156,5 @@ export declare class RootApi {
     updateTasks(tasks: Task[]): void;
     scrollToToday(): void;
     scrollToTask(id: string): void;
+    updateViewMode(mode: ViewMode): void;
 }
