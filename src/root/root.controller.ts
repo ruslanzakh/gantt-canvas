@@ -11,6 +11,8 @@ export class RootController {
 
 	touchOffsetX: number | null = null;
 	touchOffsetY: number | null = null;
+	previousTouchOffsetX: number | null = null;
+	previousTouchOffsetY: number | null = null;
 
 	constructor(root: RootModule) {
 		this.root = root;
@@ -113,12 +115,14 @@ export class RootController {
 			const diff = this.touchOffsetX - offsetX;
 			let offset = this.root.view.offsetX + diff;
 			this.root.view.handleSetOffsetX(offset);
+			this.previousTouchOffsetX = this.touchOffsetX;
 			this.touchOffsetX = offsetX;
 		}
 		if(offsetY && this.touchOffsetY !== null) {
 			const diff = this.touchOffsetY - offsetY;
 			let offset = this.root.view.offsetY + diff;
 			this.root.view.handleSetOffsetY(offset);
+			this.previousTouchOffsetY = this.touchOffsetY;
 			this.touchOffsetY = offsetY;
 		}
 		
@@ -135,9 +139,27 @@ export class RootController {
 			return true;
 		});
 
+
+		if(this.previousTouchOffsetX && this.touchOffsetX) {
+			let diff = this.previousTouchOffsetX - this.touchOffsetX;
+			if(diff > 20 || diff < -20) {
+				diff *= 7;
+				this.root.view.handleSetOffsetX(this.root.view.offsetX  + diff, true, true);
+			}
+		}
+		if(this.previousTouchOffsetY && this.touchOffsetY) {
+			let diff = this.previousTouchOffsetY - this.touchOffsetY;
+			if(diff > 20 || diff < -20) {
+				diff *= 5;
+				this.root.view.handleSetOffsetY(this.root.view.offsetY  + diff, true, true);
+			}
+		}
+		
 		event.preventDefault();
 		this.touchOffsetX = null;
 		this.touchOffsetY = null;
+		this.previousTouchOffsetX = null;
+		this.previousTouchOffsetY = null;
 	}
 
 	
