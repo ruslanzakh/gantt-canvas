@@ -193,7 +193,7 @@ export class RootApi {
 		this.startFromToday = props.startFromToday ?? true;
 		this.renderAllTasksFromStart = props.renderAllTasksFromStart ?? true;
 		this.showMonthMiddle = props.showMonthMiddle ?? false;
-		this.viewMode = props.viewMode ?? 'week';
+		this.viewMode = props.viewMode ?? 'day';
 
 		this.monthHeight = props.monthHeight ?? 55;
 		this.renderMonthBottomLine = props.renderMonthBottomLine ?? true;
