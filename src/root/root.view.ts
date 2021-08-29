@@ -72,7 +72,8 @@ export class RootView {
 			const initialOffset = this.offsetX;
 			const diff = offsetX - initialOffset;
 			const positiveDiff = diff > 0 ? diff : diff * -1;
-			const duration = (positiveDiff / this.root.grid.service.getFullAvailableWidth()) * 1500
+			const duration = (positiveDiff / this.root.grid.service.getFullAvailableWidth()) * 1500;
+			if(diff === 0) return;
 			animate({
 				duration,
 				timing,
@@ -98,7 +99,8 @@ export class RootView {
 			const initialOffset = this.offsetY;
 			const diff = offsetY - initialOffset;
 			const positiveDiff = diff > 0 ? diff : diff * -1;
-			const duration = (positiveDiff / this.root.grid.service.getFullAvailableHeight()) * 1500
+			const duration = (positiveDiff / this.root.grid.service.getFullAvailableHeight()) * 1500;
+			if(diff === 0) return;
 			animate({
 				duration,
 				timing,

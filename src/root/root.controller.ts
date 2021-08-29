@@ -121,6 +121,8 @@ export class RootController {
 		if(offsetY && this.touchOffsetY !== null) {
 			const diff = this.touchOffsetY - offsetY;
 			let offset = this.root.view.offsetY + diff;
+			const maxHeight = this.root.grid.service.getLeftAvailableHeight();
+			if(offset > maxHeight) offset = maxHeight;
 			this.root.view.handleSetOffsetY(offset);
 			this.previousTouchOffsetY = this.touchOffsetY;
 			this.touchOffsetY = offsetY;
@@ -142,16 +144,19 @@ export class RootController {
 
 		if(this.previousTouchOffsetX && this.touchOffsetX) {
 			let diff = this.previousTouchOffsetX - this.touchOffsetX;
-			if(diff > 20 || diff < -20) {
+			if(diff > 30 || diff < -30) {
 				diff *= 7;
 				this.root.view.handleSetOffsetX(this.root.view.offsetX  + diff, true, true);
 			}
 		}
 		if(this.previousTouchOffsetY && this.touchOffsetY) {
 			let diff = this.previousTouchOffsetY - this.touchOffsetY;
-			if(diff > 20 || diff < -20) {
+			if(diff > 30 || diff < -30) {
 				diff *= 5;
-				this.root.view.handleSetOffsetY(this.root.view.offsetY  + diff, true, true);
+				let offset = this.root.view.offsetY  + diff;
+				const maxHeight = this.root.grid.service.getLeftAvailableHeight();
+				if(offset > maxHeight) offset = maxHeight;
+				this.root.view.handleSetOffsetY(offset, true, true);
 			}
 		}
 		
