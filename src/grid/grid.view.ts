@@ -24,7 +24,7 @@ interface RichedColumnRender extends ColumnRender {
 	month: number;
 	year: number;
 	ts: number;
-	isMiddleMonth: boolean;
+	isMiddleDayMonth: boolean;
 }
 export class GridView {
 
@@ -50,7 +50,9 @@ export class GridView {
 	}
 
 	get colWidth() {
-		return this.root.api.dayColWidth * this.root.view.scaleX;
+		if(this.root.api.viewMode === 'day')
+			return this.root.api.dayColWidth * this.root.view.scaleX;
+		return this.root.api.monthViewColWidth * this.root.view.scaleX;
 	}
 	
 	get colsOnScreen() {
@@ -58,7 +60,16 @@ export class GridView {
 	}
 
 	get colTs() {
+		if(this.root.api.viewMode === 'day') return this.dayTs;
+		return this.weekTs;
+	}
+
+	get dayTs() {
 		return 24 * 60 * 60 * 1000;
+	}
+
+	get weekTs() {
+		return this.dayTs * 7;
 	}
 
 	get tsHasOneX() {
@@ -105,7 +116,7 @@ export class GridView {
 				month: el.month,
 				year: el.year,
 				isStartMonth: el.isStartMonth,
-				isMiddleMonth: el.isMiddleMonth,
+				isMiddleDayMonth: el.isMiddleDayMonth,
 				today: el.today,
 			});
 		}
@@ -114,7 +125,7 @@ export class GridView {
 
 
 	fillMonths() {
-		const data = this.columns.reduce((prev: ObjectList<MonthRender>, {month, x, year, isMiddleMonth}) => {
+		const data = this.columns.reduce((prev: ObjectList<MonthRender>, {month, x, year, isMiddleDayMonth}) => {
 			const xx = x + this.colWidth;
 			const label = month + '.' + year;
 			if(!prev[label]) {
@@ -127,7 +138,7 @@ export class GridView {
 			}
 			if(prev[label].x > x) prev[label].x = x;
 			if(prev[label].xx < xx) prev[label].xx = xx;
-			if(isMiddleMonth) prev[label].middle = x + (this.colWidth / 2);
+			if(isMiddleDayMonth) prev[label].middle = x + (this.colWidth / 2);
 			return prev;
 		}, {});
 		this.months = Object.values(data);
@@ -144,7 +155,6 @@ export class GridView {
 		let odd = true;
 		const height = this.root.canvas.height;
 		const data: RowRender[] = [];
-		const length = this.root.api.tasks.length;
 		const headerOffset = this.rowsOffsetY + this.rowHeight;
 		const offsetY = headerOffset - this.root.view.offsetY - this.rowHeight;
 		const minY = this.rowsOffsetY - this.rowHeight;

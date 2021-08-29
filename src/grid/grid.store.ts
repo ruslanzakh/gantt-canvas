@@ -8,7 +8,7 @@ interface GridDate {
 	month: number;
 	year: number;
 	isStartMonth: boolean;
-	isMiddleMonth: boolean;
+	isMiddleDayMonth: boolean;
 	today: boolean;
 }
 
@@ -49,7 +49,11 @@ export class GridStore {
 
 	add(date: Date, unshift = false) {
 		const day = date.getDate();
-		const middleDayInMonth = Math.floor(getDaysInMonth(date.getMonth() + 1, date.getFullYear()) / 2);
+		let isMiddleDayMonth = false;
+		if(this.root.api.viewMode === 'day') {
+			const middleDayInMonth = Math.floor(getDaysInMonth(date.getMonth() + 1, date.getFullYear()) / 2);
+			isMiddleDayMonth = day === middleDayInMonth;
+		}
 		const todayTs = getDate().getTime();
 		const today = todayTs === getDate(date.getTime()).getTime();
 		const elem = {
@@ -58,7 +62,7 @@ export class GridStore {
 			month: date.getMonth(),
 			year: date.getFullYear(),
 			isStartMonth: day === 1,
-			isMiddleMonth: day === middleDayInMonth,
+			isMiddleDayMonth,
 			today,
 		}
 		if(unshift) this.dates.unshift(elem);

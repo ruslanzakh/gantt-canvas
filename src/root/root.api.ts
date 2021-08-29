@@ -47,6 +47,7 @@ export interface RootApiProps {
 	dayTodayBackground?: string;
 
 	dayColWidth?: number;
+	monthViewColWidth?: number;
 	rowHeight?: number;
 
 	colLineColor?: string;
@@ -131,6 +132,7 @@ export class RootApi {
 	dayTodayBackground: string;
 
 	dayColWidth: number;
+	monthViewColWidth: number;
 	rowHeight: number;
 
 	colLineColor: string;
@@ -210,6 +212,7 @@ export class RootApi {
 		this.dayColor = props.dayColor ?? '#222';
 
 		this.dayColWidth = props.dayColWidth ?? 40;
+		this.monthViewColWidth = props.monthViewColWidth ?? 120;
 		this.rowHeight = props.rowHeight ?? 40;
 		this.colLineColor = props.colLineColor ?? '#ebebeb';
 		this.colStartMonthLineColor = props.colStartMonthLineColor;
