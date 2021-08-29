@@ -138,3 +138,15 @@ if(scrollTask) {
 		gantt.scrollToTask('task1');
 	})
 }
+const viewDay = document.getElementById('view-day');
+if(viewDay) {
+	viewDay.addEventListener('click', function() {
+		gantt.updateViewMode('day');
+	})
+}
+const viewWeek = document.getElementById('view-week');
+if(viewWeek) {
+	viewWeek.addEventListener('click', function() {
+		gantt.updateViewMode('week');
+	})
+}

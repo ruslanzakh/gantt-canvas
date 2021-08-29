@@ -1,16 +1,26 @@
 import { RootModule, RootApiProps } from './root/root.module';
-import { Task } from  './root/root.api';
+import { Task, ViewMode } from  './root/root.api';
 class Gantt {
 	root: RootModule;
-	updateTasks: (tasks: Task[]) => void;
-	scrollToToday: () => void;
-	scrollToTask: (id: string) => void;
 
 	constructor(el: string, props: RootApiProps) {
 		this.root = new RootModule(el, props);
-		this.updateTasks = this.root.api.updateTasks;
-		this.scrollToToday = this.root.api.scrollToToday;
-		this.scrollToTask = this.root.api.scrollToTask;
+	}
+
+	updateTasks(tasks: Task[]) {
+		this.root.api.updateTasks(tasks);
+	}
+
+	scrollToToday() {
+		this.root.api.scrollToToday();
+	}
+
+	scrollToTask(id: string) {
+		this.root.api.scrollToTask(id);
+	}
+
+	updateViewMode(mode: ViewMode) {
+		this.root.api.updateViewMode(mode);
 	}
 }
 

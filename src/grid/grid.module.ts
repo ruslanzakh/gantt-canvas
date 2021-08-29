@@ -18,6 +18,7 @@ export class GridModule {
 	}
 
 	init() {
+		this.store.dates = [];
 		this.store.initialData();
 		if(this.root.api.startFromToday) this.service.showDay();
 	}

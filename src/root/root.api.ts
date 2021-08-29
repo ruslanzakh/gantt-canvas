@@ -276,5 +276,11 @@ export class RootApi {
 		this.root.tasks.service.scrollToTask(id);
 	}
 
+	updateViewMode(mode: ViewMode) {
+		this.viewMode = mode;
+		this.root.grid.init();
+		this.root.render();
+	}
+
 
 }
