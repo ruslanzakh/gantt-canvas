@@ -22,7 +22,7 @@ export interface RootApiProps {
 	moveDependedOnResizeRight?: boolean;
 	moveDependedOnResizeLeft?: boolean;
 	moveDependedOnMove?: boolean;
-	saveTime?: boolean;
+	showTime?: boolean;
 	startFromToday?: boolean;
 	renderAllTasksFromStart?: boolean;
 
@@ -105,7 +105,7 @@ export class RootApi {
 	moveDependedOnResizeRight: boolean;
 	moveDependedOnResizeLeft: boolean;
 	moveDependedOnMove: boolean;
-	saveTime: boolean;
+	showTime: boolean;
 	startFromToday: boolean;
 	renderAllTasksFromStart: boolean;
 
@@ -183,7 +183,7 @@ export class RootApi {
 		this.moveDependedOnResizeRight = props.moveDependedOnResizeRight ?? true;
 		this.moveDependedOnResizeLeft = props.moveDependedOnResizeLeft ?? false;
 		this.moveDependedOnMove = props.moveDependedOnMove ?? true;
-		this.saveTime = props.saveTime ?? true;
+		this.showTime = props.showTime ?? false;
 		this.startFromToday = props.startFromToday ?? true;
 		this.renderAllTasksFromStart = props.renderAllTasksFromStart ?? true;
 		this.showMonthMiddle = props.showMonthMiddle ?? false;

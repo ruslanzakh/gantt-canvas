@@ -69,10 +69,11 @@ var TasksService = /** @class */ (function () {
         return this.getRootStoreTaskById(this.module.store.hoverId);
     };
     TasksService.prototype.getTaskPos = function (task) {
-        var x = task.all_day
+        var fullDay = task.all_day || !this.root.api.showTime;
+        var x = fullDay
             ? this.root.grid.service.getPosXByFullDayTs(task.start_date_ts)
             : this.root.grid.service.getPosXByTs(task.start_date_ts);
-        var xx = task.all_day
+        var xx = fullDay
             ? this.root.grid.service.getPosXByFullDayTs(task.end_date_ts, true)
             : this.root.grid.service.getPosXByTs(task.end_date_ts);
         var error = false;
@@ -179,7 +180,7 @@ var TasksService = /** @class */ (function () {
         if (all_day === void 0) { all_day = false; }
         var offsetDiff = offsetX - (this.module.controller.mouseDownOffsetX || 0);
         var diff = this.root.grid.service.getTsByOffsetDiff(offsetDiff);
-        if (all_day || this.root.api.saveTime) {
+        if (all_day || !this.root.api.showTime) {
             var colTs = this.root.grid.view.colTs;
             var dayDiff = (diff - diff % colTs) / colTs;
             diff = colTs * dayDiff;
@@ -330,8 +331,6 @@ var TasksService = /** @class */ (function () {
         if (!task || !this.module.controller.mouseDownOffsetX)
             return;
         var diff = this.getDiff(offsetX, task.all_day);
-        if (diff === 0)
-            return;
         if (this.root.api.moveDependedOnMove) {
             this.moveDependedTasks(task, diff);
         }

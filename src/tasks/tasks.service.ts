@@ -66,10 +66,11 @@ export class TasksService {
 	}
 
 	getTaskPos(task: Task) {
-		const x = task.all_day
+		const fullDay = task.all_day || !this.root.api.showTime;
+		const x = fullDay
 			? this.root.grid.service.getPosXByFullDayTs(task.start_date_ts)
 			: this.root.grid.service.getPosXByTs(task.start_date_ts);
-		let xx = task.all_day
+		let xx = fullDay
 			? this.root.grid.service.getPosXByFullDayTs(task.end_date_ts, true)
 			: this.root.grid.service.getPosXByTs(task.end_date_ts);
 		let error = false;
@@ -173,7 +174,7 @@ export class TasksService {
 	getDiff(offsetX: number, all_day = false) {
 		const offsetDiff = offsetX - (this.module.controller.mouseDownOffsetX || 0);
 		let diff = this.root.grid.service.getTsByOffsetDiff(offsetDiff);
-		if(all_day || this.root.api.saveTime) {
+		if(all_day || !this.root.api.showTime) {
 			const colTs = this.root.grid.view.colTs;
 			const dayDiff = (diff - diff % colTs) / colTs;
 			diff = colTs * dayDiff;
@@ -325,7 +326,6 @@ export class TasksService {
 		const task = this.getHoveredTask();
 		if(!task || !this.module.controller.mouseDownOffsetX) return;
 		const diff = this.getDiff(offsetX, task.all_day);
-		if(diff === 0) return;
 		
 		if(this.root.api.moveDependedOnMove) {
 			this.moveDependedTasks(task, diff)

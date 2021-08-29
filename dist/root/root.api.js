@@ -9,7 +9,7 @@ var RootApi = /** @class */ (function () {
         this.moveDependedOnResizeRight = (_a = props.moveDependedOnResizeRight) !== null && _a !== void 0 ? _a : true;
         this.moveDependedOnResizeLeft = (_b = props.moveDependedOnResizeLeft) !== null && _b !== void 0 ? _b : false;
         this.moveDependedOnMove = (_c = props.moveDependedOnMove) !== null && _c !== void 0 ? _c : true;
-        this.saveTime = (_d = props.saveTime) !== null && _d !== void 0 ? _d : true;
+        this.showTime = (_d = props.showTime) !== null && _d !== void 0 ? _d : false;
         this.startFromToday = (_e = props.startFromToday) !== null && _e !== void 0 ? _e : true;
         this.renderAllTasksFromStart = (_f = props.renderAllTasksFromStart) !== null && _f !== void 0 ? _f : true;
         this.showMonthMiddle = (_g = props.showMonthMiddle) !== null && _g !== void 0 ? _g : false;

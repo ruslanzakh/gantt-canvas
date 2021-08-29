@@ -57,6 +57,17 @@ const tasks = [
 		underline: true,
 		outlineColor: 'red',
 	},
+	{
+		id: 'task7',
+		title: 'Task 7',
+		start_date_ts: 1630228023007,
+		end_date_ts: 1630231623007,
+		next_ids: [],
+		stroke: 'orange',
+		strokeHover: 'blue',
+		underline: true,
+		outlineColor: 'red',
+	},
 ]
 
 // 1577912400000

@@ -20,7 +20,7 @@ export interface RootApiProps {
     moveDependedOnResizeRight?: boolean;
     moveDependedOnResizeLeft?: boolean;
     moveDependedOnMove?: boolean;
-    saveTime?: boolean;
+    showTime?: boolean;
     startFromToday?: boolean;
     renderAllTasksFromStart?: boolean;
     showMonthMiddle?: boolean;
@@ -87,7 +87,7 @@ export declare class RootApi {
     moveDependedOnResizeRight: boolean;
     moveDependedOnResizeLeft: boolean;
     moveDependedOnMove: boolean;
-    saveTime: boolean;
+    showTime: boolean;
     startFromToday: boolean;
     renderAllTasksFromStart: boolean;
     showMonthMiddle: boolean;

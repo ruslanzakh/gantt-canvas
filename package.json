@@ -1,7 +1,7 @@
 {
   "name": "gantt-canvas",
-  "version": "0.1.8",
-  "description": "",
+  "version": "0.1.9",
+  "description": "Light-weight plugin for build gantt",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -9,8 +9,8 @@
     "dev-build": "parcel build example/index.html --public-url ./",
     "build": "tsc"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["Gantt", "Canvas"],
+  "author": "Ruslan Zakharov",
   "license": "MIT",
   "devDependencies": {
     "parcel-bundler": "^1.12.5",
