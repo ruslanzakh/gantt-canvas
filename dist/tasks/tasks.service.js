@@ -76,12 +76,13 @@ var TasksService = /** @class */ (function () {
             ? this.root.grid.service.getPosXByFullDayTs(task.end_date_ts, true)
             : this.root.grid.service.getPosXByTs(task.end_date_ts);
         var error = false;
+        var minTaskWidth = this.root.api.minTaskWidth;
         if (xx < x) {
-            xx = x;
+            xx = x + minTaskWidth;
             error = true;
         }
-        if (xx === x)
-            xx += this.root.api.minTaskWidth;
+        if (xx - minTaskWidth < x)
+            xx += minTaskWidth;
         return { x: x, xx: xx, error: error };
     };
     TasksService.prototype.getFirstTaskByDeadline = function () {
