@@ -169,7 +169,7 @@ export class RootController {
 	}
 
 	
-	stopPropagation(event: MouseEvent) {
+	stopPropagation<T extends Event>(event: T) {
 		// @ts-ignore
 		event._stopPropagation = true;
 	}

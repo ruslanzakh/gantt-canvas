@@ -1,10 +1,12 @@
 import { RootModule } from '../root.module';
-import { roundRect } from '../../utils/canvas';
+import { roundRect, getEventTouchOffsets } from '../../utils/canvas';
+import { EventOffsets } from '../../utils/interfaces';
 
 
 export class ScrollbarXEntity {
 	root: RootModule;
 	destroyHandleMouseDown: Function;
+	destroyHandleTouchEnd: Function;
 	destroyMouseMove: Function;
 	
 	mouseDownOffset: number | null = null;
@@ -15,6 +17,7 @@ export class ScrollbarXEntity {
 	constructor(root: RootModule) {
 		this.root = root;
 		this.destroyHandleMouseDown = this.root.controller.on('mousedown', this.handleMouseDown.bind(this));
+		this.destroyHandleTouchEnd = this.root.controller.on('touchend', this.handleTouchEnd.bind(this));
 		this.destroyMouseMove = this.root.controller.on('mousemove', this.handleMouseMove.bind(this));
 		this.handleMouseUp = this.handleMouseUp.bind(this);
 		this.handleMoveScrollbar = this.handleMoveScrollbar.bind(this);
@@ -35,6 +38,7 @@ export class ScrollbarXEntity {
 	destroyEvents() {
 		this.destroyHandleMouseDown();
 		this.destroyMouseMove();
+		this.destroyHandleTouchEnd();
 	}
 
 	isLineClick(event: MouseEvent) {
@@ -45,7 +49,7 @@ export class ScrollbarXEntity {
 		return true;
 	}
 
-	isBackgroundClick(event: MouseEvent) {
+	isBackgroundClick(event: EventOffsets) {
 		const { offsetY, offsetX } = event;
 		return offsetY >= this.top && offsetX < this.backgroundLineWidth;
 	}
@@ -59,13 +63,21 @@ export class ScrollbarXEntity {
 		if(isLineClick || isBackgroundClick) this.root.controller.stopPropagation(event);
 	}
 
+	handleTouchEnd(event: TouchEvent) {
+		const eventOffsets = getEventTouchOffsets(event, this.root.canvas); 
+		const isBackgroundClick = this.isBackgroundClick(eventOffsets);
+		if(!isBackgroundClick) return;
+		this.handleBackgroundMouseDown(eventOffsets);
+		this.root.controller.stopPropagation(event);
+	}
+
 	handleLinkMouseDown(event: MouseEvent) {
 		this.mouseDownOffset = event.screenX;
 		document.addEventListener('mousemove', this.handleMoveScrollbar);
 		document.addEventListener('mouseup', this.handleMouseUp);
 	}
 
-	handleBackgroundMouseDown(event: MouseEvent) {
+	handleBackgroundMouseDown(event: EventOffsets) {
 		const scaledOffset = this.getScaledOffset(event.offsetX);
 		this.root.view.handleSetOffsetX(scaledOffset, true, true);
 	}
