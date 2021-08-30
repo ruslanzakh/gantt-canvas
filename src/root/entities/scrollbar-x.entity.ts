@@ -134,9 +134,14 @@ export class ScrollbarXEntity {
 
 	getLineXAndWidth() {
 		const fullWidth= this.root.grid.service.getFullAvailableWidth();
-		const x = (this.root.view.offsetX / fullWidth) * this.backgroundLineWidth;
+		let x = (this.root.view.offsetX / fullWidth) * this.backgroundLineWidth;
 		let width = (this.backgroundLineWidth / fullWidth) * this.backgroundLineWidth;
-		if(width < this.minLineWidth) width = this.minLineWidth;
+		if(width < this.minLineWidth) {
+			width = this.minLineWidth;
+			if(x + width > this.root.canvas.width - this.minLineWidth) {
+				x = this.root.canvas.width - width - this.minLineWidth;
+			}
+		}
 		return { x, width };
 	}
 
