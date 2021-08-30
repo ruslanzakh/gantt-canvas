@@ -36,14 +36,17 @@ export class TasksView {
 		});
 
 		this.tasksForArrows = Object.values(data).filter(task => {
-			if((task.y + rowHeight) >= rowsOffsetY && task.y <= this.root.canvas.height) return true;
+			if((task.y + rowHeight) >= rowsOffsetY 
+				&& task.y <= this.root.canvas.height
+				&& (task.x + task.w) >= 0
+				&& task.x <= this.root.canvas.width) return true;
 			return task.next_ids.some(id => {
 				const target = data[id];
 				if(!target) return false;
 				if(task.y < rowsOffsetY && target.y < rowsOffsetY) return false;
 				if(task.y > this.root.canvas.height && target.y  > this.root.canvas.height) return false;
 				if(task.x < 0 && target.x < 0) return false;
-				if(task.x + task.w > this.root.canvas.width && target.x + task.w > this.root.canvas.width) return false;
+				if(task.x + task.w > this.root.canvas.width && target.x + target.w > this.root.canvas.width) return false;
 				return true;
 			})
 		});
@@ -52,6 +55,7 @@ export class TasksView {
 	}
 
 	render() {
+		this.module.store.fillTasks();
 		this.fillTasks();
 		this.renderArrows();
 		this.renderArrowFrom();

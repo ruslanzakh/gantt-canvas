@@ -67,12 +67,12 @@ export class RootView {
 		if(needRender) this.render();
 	}
 
-	handleSetOffsetX(offsetX = 0, needRender = true, needAnimate = false) {
+	handleSetOffsetX(offsetX = 0, needRender = true, needAnimate = false, duration?: number) {
 		if(needAnimate) {
 			const initialOffset = this.offsetX;
 			const diff = offsetX - initialOffset;
 			const positiveDiff = diff > 0 ? diff : diff * -1;
-			const duration = (positiveDiff / this.root.grid.service.getFullAvailableWidth()) * 1500;
+			if(!duration) duration = (positiveDiff / this.root.grid.service.getFullAvailableWidth()) * 1500;
 			if(diff === 0) return;
 			animate({
 				duration,
@@ -94,12 +94,12 @@ export class RootView {
 
 	}
 
-	handleSetOffsetY(offsetY = 0, needRender = true, needAnimate = false) {
+	handleSetOffsetY(offsetY = 0, needRender = true, needAnimate = false, duration?: number) {
 		if(needAnimate) {
 			const initialOffset = this.offsetY;
 			const diff = offsetY - initialOffset;
 			const positiveDiff = diff > 0 ? diff : diff * -1;
-			const duration = (positiveDiff / this.root.grid.service.getFullAvailableHeight()) * 1500;
+			if(!duration) duration = (positiveDiff / this.root.grid.service.getFullAvailableHeight()) * 1500;
 			if(diff === 0) return;
 			animate({
 				duration,
@@ -119,6 +119,7 @@ export class RootView {
 	}
 
 	setCursor(cursor: string) {
+		if(cursor === 'auto' && this.root.api.isLoading) cursor = 'progress';
 		this.root.root.style.cursor = cursor;
 	}
 

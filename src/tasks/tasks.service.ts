@@ -22,7 +22,7 @@ export class TasksService {
 	}
 
 	getModuleStoreTaskById(id: string) {
-		const task = this.module.store.tasks.find(task => task.id === id);
+		const task = this.module.store.tasksList[id];
 		return task || null;
 	}
 
@@ -183,18 +183,9 @@ export class TasksService {
 	}
 	/** End commons */
 
-	handleClickTask(event: MouseEvent) {
+	handleClickTask(event: EventOffsets) {
 		if(!this.root.api.handleTaskClick) return;
 		const { hoverId } = this.getHoverId(event);
-		if(!hoverId) return;
-		const hoveredTask = this.getRootStoreTaskById(hoverId);
-		if(!hoveredTask) return;
-		this.root.api.handleTaskClick(hoveredTask);
-	}
-
-	handleTouchTask(event: EventOffsets) {
-		if(!this.root.api.handleTaskClick) return;
-		const { hoverId } = this.module.service.getHoverId(event);
 		if(!hoverId) return;
 		const hoveredTask = this.getRootStoreTaskById(hoverId);
 		if(!hoveredTask) return;

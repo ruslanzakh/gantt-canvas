@@ -7,6 +7,8 @@ export class TasksStore {
 	root: RootModule;
 
 	modifiedTasks: ObjectList<Task> = {};
+	tasks: Task[] = [];
+	tasksList: ObjectList<Task> = {};
 
 	hoverId: null | string = null;
 	hoverResize: null | string = null;
@@ -19,11 +21,15 @@ export class TasksStore {
 		this.root = root;
 	}
 
-	get tasks() {
-		return this.root.api.tasks.map(task => {
+	fillTasks() {
+		this.tasks = this.root.api.tasks.map(task => {
 			if(this.modifiedTasks[task.id]) return this.modifiedTasks[task.id];
 			return task;
 		})
+		this.tasksList = {};
+		this.tasks.forEach(task => {
+			this.tasksList[task.id] = task;
+		});
 	}
 
 	clearModTasks() {
@@ -37,6 +43,7 @@ export class TasksStore {
 
 	addModTask(task: Task) {
 		this.modifiedTasks[task.id] = task;
+		this.fillTasks();
 	}
 
 	setHoverId(id: null | string, resize: null | string) {

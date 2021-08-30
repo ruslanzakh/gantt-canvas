@@ -115,9 +115,7 @@ function getTasks() {
 const gantt = new Gantt('#app', {
 	tasks: tasks,
 	// tasks: getTasks().sort((a, b) => a.start_date_ts - b.start_date_ts),
-	// tasks: getTasks(),
-	taskDefaultStrokeColor: 'red',
-	taskDefaultHoverStrokeColor: 'green',
+	tasks: getTasks(),
 	handleChange: async (tasks) => {
 		console.log(tasks);
 	},
@@ -148,5 +146,23 @@ const viewWeek = document.getElementById('view-week');
 if(viewWeek) {
 	viewWeek.addEventListener('click', function() {
 		gantt.updateViewMode('week');
+	})
+}
+let isLoading = false;
+const progressToggle = document.getElementById('progress-toggle');
+if(progressToggle) {
+	progressToggle.addEventListener('click', function() {
+		isLoading = !isLoading;
+		gantt.updateIsLoading(isLoading);
+	})
+}
+
+const progressToggleTimeout = document.getElementById('progress-toggle-timeout');
+if(progressToggleTimeout) {
+	progressToggleTimeout.addEventListener('click', function() {
+		setTimeout(() => {
+			isLoading = !isLoading;
+			gantt.updateIsLoading(isLoading);
+		}, 5000);
 	})
 }

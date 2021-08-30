@@ -10,6 +10,7 @@ export class ScrollbarYEntity {
 	
 	bottomOffset = 12;
 	width = 12;
+	minLineHeight = 20;
 	isHover = false;
 
 	constructor(root: RootModule) {
@@ -138,8 +139,8 @@ export class ScrollbarYEntity {
 	getLineYAndHeight() {
 		const fullHeight = this.root.grid.service.getFullAvailableHeight();
 		const y = (this.root.view.offsetY / fullHeight) * this.backgroundLineHeight;
-		const height = (this.backgroundLineHeight / fullHeight) * this.backgroundLineHeight;
-		
+		let height = (this.backgroundLineHeight / fullHeight) * this.backgroundLineHeight;
+		if(height < this.minLineHeight) height = this.minLineHeight;
 		return { y, height };
 	}
 

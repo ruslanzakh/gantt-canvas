@@ -8,6 +8,7 @@ export class TasksController {
 
 	destroyMouseDown?: Function;
 	destroyMouseMove?: Function;
+	destroyMouseUp?: Function;
 	destroyResizeMouseMove?: Function;
 	destroyTaskMove?: Function;
 	destroyAddDepMove?: Function;
@@ -29,25 +30,24 @@ export class TasksController {
 	attachEvents() {
 		this.destroyMouseDown = this.root.controller.on('mousedown', this.handleMouseDown.bind(this));
 		this.destroyMouseMove = this.root.controller.on('mousemove', this.handleMouseMove.bind(this));
+		this.destroyMouseUp = this.root.controller.on('mouseup', this.handleMouseUp.bind(this));
 		this.destroyTouchEnd = this.root.controller.on('touchend', this.handleTouchEnd.bind(this));
 	}
 
 	destroyEvents() {
 		this.destroyMouseDown && this.destroyMouseDown();
 		this.destroyMouseMove && this.destroyMouseMove();
+		this.destroyMouseUp && this.destroyMouseUp();
 		this.destroyTouchEnd && this.destroyTouchEnd();
 	}
 
 	handleTouchEnd(event: TouchEvent) {
-		const offsetX = event.changedTouches[0]?.screenX;
-		const offsetY = event.changedTouches[0]?.screenY;
-		if(offsetX !== this.root.controller.touchOffsetX
-			|| offsetY !== this.root.controller.touchOffsetY) return;
 		const eventOffsets = getEventTouchOffsets(event, this.root.canvas);
-		this.module.service.handleTouchTask(eventOffsets);
+		this.module.service.handleClickTask(eventOffsets);
 	}
 
 	handleMouseDown(event: MouseEvent) {
+		if(this.root.api.isLoading) return;
 		const { hoverId, resize, depFromId } = this.module.service.getHoverId(event);
 		if(!hoverId) return;
 		this.mouseDownOffsetX = event.offsetX;
@@ -67,7 +67,7 @@ export class TasksController {
 	}
 	
 	handleMouseMove(event: MouseEvent) {
-		if(this.resizeMoveMode) return;
+		if(this.resizeMoveMode || this.root.api.isLoading) return;
 		if(this.mouseDownOffsetX) {
 			const { hoverId } = this.module.service.getHoverId(event);
 			return this.module.store.setHoverConnectionTask(hoverId);
@@ -111,7 +111,6 @@ export class TasksController {
 	}
 
 	handleTaskMoveMouseUp(event: MouseEvent) {
-		if(this.mouseDownOffsetX === event.offsetX) this.module.service.handleClickTask(event);
 		this.module.service.handleMoveTaskMouseUp();
 		this.destroyTaskMove && this.destroyTaskMove();
 		this.mouseDownOffsetX = null;
@@ -119,5 +118,10 @@ export class TasksController {
 		document.removeEventListener('mouseup', this.handleTaskMoveMouseUp);
 	}
 	/** End Move Task */
+
+	handleMouseUp(event: MouseEvent) {
+		if(this.mouseDownOffsetX === event.offsetX || this.root.api.isLoading)
+			this.module.service.handleClickTask(event);
+	}
 
 }

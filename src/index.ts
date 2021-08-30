@@ -22,6 +22,10 @@ class Gantt {
 	updateViewMode(mode: ViewMode) {
 		this.root.api.updateViewMode(mode);
 	}
+
+	updateIsLoading(isLoading: boolean) {
+		this.root.api.updateIsLoading(isLoading);
+	}
 }
 
 export default Gantt;

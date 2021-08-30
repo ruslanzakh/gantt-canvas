@@ -82,9 +82,6 @@ export class TaskEntity {
 		if(!task) return;
 		let x = source.x + source.w;
 		let y = source.y + (h / 2);
-		// if((task.x <= 0 || task.x >= this.root.canvas.width) &&
-		// 	(x <= 0 || x >= this.root.canvas.width)) return;
-
 		const targetY = task.y + (h / 2);
 		const ctx = this.root.ctx;
 		ctx.strokeStyle =  this.root.api.arrowColor;

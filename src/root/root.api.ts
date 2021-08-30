@@ -28,6 +28,7 @@ export interface RootApiProps {
 	startFromToday?: boolean;
 	renderAllTasksFromStart?: boolean;
 	viewMode?: ViewMode;
+	isLoading?: boolean;
 
 	showMonthMiddle?: boolean;
 	monthHeight?: number;
@@ -113,6 +114,7 @@ export class RootApi {
 	startFromToday: boolean;
 	renderAllTasksFromStart: boolean;
 	viewMode: ViewMode;
+	isLoading: boolean;
 
 	showMonthMiddle: boolean;
 	monthHeight: number;
@@ -194,6 +196,7 @@ export class RootApi {
 		this.renderAllTasksFromStart = props.renderAllTasksFromStart ?? true;
 		this.showMonthMiddle = props.showMonthMiddle ?? false;
 		this.viewMode = props.viewMode ?? 'day';
+		this.isLoading = props.isLoading ?? false;
 
 		this.monthHeight = props.monthHeight ?? 55;
 		this.renderMonthBottomLine = props.renderMonthBottomLine ?? true;
@@ -280,6 +283,12 @@ export class RootApi {
 		this.viewMode = mode;
 		this.root.grid.init();
 		this.root.render();
+	}
+
+	updateIsLoading(isLoading: boolean) {
+		this.isLoading = isLoading;
+		if(isLoading) this.root.view.setCursor('progress');
+		else this.root.view.setCursor('auto');
 	}
 
 

@@ -38,6 +38,7 @@ export class RootModule {
 		this.grid.init();
 		this.tasks.init();
 		this.render();
+		if(this.api.isLoading) this.view.setCursor('progress');
 	}
 
 	render() {

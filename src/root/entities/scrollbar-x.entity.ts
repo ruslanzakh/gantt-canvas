@@ -10,6 +10,7 @@ export class ScrollbarXEntity {
 	mouseDownOffset: number | null = null;
 
 	isHover = false;
+	minLineWidth = 20;
 
 	constructor(root: RootModule) {
 		this.root = root;
@@ -110,8 +111,8 @@ export class ScrollbarXEntity {
 	getLineXAndWidth() {
 		const fullWidth= this.root.grid.service.getFullAvailableWidth();
 		const x = (this.root.view.offsetX / fullWidth) * this.backgroundLineWidth;
-		const width = (this.backgroundLineWidth / fullWidth) * this.backgroundLineWidth;
-		
+		let width = (this.backgroundLineWidth / fullWidth) * this.backgroundLineWidth;
+		if(width < this.minLineWidth) width = this.minLineWidth;
 		return { x, width };
 	}
 
