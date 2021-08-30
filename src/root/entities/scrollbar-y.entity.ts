@@ -1,10 +1,12 @@
 import { RootModule } from '../root.module';
-import { roundRect } from '../../utils/canvas';
+import { roundRect, getEventTouchOffsets } from '../../utils/canvas';
+import { EventOffsets } from '../../utils/interfaces';
 
 export class ScrollbarYEntity {
 	root: RootModule;
 	destroyHandleMouseDown: Function;
 	destroyMouseMove: Function;
+	destroyHandleTouchEnd: Function;
 
 	mouseDownOffset: number | null = null;
 	
@@ -16,6 +18,7 @@ export class ScrollbarYEntity {
 	constructor(root: RootModule) {
 		this.root = root;
 		this.destroyHandleMouseDown = this.root.controller.on('mousedown', this.handleMouseDown.bind(this));
+		this.destroyHandleTouchEnd = this.root.controller.on('touchend', this.handleTouchEnd.bind(this));
 		this.destroyMouseMove = this.root.controller.on('mousemove', this.handleMouseMove.bind(this));
 		this.handleMouseUp = this.handleMouseUp.bind(this);
 		this.handleMoveScrollbar = this.handleMoveScrollbar.bind(this);
@@ -36,6 +39,7 @@ export class ScrollbarYEntity {
 	destroyEvents() {
 		this.destroyHandleMouseDown();
 		this.destroyMouseMove();
+		this.destroyHandleTouchEnd();
 	}
 
 	isLineClick(event: MouseEvent) {
@@ -47,7 +51,7 @@ export class ScrollbarYEntity {
 		return true;
 	}
 
-	isBackgroundClick(event: MouseEvent) {
+	isBackgroundClick(event: EventOffsets) {
 		if(!this.needRender()) return false;
 		const { offsetX, offsetY } = event;
 		return offsetX >= this.left && offsetY > this.top && offsetY < this.root.canvas.height - this.bottomOffset;
@@ -62,6 +66,14 @@ export class ScrollbarYEntity {
 		if(isLineClick || isBackgroundClick) this.root.controller.stopPropagation(event);
 	}
 
+	handleTouchEnd(event: TouchEvent) {
+		const eventOffsets = getEventTouchOffsets(event, this.root.canvas); 
+		const isBackgroundClick = this.isBackgroundClick(eventOffsets);
+		if(!isBackgroundClick) return;
+		this.handleBackgroundMouseDown(eventOffsets);
+		this.root.controller.stopPropagation(event);
+	}
+
 	handleLinkMouseDown(event: MouseEvent) {
 		this.mouseDownOffset = event.screenY;
 		document.addEventListener('mousemove', this.handleMoveScrollbar);
@@ -74,7 +86,7 @@ export class ScrollbarYEntity {
 		document.removeEventListener('mousemove', this.handleMoveScrollbar);
 	}
 
-	handleBackgroundMouseDown(event: MouseEvent) {
+	handleBackgroundMouseDown(event: EventOffsets) {
 		const scaledOffset = this.getScaledOffset(event.offsetY);
 		this.root.view.handleSetOffsetY(scaledOffset, true, true);
 	}
