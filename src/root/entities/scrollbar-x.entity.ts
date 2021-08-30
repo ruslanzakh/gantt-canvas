@@ -83,7 +83,19 @@ export class ScrollbarXEntity {
 	}
 
 	handleMouseMove(event: MouseEvent) {
+		const isLineClick = this.isLineClick(event);
+		const isBackgroundClick = this.isBackgroundClick(event);
+		if(isLineClick) this.root.view.setCursor('grab');
+		else if(isBackgroundClick) this.root.view.setCursor('pointer');
 
+		if(isLineClick || isBackgroundClick) {
+			this.root.controller.stopPropagation(event);
+			this.isHover = true;
+		}
+		else if(this.isHover) {
+			this.isHover = false;
+			this.root.view.setCursor('auto');
+		}
 	}
 
 	handleMoveScrollbar(event: MouseEvent) {
