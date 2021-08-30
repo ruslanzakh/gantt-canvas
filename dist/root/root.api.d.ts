@@ -25,6 +25,7 @@ export interface RootApiProps {
     startFromToday?: boolean;
     renderAllTasksFromStart?: boolean;
     viewMode?: ViewMode;
+    isLoading?: boolean;
     showMonthMiddle?: boolean;
     monthHeight?: number;
     renderMonthBottomLine?: boolean;
@@ -94,6 +95,7 @@ export declare class RootApi {
     startFromToday: boolean;
     renderAllTasksFromStart: boolean;
     viewMode: ViewMode;
+    isLoading: boolean;
     showMonthMiddle: boolean;
     monthHeight: number;
     renderMonthBottomLine: boolean;
@@ -157,4 +159,5 @@ export declare class RootApi {
     scrollToToday(): void;
     scrollToTask(id: string): void;
     updateViewMode(mode: ViewMode): void;
+    updateIsLoading(isLoading: boolean): void;
 }

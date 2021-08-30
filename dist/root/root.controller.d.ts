@@ -21,6 +21,6 @@ export declare class RootController {
     handleTouchStart(event: TouchEvent): void;
     handleTouchMove(event: TouchEvent): void;
     handleTouchEnd(event: TouchEvent): void;
-    stopPropagation(event: MouseEvent): void;
+    stopPropagation<T extends Event>(event: T): void;
 }
 export {};

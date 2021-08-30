@@ -4,13 +4,15 @@ import { ObjectList } from '../utils/interfaces';
 export declare class TasksStore {
     root: RootModule;
     modifiedTasks: ObjectList<Task>;
+    tasks: Task[];
+    tasksList: ObjectList<Task>;
     hoverId: null | string;
     hoverResize: null | string;
     hoverConnectionTask: null | string;
     addDepOffsetX: number | null;
     addDepOffsetY: number | null;
     constructor(root: RootModule);
-    get tasks(): Task[];
+    fillTasks(): void;
     clearModTasks(): void;
     saveModTasks(): void;
     addModTask(task: Task): void;

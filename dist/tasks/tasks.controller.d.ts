@@ -5,6 +5,7 @@ export declare class TasksController {
     module: TasksModule;
     destroyMouseDown?: Function;
     destroyMouseMove?: Function;
+    destroyMouseUp?: Function;
     destroyResizeMouseMove?: Function;
     destroyTaskMove?: Function;
     destroyAddDepMove?: Function;
@@ -30,4 +31,6 @@ export declare class TasksController {
     /** Start Move Task */
     handleTaskMove(event: MouseEvent): void;
     handleTaskMoveMouseUp(event: MouseEvent): void;
+    /** End Move Task */
+    handleMouseUp(event: MouseEvent): void;
 }

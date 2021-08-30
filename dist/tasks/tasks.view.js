@@ -34,7 +34,10 @@ var TasksView = /** @class */ (function () {
             data[task.id] = __assign(__assign({}, task), { hover: hoverId === task.id, hoverConnection: hoverConnectionTask === task.id, y: y, x: x, w: w, error: error });
         });
         this.tasksForArrows = Object.values(data).filter(function (task) {
-            if ((task.y + rowHeight) >= rowsOffsetY && task.y <= _this.root.canvas.height)
+            if ((task.y + rowHeight) >= rowsOffsetY
+                && task.y <= _this.root.canvas.height
+                && (task.x + task.w) >= 0
+                && task.x <= _this.root.canvas.width)
                 return true;
             return task.next_ids.some(function (id) {
                 var target = data[id];
@@ -46,7 +49,7 @@ var TasksView = /** @class */ (function () {
                     return false;
                 if (task.x < 0 && target.x < 0)
                     return false;
-                if (task.x + task.w > _this.root.canvas.width && target.x + task.w > _this.root.canvas.width)
+                if (task.x + task.w > _this.root.canvas.width && target.x + target.w > _this.root.canvas.width)
                     return false;
                 return true;
             });
@@ -55,6 +58,7 @@ var TasksView = /** @class */ (function () {
             && task.y <= _this.root.canvas.height; });
     };
     TasksView.prototype.render = function () {
+        this.module.store.fillTasks();
         this.fillTasks();
         this.renderArrows();
         this.renderArrowFrom();

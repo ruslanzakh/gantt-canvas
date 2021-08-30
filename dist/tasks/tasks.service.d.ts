@@ -9,7 +9,7 @@ export declare class TasksService {
     constructor(root: RootModule, module: TasksModule);
     /** Start getters */
     getRootStoreTaskById(id: string | null): Task | null;
-    getModuleStoreTaskById(id: string): Task | null;
+    getModuleStoreTaskById(id: string): Task;
     getRenderedViewTaskById(id: string): import("./entities/task.entity").TaskRender | null;
     getViewTaskById(id: string): {
         hover: boolean;
@@ -55,8 +55,7 @@ export declare class TasksService {
     clearScrollInterval(): void;
     getDiff(offsetX: number, all_day?: boolean): number;
     /** End commons */
-    handleClickTask(event: MouseEvent): void;
-    handleTouchTask(event: EventOffsets): void;
+    handleClickTask(event: EventOffsets): void;
     scrollToTask(id: string): void;
     /** Start Add Dependencies */
     handleAddDepMouseMove(event: MouseEvent): void;

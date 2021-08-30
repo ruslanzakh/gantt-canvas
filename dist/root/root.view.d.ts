@@ -17,7 +17,7 @@ export declare class RootView {
     updateCanvasSizeAndRender(): void;
     updateCanvasSize(): void;
     handleChangeOffsetX(difference?: number, needRender?: boolean): void;
-    handleSetOffsetX(offsetX?: number, needRender?: boolean, needAnimate?: boolean): void;
-    handleSetOffsetY(offsetY?: number, needRender?: boolean, needAnimate?: boolean): void;
+    handleSetOffsetX(offsetX?: number, needRender?: boolean, needAnimate?: boolean, duration?: number): void;
+    handleSetOffsetY(offsetY?: number, needRender?: boolean, needAnimate?: boolean, duration?: number): void;
     setCursor(cursor: string): void;
 }

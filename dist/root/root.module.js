@@ -29,6 +29,8 @@ var RootModule = /** @class */ (function () {
         this.grid.init();
         this.tasks.init();
         this.render();
+        if (this.api.isLoading)
+            this.view.setCursor('progress');
     };
     RootModule.prototype.render = function () {
         this.view.render();

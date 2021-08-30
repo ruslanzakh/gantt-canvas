@@ -7,9 +7,11 @@ var ScrollbarYEntity = /** @class */ (function () {
         this.mouseDownOffset = null;
         this.bottomOffset = 12;
         this.width = 12;
+        this.minLineHeight = 20;
         this.isHover = false;
         this.root = root;
         this.destroyHandleMouseDown = this.root.controller.on('mousedown', this.handleMouseDown.bind(this));
+        this.destroyHandleTouchEnd = this.root.controller.on('touchend', this.handleTouchEnd.bind(this));
         this.destroyMouseMove = this.root.controller.on('mousemove', this.handleMouseMove.bind(this));
         this.handleMouseUp = this.handleMouseUp.bind(this);
         this.handleMoveScrollbar = this.handleMoveScrollbar.bind(this);
@@ -38,6 +40,7 @@ var ScrollbarYEntity = /** @class */ (function () {
     ScrollbarYEntity.prototype.destroyEvents = function () {
         this.destroyHandleMouseDown();
         this.destroyMouseMove();
+        this.destroyHandleTouchEnd();
     };
     ScrollbarYEntity.prototype.isLineClick = function (event) {
         if (!this.needRender())
@@ -65,6 +68,14 @@ var ScrollbarYEntity = /** @class */ (function () {
             this.handleBackgroundMouseDown(event);
         if (isLineClick || isBackgroundClick)
             this.root.controller.stopPropagation(event);
+    };
+    ScrollbarYEntity.prototype.handleTouchEnd = function (event) {
+        var eventOffsets = canvas_1.getEventTouchOffsets(event, this.root.canvas);
+        var isBackgroundClick = this.isBackgroundClick(eventOffsets);
+        if (!isBackgroundClick)
+            return;
+        this.handleBackgroundMouseDown(eventOffsets);
+        this.root.controller.stopPropagation(event);
     };
     ScrollbarYEntity.prototype.handleLinkMouseDown = function (event) {
         this.mouseDownOffset = event.screenY;
@@ -135,6 +146,8 @@ var ScrollbarYEntity = /** @class */ (function () {
         var fullHeight = this.root.grid.service.getFullAvailableHeight();
         var y = (this.root.view.offsetY / fullHeight) * this.backgroundLineHeight;
         var height = (this.backgroundLineHeight / fullHeight) * this.backgroundLineHeight;
+        if (height < this.minLineHeight)
+            height = this.minLineHeight;
         return { y: y, height: height };
     };
     ScrollbarYEntity.prototype.render = function () {

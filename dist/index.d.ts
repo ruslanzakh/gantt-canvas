@@ -7,6 +7,7 @@ declare class Gantt {
     scrollToToday(): void;
     scrollToTask(id: string): void;
     updateViewMode(mode: ViewMode): void;
+    updateIsLoading(isLoading: boolean): void;
 }
 export default Gantt;
 export { RootApiProps } from './root/root.module';

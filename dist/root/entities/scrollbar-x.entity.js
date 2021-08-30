@@ -6,8 +6,10 @@ var ScrollbarXEntity = /** @class */ (function () {
     function ScrollbarXEntity(root) {
         this.mouseDownOffset = null;
         this.isHover = false;
+        this.minLineWidth = 20;
         this.root = root;
         this.destroyHandleMouseDown = this.root.controller.on('mousedown', this.handleMouseDown.bind(this));
+        this.destroyHandleTouchEnd = this.root.controller.on('touchend', this.handleTouchEnd.bind(this));
         this.destroyMouseMove = this.root.controller.on('mousemove', this.handleMouseMove.bind(this));
         this.handleMouseUp = this.handleMouseUp.bind(this);
         this.handleMoveScrollbar = this.handleMoveScrollbar.bind(this);
@@ -36,6 +38,7 @@ var ScrollbarXEntity = /** @class */ (function () {
     ScrollbarXEntity.prototype.destroyEvents = function () {
         this.destroyHandleMouseDown();
         this.destroyMouseMove();
+        this.destroyHandleTouchEnd();
     };
     ScrollbarXEntity.prototype.isLineClick = function (event) {
         var offsetX = event.offsetX, offsetY = event.offsetY;
@@ -60,6 +63,14 @@ var ScrollbarXEntity = /** @class */ (function () {
         if (isLineClick || isBackgroundClick)
             this.root.controller.stopPropagation(event);
     };
+    ScrollbarXEntity.prototype.handleTouchEnd = function (event) {
+        var eventOffsets = canvas_1.getEventTouchOffsets(event, this.root.canvas);
+        var isBackgroundClick = this.isBackgroundClick(eventOffsets);
+        if (!isBackgroundClick)
+            return;
+        this.handleBackgroundMouseDown(eventOffsets);
+        this.root.controller.stopPropagation(event);
+    };
     ScrollbarXEntity.prototype.handleLinkMouseDown = function (event) {
         this.mouseDownOffset = event.screenX;
         document.addEventListener('mousemove', this.handleMoveScrollbar);
@@ -80,6 +91,20 @@ var ScrollbarXEntity = /** @class */ (function () {
         document.removeEventListener('mousemove', this.handleMoveScrollbar);
     };
     ScrollbarXEntity.prototype.handleMouseMove = function (event) {
+        var isLineClick = this.isLineClick(event);
+        var isBackgroundClick = this.isBackgroundClick(event);
+        if (isLineClick)
+            this.root.view.setCursor('grab');
+        else if (isBackgroundClick)
+            this.root.view.setCursor('pointer');
+        if (isLineClick || isBackgroundClick) {
+            this.root.controller.stopPropagation(event);
+            this.isHover = true;
+        }
+        else if (this.isHover) {
+            this.isHover = false;
+            this.root.view.setCursor('auto');
+        }
     };
     ScrollbarXEntity.prototype.handleMoveScrollbar = function (event) {
         if (this.mouseDownOffset !== null) {
@@ -104,6 +129,12 @@ var ScrollbarXEntity = /** @class */ (function () {
         var fullWidth = this.root.grid.service.getFullAvailableWidth();
         var x = (this.root.view.offsetX / fullWidth) * this.backgroundLineWidth;
         var width = (this.backgroundLineWidth / fullWidth) * this.backgroundLineWidth;
+        if (width < this.minLineWidth) {
+            width = this.minLineWidth;
+            if (x + width > this.root.canvas.width - this.minLineWidth) {
+                x = this.root.canvas.width - width - this.minLineWidth;
+            }
+        }
         return { x: x, width: width };
     };
     ScrollbarXEntity.prototype.render = function () {

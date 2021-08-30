@@ -60,8 +60,6 @@ var TaskEntity = /** @class */ (function () {
             return;
         var x = source.x + source.w;
         var y = source.y + (h / 2);
-        // if((task.x <= 0 || task.x >= this.root.canvas.width) &&
-        // 	(x <= 0 || x >= this.root.canvas.width)) return;
         var targetY = task.y + (h / 2);
         var ctx = this.root.ctx;
         ctx.strokeStyle = this.root.api.arrowColor;

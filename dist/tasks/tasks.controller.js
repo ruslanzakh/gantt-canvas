@@ -17,24 +17,22 @@ var TasksController = /** @class */ (function () {
     TasksController.prototype.attachEvents = function () {
         this.destroyMouseDown = this.root.controller.on('mousedown', this.handleMouseDown.bind(this));
         this.destroyMouseMove = this.root.controller.on('mousemove', this.handleMouseMove.bind(this));
+        this.destroyMouseUp = this.root.controller.on('mouseup', this.handleMouseUp.bind(this));
         this.destroyTouchEnd = this.root.controller.on('touchend', this.handleTouchEnd.bind(this));
     };
     TasksController.prototype.destroyEvents = function () {
         this.destroyMouseDown && this.destroyMouseDown();
         this.destroyMouseMove && this.destroyMouseMove();
+        this.destroyMouseUp && this.destroyMouseUp();
         this.destroyTouchEnd && this.destroyTouchEnd();
     };
     TasksController.prototype.handleTouchEnd = function (event) {
-        var _a, _b;
-        var offsetX = (_a = event.changedTouches[0]) === null || _a === void 0 ? void 0 : _a.screenX;
-        var offsetY = (_b = event.changedTouches[0]) === null || _b === void 0 ? void 0 : _b.screenY;
-        if (offsetX !== this.root.controller.touchOffsetX
-            || offsetY !== this.root.controller.touchOffsetY)
-            return;
         var eventOffsets = canvas_1.getEventTouchOffsets(event, this.root.canvas);
-        this.module.service.handleTouchTask(eventOffsets);
+        this.module.service.handleClickTask(eventOffsets);
     };
     TasksController.prototype.handleMouseDown = function (event) {
+        if (this.root.api.isLoading)
+            return;
         var _a = this.module.service.getHoverId(event), hoverId = _a.hoverId, resize = _a.resize, depFromId = _a.depFromId;
         if (!hoverId)
             return;
@@ -55,7 +53,7 @@ var TasksController = /** @class */ (function () {
         }
     };
     TasksController.prototype.handleMouseMove = function (event) {
-        if (this.resizeMoveMode)
+        if (this.resizeMoveMode || this.root.api.isLoading)
             return;
         if (this.mouseDownOffsetX) {
             var hoverId_1 = this.module.service.getHoverId(event).hoverId;
@@ -93,13 +91,16 @@ var TasksController = /** @class */ (function () {
         this.module.service.handleMoveTaskMouseMove(event);
     };
     TasksController.prototype.handleTaskMoveMouseUp = function (event) {
-        if (this.mouseDownOffsetX === event.offsetX)
-            this.module.service.handleClickTask(event);
         this.module.service.handleMoveTaskMouseUp();
         this.destroyTaskMove && this.destroyTaskMove();
         this.mouseDownOffsetX = null;
         this.module.store.setHoverConnectionTask(null);
         document.removeEventListener('mouseup', this.handleTaskMoveMouseUp);
+    };
+    /** End Move Task */
+    TasksController.prototype.handleMouseUp = function (event) {
+        if (this.mouseDownOffsetX === event.offsetX || this.root.api.isLoading)
+            this.module.service.handleClickTask(event);
     };
     return TasksController;
 }());

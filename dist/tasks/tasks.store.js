@@ -4,6 +4,8 @@ exports.TasksStore = void 0;
 var TasksStore = /** @class */ (function () {
     function TasksStore(root) {
         this.modifiedTasks = {};
+        this.tasks = [];
+        this.tasksList = {};
         this.hoverId = null;
         this.hoverResize = null;
         this.hoverConnectionTask = null;
@@ -11,18 +13,18 @@ var TasksStore = /** @class */ (function () {
         this.addDepOffsetY = null;
         this.root = root;
     }
-    Object.defineProperty(TasksStore.prototype, "tasks", {
-        get: function () {
-            var _this = this;
-            return this.root.api.tasks.map(function (task) {
-                if (_this.modifiedTasks[task.id])
-                    return _this.modifiedTasks[task.id];
-                return task;
-            });
-        },
-        enumerable: false,
-        configurable: true
-    });
+    TasksStore.prototype.fillTasks = function () {
+        var _this = this;
+        this.tasks = this.root.api.tasks.map(function (task) {
+            if (_this.modifiedTasks[task.id])
+                return _this.modifiedTasks[task.id];
+            return task;
+        });
+        this.tasksList = {};
+        this.tasks.forEach(function (task) {
+            _this.tasksList[task.id] = task;
+        });
+    };
     TasksStore.prototype.clearModTasks = function () {
         this.modifiedTasks = {};
     };
@@ -32,6 +34,7 @@ var TasksStore = /** @class */ (function () {
     };
     TasksStore.prototype.addModTask = function (task) {
         this.modifiedTasks[task.id] = task;
+        this.fillTasks();
     };
     TasksStore.prototype.setHoverId = function (id, resize) {
         if (id === this.hoverId && resize === this.hoverResize)

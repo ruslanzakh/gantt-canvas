@@ -129,31 +129,31 @@ var RootController = /** @class */ (function () {
         }
     };
     RootController.prototype.handleTouchEnd = function (event) {
-        if (!this.events.touchend)
-            return;
-        this.events.touchend.every(function (cb) {
-            // @ts-ignore
-            if (event._stopPropagation)
-                return false;
-            cb(event);
-            return true;
-        });
+        if (this.events.touchend && !this.previousTouchOffsetX && !this.previousTouchOffsetY) {
+            this.events.touchend.every(function (cb) {
+                // @ts-ignore
+                if (event._stopPropagation)
+                    return false;
+                cb(event);
+                return true;
+            });
+        }
         if (this.previousTouchOffsetX && this.touchOffsetX) {
             var diff = this.previousTouchOffsetX - this.touchOffsetX;
             if (diff > 30 || diff < -30) {
-                diff *= 10;
-                this.root.view.handleSetOffsetX(this.root.view.offsetX + diff, true, true);
+                diff *= 7;
+                this.root.view.handleSetOffsetX(this.root.view.offsetX + diff, true, true, 500);
             }
         }
         if (this.previousTouchOffsetY && this.touchOffsetY) {
             var diff = this.previousTouchOffsetY - this.touchOffsetY;
             if (diff > 30 || diff < -30) {
-                diff *= 10;
+                diff *= 7;
                 var offset = this.root.view.offsetY + diff;
                 var maxHeight = this.root.grid.service.getLeftAvailableHeight();
                 if (offset > maxHeight)
                     offset = maxHeight;
-                this.root.view.handleSetOffsetY(offset, true, true);
+                this.root.view.handleSetOffsetY(offset, true, true, 500);
             }
         }
         event.preventDefault();

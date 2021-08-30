@@ -31,7 +31,7 @@ var TasksService = /** @class */ (function () {
         return task || null;
     };
     TasksService.prototype.getModuleStoreTaskById = function (id) {
-        var task = this.module.store.tasks.find(function (task) { return task.id === id; });
+        var task = this.module.store.tasksList[id];
         return task || null;
     };
     TasksService.prototype.getRenderedViewTaskById = function (id) {
@@ -192,17 +192,6 @@ var TasksService = /** @class */ (function () {
         if (!this.root.api.handleTaskClick)
             return;
         var hoverId = this.getHoverId(event).hoverId;
-        if (!hoverId)
-            return;
-        var hoveredTask = this.getRootStoreTaskById(hoverId);
-        if (!hoveredTask)
-            return;
-        this.root.api.handleTaskClick(hoveredTask);
-    };
-    TasksService.prototype.handleTouchTask = function (event) {
-        if (!this.root.api.handleTaskClick)
-            return;
-        var hoverId = this.module.service.getHoverId(event).hoverId;
         if (!hoverId)
             return;
         var hoveredTask = this.getRootStoreTaskById(hoverId);

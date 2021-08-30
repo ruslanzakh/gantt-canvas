@@ -56,7 +56,7 @@ var RootView = /** @class */ (function () {
         if (needRender)
             this.render();
     };
-    RootView.prototype.handleSetOffsetX = function (offsetX, needRender, needAnimate) {
+    RootView.prototype.handleSetOffsetX = function (offsetX, needRender, needAnimate, duration) {
         var _this = this;
         if (offsetX === void 0) { offsetX = 0; }
         if (needRender === void 0) { needRender = true; }
@@ -65,7 +65,8 @@ var RootView = /** @class */ (function () {
             var initialOffset_1 = this.offsetX;
             var diff_1 = offsetX - initialOffset_1;
             var positiveDiff = diff_1 > 0 ? diff_1 : diff_1 * -1;
-            var duration = (positiveDiff / this.root.grid.service.getFullAvailableWidth()) * 1500;
+            if (!duration)
+                duration = (positiveDiff / this.root.grid.service.getFullAvailableWidth()) * 1500;
             if (diff_1 === 0)
                 return;
             animate_1.animate({
@@ -90,7 +91,7 @@ var RootView = /** @class */ (function () {
                 this.render();
         }
     };
-    RootView.prototype.handleSetOffsetY = function (offsetY, needRender, needAnimate) {
+    RootView.prototype.handleSetOffsetY = function (offsetY, needRender, needAnimate, duration) {
         var _this = this;
         if (offsetY === void 0) { offsetY = 0; }
         if (needRender === void 0) { needRender = true; }
@@ -99,7 +100,8 @@ var RootView = /** @class */ (function () {
             var initialOffset_2 = this.offsetY;
             var diff_2 = offsetY - initialOffset_2;
             var positiveDiff = diff_2 > 0 ? diff_2 : diff_2 * -1;
-            var duration = (positiveDiff / this.root.grid.service.getFullAvailableHeight()) * 1500;
+            if (!duration)
+                duration = (positiveDiff / this.root.grid.service.getFullAvailableHeight()) * 1500;
             if (diff_2 === 0)
                 return;
             animate_1.animate({
@@ -122,6 +124,8 @@ var RootView = /** @class */ (function () {
         }
     };
     RootView.prototype.setCursor = function (cursor) {
+        if (cursor === 'auto' && this.root.api.isLoading)
+            cursor = 'progress';
         this.root.root.style.cursor = cursor;
     };
     return RootView;

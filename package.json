@@ -1,12 +1,11 @@
 {
   "name": "gantt-canvas",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "Light-weight plugin for build gantt",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "parcel example/index.html --out-dir dev",
-    "dev-build": "parcel build example/index.html --public-url ./",
     "build": "tsc"
   },
   "keywords": ["Gantt", "Canvas"],

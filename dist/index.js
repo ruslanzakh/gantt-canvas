@@ -17,6 +17,9 @@ var Gantt = /** @class */ (function () {
     Gantt.prototype.updateViewMode = function (mode) {
         this.root.api.updateViewMode(mode);
     };
+    Gantt.prototype.updateIsLoading = function (isLoading) {
+        this.root.api.updateIsLoading(isLoading);
+    };
     return Gantt;
 }());
 exports.default = Gantt;
