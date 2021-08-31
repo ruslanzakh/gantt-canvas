@@ -67,8 +67,8 @@ export class TasksController {
 	}
 	
 	handleMouseMove(event: MouseEvent) {
-		if(this.resizeMoveMode || this.root.api.isLoading) return;
-		if(this.mouseDownOffsetX) {
+		if(this.resizeMoveMode) return;
+		if(this.mouseDownOffsetX && !this.root.api.isLoading) {
 			const { hoverId } = this.module.service.getHoverId(event);
 			return this.module.store.setHoverConnectionTask(hoverId);
 		}

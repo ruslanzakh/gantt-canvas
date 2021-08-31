@@ -48,9 +48,10 @@ export class TasksStore {
 
 	setHoverId(id: null | string, resize: null | string) {
 		if(id === this.hoverId && resize === this.hoverResize) return;
-
-		if(id) this.root.view.setCursor(resize ? 'col-resize' : 'pointer');
-		else this.root.view.setCursor('auto');
+		if(!this.root.api.isLoading) {
+			if(id) this.root.view.setCursor(resize ? 'col-resize' : 'pointer');
+			else this.root.view.setCursor('auto');
+		}
 
 		this.hoverResize = resize;
 		if(id !== this.hoverId) {
