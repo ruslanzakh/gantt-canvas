@@ -1,5 +1,4 @@
 import { RootModule } from '../../root/root.module';
-import { capitalize } from '../../utils/string';
 
 export interface MonthRender {
 	x: number;
@@ -40,7 +39,7 @@ export class MonthEntity {
 			ctx.fillStyle = this.root.api.monthTitleColor;
 			ctx.textAlign = 'center';
 			ctx.textBaseline = 'middle';
-			ctx.fillText(capitalize(title), middle, height / 2);
+			ctx.fillText(title, middle, height / 2);
 			ctx.textAlign = 'left';
 			ctx.textBaseline = 'alphabetic'
 		}

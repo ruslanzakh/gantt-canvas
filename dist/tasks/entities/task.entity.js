@@ -66,7 +66,7 @@ var TaskEntity = /** @class */ (function () {
         ctx.fillStyle = this.root.api.arrowColor;
         var r = this.root.api.arrowRadius;
         var startOffsetX = this.getDepOffsetX() || 10;
-        if (task.x > x) {
+        if (task.x >= x + 1) {
             ctx.beginPath();
             ctx.moveTo(x, y);
             ctx.lineTo(x + startOffsetX - r, y);

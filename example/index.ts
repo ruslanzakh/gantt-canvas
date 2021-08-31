@@ -115,12 +115,29 @@ function getTasks() {
 const gantt = new Gantt('#app', {
 	tasks: tasks,
 	// tasks: getTasks().sort((a, b) => a.start_date_ts - b.start_date_ts),
-	tasks: getTasks(),
+	// tasks: getTasks(),
 	handleChange: async (tasks) => {
 		console.log(tasks);
 	},
 	handleTaskClick: async (task) => {
 		console.log('handleTaskClick', task);
+	},
+	lang: 'es',
+	monthNames: {
+		es: [
+			'Enero',
+			'Febrero',
+			'Marzo',
+			'Abril',
+			'Mayo',
+			'Junio',
+			'Julio',
+			'Agosto',
+			'Septiembre',
+			'Octubre',
+			'Noviembre',
+			'Diciembre'
+		],
 	}
 });
 

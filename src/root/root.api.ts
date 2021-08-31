@@ -1,4 +1,6 @@
 import { RootModule } from './root.module';
+import { COLORS, MONTH_NAMES } from '../utils/config';
+import { ObjectList } from '../utils/interfaces';
 
 export interface Task {
 	id: string;
@@ -29,6 +31,8 @@ export interface RootApiProps {
 	renderAllTasksFromStart?: boolean;
 	viewMode?: ViewMode;
 	isLoading?: boolean;
+	monthNames?: ObjectList<string[]>;
+	lang?: string;
 
 	showMonthMiddle?: boolean;
 	monthHeight?: number;
@@ -115,6 +119,8 @@ export class RootApi {
 	renderAllTasksFromStart: boolean;
 	viewMode: ViewMode;
 	isLoading: boolean;
+	monthNames: ObjectList<string[]>;
+	lang: string;
 
 	showMonthMiddle: boolean;
 	monthHeight: number;
@@ -197,39 +203,41 @@ export class RootApi {
 		this.showMonthMiddle = props.showMonthMiddle ?? false;
 		this.viewMode = props.viewMode ?? 'day';
 		this.isLoading = props.isLoading ?? false;
+		this.monthNames = { ...MONTH_NAMES, ...props.monthNames ?? {} };
+		this.lang = props.lang ?? 'ru';
 
 		this.monthHeight = props.monthHeight ?? 55;
 		this.renderMonthBottomLine = props.renderMonthBottomLine ?? true;
 		this.renderMonthLeftLine = props.renderMonthLeftLine ?? true;
-		this.monthLineColor = props.monthLineColor ?? '#EAEAEA';
+		this.monthLineColor = props.monthLineColor ?? COLORS.L_GREY;
 		this.monthTitleFont = props.monthTitleFont ?? '600 20px Arial';
-		this.monthTitleColor = props.monthTitleColor ?? '#222';
+		this.monthTitleColor = props.monthTitleColor ?? COLORS.BLACK;
 		this.monthTitleShowYear = props.monthTitleShowYear ?? true;
 
 		this.dayHeight = props.dayHeight ?? 28;
 		this.renderDayStartMonthLine = props.renderDayStartMonthLine ?? true;
-		this.dayStartMonthLine = props.dayStartMonthLine ?? '#EAEAEA';
-		this.dayBottomLineColor = props.dayBottomLineColor ?? '#EAEAEA';
-		this.dayTodayBackground = props.dayTodayBackground ?? '#f8fdff';
+		this.dayStartMonthLine = props.dayStartMonthLine ?? COLORS.L_GREY;
+		this.dayBottomLineColor = props.dayBottomLineColor ?? COLORS.L_GREY;
+		this.dayTodayBackground = props.dayTodayBackground ?? COLORS.L_BLUE;
 		this.dayFont = props.dayFont ?? '500 14px Arial';
-		this.dayColor = props.dayColor ?? '#222';
+		this.dayColor = props.dayColor ?? COLORS.BLACK;
 
 		this.dayColWidth = props.dayColWidth ?? 40;
 		this.monthViewColWidth = props.monthViewColWidth ?? 120;
 		this.rowHeight = props.rowHeight ?? 40;
-		this.colLineColor = props.colLineColor ?? '#ebebeb';
+		this.colLineColor = props.colLineColor ?? COLORS.L_GREY;
 		this.colStartMonthLineColor = props.colStartMonthLineColor;
-		this.rowLineColor = props.rowLineColor ?? '#ebebeb';
-		this.rowEvenBackground = props.rowEvenBackground ?? '#fff';
-		this.rowOddBackground = props.rowOddBackground ?? '#fff';
+		this.rowLineColor = props.rowLineColor ?? COLORS.L_GREY;
+		this.rowEvenBackground = props.rowEvenBackground ?? COLORS.WHITE;
+		this.rowOddBackground = props.rowOddBackground ?? COLORS.WHITE;
 
-		this.taskDefaultBackground = props.taskDefaultBackground ?? '#ae52d4';
-		this.taskDefaultHoverBackground = props.taskDefaultHoverBackground ?? '#7b1fa2';
+		this.taskDefaultBackground = props.taskDefaultBackground ?? COLORS.VIOLET;
+		this.taskDefaultHoverBackground = props.taskDefaultHoverBackground ?? COLORS.D_VIOLET;
 		this.taskDefaultStrokeColor = props.taskDefaultStrokeColor;
 		this.taskDefaultHoverStrokeColor = props.taskDefaultHoverStrokeColor;
-		this.taskDefaultColor = props.taskDefaultColor ?? '#fff';
-		this.taskDefaultHoverColor = props.taskDefaultHoverColor ?? '#fff';
-		this.taskDefaultOutlineColor = props.taskDefaultOutlineColor ?? '#222';
+		this.taskDefaultColor = props.taskDefaultColor ?? COLORS.WHITE;
+		this.taskDefaultHoverColor = props.taskDefaultHoverColor ?? COLORS.WHITE;
+		this.taskDefaultOutlineColor = props.taskDefaultOutlineColor ?? COLORS.BLACK;
 		this.taskHeight = props.taskHeight ?? 34;
 		this.taskPadding = props.taskPadding ?? 5;
 		this.taskRadius = props.taskRadius ?? 2;
@@ -239,27 +247,27 @@ export class RootApi {
 
 		this.taskRenderResizeControls = props.taskRenderResizeControls ?? true;
 		this.taskRenderResizeControlsWidth = props.taskRenderResizeControlsWidth ?? 6;
-		this.taskRenderResizeControlsColor = props.taskRenderResizeControlsColor ?? '#fff';
+		this.taskRenderResizeControlsColor = props.taskRenderResizeControlsColor ?? COLORS.WHITE;
 		this.taskRenderResizeControlsRadius = props.taskRenderResizeControlsRadius ?? 2;
 
 		this.taskRenderDepControl = props.taskRenderDepControl ?? true;
 		this.taskRenderDepRadius = props.taskRenderDepRadius ?? 7;
 		this.taskRenderDepOffsetX = props.taskRenderDepOffsetX ?? 7;
-		this.taskRenderDepLineColor = props.taskRenderDepLineColor ?? '#222';
-		this.taskRenderDepBackground = props.taskRenderDepBackground ?? '#fff';
+		this.taskRenderDepLineColor = props.taskRenderDepLineColor ?? COLORS.BLACK;
+		this.taskRenderDepBackground = props.taskRenderDepBackground ?? COLORS.WHITE;
 
-		this.arrowColor = props.arrowColor ?? "#283593";
-		this.arrowActiveColor = props.arrowActiveColor ?? "#001064";
+		this.arrowColor = props.arrowColor ?? COLORS.BLUE;
+		this.arrowActiveColor = props.arrowActiveColor ?? COLORS.D_BLUE;
 		this.arrowRadius = props.arrowRadius ?? 2;
 
 		this.scrollbarXHeight = props.scrollbarXHeight ?? 12;
-		this.scrollbarXBackground = props.scrollbarXBackground ?? '#eee';
-		this.scrollbarXLineBackground = props.scrollbarXLineBackground ?? '#ccc';
+		this.scrollbarXBackground = props.scrollbarXBackground ?? COLORS.L_GREY;
+		this.scrollbarXLineBackground = props.scrollbarXLineBackground ?? COLORS.GREY;
 		this.scrollbarXLineRadius = props.scrollbarXLineRadius ?? 6;
 
 		this.scrollbarYWidth = props.scrollbarYWidth ?? 12;
-		this.scrollbarYBackground = props.scrollbarYBackground ?? '#eee';
-		this.scrollbarYLineBackground = props.scrollbarYLineBackground ?? '#ccc';
+		this.scrollbarYBackground = props.scrollbarYBackground ?? COLORS.L_GREY;
+		this.scrollbarYLineBackground = props.scrollbarYLineBackground ?? COLORS.GREY;
 		this.scrollbarYLineRadius = props.scrollbarYLineRadius ?? 6;
 
 		this.handleChange = props.handleChange;

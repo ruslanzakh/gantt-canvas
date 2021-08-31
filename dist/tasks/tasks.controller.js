@@ -53,9 +53,9 @@ var TasksController = /** @class */ (function () {
         }
     };
     TasksController.prototype.handleMouseMove = function (event) {
-        if (this.resizeMoveMode || this.root.api.isLoading)
+        if (this.resizeMoveMode)
             return;
-        if (this.mouseDownOffsetX) {
+        if (this.mouseDownOffsetX && !this.root.api.isLoading) {
             var hoverId_1 = this.module.service.getHoverId(event).hoverId;
             return this.module.store.setHoverConnectionTask(hoverId_1);
         }

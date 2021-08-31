@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MonthEntity = void 0;
-var string_1 = require("../../utils/string");
 var MonthEntity = /** @class */ (function () {
     function MonthEntity(root) {
         this.root = root;
@@ -30,7 +29,7 @@ var MonthEntity = /** @class */ (function () {
             ctx.fillStyle = this.root.api.monthTitleColor;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText(string_1.capitalize(title), middle, height / 2);
+            ctx.fillText(title, middle, height / 2);
             ctx.textAlign = 'left';
             ctx.textBaseline = 'alphabetic';
         }

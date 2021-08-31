@@ -4,20 +4,6 @@ exports.GridView = void 0;
 var column_entity_1 = require("./entities/column.entity");
 var month_entity_1 = require("./entities/month.entity");
 var row_entity_1 = require("./entities/row.entity");
-var MONTHS = [
-    'январь',
-    'февраль',
-    'март',
-    'апрель',
-    'май',
-    'июнь',
-    'июль',
-    'август',
-    'сентябрь',
-    'октябрь',
-    'ноябрь',
-    'декабрь'
-];
 var GridView = /** @class */ (function () {
     function GridView(root, module) {
         this.columns = [];
@@ -161,10 +147,12 @@ var GridView = /** @class */ (function () {
         this.months = Object.values(data);
     };
     GridView.prototype.getMonthTitle = function (month, year) {
+        var _a;
+        var months = (_a = this.root.api.monthNames[this.root.api.lang]) !== null && _a !== void 0 ? _a : this.root.api.monthNames['ru'];
         if (this.root.api.monthTitleShowYear) {
-            return MONTHS[month] + ' ' + year;
+            return months[month] + ' ' + year;
         }
-        return MONTHS[month];
+        return months[month];
     };
     GridView.prototype.fillRows = function () {
         var odd = true;

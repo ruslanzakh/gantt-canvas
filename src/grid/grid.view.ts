@@ -5,21 +5,6 @@ import { MonthEntity, MonthRender } from './entities/month.entity';
 import { RowEntity, RowRender } from './entities/row.entity';
 import { ObjectList } from '../utils/interfaces';
 
-const MONTHS = [
-	'январь',
-	'февраль',
-	'март',
-	'апрель',
-	'май',
-	'июнь',
-	'июль',
-	'август',
-	'сентябрь',
-	'октябрь',
-	'ноябрь',
-	'декабрь'
-]
-
 interface RichedColumnRender extends ColumnRender {
 	month: number;
 	year: number;
@@ -145,10 +130,11 @@ export class GridView {
 	}
 
 	getMonthTitle(month: number, year: number) {
+		const months = this.root.api.monthNames[this.root.api.lang] ?? this.root.api.monthNames['ru'];
 		if(this.root.api.monthTitleShowYear) {
-			return MONTHS[month] + ' ' + year;
+			return months[month] + ' ' + year;
 		}
-		return MONTHS[month];
+		return months[month];
 	}
 
 	fillRows() {

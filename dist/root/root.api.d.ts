@@ -1,4 +1,5 @@
 import { RootModule } from './root.module';
+import { ObjectList } from '../utils/interfaces';
 export interface Task {
     id: string;
     title: string;
@@ -26,6 +27,8 @@ export interface RootApiProps {
     renderAllTasksFromStart?: boolean;
     viewMode?: ViewMode;
     isLoading?: boolean;
+    monthNames?: ObjectList<string[]>;
+    lang?: string;
     showMonthMiddle?: boolean;
     monthHeight?: number;
     renderMonthBottomLine?: boolean;
@@ -96,6 +99,8 @@ export declare class RootApi {
     renderAllTasksFromStart: boolean;
     viewMode: ViewMode;
     isLoading: boolean;
+    monthNames: ObjectList<string[]>;
+    lang: string;
     showMonthMiddle: boolean;
     monthHeight: number;
     renderMonthBottomLine: boolean;
