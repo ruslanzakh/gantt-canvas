@@ -26,6 +26,10 @@ class Gantt {
 	updateIsLoading(isLoading: boolean) {
 		this.root.api.updateIsLoading(isLoading);
 	}
+
+	destroy() {
+		this.root.destroy();
+	}
 }
 
 export default Gantt;

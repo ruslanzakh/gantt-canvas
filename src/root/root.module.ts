@@ -41,6 +41,12 @@ export class RootModule {
 		if(this.api.isLoading) this.view.setCursor('progress');
 	}
 
+	destroy() {
+		this.controller.destroyEvents();
+		this.view.destroyEvents();
+		this.tasks.destroy();
+	}
+
 	render() {
 		this.view.render();
 	}

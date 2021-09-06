@@ -16,24 +16,37 @@ export class RootController {
 
 	constructor(root: RootModule) {
 		this.root = root;
+		this.handleMouseMove = debounce(this.handleMouseMove.bind(this), 32);
+		this.handleMouseDown = this.handleMouseDown.bind(this);
+		this.handleMouseUp = this.handleMouseUp.bind(this);
+		this.handleClick = this.handleClick.bind(this);
+		this.handleScroll = this.handleScroll.bind(this);
+		this.handleTouchStart = this.handleTouchStart.bind(this);
+		this.handleTouchMove = debounce(this.handleTouchMove.bind(this), 32);
+		this.handleTouchEnd = this.handleTouchEnd.bind(this);
 		this.attachEvents();
 	}
 
 	attachEvents() {
-		this.handleMouseMove = debounce(this.handleMouseMove.bind(this), 32);
-		this.handleTouchMove = debounce(this.handleTouchMove.bind(this), 32);
 		this.root.canvas.addEventListener('mousemove', this.handleMouseMove);
-		this.root.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
-		this.root.canvas.addEventListener('mouseup', this.handleMouseUp.bind(this));
-		this.root.canvas.addEventListener('click', this.handleClick.bind(this));
-		this.root.canvas.addEventListener('wheel', this.handleScroll.bind(this));
-		this.root.canvas.addEventListener('touchstart', this.handleTouchStart.bind(this));
+		this.root.canvas.addEventListener('mousedown', this.handleMouseDown);
+		this.root.canvas.addEventListener('mouseup', this.handleMouseUp);
+		this.root.canvas.addEventListener('click', this.handleClick);
+		this.root.canvas.addEventListener('wheel', this.handleScroll);
+		this.root.canvas.addEventListener('touchstart', this.handleTouchStart);
 		this.root.canvas.addEventListener('touchmove', this.handleTouchMove);
-		this.root.canvas.addEventListener('touchend', this.handleTouchEnd.bind(this));
+		this.root.canvas.addEventListener('touchend', this.handleTouchEnd);
 	}
 
 	destroyEvents() {
 		this.root.canvas.removeEventListener('mousemove', this.handleMouseMove);
+		this.root.canvas.removeEventListener('mousedown', this.handleMouseDown);
+		this.root.canvas.removeEventListener('mouseup', this.handleMouseUp);
+		this.root.canvas.removeEventListener('click', this.handleClick);
+		this.root.canvas.removeEventListener('wheel', this.handleScroll);
+		this.root.canvas.removeEventListener('touchstart', this.handleTouchStart);
+		this.root.canvas.removeEventListener('touchmove', this.handleTouchMove);
+		this.root.canvas.removeEventListener('touchend', this.handleTouchEnd);
 	}
 
 	on<T extends Event>(event: string, callback: (event: T) => void) {

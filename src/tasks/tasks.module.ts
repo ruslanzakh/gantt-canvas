@@ -24,4 +24,8 @@ export class TasksModule {
 		this.controller.attachEvents();
 	}
 
+	destroy() {
+		this.controller.destroyEvents();
+	}
+
 }

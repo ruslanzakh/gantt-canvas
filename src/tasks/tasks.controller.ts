@@ -6,13 +6,9 @@ export class TasksController {
 	root: RootModule;
 	module: TasksModule;
 
-	destroyMouseDown?: Function;
-	destroyMouseMove?: Function;
-	destroyMouseUp?: Function;
 	destroyResizeMouseMove?: Function;
 	destroyTaskMove?: Function;
 	destroyAddDepMove?: Function;
-	destroyTouchEnd?: Function;
 
 	moveMode: boolean = false;
 	addDepMode: boolean = false;
@@ -28,17 +24,16 @@ export class TasksController {
 	}
 
 	attachEvents() {
-		this.destroyMouseDown = this.root.controller.on('mousedown', this.handleMouseDown.bind(this));
-		this.destroyMouseMove = this.root.controller.on('mousemove', this.handleMouseMove.bind(this));
-		this.destroyMouseUp = this.root.controller.on('mouseup', this.handleMouseUp.bind(this));
-		this.destroyTouchEnd = this.root.controller.on('touchend', this.handleTouchEnd.bind(this));
+		this.root.controller.on('mousedown', this.handleMouseDown.bind(this));
+		this.root.controller.on('mousemove', this.handleMouseMove.bind(this));
+		this.root.controller.on('mouseup', this.handleMouseUp.bind(this));
+		this.root.controller.on('touchend', this.handleTouchEnd.bind(this));
 	}
 
 	destroyEvents() {
-		this.destroyMouseDown && this.destroyMouseDown();
-		this.destroyMouseMove && this.destroyMouseMove();
-		this.destroyMouseUp && this.destroyMouseUp();
-		this.destroyTouchEnd && this.destroyTouchEnd();
+		document.removeEventListener('mouseup', this.handleResizeMouseUp);
+		document.removeEventListener('mouseup', this.handleAddDepMouseUp);
+		document.removeEventListener('mouseup', this.handleTaskMoveMouseUp);
 	}
 
 	handleTouchEnd(event: TouchEvent) {

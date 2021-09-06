@@ -22,10 +22,6 @@ export class RootView {
 		this.scrollbarY = new ScrollbarYEntity(root);
 	}
 
-	destroy() {
-		this.destroyEvents();
-	}
-
 	render() {
 		const { width, height } = this.root.canvas;
 		this.root.ctx.clearRect(0, 0, width, height);
@@ -43,11 +39,11 @@ export class RootView {
 	}
 
 	attachEvents() {
-		window.addEventListener('resize', this.updateCanvasSizeAndRender.bind(this));
+		window.addEventListener('resize', this.updateCanvasSizeAndRender);
 	}
 
 	destroyEvents() {
-		window.removeEventListener('resize', this.updateCanvasSizeAndRender.bind(this));
+		window.removeEventListener('resize', this.updateCanvasSizeAndRender);
 	}
 
 	updateCanvasSizeAndRender() {
