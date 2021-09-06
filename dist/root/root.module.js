@@ -32,6 +32,11 @@ var RootModule = /** @class */ (function () {
         if (this.api.isLoading)
             this.view.setCursor('progress');
     };
+    RootModule.prototype.destroy = function () {
+        this.controller.destroyEvents();
+        this.view.destroyEvents();
+        this.tasks.destroy();
+    };
     RootModule.prototype.render = function () {
         this.view.render();
     };

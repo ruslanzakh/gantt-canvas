@@ -20,6 +20,9 @@ var Gantt = /** @class */ (function () {
     Gantt.prototype.updateIsLoading = function (isLoading) {
         this.root.api.updateIsLoading(isLoading);
     };
+    Gantt.prototype.destroy = function () {
+        this.root.destroy();
+    };
     return Gantt;
 }());
 exports.default = Gantt;

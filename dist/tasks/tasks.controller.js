@@ -15,16 +15,15 @@ var TasksController = /** @class */ (function () {
         this.handleAddDepMouseUp = this.handleAddDepMouseUp.bind(this);
     }
     TasksController.prototype.attachEvents = function () {
-        this.destroyMouseDown = this.root.controller.on('mousedown', this.handleMouseDown.bind(this));
-        this.destroyMouseMove = this.root.controller.on('mousemove', this.handleMouseMove.bind(this));
-        this.destroyMouseUp = this.root.controller.on('mouseup', this.handleMouseUp.bind(this));
-        this.destroyTouchEnd = this.root.controller.on('touchend', this.handleTouchEnd.bind(this));
+        this.root.controller.on('mousedown', this.handleMouseDown.bind(this));
+        this.root.controller.on('mousemove', this.handleMouseMove.bind(this));
+        this.root.controller.on('mouseup', this.handleMouseUp.bind(this));
+        this.root.controller.on('touchend', this.handleTouchEnd.bind(this));
     };
     TasksController.prototype.destroyEvents = function () {
-        this.destroyMouseDown && this.destroyMouseDown();
-        this.destroyMouseMove && this.destroyMouseMove();
-        this.destroyMouseUp && this.destroyMouseUp();
-        this.destroyTouchEnd && this.destroyTouchEnd();
+        document.removeEventListener('mouseup', this.handleResizeMouseUp);
+        document.removeEventListener('mouseup', this.handleAddDepMouseUp);
+        document.removeEventListener('mouseup', this.handleTaskMoveMouseUp);
     };
     TasksController.prototype.handleTouchEnd = function (event) {
         var eventOffsets = canvas_1.getEventTouchOffsets(event, this.root.canvas);

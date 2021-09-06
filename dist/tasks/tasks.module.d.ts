@@ -11,4 +11,5 @@ export declare class TasksModule {
     controller: TasksController;
     constructor(root: RootModule);
     init(): void;
+    destroy(): void;
 }

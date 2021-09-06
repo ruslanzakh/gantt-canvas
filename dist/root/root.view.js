@@ -17,9 +17,6 @@ var RootView = /** @class */ (function () {
         this.scrollbarX = new scrollbar_x_entity_1.ScrollbarXEntity(root);
         this.scrollbarY = new scrollbar_y_entity_1.ScrollbarYEntity(root);
     }
-    RootView.prototype.destroy = function () {
-        this.destroyEvents();
-    };
     RootView.prototype.render = function () {
         var _a = this.root.canvas, width = _a.width, height = _a.height;
         this.root.ctx.clearRect(0, 0, width, height);
@@ -33,10 +30,10 @@ var RootView = /** @class */ (function () {
         this.root.grid.view.renderHeader();
     };
     RootView.prototype.attachEvents = function () {
-        window.addEventListener('resize', this.updateCanvasSizeAndRender.bind(this));
+        window.addEventListener('resize', this.updateCanvasSizeAndRender);
     };
     RootView.prototype.destroyEvents = function () {
-        window.removeEventListener('resize', this.updateCanvasSizeAndRender.bind(this));
+        window.removeEventListener('resize', this.updateCanvasSizeAndRender);
     };
     RootView.prototype.updateCanvasSizeAndRender = function () {
         this.updateCanvasSize();

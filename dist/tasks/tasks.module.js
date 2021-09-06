@@ -16,6 +16,9 @@ var TasksModule = /** @class */ (function () {
     TasksModule.prototype.init = function () {
         this.controller.attachEvents();
     };
+    TasksModule.prototype.destroy = function () {
+        this.controller.destroyEvents();
+    };
     return TasksModule;
 }());
 exports.TasksModule = TasksModule;

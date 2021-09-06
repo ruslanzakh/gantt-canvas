@@ -15,5 +15,6 @@ export declare class RootModule {
     tasks: TasksModule;
     constructor(el: string, props: RootApiProps);
     init(): void;
+    destroy(): void;
     render(): void;
 }

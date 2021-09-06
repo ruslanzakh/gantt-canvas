@@ -3,13 +3,9 @@ import { TasksModule } from './tasks.module';
 export declare class TasksController {
     root: RootModule;
     module: TasksModule;
-    destroyMouseDown?: Function;
-    destroyMouseMove?: Function;
-    destroyMouseUp?: Function;
     destroyResizeMouseMove?: Function;
     destroyTaskMove?: Function;
     destroyAddDepMove?: Function;
-    destroyTouchEnd?: Function;
     moveMode: boolean;
     addDepMode: boolean;
     resizeMoveMode: string | null;

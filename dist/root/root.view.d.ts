@@ -10,7 +10,6 @@ export declare class RootView {
     scaleX: number;
     scaleY: number;
     constructor(root: RootModule);
-    destroy(): void;
     render(): void;
     attachEvents(): void;
     destroyEvents(): void;
