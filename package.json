@@ -8,10 +8,14 @@
     "dev": "parcel example/index.html --out-dir dev",
     "build": "tsc"
   },
-  "keywords": ["Gantt", "Canvas"],
+  "keywords": [
+    "Gantt",
+    "Canvas"
+  ],
   "author": "Ruslan Zakharov",
   "license": "MIT",
   "devDependencies": {
+    "@types/css-font-loading-module": "0.0.6",
     "parcel-bundler": "^1.12.5",
     "typescript": "^4.3.5"
   }

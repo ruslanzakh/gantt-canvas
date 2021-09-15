@@ -123,6 +123,7 @@ const gantt = new Gantt('#app', {
 		console.log('handleTaskClick', task);
 	},
 	lang: 'es',
+	monthTitleFont: '400 20px Roboto',
 	monthNames: {
 		es: [
 			'Enero',

@@ -36,6 +36,8 @@ export class RootController {
 		this.root.canvas.addEventListener('touchstart', this.handleTouchStart);
 		this.root.canvas.addEventListener('touchmove', this.handleTouchMove);
 		this.root.canvas.addEventListener('touchend', this.handleTouchEnd);
+		if(document?.fonts?.ready)
+			document.fonts.ready.then(() => this.root.render());
 	}
 
 	destroyEvents() {
