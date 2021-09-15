@@ -200,10 +200,25 @@ var TasksService = /** @class */ (function () {
         this.root.api.handleTaskClick(hoveredTask);
     };
     TasksService.prototype.scrollToTask = function (id) {
+        this.scrollToTaskX(id);
+        this.scrollToTaskY(id);
+    };
+    TasksService.prototype.scrollToTaskX = function (id) {
         var task = this.getRootStoreTaskById(id);
         if (!task)
             return;
         this.root.grid.service.showDay(task.start_date_ts, true, true);
+    };
+    TasksService.prototype.scrollToTaskY = function (id) {
+        var viewTask = this.getViewTaskById(id);
+        if (!viewTask)
+            return;
+        var offsetY = this.root.view.offsetY - this.root.grid.view.rowsOffsetY;
+        var maxHeight = this.root.grid.service.getLeftAvailableHeight();
+        var y = viewTask.y + offsetY;
+        if (y > maxHeight)
+            y = maxHeight;
+        this.root.view.handleSetOffsetY(y, true, true);
     };
     /** Start Add Dependencies */
     TasksService.prototype.handleAddDepMouseMove = function (event) {

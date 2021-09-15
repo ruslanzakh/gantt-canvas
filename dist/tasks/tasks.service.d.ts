@@ -57,6 +57,8 @@ export declare class TasksService {
     /** End commons */
     handleClickTask(event: EventOffsets): void;
     scrollToTask(id: string): void;
+    scrollToTaskX(id: string): void;
+    scrollToTaskY(id: string): void;
     /** Start Add Dependencies */
     handleAddDepMouseMove(event: MouseEvent): void;
     handleAddDepMouseUp(event: MouseEvent): void;

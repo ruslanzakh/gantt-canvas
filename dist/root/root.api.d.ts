@@ -161,7 +161,7 @@ export declare class RootApi {
     handleTaskClick?: RootApiProps['handleTaskClick'];
     constructor(root: RootModule, props: RootApiProps);
     updateTasks(tasks: Task[]): void;
-    scrollToToday(): void;
+    scrollToToday(scrollTop?: boolean): void;
     scrollToTask(id: string): void;
     updateViewMode(mode: ViewMode): void;
     updateIsLoading(isLoading: boolean): void;

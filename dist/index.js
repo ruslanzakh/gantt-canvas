@@ -8,8 +8,8 @@ var Gantt = /** @class */ (function () {
     Gantt.prototype.updateTasks = function (tasks) {
         this.root.api.updateTasks(tasks);
     };
-    Gantt.prototype.scrollToToday = function () {
-        this.root.api.scrollToToday();
+    Gantt.prototype.scrollToToday = function (scrollTop) {
+        this.root.api.scrollToToday(scrollTop);
     };
     Gantt.prototype.scrollToTask = function (id) {
         this.root.api.scrollToTask(id);

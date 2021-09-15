@@ -91,8 +91,10 @@ var RootApi = /** @class */ (function () {
         this.tasks = tasks;
         this.root.render();
     };
-    RootApi.prototype.scrollToToday = function () {
+    RootApi.prototype.scrollToToday = function (scrollTop) {
         this.root.grid.service.showDay(undefined, true, true);
+        if (scrollTop)
+            this.root.view.handleSetOffsetY(0, true, true);
     };
     RootApi.prototype.scrollToTask = function (id) {
         this.root.tasks.service.scrollToTask(id);
@@ -106,6 +108,10 @@ var RootApi = /** @class */ (function () {
         this.isLoading = isLoading;
         if (isLoading)
             this.root.view.setCursor('progress');
+        else if (this.root.tasks.store.hoverResize)
+            this.root.view.setCursor('col-resize');
+        else if (this.root.tasks.store.hoverId)
+            this.root.view.setCursor('pointer');
         else
             this.root.view.setCursor('auto');
     };

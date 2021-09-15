@@ -4,7 +4,7 @@ declare class Gantt {
     root: RootModule;
     constructor(el: string, props: RootApiProps);
     updateTasks(tasks: Task[]): void;
-    scrollToToday(): void;
+    scrollToToday(scrollTop?: boolean): void;
     scrollToTask(id: string): void;
     updateViewMode(mode: ViewMode): void;
     updateIsLoading(isLoading: boolean): void;

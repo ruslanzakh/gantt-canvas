@@ -21,6 +21,8 @@ var RootController = /** @class */ (function () {
         this.attachEvents();
     }
     RootController.prototype.attachEvents = function () {
+        var _this = this;
+        var _a;
         this.root.canvas.addEventListener('mousemove', this.handleMouseMove);
         this.root.canvas.addEventListener('mousedown', this.handleMouseDown);
         this.root.canvas.addEventListener('mouseup', this.handleMouseUp);
@@ -29,6 +31,8 @@ var RootController = /** @class */ (function () {
         this.root.canvas.addEventListener('touchstart', this.handleTouchStart);
         this.root.canvas.addEventListener('touchmove', this.handleTouchMove);
         this.root.canvas.addEventListener('touchend', this.handleTouchEnd);
+        if ((_a = document === null || document === void 0 ? void 0 : document.fonts) === null || _a === void 0 ? void 0 : _a.ready)
+            document.fonts.ready.then(function () { return _this.root.render(); });
     };
     RootController.prototype.destroyEvents = function () {
         this.root.canvas.removeEventListener('mousemove', this.handleMouseMove);
