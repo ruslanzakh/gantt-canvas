@@ -11,8 +11,8 @@ class Gantt {
 		this.root.api.updateTasks(tasks);
 	}
 
-	scrollToToday() {
-		this.root.api.scrollToToday();
+	scrollToToday(scrollTop?: boolean) {
+		this.root.api.scrollToToday(scrollTop);
 	}
 
 	scrollToTask(id: string) {

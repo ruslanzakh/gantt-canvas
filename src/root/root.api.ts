@@ -279,8 +279,9 @@ export class RootApi {
 		this.root.render();
 	}
 
-	scrollToToday() {
+	scrollToToday(scrollTop?: boolean) {
 		this.root.grid.service.showDay(undefined, true, true);
+		if(scrollTop) this.root.view.handleSetOffsetY(0, true, true);
 	}
 
 	scrollToTask(id: string) {

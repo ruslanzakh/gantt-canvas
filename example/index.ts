@@ -96,7 +96,7 @@ const getNextIds = (tasks, end_date_ts: number) => {
 
 function getTasks() {
 	const tasks = [];
-	for(let i = 0; i <= 50; i++ ){
+	for(let i = 0; i <= 100; i++ ){
 		const start_date_ts = getStartDateTs();
 		const end_date_ts = start_date_ts + (Math.floor(Math.random() * 5) * 24 * 60 * 60 * 1000)
 
@@ -113,9 +113,9 @@ function getTasks() {
 	return tasks;
 }
 const gantt = new Gantt('#app', {
-	tasks: tasks,
+	// tasks: tasks,
 	// tasks: getTasks().sort((a, b) => a.start_date_ts - b.start_date_ts),
-	// tasks: getTasks(),
+	tasks: getTasks(),
 	handleChange: async (tasks) => {
 		console.log(tasks);
 	},
@@ -144,13 +144,13 @@ const gantt = new Gantt('#app', {
 const scrollToday = document.getElementById('scroll-today');
 if(scrollToday) {
 	scrollToday.addEventListener('click', function() {
-		gantt.scrollToToday();
+		gantt.scrollToToday(true);
 	})
 }
 const scrollTask = document.getElementById('scroll-task');
 if(scrollTask) {
 	scrollTask.addEventListener('click', function() {
-		gantt.scrollToTask('task1');
+		gantt.scrollToTask('task_100');
 	})
 }
 const viewDay = document.getElementById('view-day');

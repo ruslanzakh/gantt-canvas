@@ -193,9 +193,24 @@ export class TasksService {
 	}
 	
 	scrollToTask(id: string) {
+		this.scrollToTaskX(id);
+		this.scrollToTaskY(id);
+	}
+
+	scrollToTaskX(id: string) {
 		const task = this.getRootStoreTaskById(id);
 		if(!task) return;
 		this.root.grid.service.showDay(task.start_date_ts, true, true);
+	}
+
+	scrollToTaskY(id: string) {
+		const viewTask = this.getViewTaskById(id);
+		if(!viewTask) return;
+		const offsetY = this.root.view.offsetY - this.root.grid.view.rowsOffsetY;
+		const maxHeight = this.root.grid.service.getLeftAvailableHeight();
+		let y = viewTask.y + offsetY;
+		if(y > maxHeight) y = maxHeight; 
+		this.root.view.handleSetOffsetY(y, true, true);
 	}
 
 	/** Start Add Dependencies */
