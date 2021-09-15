@@ -297,6 +297,8 @@ export class RootApi {
 	updateIsLoading(isLoading: boolean) {
 		this.isLoading = isLoading;
 		if(isLoading) this.root.view.setCursor('progress');
+		else if(this.root.tasks.store.hoverResize) this.root.view.setCursor('col-resize');
+		else if(this.root.tasks.store.hoverId) this.root.view.setCursor('pointer');
 		else this.root.view.setCursor('auto');
 	}
 
