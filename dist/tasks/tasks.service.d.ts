@@ -31,6 +31,7 @@ export declare class TasksService {
         strokeHover?: string | undefined;
         underline?: boolean | undefined;
         outlineColor?: string | undefined;
+        noEditable?: boolean | undefined;
     } | null;
     getStoreDependedTasksById(id: string, tasks?: Task[]): Task[];
     getHoveredTask(): Task | null;
@@ -44,6 +45,7 @@ export declare class TasksService {
     getFirstDeadline(): number;
     getLastDeadline(): number;
     getFirstAndLastDeadline(): number[];
+    isNoEditableTask(id: string): boolean | undefined;
     /** End getters */
     /** Start commons */
     getHoverId(event: EventOffsets): {

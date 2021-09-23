@@ -17,6 +17,7 @@ export interface Task {
 	strokeHover?: string;
 	underline?: boolean;
 	outlineColor?: string;
+	noEditable?: boolean;
 }
 
 export type ViewMode = 'day' | 'week';

@@ -18,6 +18,7 @@ export interface TaskRender {
     strokeHover?: string;
     underline?: boolean;
     outlineColor?: string;
+    noEditable?: boolean;
 }
 export declare class TaskEntity {
     root: RootModule;

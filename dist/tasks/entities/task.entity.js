@@ -7,7 +7,7 @@ var TaskEntity = /** @class */ (function () {
         this.root = root;
     }
     TaskEntity.prototype.isHover = function (event, task) {
-        var x = task.x, y = task.y, w = task.w;
+        var x = task.x, y = task.y, w = task.w, noEditable = task.noEditable;
         var h = this.root.grid.view.rowHeight;
         var offsetX = event.offsetX, offsetY = event.offsetY;
         var resize = null;
@@ -20,14 +20,16 @@ var TaskEntity = /** @class */ (function () {
             && offsetY < yy;
         if (!hover)
             return { hover: hover, resize: resize, depFrom: depFrom };
-        if (this.root.api.taskRenderDepControl && (xx - this.root.api.taskRenderDepRadius - this.getDepOffsetX() < offsetX))
-            depFrom = true;
-        else
-            resize = this.isControlsHover(event, task);
+        if (!noEditable) {
+            if (this.root.api.taskRenderDepControl && (xx - this.root.api.taskRenderDepRadius - this.getDepOffsetX() < offsetX))
+                depFrom = true;
+            else
+                resize = this.isControlsHover(event, task);
+        }
         return { hover: hover, resize: resize, depFrom: depFrom };
     };
     TaskEntity.prototype.renderItem = function (task) {
-        var x = task.x, y = task.y, w = task.w, hover = task.hover;
+        var x = task.x, y = task.y, w = task.w, hover = task.hover, noEditable = task.noEditable;
         if (x >= this.root.canvas.width || w === 0)
             return;
         var ctx = this.root.ctx;
@@ -37,7 +39,7 @@ var TaskEntity = /** @class */ (function () {
         var strokeStyle = this.getTaskStrokeStyle(task);
         canvas_1.roundRect(ctx, x, top, w, this.root.api.taskHeight, this.root.api.taskRadius, fillStyle, strokeStyle);
         this.renderTaskText(task, top);
-        if (hover) {
+        if (hover && !noEditable) {
             this.renderResizeControls(task, top);
             this.renderRightDep(x + w, top + (this.root.api.taskHeight / 2));
         }

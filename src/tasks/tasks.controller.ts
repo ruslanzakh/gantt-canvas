@@ -10,7 +10,6 @@ export class TasksController {
 	destroyTaskMove?: Function;
 	destroyAddDepMove?: Function;
 
-	moveMode: boolean = false;
 	addDepMode: boolean = false;
 	resizeMoveMode: string | null = null;
 	mouseDownOffsetX: number | null = null;
@@ -46,6 +45,7 @@ export class TasksController {
 		const { hoverId, resize, depFromId } = this.module.service.getHoverId(event);
 		if(!hoverId) return;
 		this.mouseDownOffsetX = event.offsetX;
+		if(this.module.service.isNoEditableTask(hoverId)) return;
 		if(depFromId) {
 			this.addDepMode = true;
 			this.destroyAddDepMove = this.root.controller.on('mousemove', this.handleAddDepMouseMove.bind(this));
@@ -117,6 +117,7 @@ export class TasksController {
 	handleMouseUp(event: MouseEvent) {
 		if(this.mouseDownOffsetX === event.offsetX || this.root.api.isLoading)
 			this.module.service.handleClickTask(event);
+		this.mouseDownOffsetX = null;
 	}
 
 }

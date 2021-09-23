@@ -19,6 +19,7 @@ export interface TaskRender {
 	strokeHover?: string;
 	underline?: boolean;
 	outlineColor?: string;
+	noEditable?: boolean;
 }
 
 export class TaskEntity {
@@ -29,7 +30,7 @@ export class TaskEntity {
 	}
 
 	isHover(event: EventOffsets, task: TaskRender) {
-		const { x, y, w } = task;
+		const { x, y, w, noEditable } = task;
 		const h = this.root.grid.view.rowHeight;
 		const { offsetX, offsetY } = event;
 		let resize = null;
@@ -41,15 +42,16 @@ export class TaskEntity {
 			&& y < offsetY
 			&& offsetY < yy;
 		if(!hover) return { hover, resize, depFrom };
-
-		if(this.root.api.taskRenderDepControl && (xx - this.root.api.taskRenderDepRadius - this.getDepOffsetX() < offsetX)) depFrom = true;
-		else resize = this.isControlsHover(event, task);
+		if(!noEditable) {
+			if(this.root.api.taskRenderDepControl && (xx - this.root.api.taskRenderDepRadius - this.getDepOffsetX() < offsetX)) depFrom = true;
+			else resize = this.isControlsHover(event, task);
+		}
 		
 		return { hover, resize, depFrom };
 	}
 
 	renderItem(task: TaskRender) {
-		const { x, y, w, hover } = task;
+		const { x, y, w, hover, noEditable } = task;
 		if(x >= this.root.canvas.width || w === 0) return;
 		const ctx = this.root.ctx;
 		ctx.beginPath();
@@ -58,7 +60,7 @@ export class TaskEntity {
 		const strokeStyle = this.getTaskStrokeStyle(task);
 		roundRect(ctx, x, top, w, this.root.api.taskHeight, this.root.api.taskRadius, fillStyle, strokeStyle);
 		this.renderTaskText(task, top);
-		if(hover) {
+		if(hover && !noEditable) {
 			this.renderResizeControls(task, top);
 			this.renderRightDep(x + w, top + (this.root.api.taskHeight / 2));
 		}

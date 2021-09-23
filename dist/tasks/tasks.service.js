@@ -121,6 +121,10 @@ var TasksService = /** @class */ (function () {
         var end_date_ts = this.getLastDeadline();
         return [start_date_ts, end_date_ts];
     };
+    TasksService.prototype.isNoEditableTask = function (id) {
+        var task = this.getRootStoreTaskById(id);
+        return task ? task.noEditable : false;
+    };
     /** End getters */
     /** Start commons */
     TasksService.prototype.getHoverId = function (event) {

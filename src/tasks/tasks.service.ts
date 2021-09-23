@@ -116,6 +116,11 @@ export class TasksService {
 		const end_date_ts = this.getLastDeadline();
 		return [start_date_ts, end_date_ts];
 	}
+
+	isNoEditableTask(id: string) {
+		const task = this.getRootStoreTaskById(id);
+		return task ? task.noEditable : false;
+	}
 	/** End getters */
 
 	/** Start commons */

@@ -6,7 +6,6 @@ export declare class TasksController {
     destroyResizeMouseMove?: Function;
     destroyTaskMove?: Function;
     destroyAddDepMove?: Function;
-    moveMode: boolean;
     addDepMode: boolean;
     resizeMoveMode: string | null;
     mouseDownOffsetX: number | null;

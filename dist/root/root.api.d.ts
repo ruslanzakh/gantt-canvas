@@ -15,6 +15,7 @@ export interface Task {
     strokeHover?: string;
     underline?: boolean;
     outlineColor?: string;
+    noEditable?: boolean;
 }
 export declare type ViewMode = 'day' | 'week';
 export interface RootApiProps {

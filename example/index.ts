@@ -12,6 +12,7 @@ const tasks = [
 		backgroundHover: 'blue',
 		color: 'black',
 		colorHover: 'green',
+		noEditable: true,
 	},
 	{
 		id: 'task2',
@@ -20,6 +21,7 @@ const tasks = [
 		end_date_ts: 1628163321049,
 		next_ids: ['task3'],
 		background: 'pink',
+		noEditable: true,
 	},
 	{
 		id: 'task3',
@@ -29,6 +31,7 @@ const tasks = [
 		next_ids: [],
 		background: 'red',
 		color: 'green',
+		noEditable: true,
 	},
 	{
 		id: 'task4',
@@ -113,9 +116,9 @@ function getTasks() {
 	return tasks;
 }
 const gantt = new Gantt('#app', {
-	// tasks: tasks,
+	tasks: tasks,
 	// tasks: getTasks().sort((a, b) => a.start_date_ts - b.start_date_ts),
-	tasks: getTasks(),
+	// tasks: getTasks(),
 	handleChange: async (tasks) => {
 		console.log(tasks);
 	},

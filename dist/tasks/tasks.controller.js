@@ -4,7 +4,6 @@ exports.TasksController = void 0;
 var canvas_1 = require("../utils/canvas");
 var TasksController = /** @class */ (function () {
     function TasksController(root, module) {
-        this.moveMode = false;
         this.addDepMode = false;
         this.resizeMoveMode = null;
         this.mouseDownOffsetX = null;
@@ -36,6 +35,8 @@ var TasksController = /** @class */ (function () {
         if (!hoverId)
             return;
         this.mouseDownOffsetX = event.offsetX;
+        if (this.module.service.isNoEditableTask(hoverId))
+            return;
         if (depFromId) {
             this.addDepMode = true;
             this.destroyAddDepMove = this.root.controller.on('mousemove', this.handleAddDepMouseMove.bind(this));
@@ -100,6 +101,7 @@ var TasksController = /** @class */ (function () {
     TasksController.prototype.handleMouseUp = function (event) {
         if (this.mouseDownOffsetX === event.offsetX || this.root.api.isLoading)
             this.module.service.handleClickTask(event);
+        this.mouseDownOffsetX = null;
     };
     return TasksController;
 }());
