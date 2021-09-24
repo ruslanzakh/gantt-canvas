@@ -20,6 +20,7 @@ export class TasksController {
 		this.handleResizeMouseUp = this.handleResizeMouseUp.bind(this);
 		this.handleTaskMoveMouseUp = this.handleTaskMoveMouseUp.bind(this);
 		this.handleAddDepMouseUp = this.handleAddDepMouseUp.bind(this);
+		this.handleNoEditableTaskMouseUp = this.handleNoEditableTaskMouseUp.bind(this);
 	}
 
 	attachEvents() {
@@ -33,6 +34,7 @@ export class TasksController {
 		document.removeEventListener('mouseup', this.handleResizeMouseUp);
 		document.removeEventListener('mouseup', this.handleAddDepMouseUp);
 		document.removeEventListener('mouseup', this.handleTaskMoveMouseUp);
+		document.removeEventListener('mouseup', this.handleNoEditableTaskMouseUp);
 	}
 
 	handleTouchEnd(event: TouchEvent) {
@@ -45,8 +47,9 @@ export class TasksController {
 		const { hoverId, resize, depFromId } = this.module.service.getHoverId(event);
 		if(!hoverId) return;
 		this.mouseDownOffsetX = event.offsetX;
-		if(this.module.service.isNoEditableTask(hoverId)) return;
-		if(depFromId) {
+		if(this.module.service.isNoEditableTask(hoverId)) {
+			document.addEventListener('mouseup', this.handleNoEditableTaskMouseUp);
+		} else if(depFromId) {
 			this.addDepMode = true;
 			this.destroyAddDepMove = this.root.controller.on('mousemove', this.handleAddDepMouseMove.bind(this));
 			document.addEventListener('mouseup', this.handleAddDepMouseUp);
@@ -114,10 +117,14 @@ export class TasksController {
 	}
 	/** End Move Task */
 
+	handleNoEditableTaskMouseUp() {
+		this.mouseDownOffsetX = null;
+		this.module.store.setHoverConnectionTask(null);
+	}
+
 	handleMouseUp(event: MouseEvent) {
 		if(this.mouseDownOffsetX === event.offsetX || this.root.api.isLoading)
 			this.module.service.handleClickTask(event);
-		this.mouseDownOffsetX = null;
 	}
 
 }
