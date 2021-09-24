@@ -12,6 +12,7 @@ var TasksController = /** @class */ (function () {
         this.handleResizeMouseUp = this.handleResizeMouseUp.bind(this);
         this.handleTaskMoveMouseUp = this.handleTaskMoveMouseUp.bind(this);
         this.handleAddDepMouseUp = this.handleAddDepMouseUp.bind(this);
+        this.handleNoEditableTaskMouseUp = this.handleNoEditableTaskMouseUp.bind(this);
     }
     TasksController.prototype.attachEvents = function () {
         this.root.controller.on('mousedown', this.handleMouseDown.bind(this));
@@ -23,6 +24,7 @@ var TasksController = /** @class */ (function () {
         document.removeEventListener('mouseup', this.handleResizeMouseUp);
         document.removeEventListener('mouseup', this.handleAddDepMouseUp);
         document.removeEventListener('mouseup', this.handleTaskMoveMouseUp);
+        document.removeEventListener('mouseup', this.handleNoEditableTaskMouseUp);
     };
     TasksController.prototype.handleTouchEnd = function (event) {
         var eventOffsets = canvas_1.getEventTouchOffsets(event, this.root.canvas);
@@ -35,9 +37,10 @@ var TasksController = /** @class */ (function () {
         if (!hoverId)
             return;
         this.mouseDownOffsetX = event.offsetX;
-        if (this.module.service.isNoEditableTask(hoverId))
-            return;
-        if (depFromId) {
+        if (this.module.service.isNoEditableTask(hoverId)) {
+            document.addEventListener('mouseup', this.handleNoEditableTaskMouseUp);
+        }
+        else if (depFromId) {
             this.addDepMode = true;
             this.destroyAddDepMove = this.root.controller.on('mousemove', this.handleAddDepMouseMove.bind(this));
             document.addEventListener('mouseup', this.handleAddDepMouseUp);
@@ -98,10 +101,13 @@ var TasksController = /** @class */ (function () {
         document.removeEventListener('mouseup', this.handleTaskMoveMouseUp);
     };
     /** End Move Task */
+    TasksController.prototype.handleNoEditableTaskMouseUp = function () {
+        this.mouseDownOffsetX = null;
+        this.module.store.setHoverConnectionTask(null);
+    };
     TasksController.prototype.handleMouseUp = function (event) {
         if (this.mouseDownOffsetX === event.offsetX || this.root.api.isLoading)
             this.module.service.handleClickTask(event);
-        this.mouseDownOffsetX = null;
     };
     return TasksController;
 }());

@@ -352,6 +352,8 @@ var TasksService = /** @class */ (function () {
         tasks.forEach(function (el) { return _this.saveMoveTask(el, diff); });
     };
     TasksService.prototype.saveMoveTask = function (task, diff) {
+        if (task.noEditable)
+            return;
         var newTask = __assign(__assign({}, task), { start_date_ts: task.start_date_ts + diff, end_date_ts: task.end_date_ts + diff });
         this.module.store.addModTask(newTask);
     };

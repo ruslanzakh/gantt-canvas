@@ -27,5 +27,6 @@ export declare class TasksController {
     handleTaskMove(event: MouseEvent): void;
     handleTaskMoveMouseUp(event: MouseEvent): void;
     /** End Move Task */
+    handleNoEditableTaskMouseUp(): void;
     handleMouseUp(event: MouseEvent): void;
 }

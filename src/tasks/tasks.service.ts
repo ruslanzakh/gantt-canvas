@@ -351,6 +351,7 @@ export class TasksService {
 	}
 
 	saveMoveTask(task: Task, diff: number) {
+		if(task.noEditable) return;
 		const newTask = {
 			...task,
 			start_date_ts: task.start_date_ts + diff,
