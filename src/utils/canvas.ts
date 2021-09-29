@@ -92,22 +92,3 @@ export const measureText = (ctx: CanvasRenderingContext2D, text: string) => {
 		actualHeight: Math.floor(metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent)
 	}
 }
-
-export const getPixelRatio = () =>  {
-	const ctx = document.createElement("canvas").getContext("2d");
-	if(!ctx) return 1;
-	// @ts-ignore
-	const dpr = window.devicePixelRatio || 1,
-		// @ts-ignore
-		bsr = ctx.webkitBackingStorePixelRatio ||
-				// @ts-ignore
-				ctx.mozBackingStorePixelRatio ||
-				// @ts-ignore
-				ctx.msBackingStorePixelRatio ||
-				// @ts-ignore
-				ctx.oBackingStorePixelRatio ||
-				// @ts-ignore
-				ctx.backingStorePixelRatio || 1;
-
-	return dpr / bsr;
-};
