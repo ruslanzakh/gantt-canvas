@@ -4,6 +4,7 @@ exports.RootView = void 0;
 var scrollbar_x_entity_1 = require("./entities/scrollbar-x.entity");
 var scrollbar_y_entity_1 = require("./entities/scrollbar-y.entity");
 var animate_1 = require("../utils/animate");
+var canvas_1 = require("../utils/canvas");
 var RootView = /** @class */ (function () {
     function RootView(root) {
         this.offsetX = 0;
@@ -40,8 +41,7 @@ var RootView = /** @class */ (function () {
         this.root.render();
     };
     RootView.prototype.updateCanvasSize = function () {
-        this.root.canvas.width = this.root.root.offsetWidth;
-        this.root.canvas.height = this.root.root.offsetHeight;
+        canvas_1.scaleCanvas(this.root.canvas, this.root.ctx, this.root.root.offsetWidth, this.root.root.offsetHeight);
     };
     RootView.prototype.handleChangeOffsetX = function (difference, needRender) {
         if (difference === void 0) { difference = 10; }

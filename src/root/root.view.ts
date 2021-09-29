@@ -2,6 +2,7 @@ import { RootModule } from './root.module';
 import { ScrollbarXEntity } from './entities/scrollbar-x.entity';
 import { ScrollbarYEntity } from './entities/scrollbar-y.entity';
 import { animate, timing } from '../utils/animate';
+import { scaleCanvas } from '../utils/canvas';
 
 export class RootView {
 	root: RootModule;
@@ -52,8 +53,7 @@ export class RootView {
 	}
 
 	updateCanvasSize() {
-		this.root.canvas.width = this.root.root.offsetWidth;
-		this.root.canvas.height = this.root.root.offsetHeight;
+		scaleCanvas(this.root.canvas, this.root.ctx, this.root.root.offsetWidth, this.root.root.offsetHeight);
 	}
 
 	handleChangeOffsetX(difference = 10, needRender = true) {

@@ -15,3 +15,12 @@ export declare const measureText: (ctx: CanvasRenderingContext2D, text: string) 
     height: number;
     actualHeight: number;
 };
+interface CanvasRenderingContext extends CanvasRenderingContext2D {
+    webkitBackingStorePixelRatio?: number;
+    mozBackingStorePixelRatio?: number;
+    msBackingStorePixelRatio?: number;
+    oBackingStorePixelRatio?: number;
+    backingStorePixelRatio?: number;
+}
+export declare function scaleCanvas(canvas: HTMLCanvasElement, context: CanvasRenderingContext, width: number, height: number): void;
+export {};
