@@ -30,6 +30,7 @@ export class RootView {
 	}
 
 	render() {
+		this.pixelRatio = getPixelRatio(this.root.ctx);
 		this.canvasWidth = this.root.canvas.width / this.pixelRatio;
 		this.canvasHeight = this.root.canvas.height / this.pixelRatio;
 		this.root.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
