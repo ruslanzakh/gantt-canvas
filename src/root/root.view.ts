@@ -2,7 +2,7 @@ import { RootModule } from './root.module';
 import { ScrollbarXEntity } from './entities/scrollbar-x.entity';
 import { ScrollbarYEntity } from './entities/scrollbar-y.entity';
 import { animate, timing } from '../utils/animate';
-import { scaleCanvas } from '../utils/canvas';
+import { getPixelRatio, scaleCanvas } from '../utils/canvas';
 
 export class RootView {
 	root: RootModule;
@@ -13,6 +13,9 @@ export class RootView {
 	offsetY = 0;
 	scaleX = 1;
 	scaleY = 1;
+	pixelRatio = 1;
+	canvasWidth = 1;
+	canvasHeight = 1;
 
 	constructor(root: RootModule) {
 		this.root = root;
@@ -21,14 +24,18 @@ export class RootView {
 		this.attachEvents();
 		this.scrollbarX = new ScrollbarXEntity(root);
 		this.scrollbarY = new ScrollbarYEntity(root);
+		this.pixelRatio = getPixelRatio(root.ctx);
+		this.canvasWidth = this.root.canvas.width / this.pixelRatio;
+		this.canvasHeight = this.root.canvas.height / this.pixelRatio;
 	}
 
 	render() {
-		const { width, height } = this.root.canvas;
-		this.root.ctx.clearRect(0, 0, width, height);
+		this.canvasWidth = this.root.canvas.width / this.pixelRatio;
+		this.canvasHeight = this.root.canvas.height / this.pixelRatio;
+		this.root.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
 		this.root.ctx.fillStyle = '#ffffff';
-		this.root.ctx.rect(0, 0, width, height);
+		this.root.ctx.rect(0, 0, this.root.view.canvasWidth, this.root.view.canvasHeight);
 		this.root.ctx.fill();
 
 

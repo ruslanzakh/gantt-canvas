@@ -18,7 +18,7 @@ var ScrollbarYEntity = /** @class */ (function () {
     }
     Object.defineProperty(ScrollbarYEntity.prototype, "left", {
         get: function () {
-            return this.root.canvas.width - this.width;
+            return this.root.view.canvasWidth - this.width;
         },
         enumerable: false,
         configurable: true
@@ -32,7 +32,7 @@ var ScrollbarYEntity = /** @class */ (function () {
     });
     Object.defineProperty(ScrollbarYEntity.prototype, "backgroundLineHeight", {
         get: function () {
-            return this.root.canvas.height - this.bottomOffset - this.top;
+            return this.root.view.canvasHeight - this.bottomOffset - this.top;
         },
         enumerable: false,
         configurable: true
@@ -57,7 +57,7 @@ var ScrollbarYEntity = /** @class */ (function () {
         if (!this.needRender())
             return false;
         var offsetX = event.offsetX, offsetY = event.offsetY;
-        return offsetX >= this.left && offsetY > this.top && offsetY < this.root.canvas.height - this.bottomOffset;
+        return offsetX >= this.left && offsetY > this.top && offsetY < this.root.view.canvasHeight - this.bottomOffset;
     };
     ScrollbarYEntity.prototype.handleMouseDown = function (event) {
         var isLineClick = this.isLineClick(event);
@@ -70,7 +70,7 @@ var ScrollbarYEntity = /** @class */ (function () {
             this.root.controller.stopPropagation(event);
     };
     ScrollbarYEntity.prototype.handleTouchEnd = function (event) {
-        var eventOffsets = canvas_1.getEventTouchOffsets(event, this.root.canvas);
+        var eventOffsets = canvas_1.getEventTouchOffsets(event, this.root.canvas, this.root.ctx);
         var isBackgroundClick = this.isBackgroundClick(eventOffsets);
         if (!isBackgroundClick)
             return;

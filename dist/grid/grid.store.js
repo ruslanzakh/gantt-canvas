@@ -55,7 +55,7 @@ var GridStore = /** @class */ (function () {
     };
     GridStore.prototype.addDatesBefore = function (offsetX) {
         var _a;
-        if (offsetX > this.root.canvas.width)
+        if (offsetX > this.root.view.canvasWidth)
             return;
         var data = this.dates;
         var _b = this.module.view, colsOnScreen = _b.colsOnScreen, colWidth = _b.colWidth;
@@ -74,7 +74,7 @@ var GridStore = /** @class */ (function () {
         var data = this.dates;
         var fullDataWidth = this.module.service.getFullAvailableWidth();
         var _a = this.module.view, colsOnScreen = _a.colsOnScreen, colWidth = _a.colWidth;
-        var width = fullDataWidth - this.root.canvas.width - colWidth;
+        var width = fullDataWidth - this.root.view.canvasWidth - colWidth;
         if (offsetX < width)
             return;
         var length = ((offsetX - width) / colWidth);

@@ -23,14 +23,14 @@ var ScrollbarXEntity = /** @class */ (function () {
     });
     Object.defineProperty(ScrollbarXEntity.prototype, "top", {
         get: function () {
-            return this.root.canvas.height - this.height;
+            return this.root.view.canvasHeight - this.height;
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(ScrollbarXEntity.prototype, "backgroundLineWidth", {
         get: function () {
-            return this.root.canvas.width;
+            return this.root.view.canvasWidth;
         },
         enumerable: false,
         configurable: true
@@ -64,7 +64,7 @@ var ScrollbarXEntity = /** @class */ (function () {
             this.root.controller.stopPropagation(event);
     };
     ScrollbarXEntity.prototype.handleTouchEnd = function (event) {
-        var eventOffsets = canvas_1.getEventTouchOffsets(event, this.root.canvas);
+        var eventOffsets = canvas_1.getEventTouchOffsets(event, this.root.canvas, this.root.ctx);
         var isBackgroundClick = this.isBackgroundClick(eventOffsets);
         if (!isBackgroundClick)
             return;
@@ -131,8 +131,8 @@ var ScrollbarXEntity = /** @class */ (function () {
         var width = (this.backgroundLineWidth / fullWidth) * this.backgroundLineWidth;
         if (width < this.minLineWidth) {
             width = this.minLineWidth;
-            if (x + width > this.root.canvas.width - this.minLineWidth) {
-                x = this.root.canvas.width - width - this.minLineWidth;
+            if (x + width > this.root.view.canvasWidth - this.minLineWidth) {
+                x = this.root.view.canvasWidth - width - this.minLineWidth;
             }
         }
         return { x: x, width: width };

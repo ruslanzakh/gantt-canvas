@@ -38,7 +38,7 @@ export class TasksController {
 	}
 
 	handleTouchEnd(event: TouchEvent) {
-		const eventOffsets = getEventTouchOffsets(event, this.root.canvas);
+		const eventOffsets = getEventTouchOffsets(event, this.root.canvas, this.root.ctx);
 		this.module.service.handleClickTask(eventOffsets);
 	}
 

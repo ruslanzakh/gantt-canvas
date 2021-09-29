@@ -11,18 +11,25 @@ var RootView = /** @class */ (function () {
         this.offsetY = 0;
         this.scaleX = 1;
         this.scaleY = 1;
+        this.pixelRatio = 1;
+        this.canvasWidth = 1;
+        this.canvasHeight = 1;
         this.root = root;
         this.updateCanvasSizeAndRender = this.updateCanvasSizeAndRender.bind(this);
         this.updateCanvasSize();
         this.attachEvents();
         this.scrollbarX = new scrollbar_x_entity_1.ScrollbarXEntity(root);
         this.scrollbarY = new scrollbar_y_entity_1.ScrollbarYEntity(root);
+        this.pixelRatio = canvas_1.getPixelRatio(root.ctx);
+        this.canvasWidth = this.root.canvas.width / this.pixelRatio;
+        this.canvasHeight = this.root.canvas.height / this.pixelRatio;
     }
     RootView.prototype.render = function () {
-        var _a = this.root.canvas, width = _a.width, height = _a.height;
-        this.root.ctx.clearRect(0, 0, width, height);
+        this.canvasWidth = this.root.canvas.width / this.pixelRatio;
+        this.canvasHeight = this.root.canvas.height / this.pixelRatio;
+        this.root.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
         this.root.ctx.fillStyle = '#ffffff';
-        this.root.ctx.rect(0, 0, width, height);
+        this.root.ctx.rect(0, 0, this.root.view.canvasWidth, this.root.view.canvasHeight);
         this.root.ctx.fill();
         this.root.grid.view.renderGrid();
         this.root.tasks.view.render();

@@ -27,7 +27,7 @@ var GridView = /** @class */ (function () {
     });
     Object.defineProperty(GridView.prototype, "colsOnScreen", {
         get: function () {
-            return this.root.canvas.width / this.colWidth;
+            return this.root.view.canvasWidth / this.colWidth;
         },
         enumerable: false,
         configurable: true
@@ -99,7 +99,7 @@ var GridView = /** @class */ (function () {
     });
     GridView.prototype.fillColumns = function () {
         var offsetX = this.root.view.offsetX;
-        var width = this.root.canvas.width;
+        var width = this.root.view.canvasWidth;
         var length = this.module.store.dates.length;
         var data = [];
         for (var i = 0; i < length; i++) {
@@ -156,7 +156,7 @@ var GridView = /** @class */ (function () {
     };
     GridView.prototype.fillRows = function () {
         var odd = true;
-        var height = this.root.canvas.height;
+        var height = this.root.view.canvasHeight;
         var data = [];
         var headerOffset = this.rowsOffsetY + this.rowHeight;
         var offsetY = headerOffset - this.root.view.offsetY - this.rowHeight;
@@ -190,7 +190,7 @@ var GridView = /** @class */ (function () {
     };
     GridView.prototype.renderHeader = function () {
         var _this = this;
-        var width = this.root.canvas.width;
+        var width = this.root.view.canvasWidth;
         this.root.ctx.fillStyle = '#ffffff';
         this.root.ctx.rect(0, 0, width, this.rowsOffsetY);
         this.root.ctx.fill();

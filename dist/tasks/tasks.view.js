@@ -35,9 +35,9 @@ var TasksView = /** @class */ (function () {
         });
         this.tasksForArrows = Object.values(data).filter(function (task) {
             if ((task.y + rowHeight) >= rowsOffsetY
-                && task.y <= _this.root.canvas.height
+                && task.y <= _this.root.view.canvasHeight
                 && (task.x + task.w) >= 0
-                && task.x <= _this.root.canvas.width)
+                && task.x <= _this.root.view.canvasWidth)
                 return true;
             return task.next_ids.some(function (id) {
                 var target = data[id];
@@ -45,17 +45,17 @@ var TasksView = /** @class */ (function () {
                     return false;
                 if (task.y < rowsOffsetY && target.y < rowsOffsetY)
                     return false;
-                if (task.y > _this.root.canvas.height && target.y > _this.root.canvas.height)
+                if (task.y > _this.root.view.canvasHeight && target.y > _this.root.view.canvasHeight)
                     return false;
                 if (task.x < 0 && target.x < 0)
                     return false;
-                if (task.x + task.w > _this.root.canvas.width && target.x + target.w > _this.root.canvas.width)
+                if (task.x + task.w > _this.root.view.canvasWidth && target.x + target.w > _this.root.view.canvasWidth)
                     return false;
                 return true;
             });
         });
         this.tasks = this.tasksForArrows.filter(function (task) { return (task.y + rowHeight) >= rowsOffsetY
-            && task.y <= _this.root.canvas.height; });
+            && task.y <= _this.root.view.canvasHeight; });
     };
     TasksView.prototype.render = function () {
         this.module.store.fillTasks();

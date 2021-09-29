@@ -28,11 +28,11 @@ export class ScrollbarXEntity {
 	}
 
 	get top() {
-		return this.root.canvas.height - this.height;
+		return this.root.view.canvasHeight - this.height;
 	}
 
 	get backgroundLineWidth() {
-		return this.root.canvas.width;
+		return this.root.view.canvasWidth;
 	}
 
 	destroyEvents() {
@@ -64,7 +64,7 @@ export class ScrollbarXEntity {
 	}
 
 	handleTouchEnd(event: TouchEvent) {
-		const eventOffsets = getEventTouchOffsets(event, this.root.canvas); 
+		const eventOffsets = getEventTouchOffsets(event, this.root.canvas, this.root.ctx); 
 		const isBackgroundClick = this.isBackgroundClick(eventOffsets);
 		if(!isBackgroundClick) return;
 		this.handleBackgroundMouseDown(eventOffsets);
@@ -114,6 +114,7 @@ export class ScrollbarXEntity {
 		if(this.mouseDownOffset !== null) {
 			const diff = event.screenX - this.mouseDownOffset;
 			let offset = this.root.view.offsetX + this.getScaledOffset(diff);
+			
 			this.root.view.handleSetOffsetX(offset);
 			this.mouseDownOffset = event.screenX;
 		}
@@ -138,8 +139,8 @@ export class ScrollbarXEntity {
 		let width = (this.backgroundLineWidth / fullWidth) * this.backgroundLineWidth;
 		if(width < this.minLineWidth) {
 			width = this.minLineWidth;
-			if(x + width > this.root.canvas.width - this.minLineWidth) {
-				x = this.root.canvas.width - width - this.minLineWidth;
+			if(x + width > this.root.view.canvasWidth - this.minLineWidth) {
+				x = this.root.view.canvasWidth - width - this.minLineWidth;
 			}
 		}
 		return { x, width };

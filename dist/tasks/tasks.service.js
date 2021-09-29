@@ -149,7 +149,7 @@ var TasksService = /** @class */ (function () {
     TasksService.prototype.scrollX = function (event) {
         var _this = this;
         var offsetX = event.offsetX;
-        var width = this.root.canvas.width;
+        var width = this.root.view.canvasWidth;
         var colWidth = this.root.grid.view.colWidth;
         var pos = offsetX / width;
         var changeOffsetValue = 0;
@@ -339,6 +339,7 @@ var TasksService = /** @class */ (function () {
         if (!task || !this.module.controller.mouseDownOffsetX)
             return;
         var diff = this.getDiff(offsetX, task.all_day);
+        console.log(diff);
         if (this.root.api.moveDependedOnMove) {
             this.moveDependedTasks(task, diff);
         }

@@ -47,15 +47,16 @@ export const roundRect = (
 }
 
 
-export const getEventTouchOffsets = (event: TouchEvent, canvas: HTMLCanvasElement) => {
+export const getEventTouchOffsets = (event: TouchEvent, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext) => {
 	const rect = canvas.getBoundingClientRect();
 	const x = event.changedTouches[0]?.clientX ?? 0;
 	const y = event.changedTouches[0]?.clientY ?? 0;
 
 	const x_rel = x - rect.left;
 	const y_rel = y - rect.top;
-	const offsetX = Math.round((x_rel * canvas.width) / rect.width);
-	const offsetY = Math.round((y_rel * canvas.height) / rect.height);
+	const ratio = getPixelRatio(ctx);
+	const offsetX = Math.round((x_rel * canvas.width / ratio) / rect.width);
+	const offsetY = Math.round((y_rel * canvas.height / ratio) / rect.height);
 	return { offsetX, offsetY };
 }
 
@@ -100,7 +101,8 @@ interface CanvasRenderingContext extends CanvasRenderingContext2D {
 	oBackingStorePixelRatio?: number;
 	backingStorePixelRatio?: number;
 }
-export function scaleCanvas(canvas: HTMLCanvasElement, context: CanvasRenderingContext , width: number, height: number) {
+
+export function getPixelRatio(context: CanvasRenderingContext) {
 	// assume the device pixel ratio is 1 if the browser doesn't specify it
 	const devicePixelRatio = window.devicePixelRatio || 1;
   
@@ -115,8 +117,13 @@ export function scaleCanvas(canvas: HTMLCanvasElement, context: CanvasRenderingC
   
 	// determine the actual ratio we want to draw at
 	const ratio = devicePixelRatio / backingStoreRatio;
-  
-	if (devicePixelRatio !== backingStoreRatio) {
+	return ratio;
+}
+
+export function scaleCanvas(canvas: HTMLCanvasElement, context: CanvasRenderingContext , width: number, height: number) {
+	
+	const ratio = getPixelRatio(context);
+	if (ratio !== 1) {
 	  // set the 'real' canvas size to the higher width/height
 	  canvas.width = width * ratio;
 	  canvas.height = height * ratio;

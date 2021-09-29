@@ -5,7 +5,7 @@ export interface RoundRectRadius {
     bl: number;
 }
 export declare const roundRect: (ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, radius: number | number[] | RoundRectRadius, fill?: string | undefined, stroke?: string | undefined) => void;
-export declare const getEventTouchOffsets: (event: TouchEvent, canvas: HTMLCanvasElement) => {
+export declare const getEventTouchOffsets: (event: TouchEvent, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext) => {
     offsetX: number;
     offsetY: number;
 };
@@ -22,5 +22,6 @@ interface CanvasRenderingContext extends CanvasRenderingContext2D {
     oBackingStorePixelRatio?: number;
     backingStorePixelRatio?: number;
 }
+export declare function getPixelRatio(context: CanvasRenderingContext): number;
 export declare function scaleCanvas(canvas: HTMLCanvasElement, context: CanvasRenderingContext, width: number, height: number): void;
 export {};

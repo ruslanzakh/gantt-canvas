@@ -9,6 +9,9 @@ export declare class RootView {
     offsetY: number;
     scaleX: number;
     scaleY: number;
+    pixelRatio: number;
+    canvasWidth: number;
+    canvasHeight: number;
     constructor(root: RootModule);
     render(): void;
     attachEvents(): void;

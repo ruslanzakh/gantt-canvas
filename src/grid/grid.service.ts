@@ -66,16 +66,16 @@ export class GridService {
 	}
 
 	getFullAvailableWidth() {
-		const canvas = this.root.canvas;
+		const maxWidth = this.root.view.canvasWidth;
 		const colWidth = this.module.view.colWidth;
 		let fullWidth = colWidth * this.module.store.dates.length;
-		if(fullWidth < canvas.width) fullWidth = canvas.width;
+		if(fullWidth < maxWidth) fullWidth = maxWidth;
 
 		return fullWidth;
 	}
 
 	getViewHeight() {
-		return this.root.canvas.height - this.root.grid.view.headerHeight - this.root.view.scrollbarY.bottomOffset;
+		return this.root.view.canvasHeight - this.root.grid.view.headerHeight - this.root.view.scrollbarY.bottomOffset;
 	}
 
 	getFullAvailableHeight() {
@@ -91,9 +91,9 @@ export class GridService {
 
 	validateOffsetX() {
 		const offsetX = this.root.view.offsetX;
-		if(offsetX < this.root.canvas.width) {
+		if(offsetX < this.root.view.canvasWidth) {
 			this.module.store.addDatesBefore(offsetX);
-		} else if(offsetX > this.getFullAvailableWidth() - this.root.canvas.width) {
+		} else if(offsetX > this.getFullAvailableWidth() - this.root.view.canvasWidth) {
 			this.module.store.addDatesAfter(offsetX);
 		}
 	}

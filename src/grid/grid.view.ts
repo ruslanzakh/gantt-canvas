@@ -41,7 +41,7 @@ export class GridView {
 	}
 	
 	get colsOnScreen() {
-		return this.root.canvas.width / this.colWidth;
+		return this.root.view.canvasWidth / this.colWidth;
 	}
 
 	get colTs() {
@@ -84,7 +84,7 @@ export class GridView {
 	fillColumns() {
 		const offsetX = this.root.view.offsetX;
 		
-		const width = this.root.canvas.width;
+		const width = this.root.view.canvasWidth;
 		const length = this.module.store.dates.length;
 		const data: RichedColumnRender[] = [];
 		
@@ -105,6 +105,7 @@ export class GridView {
 				today: el.today,
 			});
 		}
+		
 		this.columns = data;
 	}
 
@@ -139,7 +140,7 @@ export class GridView {
 
 	fillRows() {
 		let odd = true;
-		const height = this.root.canvas.height;
+		const height = this.root.view.canvasHeight;
 		const data: RowRender[] = [];
 		const headerOffset = this.rowsOffsetY + this.rowHeight;
 		const offsetY = headerOffset - this.root.view.offsetY - this.rowHeight;
@@ -175,7 +176,7 @@ export class GridView {
 
 	renderHeader() {
 
-		const { width } = this.root.canvas;
+		const width = this.root.view.canvasWidth;
 
 		this.root.ctx.fillStyle = '#ffffff';
 		this.root.ctx.rect(0, 0, width, this.rowsOffsetY);

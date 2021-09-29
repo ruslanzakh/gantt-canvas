@@ -145,7 +145,7 @@ export class TasksService {
 	
 	scrollX(event: MouseEvent) {
 		const { offsetX } = event;
-		const width = this.root.canvas.width;
+		const width = this.root.view.canvasWidth;
 		const colWidth = this.root.grid.view.colWidth;
 		const pos = offsetX / width;
 		let changeOffsetValue = 0;
@@ -337,6 +337,7 @@ export class TasksService {
 		const task = this.getHoveredTask();
 		if(!task || !this.module.controller.mouseDownOffsetX) return;
 		const diff = this.getDiff(offsetX, task.all_day);
+		console.log(diff);
 		
 		if(this.root.api.moveDependedOnMove) {
 			this.moveDependedTasks(task, diff)

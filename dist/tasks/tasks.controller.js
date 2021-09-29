@@ -27,7 +27,7 @@ var TasksController = /** @class */ (function () {
         document.removeEventListener('mouseup', this.handleNoEditableTaskMouseUp);
     };
     TasksController.prototype.handleTouchEnd = function (event) {
-        var eventOffsets = canvas_1.getEventTouchOffsets(event, this.root.canvas);
+        var eventOffsets = canvas_1.getEventTouchOffsets(event, this.root.canvas, this.root.ctx);
         this.module.service.handleClickTask(eventOffsets);
     };
     TasksController.prototype.handleMouseDown = function (event) {

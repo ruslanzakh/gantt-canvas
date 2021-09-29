@@ -52,7 +52,7 @@ export class TaskEntity {
 
 	renderItem(task: TaskRender) {
 		const { x, y, w, hover, noEditable } = task;
-		if(x >= this.root.canvas.width || w === 0) return;
+		if(x >= this.root.view.canvasWidth || w === 0) return;
 		const ctx = this.root.ctx;
 		ctx.beginPath();
 		const top =this.getTaskTop(y);

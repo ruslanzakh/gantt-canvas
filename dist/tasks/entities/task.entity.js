@@ -30,7 +30,7 @@ var TaskEntity = /** @class */ (function () {
     };
     TaskEntity.prototype.renderItem = function (task) {
         var x = task.x, y = task.y, w = task.w, hover = task.hover, noEditable = task.noEditable;
-        if (x >= this.root.canvas.width || w === 0)
+        if (x >= this.root.view.canvasWidth || w === 0)
             return;
         var ctx = this.root.ctx;
         ctx.beginPath();

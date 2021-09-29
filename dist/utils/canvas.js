@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.scaleCanvas = exports.measureText = exports.renderUnderline = exports.getEventTouchOffsets = exports.roundRect = void 0;
+exports.scaleCanvas = exports.getPixelRatio = exports.measureText = exports.renderUnderline = exports.getEventTouchOffsets = exports.roundRect = void 0;
 var roundRect = function (ctx, x, y, width, height, radius, fill, stroke) {
     if (typeof radius === 'number') {
         radius = { tl: radius, tr: radius, br: radius, bl: radius };
@@ -35,15 +35,16 @@ var roundRect = function (ctx, x, y, width, height, radius, fill, stroke) {
     ctx.closePath();
 };
 exports.roundRect = roundRect;
-var getEventTouchOffsets = function (event, canvas) {
+var getEventTouchOffsets = function (event, canvas, ctx) {
     var _a, _b, _c, _d;
     var rect = canvas.getBoundingClientRect();
     var x = (_b = (_a = event.changedTouches[0]) === null || _a === void 0 ? void 0 : _a.clientX) !== null && _b !== void 0 ? _b : 0;
     var y = (_d = (_c = event.changedTouches[0]) === null || _c === void 0 ? void 0 : _c.clientY) !== null && _d !== void 0 ? _d : 0;
     var x_rel = x - rect.left;
     var y_rel = y - rect.top;
-    var offsetX = Math.round((x_rel * canvas.width) / rect.width);
-    var offsetY = Math.round((y_rel * canvas.height) / rect.height);
+    var ratio = getPixelRatio(ctx);
+    var offsetX = Math.round((x_rel * canvas.width / ratio) / rect.width);
+    var offsetY = Math.round((y_rel * canvas.height / ratio) / rect.height);
     return { offsetX: offsetX, offsetY: offsetY };
 };
 exports.getEventTouchOffsets = getEventTouchOffsets;
@@ -86,7 +87,7 @@ var measureText = function (ctx, text) {
     };
 };
 exports.measureText = measureText;
-function scaleCanvas(canvas, context, width, height) {
+function getPixelRatio(context) {
     // assume the device pixel ratio is 1 if the browser doesn't specify it
     var devicePixelRatio = window.devicePixelRatio || 1;
     // determine the 'backing store ratio' of the canvas context
@@ -97,7 +98,12 @@ function scaleCanvas(canvas, context, width, height) {
         context.backingStorePixelRatio || 1);
     // determine the actual ratio we want to draw at
     var ratio = devicePixelRatio / backingStoreRatio;
-    if (devicePixelRatio !== backingStoreRatio) {
+    return ratio;
+}
+exports.getPixelRatio = getPixelRatio;
+function scaleCanvas(canvas, context, width, height) {
+    var ratio = getPixelRatio(context);
+    if (ratio !== 1) {
         // set the 'real' canvas size to the higher width/height
         canvas.width = width * ratio;
         canvas.height = height * ratio;

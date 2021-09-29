@@ -52,11 +52,11 @@ export class ColumnEntity {
 			ctx.strokeStyle = this.root.api.colStartMonthLineColor;
 		} 
 		ctx.moveTo(x, monthHeight);
-		ctx.lineTo(x, this.root.canvas.height); 
+		ctx.lineTo(x, this.root.view.canvasHeight); 
 		ctx.stroke();
 		if(today) {
 			ctx.fillStyle = this.root.api.dayTodayBackground;
-			ctx.fillRect(x, monthHeight, this.root.grid.view.colWidth, this.root.canvas.height);
+			ctx.fillRect(x, monthHeight, this.root.grid.view.colWidth, this.root.view.canvasHeight);
 			ctx.fill();
 		}
 	}

@@ -25,7 +25,7 @@ export class ScrollbarYEntity {
 	}
 
 	get left() {
-		return this.root.canvas.width - this.width;
+		return this.root.view.canvasWidth - this.width;
 	}
 
 	get top() {
@@ -33,7 +33,7 @@ export class ScrollbarYEntity {
 	}
 
 	get backgroundLineHeight() {
-		return this.root.canvas.height - this.bottomOffset - this.top
+		return this.root.view.canvasHeight - this.bottomOffset - this.top
 	}
 
 	destroyEvents() {
@@ -54,7 +54,7 @@ export class ScrollbarYEntity {
 	isBackgroundClick(event: EventOffsets) {
 		if(!this.needRender()) return false;
 		const { offsetX, offsetY } = event;
-		return offsetX >= this.left && offsetY > this.top && offsetY < this.root.canvas.height - this.bottomOffset;
+		return offsetX >= this.left && offsetY > this.top && offsetY < this.root.view.canvasHeight - this.bottomOffset;
 	}
 
 	handleMouseDown(event: MouseEvent) {
@@ -67,7 +67,7 @@ export class ScrollbarYEntity {
 	}
 
 	handleTouchEnd(event: TouchEvent) {
-		const eventOffsets = getEventTouchOffsets(event, this.root.canvas); 
+		const eventOffsets = getEventTouchOffsets(event, this.root.canvas, this.root.ctx); 
 		const isBackgroundClick = this.isBackgroundClick(eventOffsets);
 		if(!isBackgroundClick) return;
 		this.handleBackgroundMouseDown(eventOffsets);
