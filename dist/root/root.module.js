@@ -6,6 +6,7 @@ var tasks_module_1 = require("../tasks/tasks.module");
 var root_api_1 = require("./root.api");
 var root_view_1 = require("./root.view");
 var root_controller_1 = require("./root.controller");
+var canvas_1 = require("../utils/canvas");
 var RootModule = /** @class */ (function () {
     function RootModule(el, props) {
         var elem = document.querySelector(el);
@@ -14,9 +15,11 @@ var RootModule = /** @class */ (function () {
         this.root = elem;
         this.canvas = document.createElement('canvas');
         this.root.append(this.canvas);
+        var ratio = canvas_1.getPixelRatio();
         var ctx = this.canvas.getContext('2d');
         if (!ctx)
             throw new Error('Canvas context doesn\'t gotten');
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
         this.ctx = ctx;
         this.api = new root_api_1.RootApi(this, props);
         this.controller = new root_controller_1.RootController(this);

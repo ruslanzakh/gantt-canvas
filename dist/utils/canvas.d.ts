@@ -15,3 +15,4 @@ export declare const measureText: (ctx: CanvasRenderingContext2D, text: string) 
     height: number;
     actualHeight: number;
 };
+export declare const getPixelRatio: () => number;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.measureText = exports.renderUnderline = exports.getEventTouchOffsets = exports.roundRect = void 0;
+exports.getPixelRatio = exports.measureText = exports.renderUnderline = exports.getEventTouchOffsets = exports.roundRect = void 0;
 var roundRect = function (ctx, x, y, width, height, radius, fill, stroke) {
     if (typeof radius === 'number') {
         radius = { tl: radius, tr: radius, br: radius, bl: radius };
@@ -86,3 +86,22 @@ var measureText = function (ctx, text) {
     };
 };
 exports.measureText = measureText;
+var getPixelRatio = function () {
+    var ctx = document.createElement("canvas").getContext("2d");
+    if (!ctx)
+        return 1;
+    // @ts-ignore
+    var dpr = window.devicePixelRatio || 1, 
+    // @ts-ignore
+    bsr = ctx.webkitBackingStorePixelRatio ||
+        // @ts-ignore
+        ctx.mozBackingStorePixelRatio ||
+        // @ts-ignore
+        ctx.msBackingStorePixelRatio ||
+        // @ts-ignore
+        ctx.oBackingStorePixelRatio ||
+        // @ts-ignore
+        ctx.backingStorePixelRatio || 1;
+    return dpr / bsr;
+};
+exports.getPixelRatio = getPixelRatio;

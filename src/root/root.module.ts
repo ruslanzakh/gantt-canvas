@@ -3,6 +3,7 @@ import { TasksModule } from '../tasks/tasks.module';
 import { RootApi, RootApiProps } from './root.api';
 import { RootView } from './root.view';
 import { RootController } from './root.controller';
+import { getPixelRatio } from '../utils/canvas';
 export { RootApiProps } from './root.api';
 
 
@@ -22,8 +23,11 @@ export class RootModule {
 		this.root = elem;
 		this.canvas = document.createElement('canvas');
 		this.root.append(this.canvas);
+		const ratio = getPixelRatio();
+		
 		const ctx = this.canvas.getContext('2d');
 		if(!ctx) throw new Error('Canvas context doesn\'t gotten');
+		ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 		this.ctx = ctx;
 	
 		this.api = new RootApi(this, props);
