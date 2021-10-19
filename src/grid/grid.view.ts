@@ -103,6 +103,7 @@ export class GridView {
 				isStartMonth: el.isStartMonth,
 				isMiddleDayMonth: el.isMiddleDayMonth,
 				today: el.today,
+				weekend: el.weekend,
 			});
 		}
 		

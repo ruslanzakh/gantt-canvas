@@ -10,6 +10,7 @@ interface GridDate {
 	isStartMonth: boolean;
 	isMiddleDayMonth: boolean;
 	today: boolean;
+	weekend: boolean;
 }
 
 export class GridStore {
@@ -62,6 +63,7 @@ export class GridStore {
 			month: date.getMonth(),
 			year: date.getFullYear(),
 			isStartMonth: day === 1,
+			weekend: [0, 6].includes(date.getDay()), 
 			isMiddleDayMonth,
 			today,
 		}

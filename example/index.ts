@@ -125,6 +125,7 @@ const gantt = new Gantt('#app', {
 	handleTaskClick: async (task) => {
 		console.log('handleTaskClick', task);
 	},
+	dayWeekendBackground: '#fbf5ff',
 	lang: 'es',
 	monthTitleFont: '400 20px Roboto',
 	monthNames: {
