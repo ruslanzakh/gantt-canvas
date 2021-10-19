@@ -45,8 +45,8 @@ export class TasksView {
 				if(!target) return false;
 				if(task.y < rowsOffsetY && target.y < rowsOffsetY) return false;
 				if(task.y > this.root.view.canvasHeight && target.y  > this.root.view.canvasHeight) return false;
-				if(task.x < 0 && target.x < 0) return false;
-				if(task.x + task.w > this.root.view.canvasWidth && target.x + target.w > this.root.view.canvasWidth) return false;
+				if(task.x + task.w < 0 && target.x + target.w < 0) return false;
+				if(task.x > this.root.view.canvasWidth && target.x > this.root.view.canvasWidth) return false;
 				return true;
 			})
 		});
