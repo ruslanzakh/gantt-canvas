@@ -25,6 +25,7 @@ var RootView = /** @class */ (function () {
         this.canvasHeight = this.root.canvas.height / this.pixelRatio;
     }
     RootView.prototype.render = function () {
+        this.pixelRatio = canvas_1.getPixelRatio(this.root.ctx);
         this.canvasWidth = this.root.canvas.width / this.pixelRatio;
         this.canvasHeight = this.root.canvas.height / this.pixelRatio;
         this.root.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);

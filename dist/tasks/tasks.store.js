@@ -55,6 +55,8 @@ var TasksStore = /** @class */ (function () {
         this.hoverConnectionTask = id;
     };
     TasksStore.prototype.updateDepOffsets = function (offsetX, offsetY) {
+        if (offsetX === void 0) { offsetX = this.addDepOffsetX; }
+        if (offsetY === void 0) { offsetY = this.addDepOffsetY; }
         this.addDepOffsetX = offsetX;
         this.addDepOffsetY = offsetY;
     };

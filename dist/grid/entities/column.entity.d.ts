@@ -4,6 +4,7 @@ export interface ColumnRender {
     title: string;
     isStartMonth: boolean;
     today: boolean;
+    weekend: boolean;
 }
 export interface ColumnRenderCommon {
     monthHeight: number;
@@ -14,5 +15,5 @@ export declare class ColumnEntity {
     root: RootModule;
     constructor(root: RootModule);
     renderDay({ x, title, isStartMonth }: ColumnRender, { monthHeight, width, dayHeight }: ColumnRenderCommon): void;
-    renderCol({ x, today, isStartMonth }: ColumnRender, { monthHeight }: ColumnRenderCommon): void;
+    renderCol({ x, today, weekend, isStartMonth }: ColumnRender, { monthHeight }: ColumnRenderCommon): void;
 }

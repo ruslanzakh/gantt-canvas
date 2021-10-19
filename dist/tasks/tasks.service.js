@@ -162,11 +162,11 @@ var TasksService = /** @class */ (function () {
             this.intervalChangeOffset = setInterval(function () {
                 _this.module.controller.mouseDownOffsetX = (_this.module.controller.mouseDownOffsetX || 0) - changeOffsetValue;
                 if (_this.module.controller.addDepMode)
-                    _this.updateDepOffsets(event);
+                    _this.updateDepOffsets(offsetX);
                 else if (_this.module.controller.resizeMoveMode)
                     _this.resizeTaskByResizeMode(offsetX);
                 else
-                    _this.moveTask(event.offsetX);
+                    _this.moveTask(offsetX);
                 _this.root.view.handleChangeOffsetX(changeOffsetValue);
             }, 150);
         }
@@ -226,9 +226,11 @@ var TasksService = /** @class */ (function () {
     };
     /** Start Add Dependencies */
     TasksService.prototype.handleAddDepMouseMove = function (event) {
-        if (this.intervalChangeOffset)
+        if (this.intervalChangeOffset) {
+            this.updateDepOffsets(undefined, event.offsetY);
             return this.scrollX(event);
-        this.updateDepOffsets(event);
+        }
+        this.updateDepOffsets(event.offsetX, event.offsetY);
         this.scrollX(event);
         this.root.render();
     };
@@ -250,8 +252,8 @@ var TasksService = /** @class */ (function () {
         if (hoverId && hoverId === this.module.store.hoverId)
             this.root.render();
     };
-    TasksService.prototype.updateDepOffsets = function (event) {
-        this.module.store.updateDepOffsets(event.offsetX, event.offsetY);
+    TasksService.prototype.updateDepOffsets = function (offsetX, offsetY) {
+        this.module.store.updateDepOffsets(offsetX, offsetY);
     };
     /** End Add Dependencies */
     /** Start Resize Task */
@@ -339,7 +341,6 @@ var TasksService = /** @class */ (function () {
         if (!task || !this.module.controller.mouseDownOffsetX)
             return;
         var diff = this.getDiff(offsetX, task.all_day);
-        console.log(diff);
         if (this.root.api.moveDependedOnMove) {
             this.moveDependedTasks(task, diff);
         }

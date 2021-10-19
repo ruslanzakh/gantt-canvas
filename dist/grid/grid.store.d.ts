@@ -8,6 +8,7 @@ interface GridDate {
     isStartMonth: boolean;
     isMiddleDayMonth: boolean;
     today: boolean;
+    weekend: boolean;
 }
 export declare class GridStore {
     root: RootModule;

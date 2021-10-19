@@ -59,9 +59,12 @@ var TasksController = /** @class */ (function () {
         if (this.resizeMoveMode)
             return;
         if (this.mouseDownOffsetX && !this.root.api.isLoading) {
-            var hoverId_1 = this.module.service.getHoverId(event).hoverId;
-            return this.module.store.setHoverConnectionTask(hoverId_1);
+            var hoverId = this.module.service.getHoverId(event).hoverId;
+            return this.module.store.setHoverConnectionTask(hoverId);
         }
+        this.updateHoverId(event);
+    };
+    TasksController.prototype.updateHoverId = function (event) {
         var _a = this.module.service.getHoverId(event), hoverId = _a.hoverId, resize = _a.resize;
         this.module.store.setHoverId(hoverId, resize);
     };
@@ -69,11 +72,12 @@ var TasksController = /** @class */ (function () {
     TasksController.prototype.handleResizeTaskMouseMove = function (event) {
         this.module.service.handleResizeTaskMouseMove(event);
     };
-    TasksController.prototype.handleResizeMouseUp = function () {
+    TasksController.prototype.handleResizeMouseUp = function (event) {
         this.module.service.handleResizeTaskMouseUp();
         this.resizeMoveMode = null;
         this.mouseDownOffsetX = null;
         this.destroyResizeMouseMove && this.destroyResizeMouseMove();
+        this.updateHoverId(event);
         document.removeEventListener('mouseup', this.handleResizeMouseUp);
     };
     /** End Resize Task */
@@ -86,6 +90,7 @@ var TasksController = /** @class */ (function () {
         this.addDepMode = false;
         this.module.service.handleAddDepMouseUp(event);
         this.destroyAddDepMove && this.destroyAddDepMove();
+        this.updateHoverId(event);
         document.removeEventListener('mouseup', this.handleAddDepMouseUp);
     };
     /** End Add Dependencies */
@@ -98,6 +103,7 @@ var TasksController = /** @class */ (function () {
         this.destroyTaskMove && this.destroyTaskMove();
         this.mouseDownOffsetX = null;
         this.module.store.setHoverConnectionTask(null);
+        this.updateHoverId(event);
         document.removeEventListener('mouseup', this.handleTaskMoveMouseUp);
     };
     /** End Move Task */

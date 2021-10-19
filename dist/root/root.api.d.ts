@@ -45,6 +45,7 @@ export interface RootApiProps {
     dayColor?: string;
     dayFont?: string;
     dayTodayBackground?: string;
+    dayWeekendBackground?: string;
     dayColWidth?: number;
     monthViewColWidth?: number;
     rowHeight?: number;
@@ -117,6 +118,7 @@ export declare class RootApi {
     dayColor: string;
     dayFont: string;
     dayTodayBackground: string;
+    dayWeekendBackground?: string;
     dayColWidth: number;
     monthViewColWidth: number;
     rowHeight: number;

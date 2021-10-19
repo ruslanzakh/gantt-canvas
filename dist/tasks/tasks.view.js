@@ -47,9 +47,9 @@ var TasksView = /** @class */ (function () {
                     return false;
                 if (task.y > _this.root.view.canvasHeight && target.y > _this.root.view.canvasHeight)
                     return false;
-                if (task.x < 0 && target.x < 0)
+                if (task.x + task.w < 0 && target.x + target.w < 0)
                     return false;
-                if (task.x + task.w > _this.root.view.canvasWidth && target.x + target.w > _this.root.view.canvasWidth)
+                if (task.x > _this.root.view.canvasWidth && target.x > _this.root.view.canvasWidth)
                     return false;
                 return true;
             });

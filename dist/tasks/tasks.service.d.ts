@@ -64,7 +64,7 @@ export declare class TasksService {
     /** Start Add Dependencies */
     handleAddDepMouseMove(event: MouseEvent): void;
     handleAddDepMouseUp(event: MouseEvent): void;
-    updateDepOffsets(event: MouseEvent): void;
+    updateDepOffsets(offsetX?: number | null, offsetY?: number | null): void;
     /** End Add Dependencies */
     /** Start Resize Task */
     handleResizeTaskMouseMove(event: MouseEvent): void;

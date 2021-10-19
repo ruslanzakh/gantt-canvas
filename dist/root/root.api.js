@@ -41,6 +41,7 @@ var RootApi = /** @class */ (function () {
         this.dayStartMonthLine = (_w = props.dayStartMonthLine) !== null && _w !== void 0 ? _w : config_1.COLORS.L_GREY;
         this.dayBottomLineColor = (_x = props.dayBottomLineColor) !== null && _x !== void 0 ? _x : config_1.COLORS.L_GREY;
         this.dayTodayBackground = (_y = props.dayTodayBackground) !== null && _y !== void 0 ? _y : config_1.COLORS.L_BLUE;
+        this.dayWeekendBackground = props.dayWeekendBackground;
         this.dayFont = (_z = props.dayFont) !== null && _z !== void 0 ? _z : '500 14px Arial';
         this.dayColor = (_0 = props.dayColor) !== null && _0 !== void 0 ? _0 : config_1.COLORS.BLACK;
         this.dayColWidth = (_1 = props.dayColWidth) !== null && _1 !== void 0 ? _1 : 40;

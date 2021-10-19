@@ -18,5 +18,5 @@ export declare class TasksStore {
     addModTask(task: Task): void;
     setHoverId(id: null | string, resize: null | string): void;
     setHoverConnectionTask(id: null | string): void;
-    updateDepOffsets(offsetX: number | null, offsetY: number | null): void;
+    updateDepOffsets(offsetX?: number | null, offsetY?: number | null): void;
 }

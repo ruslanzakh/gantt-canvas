@@ -118,6 +118,7 @@ var GridView = /** @class */ (function () {
                 isStartMonth: el.isStartMonth,
                 isMiddleDayMonth: el.isMiddleDayMonth,
                 today: el.today,
+                weekend: el.weekend,
             });
         }
         this.columns = data;

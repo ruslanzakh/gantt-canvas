@@ -15,9 +15,10 @@ export declare class TasksController {
     handleTouchEnd(event: TouchEvent): void;
     handleMouseDown(event: MouseEvent): void;
     handleMouseMove(event: MouseEvent): void;
+    updateHoverId(event: MouseEvent): void;
     /** Start Resize Task */
     handleResizeTaskMouseMove(event: MouseEvent): void;
-    handleResizeMouseUp(): void;
+    handleResizeMouseUp(event: MouseEvent): void;
     /** End Resize Task */
     /** Start Add Dependencies */
     handleAddDepMouseMove(event: MouseEvent): void;
