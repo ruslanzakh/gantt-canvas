@@ -340,7 +340,6 @@ export class TasksService {
 		const task = this.getHoveredTask();
 		if(!task || !this.module.controller.mouseDownOffsetX) return;
 		const diff = this.getDiff(offsetX, task.all_day);
-		console.log(diff);
 		
 		if(this.root.api.moveDependedOnMove) {
 			this.moveDependedTasks(task, diff)
