@@ -157,9 +157,9 @@ export class TasksService {
 			this.intervalChangeOffset = setInterval(() => {
 				this.module.controller.mouseDownOffsetX = (this.module.controller.mouseDownOffsetX || 0) -changeOffsetValue;
 
-				if(this.module.controller.addDepMode) this.updateDepOffsets(event)
+				if(this.module.controller.addDepMode) this.updateDepOffsets(offsetX)
 				else if(this.module.controller.resizeMoveMode) this.resizeTaskByResizeMode(offsetX);
-				else this.moveTask(event.offsetX);
+				else this.moveTask(offsetX);
 
 				this.root.view.handleChangeOffsetX(changeOffsetValue);
 			}, 150)
@@ -220,8 +220,11 @@ export class TasksService {
 
 	/** Start Add Dependencies */
 	handleAddDepMouseMove(event: MouseEvent) {
-		if(this.intervalChangeOffset) return this.scrollX(event);
-		this.updateDepOffsets(event);
+		if(this.intervalChangeOffset) {
+			this.updateDepOffsets(undefined, event.offsetY);
+			return this.scrollX(event);
+		}
+		this.updateDepOffsets(event.offsetX, event.offsetY);
 		this.scrollX(event);
 		this.root.render();
 	}
@@ -247,8 +250,8 @@ export class TasksService {
 		if(hoverId && hoverId === this.module.store.hoverId) this.root.render()
 	}
 
-	updateDepOffsets(event: MouseEvent) {
-		this.module.store.updateDepOffsets(event.offsetX, event.offsetY);
+	updateDepOffsets(offsetX?: number | null, offsetY?: number | null) {
+		this.module.store.updateDepOffsets(offsetX, offsetY);
 	}
 	/** End Add Dependencies */
 
