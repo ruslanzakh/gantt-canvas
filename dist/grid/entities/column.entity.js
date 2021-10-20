@@ -6,7 +6,7 @@ var ColumnEntity = /** @class */ (function () {
         this.root = root;
     }
     ColumnEntity.prototype.renderDay = function (_a, _b) {
-        var x = _a.x, title = _a.title, isStartMonth = _a.isStartMonth;
+        var x = _a.x, title = _a.title, isStartMonth = _a.isStartMonth, weekend = _a.weekend;
         var monthHeight = _b.monthHeight, width = _b.width, dayHeight = _b.dayHeight;
         var ctx = this.root.ctx;
         ctx.beginPath();
@@ -22,7 +22,10 @@ var ColumnEntity = /** @class */ (function () {
             ctx.stroke();
         }
         ctx.font = this.root.api.dayFont;
-        ctx.fillStyle = this.root.api.dayColor;
+        if (weekend && this.root.api.dayWeekendColor)
+            ctx.fillStyle = this.root.api.dayWeekendColor;
+        else
+            ctx.fillStyle = this.root.api.dayColor;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(title, x + (width / 2), monthHeight + (dayHeight / 2));

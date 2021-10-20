@@ -92,6 +92,7 @@ var RootController = /** @class */ (function () {
         this.events.click.forEach(function (cb) { return cb(event); });
     };
     RootController.prototype.handleScroll = function (event) {
+        event.preventDefault();
         if (event.shiftKey || event.deltaX !== 0) {
             var offsetX = this.root.view.offsetX;
             if (event.shiftKey)
