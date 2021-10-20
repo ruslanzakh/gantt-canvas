@@ -97,6 +97,7 @@ export class RootController {
 	}
 
 	handleScroll(event: WheelEvent) {
+		event.preventDefault();
 		if(event.shiftKey || event.deltaX !== 0) {
 			let offsetX = this.root.view.offsetX;
 			if(event.shiftKey) offsetX += event.deltaY;
