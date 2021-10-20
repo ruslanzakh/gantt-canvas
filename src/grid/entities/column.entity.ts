@@ -22,7 +22,7 @@ export class ColumnEntity {
 	}
 
 
-	renderDay({x, title, isStartMonth}: ColumnRender, { monthHeight, width, dayHeight }: ColumnRenderCommon) {
+	renderDay({x, title, isStartMonth, weekend}: ColumnRender, { monthHeight, width, dayHeight }: ColumnRenderCommon) {
 		const ctx = this.root.ctx;
 		ctx.beginPath();
 		ctx.strokeStyle = this.root.api.dayBottomLineColor;
@@ -37,7 +37,8 @@ export class ColumnEntity {
 			ctx.stroke();
 		}
 		ctx.font = this.root.api.dayFont;
-		ctx.fillStyle = this.root.api.dayColor;
+		if(weekend && this.root.api.dayWeekendColor) ctx.fillStyle = this.root.api.dayWeekendColor;
+		else ctx.fillStyle = this.root.api.dayColor;
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
   		ctx.fillText(title, x + (width / 2), monthHeight + (dayHeight  / 2));

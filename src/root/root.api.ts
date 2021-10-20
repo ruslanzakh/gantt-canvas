@@ -52,6 +52,7 @@ export interface RootApiProps {
 	dayFont?: string;
 	dayTodayBackground?: string;
 	dayWeekendBackground?: string;
+	dayWeekendColor?: string;
 
 	dayColWidth?: number;
 	monthViewColWidth?: number;
@@ -141,6 +142,7 @@ export class RootApi {
 	dayFont: string;
 	dayTodayBackground: string;
 	dayWeekendBackground?: string;
+	dayWeekendColor?: string;
 
 	dayColWidth: number;
 	monthViewColWidth: number;
@@ -223,6 +225,7 @@ export class RootApi {
 		this.dayBottomLineColor = props.dayBottomLineColor ?? COLORS.L_GREY;
 		this.dayTodayBackground = props.dayTodayBackground ?? COLORS.L_BLUE;
 		this.dayWeekendBackground = props.dayWeekendBackground;
+		this.dayWeekendColor = props.dayWeekendColor;
 		this.dayFont = props.dayFont ?? '500 14px Arial';
 		this.dayColor = props.dayColor ?? COLORS.BLACK;
 
