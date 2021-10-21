@@ -12,6 +12,7 @@ export class TasksStore {
 
 	hoverId: null | string = null;
 	hoverResize: null | string = null;
+	hoverDrag: null | string = null;
 	hoverConnectionTask: null | string = null;
 
 	addDepOffsetX: number | null = null;
@@ -46,14 +47,15 @@ export class TasksStore {
 		this.fillTasks();
 	}
 
-	setHoverId(id: null | string, resize: null | string) {
-		if(id === this.hoverId && resize === this.hoverResize) return;
+	setHoverId(id: null | string, resize: null | string, hoverDrag: null | string) {
+		if(id === this.hoverId && resize === this.hoverResize && hoverDrag === this.hoverDrag) return;
 		if(!this.root.api.isLoading) {
-			if(id) this.root.view.setCursor(resize ? 'col-resize' : 'pointer');
+			if(id) this.root.view.setCursor(resize ? 'col-resize' : hoverDrag ? 'grab' : 'pointer');
 			else this.root.view.setCursor('auto');
 		}
 
 		this.hoverResize = resize;
+		this.hoverDrag = hoverDrag;
 		if(id !== this.hoverId) {
 			this.hoverId = id;
 			this.root.render();

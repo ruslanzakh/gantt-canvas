@@ -74,8 +74,8 @@ export class TasksController {
 	}
 
 	updateHoverId(event: MouseEvent) {
-		const { hoverId, resize } = this.module.service.getHoverId(event);
-		this.module.store.setHoverId(hoverId, resize);
+		const { hoverId, resize, depFromId } = this.module.service.getHoverId(event);
+		this.module.store.setHoverId(hoverId, resize, depFromId);
 	}
 
 	/** Start Resize Task */
