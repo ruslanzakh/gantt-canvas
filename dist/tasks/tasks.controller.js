@@ -65,8 +65,8 @@ var TasksController = /** @class */ (function () {
         this.updateHoverId(event);
     };
     TasksController.prototype.updateHoverId = function (event) {
-        var _a = this.module.service.getHoverId(event), hoverId = _a.hoverId, resize = _a.resize;
-        this.module.store.setHoverId(hoverId, resize);
+        var _a = this.module.service.getHoverId(event), hoverId = _a.hoverId, resize = _a.resize, depFromId = _a.depFromId;
+        this.module.store.setHoverId(hoverId, resize, depFromId);
     };
     /** Start Resize Task */
     TasksController.prototype.handleResizeTaskMouseMove = function (event) {

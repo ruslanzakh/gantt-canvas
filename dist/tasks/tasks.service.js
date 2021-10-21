@@ -168,7 +168,7 @@ var TasksService = /** @class */ (function () {
                 else
                     _this.moveTask(offsetX);
                 _this.root.view.handleChangeOffsetX(changeOffsetValue);
-            }, 150);
+            }, 66);
         }
         else if (changeOffsetValue === 0) {
             this.clearScrollInterval();
@@ -195,8 +195,8 @@ var TasksService = /** @class */ (function () {
     TasksService.prototype.handleClickTask = function (event) {
         if (!this.root.api.handleTaskClick)
             return;
-        var hoverId = this.getHoverId(event).hoverId;
-        if (!hoverId)
+        var _a = this.getHoverId(event), hoverId = _a.hoverId, depFromId = _a.depFromId;
+        if (!hoverId || depFromId)
             return;
         var hoveredTask = this.getRootStoreTaskById(hoverId);
         if (!hoveredTask)

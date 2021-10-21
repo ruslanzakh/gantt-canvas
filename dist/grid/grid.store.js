@@ -62,8 +62,6 @@ var GridStore = /** @class */ (function () {
         var _b = this.module.view, colsOnScreen = _b.colsOnScreen, colWidth = _b.colWidth;
         var length = -offsetX / colWidth;
         var date = date_1.getDate((_a = data[0]) === null || _a === void 0 ? void 0 : _a.ts);
-        date = date_1.setDateTs(date, -this.module.view.colTs);
-        this.add(date, true);
         for (var i = 0; i < length + colsOnScreen; i++) {
             offsetX += colWidth;
             date = date_1.setDateTs(date, -this.module.view.colTs);

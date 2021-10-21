@@ -8,6 +8,7 @@ var TasksStore = /** @class */ (function () {
         this.tasksList = {};
         this.hoverId = null;
         this.hoverResize = null;
+        this.hoverDrag = null;
         this.hoverConnectionTask = null;
         this.addDepOffsetX = null;
         this.addDepOffsetY = null;
@@ -36,16 +37,17 @@ var TasksStore = /** @class */ (function () {
         this.modifiedTasks[task.id] = task;
         this.fillTasks();
     };
-    TasksStore.prototype.setHoverId = function (id, resize) {
-        if (id === this.hoverId && resize === this.hoverResize)
+    TasksStore.prototype.setHoverId = function (id, resize, hoverDrag) {
+        if (id === this.hoverId && resize === this.hoverResize && hoverDrag === this.hoverDrag)
             return;
         if (!this.root.api.isLoading) {
             if (id)
-                this.root.view.setCursor(resize ? 'col-resize' : 'pointer');
+                this.root.view.setCursor(resize ? 'col-resize' : hoverDrag ? 'grab' : 'pointer');
             else
                 this.root.view.setCursor('auto');
         }
         this.hoverResize = resize;
+        this.hoverDrag = hoverDrag;
         if (id !== this.hoverId) {
             this.hoverId = id;
             this.root.render();

@@ -8,6 +8,7 @@ export declare class TasksStore {
     tasksList: ObjectList<Task>;
     hoverId: null | string;
     hoverResize: null | string;
+    hoverDrag: null | string;
     hoverConnectionTask: null | string;
     addDepOffsetX: number | null;
     addDepOffsetY: number | null;
@@ -16,7 +17,7 @@ export declare class TasksStore {
     clearModTasks(): void;
     saveModTasks(): void;
     addModTask(task: Task): void;
-    setHoverId(id: null | string, resize: null | string): void;
+    setHoverId(id: null | string, resize: null | string, hoverDrag: null | string): void;
     setHoverConnectionTask(id: null | string): void;
     updateDepOffsets(offsetX?: number | null, offsetY?: number | null): void;
 }
