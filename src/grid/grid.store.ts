@@ -79,8 +79,6 @@ export class GridStore {
 		const { colsOnScreen, colWidth } = this.module.view;
 		const length = -offsetX / colWidth;
 		let date = getDate(data[0]?.ts);
-		date = setDateTs(date, -this.module.view.colTs);
-		this.add(date, true);
 		
 		for(let i = 0; i < length + colsOnScreen; i++) {
 			offsetX += colWidth;

@@ -162,7 +162,7 @@ export class TasksService {
 				else this.moveTask(offsetX);
 
 				this.root.view.handleChangeOffsetX(changeOffsetValue);
-			}, 150)
+			}, 66)
 		} else if(changeOffsetValue === 0 ) {
 			this.clearScrollInterval();
 		}
