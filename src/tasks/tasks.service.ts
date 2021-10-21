@@ -190,8 +190,8 @@ export class TasksService {
 
 	handleClickTask(event: EventOffsets) {
 		if(!this.root.api.handleTaskClick) return;
-		const { hoverId } = this.getHoverId(event);
-		if(!hoverId) return;
+		const { hoverId, depFromId } = this.getHoverId(event);
+		if(!hoverId || depFromId) return;
 		const hoveredTask = this.getRootStoreTaskById(hoverId);
 		if(!hoveredTask) return;
 		this.root.api.handleTaskClick(hoveredTask);
