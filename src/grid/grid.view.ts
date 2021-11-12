@@ -46,7 +46,8 @@ export class GridView {
 
 	get colTs() {
 		if(this.root.api.viewMode === 'day') return this.dayTs;
-		return this.weekTs;
+		else if(this.root.api.viewMode === 'week') return this.weekTs;
+		return this.monthTs;
 	}
 
 	get dayTs() {
@@ -55,6 +56,10 @@ export class GridView {
 
 	get weekTs() {
 		return this.dayTs * 7;
+	}
+
+	get monthTs() {
+		return this.dayTs * 30;
 	}
 
 	get tsHasOneX() {
@@ -93,7 +98,7 @@ export class GridView {
 			const x = (i * this.colWidth) - offsetX;
 			
 			if(x < -this.colWidth) continue;
-			if(x > width) break;
+			if(x > (width + this.colWidth)) break;
 			data.push({
 				ts: el.ts,
 				x,

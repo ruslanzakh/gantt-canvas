@@ -125,6 +125,8 @@ const gantt = new Gantt('#app', {
 	handleTaskClick: async (task) => {
 		console.log('handleTaskClick', task);
 	},
+	viewMode:'month',
+	// renderAllTasksFromStart: false,
 	dayWeekendBackground: '#fbf5ff',
 	lang: 'es',
 	monthTitleFont: '400 20px Roboto',
@@ -168,6 +170,12 @@ const viewWeek = document.getElementById('view-week');
 if(viewWeek) {
 	viewWeek.addEventListener('click', function() {
 		gantt.updateViewMode('week');
+	})
+}
+const viewMonth = document.getElementById('view-month');
+if(viewWeek) {
+	viewMonth.addEventListener('click', function() {
+		gantt.updateViewMode('month');
 	})
 }
 let isLoading = false;

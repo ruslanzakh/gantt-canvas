@@ -32,9 +32,28 @@ export class GridService {
 	}
 
 	getPosXByTs(ts: number): number {
+		if(this.root.api.viewMode === 'month') return this.getPosXForMonthView(ts);
+		return this.getPosXByTsAndTsHasOneX(ts);
+	}
+
+	getPosXByTsAndTsHasOneX(ts: number): number {
 		const firstTs = this.module.view.firstTsOnScreen;
 		const diff = ts - firstTs;
 		return diff / this.module.view.tsHasOneX;
+	}
+
+
+	getPosXForMonthView(ts: number): number {
+		const end = this.module.view.columns.find(col => col.ts > ts);
+		if(end) {
+			const indexOfEnd = this.module.view.columns.indexOf(end);
+			const start = this.module.view.columns[indexOfEnd - 1];
+			if(start) {
+				const diff = ((ts - start.ts) / (end.ts - start.ts)) * (end.x - start.x);
+				return start.x + diff;
+			}
+		}
+		return this.getPosXByTsAndTsHasOneX(ts);
 	}
 
 	getPosXByFullDayTs(ts: number, end = false): number {
@@ -49,11 +68,6 @@ export class GridService {
 		if(!col) return 0;
 		const ts = col.ts + ((-col.x) * this.module.view.tsHasOneX)
 		return ts;
-	}
-
-	getTsByX(x: number): number {
-		const firstTs = this.module.view.firstTsOnScreen;
-		return (x * this.module.view.tsHasOneX) + firstTs;
 	}
 
 	getTsByOffsetDiff(x: number): number {

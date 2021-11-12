@@ -20,7 +20,7 @@ export interface Task {
 	noEditable?: boolean;
 }
 
-export type ViewMode = 'day' | 'week';
+export type ViewMode = 'day' | 'week' | 'month';
 
 export interface RootApiProps {
 	tasks: Task[],
