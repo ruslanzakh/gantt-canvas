@@ -75,11 +75,8 @@ export class TasksService {
 			: this.root.grid.service.getPosXByTs(task.end_date_ts);
 		let error = false;
 		const minTaskWidth = this.root.api.minTaskWidth;
-		if(xx < x) {
-			xx = x + minTaskWidth;
-			error = true;
-		}
-		if(xx - minTaskWidth < x) xx += minTaskWidth;
+		if(xx < x) error = true;
+		if(minTaskWidth && xx - minTaskWidth < x) xx = x + minTaskWidth;
 		return { x, xx, error };
 	}
 

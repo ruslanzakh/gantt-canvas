@@ -30,13 +30,17 @@ export class TaskEntity {
 	}
 
 	isHover(event: EventOffsets, task: TaskRender) {
-		const { x, y, w, noEditable } = task;
+		let { x, y, w, noEditable } = task;
 		const h = this.root.grid.view.rowHeight;
 		const { offsetX, offsetY } = event;
 		let resize = null;
 		let depFrom = null;
-		const xx = this.getTaskXX(x, w);
+		let xx = this.getTaskXX(x, w);
 		const yy = y + h;
+		if(this.needControlOutsideTask(task)) {
+			x -= (this.root.api.taskPadding + this.root.api.taskRenderResizeControlsWidth);
+			xx += (this.root.api.taskRenderResizeControlsWidth + this.root.api.taskPadding);
+		}
 		const hover = x < offsetX 
 			&& offsetX < xx
 			&& y < offsetY
@@ -214,7 +218,7 @@ export class TaskEntity {
 	}
 
 	renderResizeControls(task: TaskRender, top: number) {
-		if(!this.root.api.taskRenderResizeControls) return;
+		if(!this.root.api.taskRenderResizeControls || this.needControlOutsideTask(task)) return;
 		const { x, w } = task;
 		const ctx = this.root.ctx;
 		const leftX = x + this.root.api.taskPadding
@@ -222,12 +226,13 @@ export class TaskEntity {
 		const width = this.root.api.taskRenderResizeControlsWidth;
 		const height = this.root.api.taskHeight - (this.root.api.taskPadding * 2);
 		const rightX = x + w - width - this.root.api.taskPadding;
-		roundRect(ctx, leftX, top, width, height, this.root.api.taskRenderResizeControlsRadius, this.root.api.taskRenderResizeControlsColor);
-		roundRect(ctx, rightX, top, width, height, this.root.api.taskRenderResizeControlsRadius, this.root.api.taskRenderResizeControlsColor);
+		const color = this.root.api.taskRenderResizeControlsColor;
+		roundRect(ctx, leftX, top, width, height, this.root.api.taskRenderResizeControlsRadius, color);
+		roundRect(ctx, rightX, top, width, height, this.root.api.taskRenderResizeControlsRadius, color);
 	}
 
 	isControlsHover(event: EventOffsets, task: TaskRender): string | null {
-		if(this.root.api.taskRenderResizeControls) {
+		if(this.root.api.taskRenderResizeControls && !this.needControlOutsideTask(task)) {
 			return this.isRenderedControlsHover(event, task);
 		}
 
@@ -302,5 +307,9 @@ export class TaskEntity {
 			return colorHover ?? this.root.api.taskDefaultHoverColor;
 		}
 		return color ?? this.root.api.taskDefaultColor;
+	}
+
+	needControlOutsideTask(task: TaskRender) {
+		return (this.root.api.taskRenderResizeControlsWidth + this.root.api.taskPadding) * 2 > task.w;
 	}
 }

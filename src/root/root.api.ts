@@ -168,7 +168,7 @@ export class RootApi {
 	taskRadius: number;
 	taskFont: string;
 	taskErrorStrokeColor?: string;
-	minTaskWidth: number;
+	minTaskWidth?: number;
 
 	taskRenderResizeControls: boolean;
 	taskRenderResizeControlsWidth: number;
@@ -253,7 +253,7 @@ export class RootApi {
 		this.taskRadius = props.taskRadius ?? 2;
 		this.taskFont = props.taskFont ?? "16px serif";
 		this.taskErrorStrokeColor = props.taskErrorStrokeColor;
-		this.minTaskWidth = props.minTaskWidth ?? 25;
+		this.minTaskWidth = props.minTaskWidth;
 
 		this.taskRenderResizeControls = props.taskRenderResizeControls ?? true;
 		this.taskRenderResizeControlsWidth = props.taskRenderResizeControlsWidth ?? 6;
