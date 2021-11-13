@@ -3,6 +3,7 @@ import { RootModule } from '../../root/root.module';
 export interface ColumnRender {
 	x: number;
 	title: string;
+	month: number;
 	isStartMonth: boolean;
 	today: boolean;
 	weekend: boolean;
@@ -22,7 +23,7 @@ export class ColumnEntity {
 	}
 
 
-	renderDay({x, title, isStartMonth, weekend}: ColumnRender, { monthHeight, width, dayHeight }: ColumnRenderCommon) {
+	renderDay({x, title, isStartMonth, weekend, month}: ColumnRender, { monthHeight, width, dayHeight }: ColumnRenderCommon) {
 		const ctx = this.root.ctx;
 		ctx.beginPath();
 		ctx.strokeStyle = this.root.api.dayBottomLineColor;
@@ -41,6 +42,7 @@ export class ColumnEntity {
 		else ctx.fillStyle = this.root.api.dayColor;
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
+		if(this.root.api.viewMode === 'month') title = this.root.grid.view.getMonthTitle(month)
   		ctx.fillText(title, x + (width / 2), monthHeight + (dayHeight  / 2));
 		ctx.textAlign = 'left';
 		ctx.textBaseline = 'alphabetic';

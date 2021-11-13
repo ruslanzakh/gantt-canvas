@@ -12,8 +12,10 @@ export class GridService {
 	}
 
 	showDay(ts?: number, needRender?: boolean, needAnimate?: boolean) {
-		const columnLength = this.module.view.colsOnScreen / 3;
+		let columnLength = this.module.view.colsOnScreen / 3;
 		const date = getDate(ts);
+		if(this.root.api.viewMode === 'week') columnLength *= 7;
+		if(this.root.api.viewMode === 'month') columnLength *= 30;
 		setDate(date, -columnLength);
 		
 		const dateTs = date.getTime();
@@ -21,6 +23,8 @@ export class GridService {
 	}
 
 	showDayByTs(dateTs: number, needRender?: boolean, needAnimate?: boolean) {
+		console.log(new Date(dateTs));
+		
 		let offsetX = 0;
 		const diff = dateTs - this.module.store.dates[0].ts;
 		if(diff > 0) {

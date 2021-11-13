@@ -37,6 +37,8 @@ export class GridView {
 	get colWidth() {
 		if(this.root.api.viewMode === 'day')
 			return this.root.api.dayColWidth * this.root.view.scaleX;
+		if(this.root.api.viewMode === 'week')
+			return this.root.api.weekViewColWidth * this.root.view.scaleX;
 		return this.root.api.monthViewColWidth * this.root.view.scaleX;
 	}
 	
@@ -117,12 +119,14 @@ export class GridView {
 
 
 	fillMonths() {
+		const isMonthView = this.root.api.viewMode === 'month';
 		const data = this.columns.reduce((prev: ObjectList<MonthRender>, {month, x, year, isMiddleDayMonth}) => {
 			const xx = x + this.colWidth;
-			const label = month + '.' + year;
+			const label = isMonthView ? year : month + '.' + year;
+			const title = isMonthView ? year.toString() : this.getMonthTitle(month, year)
 			if(!prev[label]) {
 				prev[label] = {
-					title: this.getMonthTitle(month, year) ,
+					title,
 					x: x,
 					xx: xx,
 				};
@@ -136,9 +140,9 @@ export class GridView {
 		this.months = Object.values(data);
 	}
 
-	getMonthTitle(month: number, year: number) {
+	getMonthTitle(month: number, year?: number) {
 		const months = this.root.api.monthNames[this.root.api.lang] ?? this.root.api.monthNames['ru'];
-		if(this.root.api.monthTitleShowYear) {
+		if(this.root.api.monthTitleShowYear && year) {
 			return months[month] + ' ' + year;
 		}
 		return months[month];

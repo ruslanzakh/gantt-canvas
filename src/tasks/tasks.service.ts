@@ -152,7 +152,7 @@ export class TasksService {
 		if(pos > 0.9) {
 			changeOffsetValue = colWidth;
 		} else if(pos < 0.1) changeOffsetValue = -colWidth;
-		
+		const tick = this.root.api.viewMode === 'month' ? 132 : 66;
 		if(changeOffsetValue !== 0 && !this.intervalChangeOffset) {
 			this.intervalChangeOffset = setInterval(() => {
 				this.module.controller.mouseDownOffsetX = (this.module.controller.mouseDownOffsetX || 0) -changeOffsetValue;
@@ -162,7 +162,7 @@ export class TasksService {
 				else this.moveTask(offsetX);
 
 				this.root.view.handleChangeOffsetX(changeOffsetValue);
-			}, 66)
+			}, tick)
 		} else if(changeOffsetValue === 0 ) {
 			this.clearScrollInterval();
 		}
