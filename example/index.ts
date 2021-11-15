@@ -125,7 +125,7 @@ const gantt = new Gantt('#app', {
 	handleTaskClick: async (task) => {
 		console.log('handleTaskClick', task);
 	},
-	viewMode: 'half-day',
+	viewMode: 'quarter-day',
 	// showTime: true,
 	// renderAllTasksFromStart: false,
 	dayWeekendBackground: '#fbf5ff',
@@ -171,6 +171,12 @@ const viewHalfDay = document.getElementById('view-half-day');
 if(viewHalfDay) {
 	viewHalfDay.addEventListener('click', function() {
 		gantt.updateViewMode('half-day');
+	})
+}
+const viewQuarterDay = document.getElementById('view-quarter-day');
+if(viewQuarterDay) {
+	viewQuarterDay.addEventListener('click', function() {
+		gantt.updateViewMode('quarter-day');
 	})
 }
 const viewWeek = document.getElementById('view-week');

@@ -181,6 +181,7 @@ export class TasksService {
 		if(all_day || !this.root.api.showTime) {
 			let colTs = this.root.grid.view.dayTs;
 			if(this.root.api.viewMode === 'half-day') colTs = this.root.grid.view.halfDayTs;
+			else if(this.root.api.viewMode === 'quarter-day') colTs = this.root.grid.view.quarterDayTs;
 			const dayDiff = (diff - diff % colTs) / colTs;
 			diff = colTs * dayDiff;
 		}

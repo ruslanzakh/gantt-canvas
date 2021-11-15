@@ -116,6 +116,7 @@ export class GridService {
 
 	getDayType(): SetHoursName {
 		if(this.root.api.viewMode === 'half-day') return 'halfDay';
+		if(this.root.api.viewMode === 'quarter-day') return 'quarterDay';
 		return 'day';
 	}
 

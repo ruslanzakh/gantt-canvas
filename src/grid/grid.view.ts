@@ -35,7 +35,7 @@ export class GridView {
 	}
 
 	get colWidth() {
-		if(this.root.api.viewMode === 'day' || this.root.api.viewMode === 'half-day')
+		if(['day', 'half-day', 'quarter-day'].indexOf(this.root.api.viewMode) !== -1)
 			return this.root.api.dayColWidth * this.root.view.scaleX;
 		if(this.root.api.viewMode === 'week')
 			return this.root.api.weekViewColWidth * this.root.view.scaleX;
@@ -49,6 +49,7 @@ export class GridView {
 	get colTs() {
 		if(this.root.api.viewMode === 'day') return this.dayTs;
 		if(this.root.api.viewMode === 'half-day') return this.halfDayTs;
+		if(this.root.api.viewMode === 'quarter-day') return this.quarterDayTs;
 		else if(this.root.api.viewMode === 'week') return this.weekTs;
 		return this.monthTs;
 	}
@@ -59,6 +60,10 @@ export class GridView {
 
 	get halfDayTs() {
 		return 12 * 60 * 60 * 1000;
+	}
+
+	get quarterDayTs() {
+		return 6 * 60 * 60 * 1000;
 	}
 
 	get weekTs() {
@@ -126,7 +131,7 @@ export class GridView {
 
 	fillMonths() {
 		const isMonthView = this.root.api.viewMode === 'month';
-		const isPartDayView = this.root.api.viewMode === 'half-day';
+		const isPartDayView = ['half-day', 'quarter-day'].indexOf(this.root.api.viewMode) !== -1;
 		const data = this.columns.reduce((prev: ObjectList<MonthRender>, {month, x, year, isMiddleDayMonth, title: taskTitle}) => {
 			const xx = x + this.colWidth;
 			let label: number | string = month + '.' + year;
