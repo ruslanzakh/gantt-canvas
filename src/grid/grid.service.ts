@@ -11,13 +11,18 @@ export class GridService {
 		this.module = module;
 	}
 
-	showDay(ts?: number, needRender?: boolean, needAnimate?: boolean) {
-		let columnLength = this.module.view.colsOnScreen / 3;
+	showDay(ts?: number, needRender?: boolean, needAnimate?: boolean, toCenter = true) {
 		const date = getDate(ts);
-		if(this.root.api.viewMode === 'week') columnLength *= 7;
-		if(this.root.api.viewMode === 'month') columnLength *= 30;
-		setDate(date, -columnLength);
-		
+		if(toCenter) {
+			let columnLength = this.module.view.colsOnScreen / 3;
+			if(this.root.api.viewMode === 'week') columnLength *= 7;
+			else if(this.root.api.viewMode === 'month') columnLength *= 30;
+			else if(this.root.api.viewMode === 'half-day') columnLength /= 2;
+			else if(this.root.api.viewMode === 'quarter-day') columnLength /= 4;
+			else if(this.root.api.viewMode === 'three-hours') columnLength = 0;
+			else if(this.root.api.viewMode === 'hour') columnLength = 0;
+			setDate(date, -columnLength);
+		}
 		const dateTs = date.getTime();
 		this.showDayByTs(dateTs, needRender, needAnimate);
 	}

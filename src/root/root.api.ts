@@ -299,9 +299,10 @@ export class RootApi {
 	}
 
 	updateViewMode(mode: ViewMode) {
+		const firstTsOnScreen = this.root.grid.view.firstTsOnScreen;
 		this.viewMode = mode;
 		this.root.grid.init();
-		this.root.render();
+		this.root.grid.service.showDay(firstTsOnScreen, true, false, false);
 	}
 
 	updateIsLoading(isLoading: boolean) {
