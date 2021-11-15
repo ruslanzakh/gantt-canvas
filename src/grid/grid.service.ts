@@ -58,9 +58,7 @@ export class GridService {
 		return this.getPosXByTsAndTsHasOneX(ts);
 	}
 
-	getPosXByFullDayTs(ts: number, end = false): number {
-		let dayType: SetHoursName = 'day';
-		if(this.root.api.viewMode === 'half-day') dayType = 'halfDay';
+	getPosXByFullDayTs(ts: number, end = false, dayType: SetHoursName = 'day'): number {
 		const date = getDate(ts, end, dayType);
 		return this.getPosXByTs(date.getTime());
 	}
@@ -114,6 +112,11 @@ export class GridService {
 		} else if(offsetX > this.getFullAvailableWidth() - this.root.view.canvasWidth) {
 			this.module.store.addDatesAfter(offsetX);
 		}
+	}
+
+	getDayType(): SetHoursName {
+		if(this.root.api.viewMode === 'half-day') return 'halfDay';
+		return 'day';
 	}
 
 }

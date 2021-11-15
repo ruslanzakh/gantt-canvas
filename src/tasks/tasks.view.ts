@@ -22,8 +22,9 @@ export class TasksView {
 		const { hoverId, hoverConnectionTask, tasks } = this.module.store;
 		const offsetY = rowsOffsetY - this.root.view.offsetY;
 		const data: ObjectList<TaskRender> = {};
+		const dayType = this.root.grid.service.getDayType();
 		tasks.forEach((task, index) => {
-			const { x, xx, error } = this.module.service.getTaskPos(task);
+			const { x, xx, error } = this.module.service.getTaskPos(task, dayType);
 			const w = xx - x;
 			const y = (rowHeight * index) + offsetY;
 			data[task.id] = {

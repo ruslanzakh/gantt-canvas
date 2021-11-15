@@ -2,6 +2,7 @@ import { RootModule } from '../root/root.module';
 import { TasksModule } from './tasks.module';
 import { Task } from '../root/root.api';
 import { EventOffsets } from '../utils/interfaces';
+import { SetHoursName } from '../utils/date';
 
 export class TasksService {
 	root: RootModule;
@@ -34,10 +35,11 @@ export class TasksService {
 	getViewTaskById(id: string) {
 		const { rowHeight, rowsOffsetY} = this.root.grid.view;
 		const hoverId = this.module.store.hoverId;
+		const dayType = this.root.grid.service.getDayType();
 		const task = this.getModuleStoreTaskById(id);
 		if(!task) return null;
 		const index = this.module.store.tasks.indexOf(task);
-		const { x, xx, error } = this.getTaskPos(task);
+		const { x, xx, error } = this.getTaskPos(task, dayType);
 		const w = xx - x;
 		const offsetY = rowsOffsetY - this.root.view.offsetY;
 		const y = (rowHeight * index) + offsetY;
@@ -65,13 +67,13 @@ export class TasksService {
 		return this.getRootStoreTaskById(this.module.store.hoverId);
 	}
 
-	getTaskPos(task: Task) {
+	getTaskPos(task: Task, dayType: SetHoursName = 'day') {
 		const fullDay = task.all_day || !this.root.api.showTime;
 		const x = fullDay
-			? this.root.grid.service.getPosXByFullDayTs(task.start_date_ts)
+			? this.root.grid.service.getPosXByFullDayTs(task.start_date_ts, false, dayType)
 			: this.root.grid.service.getPosXByTs(task.start_date_ts);
 		let xx = fullDay
-			? this.root.grid.service.getPosXByFullDayTs(task.end_date_ts, true)
+			? this.root.grid.service.getPosXByFullDayTs(task.end_date_ts, true, dayType)
 			: this.root.grid.service.getPosXByTs(task.end_date_ts);
 		let error = false;
 		const minTaskWidth = this.root.api.minTaskWidth;
