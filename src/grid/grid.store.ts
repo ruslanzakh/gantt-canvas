@@ -108,7 +108,7 @@ export class GridStore {
 
 	getStartDayByViewMode(start_date_ts: number) {
 		const viewMode = this.root.api.viewMode;
-		if(['day', 'half-day', 'quarter-day'].indexOf(viewMode) !== -1) return start_date_ts;
+		if(['day', 'half-day', 'quarter-day', 'three-hours'].indexOf(viewMode) !== -1) return start_date_ts;
 		let date = getDate(start_date_ts);
 		const targetDay = 1; // monday or first day of month
 		let day = date.getDay();

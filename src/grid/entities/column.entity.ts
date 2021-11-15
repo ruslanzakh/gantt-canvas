@@ -44,7 +44,7 @@ export class ColumnEntity {
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
 		if(this.root.api.viewMode === 'month') title = this.root.grid.view.getMonthTitle(month);
-		else if(['half-day', 'quarter-day'].indexOf(this.root.api.viewMode) !== -1) title = hour.toString();
+		else if(['half-day', 'quarter-day', 'three-hours'].indexOf(this.root.api.viewMode) !== -1) title = hour.toString();
   		ctx.fillText(title, x + (width / 2), monthHeight + (dayHeight  / 2));
 		ctx.textAlign = 'left';
 		ctx.textBaseline = 'alphabetic';

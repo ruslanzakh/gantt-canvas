@@ -29,7 +29,7 @@ export class MonthEntity {
 			ctx.lineTo(xx, height);
 		}
 		ctx.stroke(); 
-		if(this.root.api.showMonthMiddle || ['week', 'month', 'half-day', 'quarter-day'].indexOf(this.root.api.viewMode) !== -1) {
+		if(this.root.api.showMonthMiddle || ['week', 'month', 'half-day', 'quarter-day', 'three-hours'].indexOf(this.root.api.viewMode) !== -1) {
 			const width = xx - x;
 			if(width >= (ctx.measureText(title).width * 1.5))
 				middle = (xx + x) / 2;

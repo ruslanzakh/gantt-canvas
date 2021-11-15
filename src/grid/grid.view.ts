@@ -26,6 +26,11 @@ export class GridView {
 
 	firstTsOnScreen = 0;
 
+	dayTs = 24 * 60 * 60 * 1000;
+	halfDayTs = 12 * 60 * 60 * 1000;
+	quarterDayTs = 6 * 60 * 60 * 1000;
+	threeHoursTs = 3 * 60 * 60 * 1000;
+
 	constructor(root: RootModule, module: GridModule) {
 		this.root = root;
 		this.module = module;
@@ -35,7 +40,7 @@ export class GridView {
 	}
 
 	get colWidth() {
-		if(['day', 'half-day', 'quarter-day'].indexOf(this.root.api.viewMode) !== -1)
+		if(['day', 'half-day', 'quarter-day', 'three-hours'].indexOf(this.root.api.viewMode) !== -1)
 			return this.root.api.dayColWidth * this.root.view.scaleX;
 		if(this.root.api.viewMode === 'week')
 			return this.root.api.weekViewColWidth * this.root.view.scaleX;
@@ -50,20 +55,9 @@ export class GridView {
 		if(this.root.api.viewMode === 'day') return this.dayTs;
 		if(this.root.api.viewMode === 'half-day') return this.halfDayTs;
 		if(this.root.api.viewMode === 'quarter-day') return this.quarterDayTs;
+		if(this.root.api.viewMode === 'three-hours') return this.threeHoursTs;
 		else if(this.root.api.viewMode === 'week') return this.weekTs;
 		return this.monthTs;
-	}
-
-	get dayTs() {
-		return 24 * 60 * 60 * 1000;
-	}
-
-	get halfDayTs() {
-		return 12 * 60 * 60 * 1000;
-	}
-
-	get quarterDayTs() {
-		return 6 * 60 * 60 * 1000;
 	}
 
 	get weekTs() {
@@ -131,7 +125,7 @@ export class GridView {
 
 	fillMonths() {
 		const isMonthView = this.root.api.viewMode === 'month';
-		const isPartDayView = ['half-day', 'quarter-day'].indexOf(this.root.api.viewMode) !== -1;
+		const isPartDayView = ['half-day', 'quarter-day', 'three-hours'].indexOf(this.root.api.viewMode) !== -1;
 		const data = this.columns.reduce((prev: ObjectList<MonthRender>, {month, x, year, isMiddleDayMonth, title: taskTitle}) => {
 			const xx = x + this.colWidth;
 			let label: number | string = month + '.' + year;

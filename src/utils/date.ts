@@ -1,5 +1,5 @@
 
-export type SetHoursName = 'day' | 'halfDay' | 'quarterDay'
+export type SetHoursName = 'day' | 'halfDay' | 'quarterDay' | 'threeHours'
 const setHours: Record<SetHoursName, (date: Date, end: boolean) => void> = {
 	day: (date: Date, end = false) => {
 		if(end) date.setHours(23,59,59);
@@ -27,6 +27,34 @@ const setHours: Record<SetHoursName, (date: Date, end: boolean) => void> = {
 			else date.setHours(6,0,0,0);
 		} else {
 			if(end) date.setHours(5,59,59);
+			else date.setHours(0,0,0,0);
+		}
+	},
+	threeHours: (date: Date, end = false) => {
+		const hours = date.getHours();
+		if(hours >= 21) {
+			if(end) date.setHours(23,59,59);
+			else date.setHours(21,0,0,0);
+		} else if(hours >= 18) {
+			if(end) date.setHours(20,59,59);
+			else date.setHours(18,0,0,0);
+		} else if(hours >= 15) {
+			if(end) date.setHours(17,59,59);
+			else date.setHours(15,0,0,0);
+		} else if(hours >= 12) {
+			if(end) date.setHours(14,59,59);
+			else date.setHours(12,0,0,0);
+		} else if(hours >= 9) {
+			if(end) date.setHours(11,59,59);
+			else date.setHours(9,0,0,0);
+		} else if(hours >= 6) {
+			if(end) date.setHours(8,59,59);
+			else date.setHours(6,0,0,0);
+		} else if(hours >= 3) {
+			if(end) date.setHours(5,59,59);
+			else date.setHours(3,0,0,0);
+		} else {
+			if(end) date.setHours(2,59,59);
 			else date.setHours(0,0,0,0);
 		}
 	},
