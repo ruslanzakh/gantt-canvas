@@ -118,6 +118,7 @@ export class GridService {
 		if(this.root.api.viewMode === 'half-day') return 'halfDay';
 		if(this.root.api.viewMode === 'quarter-day') return 'quarterDay';
 		if(this.root.api.viewMode === 'three-hours') return 'threeHours';
+		if(this.root.api.viewMode === 'hour') return 'hour';
 		return 'day';
 	}
 

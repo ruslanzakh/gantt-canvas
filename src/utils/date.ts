@@ -1,5 +1,5 @@
 
-export type SetHoursName = 'day' | 'halfDay' | 'quarterDay' | 'threeHours'
+export type SetHoursName = 'day' | 'halfDay' | 'quarterDay' | 'threeHours' | 'hour'
 const setHours: Record<SetHoursName, (date: Date, end: boolean) => void> = {
 	day: (date: Date, end = false) => {
 		if(end) date.setHours(23,59,59);
@@ -57,6 +57,11 @@ const setHours: Record<SetHoursName, (date: Date, end: boolean) => void> = {
 			if(end) date.setHours(2,59,59);
 			else date.setHours(0,0,0,0);
 		}
+	},
+	hour: (date: Date, end = false) => {
+		const hours = date.getHours();
+		if(end) date.setHours(hours,59,59);
+		else date.setHours(hours,0,0,0);
 	},
 }
 
