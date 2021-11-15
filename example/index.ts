@@ -66,10 +66,10 @@ const tasks = [
 		start_date_ts: 1635228023007,
 		end_date_ts: 1635231623007,
 		next_ids: [],
-		stroke: 'orange',
-		strokeHover: 'blue',
-		underline: true,
-		outlineColor: 'red',
+		// stroke: 'orange',
+		// strokeHover: 'blue',
+		// underline: true,
+		// outlineColor: 'red',
 	},
 ]
 
@@ -125,10 +125,11 @@ const gantt = new Gantt('#app', {
 	handleTaskClick: async (task) => {
 		console.log('handleTaskClick', task);
 	},
-	viewMode:'month',
+	viewMode: 'half-day',
+	// showTime: true,
 	// renderAllTasksFromStart: false,
 	dayWeekendBackground: '#fbf5ff',
-	lang: 'es',
+	// lang: 'es',
 	monthTitleFont: '400 20px Roboto',
 	monthNames: {
 		es: [
@@ -166,6 +167,12 @@ if(viewDay) {
 		gantt.updateViewMode('day');
 	})
 }
+const viewHalfDay = document.getElementById('view-half-day');
+if(viewHalfDay) {
+	viewHalfDay.addEventListener('click', function() {
+		gantt.updateViewMode('half-day');
+	})
+}
 const viewWeek = document.getElementById('view-week');
 if(viewWeek) {
 	viewWeek.addEventListener('click', function() {
@@ -173,7 +180,7 @@ if(viewWeek) {
 	})
 }
 const viewMonth = document.getElementById('view-month');
-if(viewWeek) {
+if(viewMonth) {
 	viewMonth.addEventListener('click', function() {
 		gantt.updateViewMode('month');
 	})

@@ -1,9 +1,28 @@
-export const getDate = (ts?: number | string, end = false) => {
+
+export type SetHoursName = 'day' | 'halfDay'
+const setHours: Record<SetHoursName, (date: Date, end: boolean) => void> = {
+	day: (date: Date, end = false) => {
+		if(end) date.setHours(23,59,59);
+		else date.setHours(0,0,0,0);
+	},
+	halfDay: (date: Date, end = false) => {
+		if(date.getHours() > 12) {
+			if(end) date.setHours(23,59,59);
+			else date.setHours(12,0,0,0);
+		} else {
+			if(end) date.setHours(11,59,59);
+			else date.setHours(0,0,0,0);
+		}
+	},
+}
+
+export const getDate = (ts?: number | string, end = false, dayType: null | SetHoursName = 'day') => {
 	const date = ts ? new Date(ts) : new Date();
-	if(end) date.setHours(23,59,59);
-	else date.setHours(0,0,0,0);
+	if(dayType) setHours[dayType](date, end);
 	return date;
 }
+
+
 
 export const setDate = (date: Date, diff: number) => {
 	date.setDate(date.getDate() + diff);

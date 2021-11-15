@@ -52,7 +52,7 @@ const gantt = new Gantt('#gantt-root', { tasks });
 gantt.updateTasks(tasks);
 gantt.scrollToToday();
 gantt.scrollToTask(id); // string
-gantt.updateViewMode(mode); // 'day' or 'week'
+gantt.updateViewMode(mode); // 'half-day', 'day', 'week' or 'month
 gantt.updateIsLoading(mode); // boolean
 gantt.destroy();
 ```
@@ -104,7 +104,7 @@ If ``(showTime === false || task.all_day === true)`` Task fills a space of a who
 ```js
     interface RootApiProps {
         ...
-        viewMode?: ViewMode; // 'day' | 'week'. Default day
+        viewMode?: ViewMode; // 'half-day', 'day' | 'week' | 'month'. Default day
     	isLoading?: boolean; // false
     	monthNames?: ObjectList<string[]>; // for ru and en
     	lang?: string; // ru

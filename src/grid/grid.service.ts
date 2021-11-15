@@ -1,6 +1,6 @@
 import { RootModule } from '../root/root.module';
 import { GridModule } from './grid.module';
-import { getDate, setDate } from '../utils/date';
+import { getDate, setDate, SetHoursName } from '../utils/date';
 
 export class GridService {
 	root: RootModule;
@@ -23,8 +23,6 @@ export class GridService {
 	}
 
 	showDayByTs(dateTs: number, needRender?: boolean, needAnimate?: boolean) {
-		console.log(new Date(dateTs));
-		
 		let offsetX = 0;
 		const diff = dateTs - this.module.store.dates[0].ts;
 		if(diff > 0) {
@@ -61,7 +59,9 @@ export class GridService {
 	}
 
 	getPosXByFullDayTs(ts: number, end = false): number {
-		const date = getDate(ts, end);
+		let dayType: SetHoursName = 'day';
+		if(this.root.api.viewMode === 'half-day') dayType = 'halfDay';
+		const date = getDate(ts, end, dayType);
 		return this.getPosXByTs(date.getTime());
 	}
 

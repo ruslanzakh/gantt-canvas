@@ -35,7 +35,7 @@ export class GridView {
 	}
 
 	get colWidth() {
-		if(this.root.api.viewMode === 'day')
+		if(this.root.api.viewMode === 'day' || this.root.api.viewMode === 'half-day')
 			return this.root.api.dayColWidth * this.root.view.scaleX;
 		if(this.root.api.viewMode === 'week')
 			return this.root.api.weekViewColWidth * this.root.view.scaleX;
@@ -48,12 +48,17 @@ export class GridView {
 
 	get colTs() {
 		if(this.root.api.viewMode === 'day') return this.dayTs;
+		if(this.root.api.viewMode === 'half-day') return this.halfDayTs;
 		else if(this.root.api.viewMode === 'week') return this.weekTs;
 		return this.monthTs;
 	}
 
 	get dayTs() {
 		return 24 * 60 * 60 * 1000;
+	}
+
+	get halfDayTs() {
+		return 12 * 60 * 60 * 1000;
 	}
 
 	get weekTs() {
@@ -106,6 +111,7 @@ export class GridView {
 				x,
 				title: el.title,
 				month: el.month,
+				hour: el.hour,
 				year: el.year,
 				isStartMonth: el.isStartMonth,
 				isMiddleDayMonth: el.isMiddleDayMonth,
@@ -120,10 +126,15 @@ export class GridView {
 
 	fillMonths() {
 		const isMonthView = this.root.api.viewMode === 'month';
-		const data = this.columns.reduce((prev: ObjectList<MonthRender>, {month, x, year, isMiddleDayMonth}) => {
+		const isPartDayView = this.root.api.viewMode === 'half-day';
+		const data = this.columns.reduce((prev: ObjectList<MonthRender>, {month, x, year, isMiddleDayMonth, title: taskTitle}) => {
 			const xx = x + this.colWidth;
-			const label = isMonthView ? year : month + '.' + year;
-			const title = isMonthView ? year.toString() : this.getMonthTitle(month, year)
+			let label: number | string = month + '.' + year;
+			if(isMonthView) label = year;
+			else if(isPartDayView) label = taskTitle + '.' + month;
+			let title = this.getMonthTitle(month, year);
+			if(isMonthView) title = year.toString();
+			else if(isPartDayView) title = taskTitle + '.' + this.getMonthNumber(month);
 			if(!prev[label]) {
 				prev[label] = {
 					title,
@@ -146,6 +157,12 @@ export class GridView {
 			return months[month] + ' ' + year;
 		}
 		return months[month];
+	}
+
+	getMonthNumber(month: number) {
+		month++;
+		if(month < 10) return '0' + month;
+		return month.toString();
 	}
 
 	fillRows() {

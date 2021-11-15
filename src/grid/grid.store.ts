@@ -7,6 +7,7 @@ interface GridDate {
 	title: string;
 	month: number;
 	year: number;
+	hour: number;
 	isStartMonth: boolean;
 	isMiddleDayMonth: boolean;
 	today: boolean;
@@ -29,6 +30,7 @@ export class GridStore {
 			let [start_date_ts, end_date_ts] = this.root.tasks.service.getFirstAndLastDeadline();
 			start_date_ts = this.getStartDayByViewMode(start_date_ts);
 			let date = getDate(start_date_ts);
+			this.add(date);
 			do {
 				date = setDateTs(date, this.getOffset(date));
 				this.add(date);
@@ -63,6 +65,7 @@ export class GridStore {
 			title: date.getDate().toString(),
 			month: date.getMonth(),
 			year: date.getFullYear(),
+			hour: date.getHours(),
 			isStartMonth: day === 1,
 			weekend: [0, 6].includes(date.getDay()), 
 			isMiddleDayMonth,
@@ -79,7 +82,7 @@ export class GridStore {
 		const data = this.dates;
 		const { colsOnScreen, colWidth } = this.module.view;
 		const length = -offsetX / colWidth;
-		let date = getDate(data[0]?.ts);
+		let date = getDate(data[0]?.ts, false, false);
 		
 		for(let i = 0; i < length + colsOnScreen; i++) {
 			offsetX += colWidth;
@@ -96,7 +99,7 @@ export class GridStore {
 		const width = fullDataWidth - this.root.view.canvasWidth - colWidth
 		if(offsetX < width) return;
 		const length = ((offsetX - width) / colWidth);
-		let date = getDate(data[data.length - 1].ts);
+		let date = getDate(data[data.length - 1].ts, false, false);
 		for(let i = 0; i < length + colsOnScreen; i++) {
 			date = setDateTs(date, this.getOffset(date));
 			this.add(date);
@@ -105,7 +108,7 @@ export class GridStore {
 
 	getStartDayByViewMode(start_date_ts: number) {
 		const viewMode = this.root.api.viewMode;
-		if(viewMode === 'day') return start_date_ts;
+		if(viewMode === 'day' || viewMode === 'half-day') return start_date_ts;
 		let date = getDate(start_date_ts);
 		const targetDay = 1; // monday or first day of month
 		let day = date.getDay();
