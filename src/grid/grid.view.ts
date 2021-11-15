@@ -127,15 +127,17 @@ export class GridView {
 
 	fillMonths() {
 		const isMonthView = this.root.api.viewMode === 'month';
-		const isPartDayView = ['half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1;
+		const isPartDayView = ['half-day', 'quarter-day'].indexOf(this.root.api.viewMode) !== -1;
+		const isHourView = ['three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1;
 		const data = this.columns.reduce((prev: ObjectList<MonthRender>, {month, x, year, isMiddleDayMonth, title: taskTitle}) => {
 			const xx = x + this.colWidth;
 			let label: number | string = month + '.' + year;
 			if(isMonthView) label = year;
-			else if(isPartDayView) label = taskTitle + '.' + month;
+			else if(isPartDayView || isHourView) label = taskTitle + '.' + month;
 			let title = this.getMonthTitle(month, year);
 			if(isMonthView) title = year.toString();
 			else if(isPartDayView) title = taskTitle + '.' + this.getMonthNumber(month);
+			else if(isHourView) title = taskTitle + ' ' + this.getMonthTitle(month);
 			if(!prev[label]) {
 				prev[label] = {
 					title,
