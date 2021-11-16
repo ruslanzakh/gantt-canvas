@@ -41,11 +41,12 @@ var TasksService = /** @class */ (function () {
     TasksService.prototype.getViewTaskById = function (id) {
         var _a = this.root.grid.view, rowHeight = _a.rowHeight, rowsOffsetY = _a.rowsOffsetY;
         var hoverId = this.module.store.hoverId;
+        var dayType = this.root.grid.service.getDayType();
         var task = this.getModuleStoreTaskById(id);
         if (!task)
             return null;
         var index = this.module.store.tasks.indexOf(task);
-        var _b = this.getTaskPos(task), x = _b.x, xx = _b.xx, error = _b.error;
+        var _b = this.getTaskPos(task, dayType), x = _b.x, xx = _b.xx, error = _b.error;
         var w = xx - x;
         var offsetY = rowsOffsetY - this.root.view.offsetY;
         var y = (rowHeight * index) + offsetY;
@@ -68,22 +69,21 @@ var TasksService = /** @class */ (function () {
     TasksService.prototype.getHoveredTask = function () {
         return this.getRootStoreTaskById(this.module.store.hoverId);
     };
-    TasksService.prototype.getTaskPos = function (task) {
+    TasksService.prototype.getTaskPos = function (task, dayType) {
+        if (dayType === void 0) { dayType = 'day'; }
         var fullDay = task.all_day || !this.root.api.showTime;
         var x = fullDay
-            ? this.root.grid.service.getPosXByFullDayTs(task.start_date_ts)
+            ? this.root.grid.service.getPosXByFullDayTs(task.start_date_ts, false, dayType)
             : this.root.grid.service.getPosXByTs(task.start_date_ts);
         var xx = fullDay
-            ? this.root.grid.service.getPosXByFullDayTs(task.end_date_ts, true)
+            ? this.root.grid.service.getPosXByFullDayTs(task.end_date_ts, true, dayType)
             : this.root.grid.service.getPosXByTs(task.end_date_ts);
         var error = false;
         var minTaskWidth = this.root.api.minTaskWidth;
-        if (xx < x) {
-            xx = x + minTaskWidth;
+        if (xx < x)
             error = true;
-        }
-        if (xx - minTaskWidth < x)
-            xx += minTaskWidth;
+        if (minTaskWidth && xx - minTaskWidth < x)
+            xx = x + minTaskWidth;
         return { x: x, xx: xx, error: error };
     };
     TasksService.prototype.getFirstTaskByDeadline = function () {
@@ -158,6 +158,7 @@ var TasksService = /** @class */ (function () {
         }
         else if (pos < 0.1)
             changeOffsetValue = -colWidth;
+        var tick = this.root.api.viewMode === 'month' ? 132 : 66;
         if (changeOffsetValue !== 0 && !this.intervalChangeOffset) {
             this.intervalChangeOffset = setInterval(function () {
                 _this.module.controller.mouseDownOffsetX = (_this.module.controller.mouseDownOffsetX || 0) - changeOffsetValue;
@@ -168,7 +169,7 @@ var TasksService = /** @class */ (function () {
                 else
                     _this.moveTask(offsetX);
                 _this.root.view.handleChangeOffsetX(changeOffsetValue);
-            }, 66);
+            }, tick);
         }
         else if (changeOffsetValue === 0) {
             this.clearScrollInterval();
@@ -186,6 +187,14 @@ var TasksService = /** @class */ (function () {
         var diff = this.root.grid.service.getTsByOffsetDiff(offsetDiff);
         if (all_day || !this.root.api.showTime) {
             var colTs = this.root.grid.view.dayTs;
+            if (this.root.api.viewMode === 'half-day')
+                colTs = this.root.grid.view.halfDayTs;
+            else if (this.root.api.viewMode === 'quarter-day')
+                colTs = this.root.grid.view.quarterDayTs;
+            else if (this.root.api.viewMode === 'three-hours')
+                colTs = this.root.grid.view.threeHoursTs;
+            else if (this.root.api.viewMode === 'hour')
+                colTs = this.root.grid.view.hourTs;
             var dayDiff = (diff - diff % colTs) / colTs;
             diff = colTs * dayDiff;
         }

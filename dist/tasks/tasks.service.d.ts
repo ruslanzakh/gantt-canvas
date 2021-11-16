@@ -2,6 +2,7 @@ import { RootModule } from '../root/root.module';
 import { TasksModule } from './tasks.module';
 import { Task } from '../root/root.api';
 import { EventOffsets } from '../utils/interfaces';
+import { SetHoursName } from '../utils/date';
 export declare class TasksService {
     root: RootModule;
     module: TasksModule;
@@ -35,7 +36,7 @@ export declare class TasksService {
     } | null;
     getStoreDependedTasksById(id: string, tasks?: Task[]): Task[];
     getHoveredTask(): Task | null;
-    getTaskPos(task: Task): {
+    getTaskPos(task: Task, dayType?: SetHoursName): {
         x: number;
         xx: number;
         error: boolean;

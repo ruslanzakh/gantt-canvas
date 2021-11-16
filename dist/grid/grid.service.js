@@ -7,10 +7,25 @@ var GridService = /** @class */ (function () {
         this.root = root;
         this.module = module;
     }
-    GridService.prototype.showDay = function (ts, needRender, needAnimate) {
-        var columnLength = this.module.view.colsOnScreen / 3;
+    GridService.prototype.showDay = function (ts, needRender, needAnimate, toCenter) {
+        if (toCenter === void 0) { toCenter = true; }
         var date = date_1.getDate(ts);
-        date_1.setDate(date, -columnLength);
+        if (toCenter) {
+            var columnLength = this.module.view.colsOnScreen / 3;
+            if (this.root.api.viewMode === 'week')
+                columnLength *= 7;
+            else if (this.root.api.viewMode === 'month')
+                columnLength *= 30;
+            else if (this.root.api.viewMode === 'half-day')
+                columnLength /= 2;
+            else if (this.root.api.viewMode === 'quarter-day')
+                columnLength /= 4;
+            else if (this.root.api.viewMode === 'three-hours')
+                columnLength = 0;
+            else if (this.root.api.viewMode === 'hour')
+                columnLength = 0;
+            date_1.setDate(date, -columnLength);
+        }
         var dateTs = date.getTime();
         this.showDayByTs(dateTs, needRender, needAnimate);
     };
@@ -26,13 +41,31 @@ var GridService = /** @class */ (function () {
         this.root.view.handleSetOffsetX(offsetX, needRender, needAnimate);
     };
     GridService.prototype.getPosXByTs = function (ts) {
+        if (this.root.api.viewMode === 'month')
+            return this.getPosXForMonthView(ts);
+        return this.getPosXByTsAndTsHasOneX(ts);
+    };
+    GridService.prototype.getPosXByTsAndTsHasOneX = function (ts) {
         var firstTs = this.module.view.firstTsOnScreen;
         var diff = ts - firstTs;
         return diff / this.module.view.tsHasOneX;
     };
-    GridService.prototype.getPosXByFullDayTs = function (ts, end) {
+    GridService.prototype.getPosXForMonthView = function (ts) {
+        var end = this.module.view.columns.find(function (col) { return col.ts > ts; });
+        if (end) {
+            var indexOfEnd = this.module.view.columns.indexOf(end);
+            var start = this.module.view.columns[indexOfEnd - 1];
+            if (start) {
+                var diff = ((ts - start.ts) / (end.ts - start.ts)) * (end.x - start.x);
+                return start.x + diff;
+            }
+        }
+        return this.getPosXByTsAndTsHasOneX(ts);
+    };
+    GridService.prototype.getPosXByFullDayTs = function (ts, end, dayType) {
         if (end === void 0) { end = false; }
-        var date = date_1.getDate(ts, end);
+        if (dayType === void 0) { dayType = 'day'; }
+        var date = date_1.getDate(ts, end, dayType);
         return this.getPosXByTs(date.getTime());
     };
     GridService.prototype.getFirstTsOnScreen = function () {
@@ -43,10 +76,6 @@ var GridService = /** @class */ (function () {
             return 0;
         var ts = col.ts + ((-col.x) * this.module.view.tsHasOneX);
         return ts;
-    };
-    GridService.prototype.getTsByX = function (x) {
-        var firstTs = this.module.view.firstTsOnScreen;
-        return (x * this.module.view.tsHasOneX) + firstTs;
     };
     GridService.prototype.getTsByOffsetDiff = function (x) {
         var columns = this.module.view.columns;
@@ -86,6 +115,17 @@ var GridService = /** @class */ (function () {
         else if (offsetX > this.getFullAvailableWidth() - this.root.view.canvasWidth) {
             this.module.store.addDatesAfter(offsetX);
         }
+    };
+    GridService.prototype.getDayType = function () {
+        if (this.root.api.viewMode === 'half-day')
+            return 'halfDay';
+        if (this.root.api.viewMode === 'quarter-day')
+            return 'quarterDay';
+        if (this.root.api.viewMode === 'three-hours')
+            return 'threeHours';
+        if (this.root.api.viewMode === 'hour')
+            return 'hour';
+        return 'day';
     };
     return GridService;
 }());

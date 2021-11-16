@@ -27,8 +27,9 @@ var TasksView = /** @class */ (function () {
         var _b = this.module.store, hoverId = _b.hoverId, hoverConnectionTask = _b.hoverConnectionTask, tasks = _b.tasks;
         var offsetY = rowsOffsetY - this.root.view.offsetY;
         var data = {};
+        var dayType = this.root.grid.service.getDayType();
         tasks.forEach(function (task, index) {
-            var _a = _this.module.service.getTaskPos(task), x = _a.x, xx = _a.xx, error = _a.error;
+            var _a = _this.module.service.getTaskPos(task, dayType), x = _a.x, xx = _a.xx, error = _a.error;
             var w = xx - x;
             var y = (rowHeight * index) + offsetY;
             data[task.id] = __assign(__assign({}, task), { hover: hoverId === task.id, hoverConnection: hoverConnectionTask === task.id, y: y, x: x, w: w, error: error });

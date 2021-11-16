@@ -6,7 +6,7 @@ var ColumnEntity = /** @class */ (function () {
         this.root = root;
     }
     ColumnEntity.prototype.renderDay = function (_a, _b) {
-        var x = _a.x, title = _a.title, isStartMonth = _a.isStartMonth, weekend = _a.weekend;
+        var x = _a.x, title = _a.title, isStartMonth = _a.isStartMonth, weekend = _a.weekend, month = _a.month, hour = _a.hour;
         var monthHeight = _b.monthHeight, width = _b.width, dayHeight = _b.dayHeight;
         var ctx = this.root.ctx;
         ctx.beginPath();
@@ -28,6 +28,10 @@ var ColumnEntity = /** @class */ (function () {
             ctx.fillStyle = this.root.api.dayColor;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
+        if (this.root.api.viewMode === 'month')
+            title = this.root.grid.view.getMonthTitle(month);
+        else if (['half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1)
+            title = hour.toString();
         ctx.fillText(title, x + (width / 2), monthHeight + (dayHeight / 2));
         ctx.textAlign = 'left';
         ctx.textBaseline = 'alphabetic';
@@ -49,7 +53,7 @@ var ColumnEntity = /** @class */ (function () {
             ctx.fillRect(x, monthHeight, this.root.grid.view.colWidth, this.root.view.canvasHeight);
             ctx.fill();
         }
-        else if (weekend && this.root.api.dayWeekendBackground) {
+        else if (weekend && this.root.api.dayWeekendBackground && this.root.api.viewMode === 'day') {
             ctx.fillStyle = this.root.api.dayWeekendBackground;
             ctx.fillRect(x, monthHeight, this.root.grid.view.colWidth, this.root.view.canvasHeight);
             ctx.fill();

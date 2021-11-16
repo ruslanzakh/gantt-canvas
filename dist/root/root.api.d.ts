@@ -17,7 +17,7 @@ export interface Task {
     outlineColor?: string;
     noEditable?: boolean;
 }
-export declare type ViewMode = 'day' | 'week';
+export declare type ViewMode = 'day' | 'week' | 'month' | 'half-day' | 'quarter-day' | 'three-hours' | 'hour';
 export interface RootApiProps {
     tasks: Task[];
     moveDependedOnResizeRight?: boolean;
@@ -48,6 +48,7 @@ export interface RootApiProps {
     dayWeekendBackground?: string;
     dayWeekendColor?: string;
     dayColWidth?: number;
+    weekViewColWidth?: number;
     monthViewColWidth?: number;
     rowHeight?: number;
     colLineColor?: string;
@@ -122,6 +123,7 @@ export declare class RootApi {
     dayWeekendBackground?: string;
     dayWeekendColor?: string;
     dayColWidth: number;
+    weekViewColWidth: number;
     monthViewColWidth: number;
     rowHeight: number;
     colLineColor: string;
@@ -141,7 +143,7 @@ export declare class RootApi {
     taskRadius: number;
     taskFont: string;
     taskErrorStrokeColor?: string;
-    minTaskWidth: number;
+    minTaskWidth?: number;
     taskRenderResizeControls: boolean;
     taskRenderResizeControlsWidth: number;
     taskRenderResizeControlsColor: string;

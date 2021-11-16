@@ -47,4 +47,5 @@ export declare class TaskEntity {
     getTaskFillStyle(task: TaskRender): string;
     getTaskStrokeStyle(task: TaskRender): string | undefined;
     getTaskColor(task: TaskRender): string;
+    needControlOutsideTask(task: TaskRender): boolean;
 }

@@ -19,12 +19,17 @@ export declare class GridView {
     rows: RowRender[];
     months: MonthRender[];
     firstTsOnScreen: number;
+    dayTs: number;
+    halfDayTs: number;
+    quarterDayTs: number;
+    threeHoursTs: number;
+    hourTs: number;
     constructor(root: RootModule, module: GridModule);
     get colWidth(): number;
     get colsOnScreen(): number;
     get colTs(): number;
-    get dayTs(): number;
     get weekTs(): number;
+    get monthTs(): number;
     get tsHasOneX(): number;
     get rowHeight(): number;
     get monthHeight(): number;
@@ -33,7 +38,8 @@ export declare class GridView {
     get rowsOffsetY(): number;
     fillColumns(): void;
     fillMonths(): void;
-    getMonthTitle(month: number, year: number): string;
+    getMonthTitle(month: number, year?: number): string;
+    getMonthNumber(month: number): string;
     fillRows(): void;
     updateStore(): void;
     renderGrid(): void;

@@ -125,7 +125,7 @@ const gantt = new Gantt('#app', {
 	handleTaskClick: async (task) => {
 		console.log('handleTaskClick', task);
 	},
-	viewMode: 'hour',
+	viewMode: 'quarter-day',
 	// showTime: true,
 	// renderAllTasksFromStart: false,
 	dayWeekendBackground: '#fbf5ff',

@@ -14,6 +14,10 @@ var TaskEntity = /** @class */ (function () {
         var depFrom = null;
         var xx = this.getTaskXX(x, w);
         var yy = y + h;
+        if (this.needControlOutsideTask(task)) {
+            x -= (this.root.api.taskPadding + this.root.api.taskRenderResizeControlsWidth);
+            xx += (this.root.api.taskRenderResizeControlsWidth + this.root.api.taskPadding);
+        }
         var hover = x < offsetX
             && offsetX < xx
             && y < offsetY
@@ -174,7 +178,7 @@ var TaskEntity = /** @class */ (function () {
         }
     };
     TaskEntity.prototype.renderResizeControls = function (task, top) {
-        if (!this.root.api.taskRenderResizeControls)
+        if (!this.root.api.taskRenderResizeControls || this.needControlOutsideTask(task))
             return;
         var x = task.x, w = task.w;
         var ctx = this.root.ctx;
@@ -183,11 +187,12 @@ var TaskEntity = /** @class */ (function () {
         var width = this.root.api.taskRenderResizeControlsWidth;
         var height = this.root.api.taskHeight - (this.root.api.taskPadding * 2);
         var rightX = x + w - width - this.root.api.taskPadding;
-        canvas_1.roundRect(ctx, leftX, top, width, height, this.root.api.taskRenderResizeControlsRadius, this.root.api.taskRenderResizeControlsColor);
-        canvas_1.roundRect(ctx, rightX, top, width, height, this.root.api.taskRenderResizeControlsRadius, this.root.api.taskRenderResizeControlsColor);
+        var color = this.root.api.taskRenderResizeControlsColor;
+        canvas_1.roundRect(ctx, leftX, top, width, height, this.root.api.taskRenderResizeControlsRadius, color);
+        canvas_1.roundRect(ctx, rightX, top, width, height, this.root.api.taskRenderResizeControlsRadius, color);
     };
     TaskEntity.prototype.isControlsHover = function (event, task) {
-        if (this.root.api.taskRenderResizeControls) {
+        if (this.root.api.taskRenderResizeControls && !this.needControlOutsideTask(task)) {
             return this.isRenderedControlsHover(event, task);
         }
         var offsetX = event.offsetX;
@@ -260,6 +265,9 @@ var TaskEntity = /** @class */ (function () {
             return colorHover !== null && colorHover !== void 0 ? colorHover : this.root.api.taskDefaultHoverColor;
         }
         return color !== null && color !== void 0 ? color : this.root.api.taskDefaultColor;
+    };
+    TaskEntity.prototype.needControlOutsideTask = function (task) {
+        return (this.root.api.taskRenderResizeControlsWidth + this.root.api.taskPadding) * 2 > task.w;
     };
     return TaskEntity;
 }());

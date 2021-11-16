@@ -19,7 +19,7 @@ var MonthEntity = /** @class */ (function () {
             ctx.lineTo(xx, height);
         }
         ctx.stroke();
-        if (this.root.api.showMonthMiddle || (this.root.api.viewMode === 'week')) {
+        if (this.root.api.showMonthMiddle || ['week', 'month', 'half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1) {
             var width = xx - x;
             if (width >= (ctx.measureText(title).width * 1.5))
                 middle = (xx + x) / 2;

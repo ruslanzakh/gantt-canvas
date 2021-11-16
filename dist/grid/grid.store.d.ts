@@ -5,6 +5,7 @@ interface GridDate {
     title: string;
     month: number;
     year: number;
+    hour: number;
     isStartMonth: boolean;
     isMiddleDayMonth: boolean;
     today: boolean;
@@ -20,5 +21,7 @@ export declare class GridStore {
     add(date: Date, unshift?: boolean): void;
     addDatesBefore(offsetX: number): void;
     addDatesAfter(offsetX: number): void;
+    getStartDayByViewMode(start_date_ts: number): number;
+    getOffset(date: Date, minus?: boolean): number;
 }
 export {};
