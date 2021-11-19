@@ -54,9 +54,13 @@ export class GridStore {
 	add(date: Date, unshift = false) {
 		const day = date.getDate();
 		let isMiddleDayMonth = false;
+		let isStartMonth = false;
 		if(this.root.api.viewMode === 'day') {
 			const middleDayInMonth = Math.floor(getDaysInMonth(date.getMonth() + 1, date.getFullYear()) / 2);
 			isMiddleDayMonth = day === middleDayInMonth;
+		}
+		if(['day', 'half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1) {
+			isStartMonth = day === 1 && date.getHours() === 0;
 		}
 		const todayTs = getDate().getTime();
 		const today = todayTs === getDate(date.getTime()).getTime();
@@ -66,7 +70,7 @@ export class GridStore {
 			month: date.getMonth(),
 			year: date.getFullYear(),
 			hour: date.getHours(),
-			isStartMonth: day === 1,
+			isStartMonth,
 			weekend: [0, 6].includes(date.getDay()), 
 			isMiddleDayMonth,
 			today,
