@@ -25,7 +25,8 @@ export class TasksView {
 		const dayType = this.root.grid.service.getDayType();
 		tasks.forEach((task, index) => {
 			const { x, xx, error } = this.module.service.getTaskPos(task, dayType);
-			const w = xx - x;
+			let w = xx - x;
+			if(w < this.root.api.minTaskWidth) w = this.root.api.minTaskWidth;
 			const y = (rowHeight * index) + offsetY;
 			data[task.id] = {
 				...task,

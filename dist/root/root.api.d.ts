@@ -143,7 +143,7 @@ export declare class RootApi {
     taskRadius: number;
     taskFont: string;
     taskErrorStrokeColor?: string;
-    minTaskWidth?: number;
+    minTaskWidth: number;
     taskRenderResizeControls: boolean;
     taskRenderResizeControlsWidth: number;
     taskRenderResizeControlsColor: string;

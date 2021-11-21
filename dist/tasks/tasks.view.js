@@ -31,6 +31,8 @@ var TasksView = /** @class */ (function () {
         tasks.forEach(function (task, index) {
             var _a = _this.module.service.getTaskPos(task, dayType), x = _a.x, xx = _a.xx, error = _a.error;
             var w = xx - x;
+            if (w < _this.root.api.minTaskWidth)
+                w = _this.root.api.minTaskWidth;
             var y = (rowHeight * index) + offsetY;
             data[task.id] = __assign(__assign({}, task), { hover: hoverId === task.id, hoverConnection: hoverConnectionTask === task.id, y: y, x: x, w: w, error: error });
         });
