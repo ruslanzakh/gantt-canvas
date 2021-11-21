@@ -35,9 +35,13 @@ var GridStore = /** @class */ (function () {
         if (unshift === void 0) { unshift = false; }
         var day = date.getDate();
         var isMiddleDayMonth = false;
+        var isStartMonth = false;
         if (this.root.api.viewMode === 'day') {
             var middleDayInMonth = Math.floor(date_1.getDaysInMonth(date.getMonth() + 1, date.getFullYear()) / 2);
             isMiddleDayMonth = day === middleDayInMonth;
+        }
+        if (['day', 'half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1) {
+            isStartMonth = day === 1 && date.getHours() === 0;
         }
         var todayTs = date_1.getDate().getTime();
         var today = todayTs === date_1.getDate(date.getTime()).getTime();
@@ -47,7 +51,7 @@ var GridStore = /** @class */ (function () {
             month: date.getMonth(),
             year: date.getFullYear(),
             hour: date.getHours(),
-            isStartMonth: day === 1,
+            isStartMonth: isStartMonth,
             weekend: [0, 6].includes(date.getDay()),
             isMiddleDayMonth: isMiddleDayMonth,
             today: today,
