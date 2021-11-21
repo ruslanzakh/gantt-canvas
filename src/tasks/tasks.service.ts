@@ -148,9 +148,11 @@ export class TasksService {
 		const colWidth = this.root.grid.view.colWidth;
 		const pos = offsetX / width;
 		let changeOffsetValue = 0;
-		if(pos > 0.9) {
+		const mouseDownOffsetX = this.module.controller.mouseDownOffsetX;
+		if(pos > 0.9 && (mouseDownOffsetX && offsetX > mouseDownOffsetX)) {
 			changeOffsetValue = colWidth;
-		} else if(pos < 0.1) changeOffsetValue = -colWidth;
+		} else if(pos < 0.1 && (mouseDownOffsetX && offsetX < mouseDownOffsetX))
+			changeOffsetValue = -colWidth;
 		const tick = this.root.api.viewMode === 'month' ? 132 : 66;
 		if(changeOffsetValue !== 0 && !this.intervalChangeOffset) {
 			this.intervalChangeOffset = setInterval(() => {
