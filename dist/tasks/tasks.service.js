@@ -316,8 +316,16 @@ var TasksService = /** @class */ (function () {
     };
     TasksService.prototype.saveResizeCurrentTaskRight = function (task, diff) {
         var newTask = __assign(__assign({}, task), { end_date_ts: task.end_date_ts + diff });
-        if (newTask.start_date_ts > newTask.end_date_ts)
-            newTask.start_date_ts = newTask.end_date_ts;
+        if (newTask.start_date_ts > newTask.end_date_ts) {
+            if (!task.all_day)
+                newTask.start_date_ts = newTask.end_date_ts;
+            else {
+                var days = Math.floor((newTask.start_date_ts - newTask.end_date_ts) / this.root.grid.view.dayTs) + 1;
+                var start = new Date(newTask.start_date_ts);
+                start.setDate(start.getDate() - days);
+                newTask.start_date_ts = start.getTime();
+            }
+        }
         this.module.store.addModTask(newTask);
     };
     TasksService.prototype.saveResizeDependedTasksLeftSide = function (task, diff) {
@@ -332,8 +340,17 @@ var TasksService = /** @class */ (function () {
     };
     TasksService.prototype.saveResizeCurrentTaskLeft = function (task, diff) {
         var newTask = __assign(__assign({}, task), { start_date_ts: task.start_date_ts + diff });
-        if (newTask.start_date_ts > newTask.end_date_ts)
-            newTask.end_date_ts = newTask.start_date_ts;
+        if (newTask.start_date_ts > newTask.end_date_ts) {
+            if (!task.all_day)
+                newTask.end_date_ts = newTask.start_date_ts;
+            else {
+                var days = Math.floor((newTask.start_date_ts - newTask.end_date_ts) / this.root.grid.view.dayTs) + 1;
+                var end = new Date(newTask.end_date_ts);
+                end.setDate(end.getDate() + days);
+                newTask.end_date_ts = end.getTime();
+            }
+            ;
+        }
         this.module.store.addModTask(newTask);
     };
     TasksService.prototype.handleResizeTaskMouseUp = function () {

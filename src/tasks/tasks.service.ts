@@ -311,7 +311,15 @@ export class TasksService {
 
 	saveResizeCurrentTaskRight(task: Task, diff: number) {
 		const newTask = {...task, end_date_ts: task.end_date_ts + diff};
-		if(newTask.start_date_ts > newTask.end_date_ts) newTask.start_date_ts = newTask.end_date_ts;
+		if(newTask.start_date_ts > newTask.end_date_ts) {
+			if(!task.all_day) newTask.start_date_ts = newTask.end_date_ts;
+			else {
+				const days = Math.floor((newTask.start_date_ts - newTask.end_date_ts) / this.root.grid.view.dayTs) + 1;
+				const start = new Date(newTask.start_date_ts)
+				start.setDate(start.getDate() - days);
+				newTask.start_date_ts = start.getTime();
+			}
+		}
 		this.module.store.addModTask(newTask);
 	}
 
@@ -325,7 +333,15 @@ export class TasksService {
 
 	saveResizeCurrentTaskLeft(task: Task, diff: number) {
 		const newTask = {...task, start_date_ts: task.start_date_ts + diff};
-		if(newTask.start_date_ts > newTask.end_date_ts) newTask.end_date_ts = newTask.start_date_ts;
+		if(newTask.start_date_ts > newTask.end_date_ts) {
+			if(!task.all_day)  newTask.end_date_ts = newTask.start_date_ts;
+			else {
+				const days = Math.floor((newTask.start_date_ts - newTask.end_date_ts) / this.root.grid.view.dayTs) + 1;
+				const end = new Date(newTask.end_date_ts)
+				end.setDate(end.getDate() + days);
+				newTask.end_date_ts = end.getTime();
+			};
+		}
 		this.module.store.addModTask(newTask);
 	}
 
