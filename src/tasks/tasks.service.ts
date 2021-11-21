@@ -179,15 +179,22 @@ export class TasksService {
 		const offsetDiff = offsetX - (this.module.controller.mouseDownOffsetX || 0);
 		let diff = this.root.grid.service.getTsByOffsetDiff(offsetDiff);
 		if(all_day || !this.root.api.showTime) {
-			let colTs = this.root.grid.view.dayTs;
-			if(this.root.api.viewMode === 'half-day') colTs = this.root.grid.view.halfDayTs;
-			else if(this.root.api.viewMode === 'quarter-day') colTs = this.root.grid.view.quarterDayTs;
-			else if(this.root.api.viewMode === 'three-hours') colTs = this.root.grid.view.threeHoursTs;
-			else if(this.root.api.viewMode === 'hour') colTs = this.root.grid.view.hourTs;
+			const colTs = this.getColTsForDiff(all_day);
 			const dayDiff = (diff - diff % colTs) / colTs;
 			diff = colTs * dayDiff;
 		}
 		return diff;
+	}
+
+
+	getColTsForDiff(all_day = false) {
+		if(!all_day && !this.root.api.showTime) {
+			if(this.root.api.viewMode === 'half-day') return this.root.grid.view.halfDayTs;
+			else if(this.root.api.viewMode === 'quarter-day') return this.root.grid.view.quarterDayTs;
+			else if(this.root.api.viewMode === 'three-hours') return this.root.grid.view.threeHoursTs;
+			else if(this.root.api.viewMode === 'hour') return this.root.grid.view.hourTs;
+		}
+		return this.root.grid.view.dayTs
 	}
 	/** End commons */
 

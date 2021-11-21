@@ -57,6 +57,7 @@ export declare class TasksService {
     scrollX(event: MouseEvent): void;
     clearScrollInterval(): void;
     getDiff(offsetX: number, all_day?: boolean): number;
+    getColTsForDiff(all_day?: boolean): number;
     /** End commons */
     handleClickTask(event: EventOffsets): void;
     scrollToTask(id: string): void;

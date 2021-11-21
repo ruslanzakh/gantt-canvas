@@ -186,19 +186,25 @@ var TasksService = /** @class */ (function () {
         var offsetDiff = offsetX - (this.module.controller.mouseDownOffsetX || 0);
         var diff = this.root.grid.service.getTsByOffsetDiff(offsetDiff);
         if (all_day || !this.root.api.showTime) {
-            var colTs = this.root.grid.view.dayTs;
-            if (this.root.api.viewMode === 'half-day')
-                colTs = this.root.grid.view.halfDayTs;
-            else if (this.root.api.viewMode === 'quarter-day')
-                colTs = this.root.grid.view.quarterDayTs;
-            else if (this.root.api.viewMode === 'three-hours')
-                colTs = this.root.grid.view.threeHoursTs;
-            else if (this.root.api.viewMode === 'hour')
-                colTs = this.root.grid.view.hourTs;
+            var colTs = this.getColTsForDiff(all_day);
             var dayDiff = (diff - diff % colTs) / colTs;
             diff = colTs * dayDiff;
         }
         return diff;
+    };
+    TasksService.prototype.getColTsForDiff = function (all_day) {
+        if (all_day === void 0) { all_day = false; }
+        if (!all_day && !this.root.api.showTime) {
+            if (this.root.api.viewMode === 'half-day')
+                return this.root.grid.view.halfDayTs;
+            else if (this.root.api.viewMode === 'quarter-day')
+                return this.root.grid.view.quarterDayTs;
+            else if (this.root.api.viewMode === 'three-hours')
+                return this.root.grid.view.threeHoursTs;
+            else if (this.root.api.viewMode === 'hour')
+                return this.root.grid.view.hourTs;
+        }
+        return this.root.grid.view.dayTs;
     };
     /** End commons */
     TasksService.prototype.handleClickTask = function (event) {

@@ -71,6 +71,14 @@ const tasks = [
 		// underline: true,
 		// outlineColor: 'red',
 	},
+	{
+		id: 'task8',
+		title: 'Task 8',
+		start_date_ts: 1637442000000,
+		end_date_ts: 1637528399000,
+		next_ids: [],
+		all_day: true,
+	},
 ]
 
 // 1577912400000
@@ -126,7 +134,7 @@ const gantt = new Gantt('#app', {
 		console.log('handleTaskClick', task);
 	},
 	viewMode: 'quarter-day',
-	// showTime: true,
+	showTime: true,
 	// renderAllTasksFromStart: false,
 	dayWeekendBackground: '#fbf5ff',
 	// lang: 'es',
