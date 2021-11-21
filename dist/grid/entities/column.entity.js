@@ -53,7 +53,7 @@ var ColumnEntity = /** @class */ (function () {
             ctx.fillRect(x, monthHeight, this.root.grid.view.colWidth, this.root.view.canvasHeight);
             ctx.fill();
         }
-        else if (weekend && this.root.api.dayWeekendBackground && this.root.api.viewMode === 'day') {
+        else if (weekend && this.root.api.dayWeekendBackground) {
             ctx.fillStyle = this.root.api.dayWeekendBackground;
             ctx.fillRect(x, monthHeight, this.root.grid.view.colWidth, this.root.view.canvasHeight);
             ctx.fill();
