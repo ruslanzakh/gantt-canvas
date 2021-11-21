@@ -12,6 +12,9 @@
     "Gantt",
     "Canvas"
   ],
+  "files": [
+    "/dist"
+  ],
   "author": "Ruslan Zakharov",
   "license": "MIT",
   "devDependencies": {
