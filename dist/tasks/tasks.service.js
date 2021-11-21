@@ -20,6 +20,7 @@ exports.TasksService = void 0;
 var TasksService = /** @class */ (function () {
     function TasksService(root, module) {
         this.intervalChangeOffset = null;
+        this.scrollXOffset = null;
         this.root = root;
         this.module = module;
     }
@@ -153,12 +154,12 @@ var TasksService = /** @class */ (function () {
         var colWidth = this.root.grid.view.colWidth;
         var pos = offsetX / width;
         var changeOffsetValue = 0;
-        var mouseDownOffsetX = this.module.controller.mouseDownOffsetX;
-        if (pos > 0.9 && (mouseDownOffsetX && offsetX > mouseDownOffsetX)) {
+        if (pos > 0.9 && (this.scrollXOffset && offsetX > this.scrollXOffset)) {
             changeOffsetValue = colWidth;
         }
-        else if (pos < 0.1 && (mouseDownOffsetX && offsetX < mouseDownOffsetX))
+        else if (pos < 0.1 && (this.scrollXOffset && offsetX < this.scrollXOffset))
             changeOffsetValue = -colWidth;
+        this.scrollXOffset = offsetX;
         var tick = this.root.api.viewMode === 'month' ? 132 : 66;
         if (changeOffsetValue !== 0 && !this.intervalChangeOffset) {
             this.intervalChangeOffset = setInterval(function () {

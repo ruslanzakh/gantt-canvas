@@ -7,6 +7,7 @@ export declare class TasksService {
     root: RootModule;
     module: TasksModule;
     intervalChangeOffset: ReturnType<typeof setInterval> | null;
+    scrollXOffset: number | null;
     constructor(root: RootModule, module: TasksModule);
     /** Start getters */
     getRootStoreTaskById(id: string | null): Task | null;

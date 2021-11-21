@@ -9,6 +9,7 @@ export class TasksService {
 	module: TasksModule;
 
 	intervalChangeOffset: ReturnType<typeof setInterval> | null = null;
+	scrollXOffset: number | null = null;
 
 	constructor(root: RootModule, module: TasksModule) {
 		this.root = root;
@@ -148,11 +149,11 @@ export class TasksService {
 		const colWidth = this.root.grid.view.colWidth;
 		const pos = offsetX / width;
 		let changeOffsetValue = 0;
-		const mouseDownOffsetX = this.module.controller.mouseDownOffsetX;
-		if(pos > 0.9 && (mouseDownOffsetX && offsetX > mouseDownOffsetX)) {
+		if(pos > 0.9 && (this.scrollXOffset && offsetX > this.scrollXOffset)) {
 			changeOffsetValue = colWidth;
-		} else if(pos < 0.1 && (mouseDownOffsetX && offsetX < mouseDownOffsetX))
+		} else if(pos < 0.1 && (this.scrollXOffset && offsetX < this.scrollXOffset))
 			changeOffsetValue = -colWidth;
+		this.scrollXOffset = offsetX;
 		const tick = this.root.api.viewMode === 'month' ? 132 : 66;
 		if(changeOffsetValue !== 0 && !this.intervalChangeOffset) {
 			this.intervalChangeOffset = setInterval(() => {
