@@ -20,6 +20,9 @@ export interface TaskRender {
 	underline?: boolean;
 	outlineColor?: string;
 	noEditable?: boolean;
+	subtitle?: string;
+	colorSubtitle?: string;
+	outlineSubtitleColor?: string;
 }
 
 export class TaskEntity {
@@ -184,7 +187,7 @@ export class TaskEntity {
 
 
 	renderTaskText(task: TaskRender, top: number) {
-		const { x, w, title } = task;
+		const { x, w, title, subtitle, hover, colorSubtitle } = task;
 		const ctx = this.root.ctx;
 		const {
 			taskFont,
@@ -193,7 +196,10 @@ export class TaskEntity {
 			taskRenderResizeControlsWidth,
 			taskHeight,
 			taskDefaultOutlineColor,
+			taskDefaultSubtitleColor,
+			taskDefaultSubtitleOutlineColor,
 			taskRenderDepRadius,
+			taskSubtitleOffset,
 		} = this.root.api;
 		ctx.font = taskFont;
 		ctx.textAlign = 'center';
@@ -201,19 +207,36 @@ export class TaskEntity {
 		
 		let maxWidth = w - (taskPadding * 2);
 		if(taskRenderResizeControls) maxWidth -= (taskRenderResizeControlsWidth * 2) + (taskPadding * 2);
-		if(ctx.measureText(title).width < maxWidth) {
-			ctx.fillStyle = this.getTaskColor(task);
-			ctx.textAlign = 'center';
-			ctx.fillText(title, x + (w / 2), top + (taskHeight / 2));
+		const titleWidth = ctx.measureText(title).width;
+		const subtitleWidth = subtitle ? ctx.measureText(subtitle).width + taskSubtitleOffset : 0;
+		if(titleWidth + subtitleWidth < maxWidth) {
+			ctx.fillStyle = this.getTitleColor(task);
+			ctx.textAlign = 'left';
+			const titleX = x + (taskPadding * 2) + taskRenderResizeControlsWidth;
+			ctx.fillText(title, titleX, top + (taskHeight / 2));
 			if(task.underline)
-				renderUnderline(ctx, title, x + (w / 2), top + (taskHeight / 4));
+				renderUnderline(ctx, title, titleX, top + (taskHeight / 4));
+				
+			if(subtitle && hover) {
+				ctx.fillStyle = colorSubtitle ?? taskDefaultSubtitleColor;
+				ctx.fillText(subtitle, titleX + titleWidth + taskSubtitleOffset, top + (taskHeight / 2) )
+				if(task.underline)
+					renderUnderline(ctx, subtitle, titleX + titleWidth + taskSubtitleOffset, top + (taskHeight / 4));
+			}
 		} else {
 			ctx.fillStyle = task.outlineColor ?? taskDefaultOutlineColor;
 			ctx.textAlign = 'left';
-			const offsetX = this.getDepOffsetX()
-			ctx.fillText(title, x + w + offsetX + (taskRenderDepRadius * 2), top + (taskHeight / 2));
+			const offsetX = this.getDepOffsetX();
+			const titleX = x + w + offsetX + (taskRenderDepRadius * 2);
+			ctx.fillText(title, titleX, top + (taskHeight / 2));
 			if(task.underline)
-				renderUnderline(ctx, title, x + w + offsetX + (taskRenderDepRadius * 2), top + (taskHeight / 4));
+				renderUnderline(ctx, title, titleX, top + (taskHeight / 4));
+				if(subtitle && hover) {
+					ctx.fillStyle = task.outlineSubtitleColor ?? taskDefaultSubtitleOutlineColor;
+					ctx.fillText(subtitle, titleX + titleWidth + taskSubtitleOffset, top + (taskHeight / 2) )
+					if(task.underline)
+						renderUnderline(ctx, subtitle, titleX + titleWidth + taskSubtitleOffset, top + (taskHeight / 4));
+				}
 		}
 	}
 
@@ -301,7 +324,7 @@ export class TaskEntity {
 		return stroke ?? taskDefaultStrokeColor;
 	}
 
-	getTaskColor(task: TaskRender): string {
+	getTitleColor(task: TaskRender): string {
 		const {hover, hoverConnection, color, colorHover} = task;
 		if(hover || hoverConnection) {
 			return colorHover ?? this.root.api.taskDefaultHoverColor;

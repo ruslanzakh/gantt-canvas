@@ -122,8 +122,10 @@ function getTasks() {
 		const task = {
 			id: `task_${i}`,
 			title: `Task ${i}`,
+			subtitle: `Sub title ${i}`,
 			start_date_ts,
 			end_date_ts,
+			underline: true,
 			all_day: Math.random() >= 0.5,
 			next_ids: getNextIds(tasks, end_date_ts)
 		}
@@ -134,14 +136,14 @@ function getTasks() {
 const gantt = new Gantt('#app', {
 	tasks: tasks,
 	// tasks: getTasks().sort((a, b) => a.start_date_ts - b.start_date_ts),
-	// tasks: getTasks(),
+	tasks: getTasks(),
 	handleChange: async (tasks) => {
 		console.log(tasks);
 	},
 	handleTaskClick: async (task) => {
 		console.log('handleTaskClick', task);
 	},
-	viewMode: 'quarter-day',
+	viewMode: 'day',
 	showTime: true,
 	// renderAllTasksFromStart: false,
 	dayWeekendBackground: '#fbf5ff',

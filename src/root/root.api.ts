@@ -5,6 +5,7 @@ import { ObjectList } from '../utils/interfaces';
 export interface Task {
 	id: string;
 	title: string;
+	subtitle?: string;
 	start_date_ts: number;
 	all_day?: boolean;
 	end_date_ts: number;
@@ -13,10 +14,12 @@ export interface Task {
 	backgroundHover?: string;
 	color?: string;
 	colorHover?: string;
+	outlineColor?: string;
+	colorSubtitle?: string;
+	outlineSubtitleColor?: string;
 	stroke?: string;
 	strokeHover?: string;
 	underline?: boolean;
-	outlineColor?: string;
 	noEditable?: boolean;
 }
 
@@ -73,6 +76,9 @@ export interface RootApiProps {
 	taskDefaultColor?: string;
 	taskDefaultHoverColor?: string;
 	taskDefaultOutlineColor?: string;
+	taskDefaultSubtitleColor?: string;
+	taskDefaultSubtitleOutlineColor?: string;
+	taskSubtitleOffset?: number;
 	taskHeight?: number;
 	taskFont?: string;
 	taskPadding?: number;
@@ -163,6 +169,9 @@ export class RootApi {
 	taskDefaultColor: string;
 	taskDefaultHoverColor: string;
 	taskDefaultOutlineColor: string;
+	taskDefaultSubtitleColor: string;
+	taskDefaultSubtitleOutlineColor: string;
+	taskSubtitleOffset: number;
 	taskHeight: number;
 	taskPadding: number;
 	taskRadius: number;
@@ -248,6 +257,9 @@ export class RootApi {
 		this.taskDefaultColor = props.taskDefaultColor ?? COLORS.WHITE;
 		this.taskDefaultHoverColor = props.taskDefaultHoverColor ?? COLORS.WHITE;
 		this.taskDefaultOutlineColor = props.taskDefaultOutlineColor ?? COLORS.BLACK;
+		this.taskDefaultSubtitleColor = props.taskDefaultSubtitleColor ?? COLORS.WHITE;
+		this.taskDefaultSubtitleOutlineColor = props.taskDefaultSubtitleOutlineColor ?? COLORS.BLACK;
+		this.taskSubtitleOffset = props.taskSubtitleOffset ?? 10;
 		this.taskHeight = props.taskHeight ?? 34;
 		this.taskPadding = props.taskPadding ?? 5;
 		this.taskRadius = props.taskRadius ?? 2;
