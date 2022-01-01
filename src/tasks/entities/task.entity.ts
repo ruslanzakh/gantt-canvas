@@ -95,18 +95,24 @@ export class TaskEntity {
 		const ctx = this.root.ctx;
 		ctx.strokeStyle =  this.root.api.arrowColor;
 		ctx.fillStyle =  this.root.api.arrowColor;
+		const oldLineWidth = ctx.lineWidth;
+		if(task.hover || source.hover) {
+			ctx.strokeStyle = this.root.api.arrowHoverColor;
+			ctx.fillStyle = this.root.api.arrowHoverColor;
+			ctx.lineWidth = this.root.api.arrowHoverWidth;
+		}
 		const r = this.root.api.arrowRadius;
 		const startOffsetX = this.getDepOffsetX() || 10;
-		if(task.x >= x + 1) {
+		if(task.x >= x + (startOffsetX * 2)) {
 			ctx.beginPath();
 			ctx.moveTo(x, y);
 			ctx.lineTo(x + startOffsetX - r, y);
 			ctx.quadraticCurveTo(x + startOffsetX, y, x + startOffsetX, targetY < y ? y - r : y + r);
 			ctx.lineTo(x + startOffsetX, targetY > y ? targetY - r : targetY + r);
 			ctx.quadraticCurveTo(x + startOffsetX, targetY, x + startOffsetX + r, targetY);
-			ctx.lineTo(task.x, targetY);
+			ctx.lineTo(task.x - ctx.lineWidth, targetY);
 			ctx.stroke();
-			this.renderArrowHead(x + startOffsetX,  targetY, task.x, targetY)
+			this.renderArrowHead(x + startOffsetX,  targetY, task.x, targetY, task.hover || source.hover)
 		} else {
 			ctx.beginPath();
 			ctx.moveTo(x, y);
@@ -117,14 +123,14 @@ export class TaskEntity {
 			ctx.lineTo(task.x - 20 + r, y + (h / 2));
 			ctx.quadraticCurveTo(task.x - 20, y + (h / 2), task.x - 20, targetY > y ? y + (h / 2) + r : y + (h / 2) - r);
 			ctx.lineTo(task.x - 20, targetY);
-			ctx.lineTo(task.x, targetY);
+			ctx.lineTo(task.x - ctx.lineWidth, targetY);
 			ctx.stroke();
-			this.renderArrowHead(task.x - 20,  targetY, task.x, targetY)
-
+			this.renderArrowHead(task.x - 20,  targetY, task.x, targetY, task.hover || source.hover)
 		}
+		ctx.lineWidth = oldLineWidth;
 	}
 
-	renderArrowFrom(id: string, x: number, y: number) {
+	renderArrowConnection(id: string, x: number, y: number) {
 		const task = this.root.tasks.service.getRenderedViewTaskById(id) ||  this.root.tasks.service.getViewTaskById(id);
 		
 		if(!task) return;
@@ -153,12 +159,16 @@ export class TaskEntity {
 			ctx.lineTo(x, y);
 			ctx.stroke();
 			this.renderArrowHead(x - 20,  y, x, y);
-
 		}
 	}
 	
-	renderArrowHead(fromx: number, fromy: number, tox: number, toy: number){
+	renderArrowHead(fromx: number, fromy: number, tox: number, toy: number, hover = false){
 		const ctx = this.root.ctx;
+		const oldLineWidth = ctx.lineWidth;
+		if(hover) {
+			ctx.lineWidth = this.root.api.arrowHoverHeadWidth;
+			tox -= this.root.api.arrowHoverHeadWidth;
+		}
 		//variables to be used when creating the arrow
 		var headlen = 10;
 		var angle = Math.atan2(toy-fromy,tox-fromx);
@@ -183,6 +193,7 @@ export class TaskEntity {
 		//draws the paths created above
 		ctx.stroke();
 		ctx.fill();
+		ctx.lineWidth = oldLineWidth;
 	}
 
 

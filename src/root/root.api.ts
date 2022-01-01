@@ -99,6 +99,9 @@ export interface RootApiProps {
 
 	arrowColor?: string;
 	arrowActiveColor?: string;
+	arrowHoverColor?: string;
+	arrowHoverWidth?: number;
+	arrowHoverHeadWidth?: number;
 	arrowRadius?: number;
 
 	scrollbarXHeight?: number;
@@ -192,6 +195,9 @@ export class RootApi {
 
 	arrowColor: string;
 	arrowActiveColor: string;
+	arrowHoverColor: string;
+	arrowHoverWidth: number;
+	arrowHoverHeadWidth: number;
 	arrowRadius: number;
 
 	scrollbarXHeight: number;
@@ -280,6 +286,9 @@ export class RootApi {
 
 		this.arrowColor = props.arrowColor ?? COLORS.BLUE;
 		this.arrowActiveColor = props.arrowActiveColor ?? COLORS.D_BLUE;
+		this.arrowHoverColor = props.arrowHoverColor ?? COLORS.D_VIOLET;
+		this.arrowHoverWidth = props.arrowHoverWidth ?? 3;
+		this.arrowHoverHeadWidth = props.arrowHoverHeadWidth ?? 3;
 		this.arrowRadius = props.arrowRadius ?? 2;
 
 		this.scrollbarXHeight = props.scrollbarXHeight ?? 12;

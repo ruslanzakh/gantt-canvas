@@ -60,19 +60,27 @@ export class TasksView {
 		this.module.store.fillTasks();
 		this.fillTasks();
 		this.renderArrows();
-		this.renderArrowFrom();
+		this.renderArrowConnection();
 		this.renderTasks();
 	}
 
 	renderArrows() {
+		const hoverTask = this.tasksForArrows.find(el => el.hover);
 		this.tasksForArrows.forEach((el) => {
-			el.next_ids.forEach(id => this.taskEntity.renderArrow(id, el));
+			el.next_ids.forEach(id => (!hoverTask || hoverTask.id !== id) && this.taskEntity.renderArrow(id, el));
 		});
+		if(hoverTask) {
+			this.tasksForArrows
+				.forEach((el) => {
+					el.next_ids.forEach(id => hoverTask.id === id && this.taskEntity.renderArrow(id, el));
+				})
+			hoverTask.next_ids.forEach(id => this.taskEntity.renderArrow(id, hoverTask));
+		}
 	}
 
-	renderArrowFrom() {
+	renderArrowConnection() {
 		if(this.module.store.hoverId && this.module.controller.addDepMode) {
-			this.taskEntity.renderArrowFrom(
+			this.taskEntity.renderArrowConnection(
 				this.module.store.hoverId,
 				this.module.store.addDepOffsetX || 0,
 				this.module.store.addDepOffsetY || 0);
