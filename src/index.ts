@@ -27,6 +27,10 @@ class Gantt {
 		this.root.api.updateIsLoading(isLoading);
 	}
 
+	updateScale(scale: number) {
+		this.root.api.updateScale(scale);
+	}
+
 	destroy() {
 		this.root.destroy();
 	}

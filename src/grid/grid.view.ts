@@ -42,10 +42,10 @@ export class GridView {
 
 	get colWidth() {
 		if(['day', 'half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1)
-			return this.root.api.dayColWidth * this.root.view.scaleX;
+			return this.root.api.dayColWidth;
 		if(this.root.api.viewMode === 'week')
-			return this.root.api.weekViewColWidth * this.root.view.scaleX;
-		return this.root.api.monthViewColWidth * this.root.view.scaleX;
+			return this.root.api.weekViewColWidth;
+		return this.root.api.monthViewColWidth;
 	}
 	
 	get colsOnScreen() {
@@ -75,7 +75,7 @@ export class GridView {
 	}
 
 	get rowHeight() {
-		return this.root.api.rowHeight * this.root.view.scaleY;
+		return this.root.api.rowHeight;
 	}
 	
 	get monthHeight() {

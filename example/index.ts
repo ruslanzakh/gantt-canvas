@@ -239,3 +239,11 @@ if(progressToggleTimeout) {
 		}, 5000);
 	})
 }
+
+const scale = document.getElementById('scale');
+if(scale) {
+	scale.addEventListener('change', function(event) {
+		const value = Number(event.target.value)
+		gantt.updateScale(value);
+	})
+}
