@@ -38,6 +38,7 @@ export declare class TaskEntity {
     renderItem(task: TaskRender): void;
     renderRightDep(x: number, y: number): void;
     renderArrow(id: string, source: TaskRender): void;
+    renderArrowLine(x: number, y: number, task: TaskRender, isHover: boolean, isClear: boolean): void;
     renderArrowConnection(id: string, x: number, y: number): void;
     renderArrowHead(fromx: number, fromy: number, tox: number, toy: number, hover?: boolean): void;
     renderTaskText(task: TaskRender, top: number): void;

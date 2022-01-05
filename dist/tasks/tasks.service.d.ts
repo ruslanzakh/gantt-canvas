@@ -15,6 +15,7 @@ export declare class TasksService {
     getRenderedViewTaskById(id: string): import("./entities/task.entity").TaskRender | null;
     getViewTaskById(id: string): {
         hover: boolean;
+        hoverConnection: boolean;
         y: number;
         x: number;
         w: number;

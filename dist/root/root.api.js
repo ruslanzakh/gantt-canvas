@@ -90,8 +90,8 @@ var RootApi = /** @class */ (function () {
         this.arrowColor = (_38 = props.arrowColor) !== null && _38 !== void 0 ? _38 : config_1.COLORS.BLUE;
         this.arrowActiveColor = (_39 = props.arrowActiveColor) !== null && _39 !== void 0 ? _39 : config_1.COLORS.D_BLUE;
         this.arrowHoverColor = (_40 = props.arrowHoverColor) !== null && _40 !== void 0 ? _40 : config_1.COLORS.D_VIOLET;
-        this._arrowHoverWidth = (_41 = props.arrowHoverWidth) !== null && _41 !== void 0 ? _41 : 3;
-        this._arrowHoverHeadWidth = (_42 = props.arrowHoverHeadWidth) !== null && _42 !== void 0 ? _42 : 3;
+        this._arrowHoverWidth = (_41 = props.arrowHoverWidth) !== null && _41 !== void 0 ? _41 : 2;
+        this._arrowHoverHeadWidth = (_42 = props.arrowHoverHeadWidth) !== null && _42 !== void 0 ? _42 : 2;
         this.arrowRadius = (_43 = props.arrowRadius) !== null && _43 !== void 0 ? _43 : 2;
         this.scrollbarXHeight = (_44 = props.scrollbarXHeight) !== null && _44 !== void 0 ? _44 : 12;
         this.scrollbarXBackground = (_45 = props.scrollbarXBackground) !== null && _45 !== void 0 ? _45 : config_1.COLORS.L_GREY;
