@@ -21,6 +21,7 @@ export declare class TasksService {
         error: boolean;
         id: string;
         title: string;
+        subtitle?: string | undefined;
         start_date_ts: number;
         all_day?: boolean | undefined;
         end_date_ts: number;
@@ -29,10 +30,12 @@ export declare class TasksService {
         backgroundHover?: string | undefined;
         color?: string | undefined;
         colorHover?: string | undefined;
+        outlineColor?: string | undefined;
+        colorSubtitle?: string | undefined;
+        outlineSubtitleColor?: string | undefined;
         stroke?: string | undefined;
         strokeHover?: string | undefined;
         underline?: boolean | undefined;
-        outlineColor?: string | undefined;
         noEditable?: boolean | undefined;
     } | null;
     getStoreDependedTasksById(id: string, tasks?: Task[]): Task[];

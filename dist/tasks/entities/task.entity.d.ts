@@ -19,6 +19,9 @@ export interface TaskRender {
     underline?: boolean;
     outlineColor?: string;
     noEditable?: boolean;
+    subtitle?: string;
+    colorSubtitle?: string;
+    outlineSubtitleColor?: string;
 }
 export declare class TaskEntity {
     root: RootModule;
@@ -35,8 +38,8 @@ export declare class TaskEntity {
     renderItem(task: TaskRender): void;
     renderRightDep(x: number, y: number): void;
     renderArrow(id: string, source: TaskRender): void;
-    renderArrowFrom(id: string, x: number, y: number): void;
-    renderArrowHead(fromx: number, fromy: number, tox: number, toy: number): void;
+    renderArrowConnection(id: string, x: number, y: number): void;
+    renderArrowHead(fromx: number, fromy: number, tox: number, toy: number, hover?: boolean): void;
     renderTaskText(task: TaskRender, top: number): void;
     renderResizeControls(task: TaskRender, top: number): void;
     isControlsHover(event: EventOffsets, task: TaskRender): string | null;
@@ -46,6 +49,6 @@ export declare class TaskEntity {
     getDepOffsetX(): number;
     getTaskFillStyle(task: TaskRender): string;
     getTaskStrokeStyle(task: TaskRender): string | undefined;
-    getTaskColor(task: TaskRender): string;
+    getTitleColor(task: TaskRender): string;
     needControlOutsideTask(task: TaskRender): boolean;
 }

@@ -64,18 +64,26 @@ var TasksView = /** @class */ (function () {
         this.module.store.fillTasks();
         this.fillTasks();
         this.renderArrows();
-        this.renderArrowFrom();
+        this.renderArrowConnection();
         this.renderTasks();
     };
     TasksView.prototype.renderArrows = function () {
         var _this = this;
+        var hoverTask = this.tasksForArrows.find(function (el) { return el.hover; });
         this.tasksForArrows.forEach(function (el) {
-            el.next_ids.forEach(function (id) { return _this.taskEntity.renderArrow(id, el); });
+            el.next_ids.forEach(function (id) { return (!hoverTask || hoverTask.id !== id) && _this.taskEntity.renderArrow(id, el); });
         });
+        if (hoverTask) {
+            this.tasksForArrows
+                .forEach(function (el) {
+                el.next_ids.forEach(function (id) { return hoverTask.id === id && _this.taskEntity.renderArrow(id, el); });
+            });
+            hoverTask.next_ids.forEach(function (id) { return _this.taskEntity.renderArrow(id, hoverTask); });
+        }
     };
-    TasksView.prototype.renderArrowFrom = function () {
+    TasksView.prototype.renderArrowConnection = function () {
         if (this.module.store.hoverId && this.module.controller.addDepMode) {
-            this.taskEntity.renderArrowFrom(this.module.store.hoverId, this.module.store.addDepOffsetX || 0, this.module.store.addDepOffsetY || 0);
+            this.taskEntity.renderArrowConnection(this.module.store.hoverId, this.module.store.addDepOffsetX || 0, this.module.store.addDepOffsetY || 0);
         }
     };
     TasksView.prototype.renderTasks = function () {
