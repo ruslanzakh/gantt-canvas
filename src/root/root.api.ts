@@ -263,7 +263,7 @@ export class RootApi {
 		this.dayWeekendBackground = props.dayWeekendBackground;
 		this.dayWeekendColor = props.dayWeekendColor;
 		this.dayFontSize = props.dayFontSize ?? 14;
-		this.dayFontLineHeight = props.dayFontLineHeight ?? 14;
+		this.dayFontLineHeight = props.dayFontLineHeight ?? this.dayFontSize;
 		this.dayFontWeight = props.dayFontWeight ?? 500;
 		this.dayFontFamily = props.dayFontFamily ?? 'Arial';
 		this.dayColor = props.dayColor ?? COLORS.BLACK;
@@ -292,7 +292,7 @@ export class RootApi {
 		this._taskPadding = props.taskPadding ?? 5;
 		this.taskRadius = props.taskRadius ?? 2;
 		this.taskFontSize = props.taskFontSize ?? 16;
-		this.taskFontLineHeight = props.taskFontLineHeight ?? 16;
+		this.taskFontLineHeight = props.taskFontLineHeight ?? this.taskFontSize;
 		this.taskFontWeight = props.taskFontWeight ?? 400;
 		this.taskFontFamily = props.taskFontFamily ?? "serif";
 		this.taskErrorStrokeColor = props.taskErrorStrokeColor;

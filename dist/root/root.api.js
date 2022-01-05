@@ -46,7 +46,7 @@ var RootApi = /** @class */ (function () {
         this.dayWeekendBackground = props.dayWeekendBackground;
         this.dayWeekendColor = props.dayWeekendColor;
         this.dayFontSize = (_0 = props.dayFontSize) !== null && _0 !== void 0 ? _0 : 14;
-        this.dayFontLineHeight = (_1 = props.dayFontLineHeight) !== null && _1 !== void 0 ? _1 : 14;
+        this.dayFontLineHeight = (_1 = props.dayFontLineHeight) !== null && _1 !== void 0 ? _1 : this.dayFontSize;
         this.dayFontWeight = (_2 = props.dayFontWeight) !== null && _2 !== void 0 ? _2 : 500;
         this.dayFontFamily = (_3 = props.dayFontFamily) !== null && _3 !== void 0 ? _3 : 'Arial';
         this.dayColor = (_4 = props.dayColor) !== null && _4 !== void 0 ? _4 : config_1.COLORS.BLACK;
@@ -73,7 +73,7 @@ var RootApi = /** @class */ (function () {
         this._taskPadding = (_22 = props.taskPadding) !== null && _22 !== void 0 ? _22 : 5;
         this.taskRadius = (_23 = props.taskRadius) !== null && _23 !== void 0 ? _23 : 2;
         this.taskFontSize = (_24 = props.taskFontSize) !== null && _24 !== void 0 ? _24 : 16;
-        this.taskFontLineHeight = (_25 = props.taskFontLineHeight) !== null && _25 !== void 0 ? _25 : 16;
+        this.taskFontLineHeight = (_25 = props.taskFontLineHeight) !== null && _25 !== void 0 ? _25 : this.taskFontSize;
         this.taskFontWeight = (_26 = props.taskFontWeight) !== null && _26 !== void 0 ? _26 : 400;
         this.taskFontFamily = (_27 = props.taskFontFamily) !== null && _27 !== void 0 ? _27 : "serif";
         this.taskErrorStrokeColor = props.taskErrorStrokeColor;
