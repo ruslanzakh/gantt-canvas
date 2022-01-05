@@ -56,6 +56,7 @@ export interface RootApiProps {
 	dayBottomLineColor?: string;
 	dayColor?: string;
 	dayFontSize?: number;
+	dayFontLineHeight?: number;
 	dayFontWeight?: number;
 	dayFontFamily?: string;
 	dayTodayBackground?: string;
@@ -86,6 +87,7 @@ export interface RootApiProps {
 	taskSubtitleOffset?: number;
 	taskHeight?: number;
 	taskFontSize?: number;
+	taskFontLineHeight?: number;
 	taskFontWeight?: number;
 	taskFontFamily?: string;
 	taskPadding?: number;
@@ -159,6 +161,7 @@ export class RootApi {
 	dayBottomLineColor: string;
 	dayColor: string;
 	dayFontSize: number;
+	dayFontLineHeight: number;
 	dayFontWeight: number;
 	dayFontFamily: string;
 	dayTodayBackground: string;
@@ -190,6 +193,7 @@ export class RootApi {
 	_taskPadding: number;
 	taskRadius: number;
 	taskFontSize: number;
+	taskFontLineHeight: number;
 	taskFontWeight: number;
 	taskFontFamily: string;
 	taskErrorStrokeColor?: string;
@@ -259,6 +263,7 @@ export class RootApi {
 		this.dayWeekendBackground = props.dayWeekendBackground;
 		this.dayWeekendColor = props.dayWeekendColor;
 		this.dayFontSize = props.dayFontSize ?? 14;
+		this.dayFontLineHeight = props.dayFontLineHeight ?? 14;
 		this.dayFontWeight = props.dayFontWeight ?? 500;
 		this.dayFontFamily = props.dayFontFamily ?? 'Arial';
 		this.dayColor = props.dayColor ?? COLORS.BLACK;
@@ -287,6 +292,7 @@ export class RootApi {
 		this._taskPadding = props.taskPadding ?? 5;
 		this.taskRadius = props.taskRadius ?? 2;
 		this.taskFontSize = props.taskFontSize ?? 16;
+		this.taskFontLineHeight = props.taskFontLineHeight ?? 16;
 		this.taskFontWeight = props.taskFontWeight ?? 400;
 		this.taskFontFamily = props.taskFontFamily ?? "serif";
 		this.taskErrorStrokeColor = props.taskErrorStrokeColor;
@@ -378,12 +384,14 @@ export class RootApi {
 
 	get dayFont() {
 		const size = this.dayFontSize * this.scale;
-		return `${this.dayFontWeight} ${size}px ${this.dayFontFamily}`;
+		const lineHeight = this.dayFontLineHeight * this.scale;
+		return `${this.dayFontWeight} ${size}px/${lineHeight}px ${this.dayFontFamily}`;
 	}
 
 	get taskFont() {
 		const size = this.taskFontSize * this.scale;
-		return `${this.taskFontWeight} ${size}px ${this.taskFontFamily}`;
+		const lineHeight = this.taskFontLineHeight * this.scale;
+		return `${this.taskFontWeight} ${size}px/${lineHeight}px ${this.taskFontFamily}`;
 	}
 
 	updateTasks(tasks: Task[]) {
