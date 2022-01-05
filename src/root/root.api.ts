@@ -191,7 +191,7 @@ export class RootApi {
 	_taskSubtitleOffset: number;
 	_taskHeight: number;
 	_taskPadding: number;
-	taskRadius: number;
+	_taskRadius: number;
 	taskFontSize: number;
 	taskFontLineHeight: number;
 	taskFontWeight: number;
@@ -205,7 +205,7 @@ export class RootApi {
 	taskRenderResizeControlsRadius: number;
 
 	taskRenderDepControl: boolean;
-	taskRenderDepRadius: number;
+	_taskRenderDepRadius: number;
 	taskRenderDepLineColor: string;
 	taskRenderDepBackground: string;
 	_taskRenderDepOffsetX: number;
@@ -290,7 +290,7 @@ export class RootApi {
 		this._taskSubtitleOffset = props.taskSubtitleOffset ?? 10;
 		this._taskHeight = props.taskHeight ?? 34;
 		this._taskPadding = props.taskPadding ?? 5;
-		this.taskRadius = props.taskRadius ?? 2;
+		this._taskRadius = props.taskRadius ?? 2;
 		this.taskFontSize = props.taskFontSize ?? 16;
 		this.taskFontLineHeight = props.taskFontLineHeight ?? this.taskFontSize;
 		this.taskFontWeight = props.taskFontWeight ?? 400;
@@ -304,7 +304,7 @@ export class RootApi {
 		this.taskRenderResizeControlsRadius = props.taskRenderResizeControlsRadius ?? 2;
 
 		this.taskRenderDepControl = props.taskRenderDepControl ?? true;
-		this.taskRenderDepRadius = props.taskRenderDepRadius ?? 7;
+		this._taskRenderDepRadius = props.taskRenderDepRadius ?? 7;
 		this._taskRenderDepOffsetX = props.taskRenderDepOffsetX ?? 7;
 		this.taskRenderDepLineColor = props.taskRenderDepLineColor ?? COLORS.BLACK;
 		this.taskRenderDepBackground = props.taskRenderDepBackground ?? COLORS.WHITE;
@@ -346,6 +346,10 @@ export class RootApi {
 		return this._taskPadding * this.scale;
 	}
 
+	get taskRadius() {
+		return this._taskRadius * this.scale;
+	}
+
 	get minTaskWidth() {
 		return this._minTaskWidth * this.scale;
 	}
@@ -380,6 +384,10 @@ export class RootApi {
 
 	get rowHeight() {
 		return this._rowHeight * this.scale;
+	}
+
+	get taskRenderDepRadius() {
+		return this._taskRenderDepRadius * this.scale;
 	}
 
 	get dayFont() {

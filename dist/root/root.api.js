@@ -71,7 +71,7 @@ var RootApi = /** @class */ (function () {
         this._taskSubtitleOffset = (_20 = props.taskSubtitleOffset) !== null && _20 !== void 0 ? _20 : 10;
         this._taskHeight = (_21 = props.taskHeight) !== null && _21 !== void 0 ? _21 : 34;
         this._taskPadding = (_22 = props.taskPadding) !== null && _22 !== void 0 ? _22 : 5;
-        this.taskRadius = (_23 = props.taskRadius) !== null && _23 !== void 0 ? _23 : 2;
+        this._taskRadius = (_23 = props.taskRadius) !== null && _23 !== void 0 ? _23 : 2;
         this.taskFontSize = (_24 = props.taskFontSize) !== null && _24 !== void 0 ? _24 : 16;
         this.taskFontLineHeight = (_25 = props.taskFontLineHeight) !== null && _25 !== void 0 ? _25 : this.taskFontSize;
         this.taskFontWeight = (_26 = props.taskFontWeight) !== null && _26 !== void 0 ? _26 : 400;
@@ -83,7 +83,7 @@ var RootApi = /** @class */ (function () {
         this.taskRenderResizeControlsColor = (_31 = props.taskRenderResizeControlsColor) !== null && _31 !== void 0 ? _31 : config_1.COLORS.WHITE;
         this.taskRenderResizeControlsRadius = (_32 = props.taskRenderResizeControlsRadius) !== null && _32 !== void 0 ? _32 : 2;
         this.taskRenderDepControl = (_33 = props.taskRenderDepControl) !== null && _33 !== void 0 ? _33 : true;
-        this.taskRenderDepRadius = (_34 = props.taskRenderDepRadius) !== null && _34 !== void 0 ? _34 : 7;
+        this._taskRenderDepRadius = (_34 = props.taskRenderDepRadius) !== null && _34 !== void 0 ? _34 : 7;
         this._taskRenderDepOffsetX = (_35 = props.taskRenderDepOffsetX) !== null && _35 !== void 0 ? _35 : 7;
         this.taskRenderDepLineColor = (_36 = props.taskRenderDepLineColor) !== null && _36 !== void 0 ? _36 : config_1.COLORS.BLACK;
         this.taskRenderDepBackground = (_37 = props.taskRenderDepBackground) !== null && _37 !== void 0 ? _37 : config_1.COLORS.WHITE;
@@ -128,6 +128,13 @@ var RootApi = /** @class */ (function () {
     Object.defineProperty(RootApi.prototype, "taskPadding", {
         get: function () {
             return this._taskPadding * this.scale;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(RootApi.prototype, "taskRadius", {
+        get: function () {
+            return this._taskRadius * this.scale;
         },
         enumerable: false,
         configurable: true
@@ -191,6 +198,13 @@ var RootApi = /** @class */ (function () {
     Object.defineProperty(RootApi.prototype, "rowHeight", {
         get: function () {
             return this._rowHeight * this.scale;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(RootApi.prototype, "taskRenderDepRadius", {
+        get: function () {
+            return this._taskRenderDepRadius * this.scale;
         },
         enumerable: false,
         configurable: true

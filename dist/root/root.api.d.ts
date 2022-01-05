@@ -163,7 +163,7 @@ export declare class RootApi {
     _taskSubtitleOffset: number;
     _taskHeight: number;
     _taskPadding: number;
-    taskRadius: number;
+    _taskRadius: number;
     taskFontSize: number;
     taskFontLineHeight: number;
     taskFontWeight: number;
@@ -175,7 +175,7 @@ export declare class RootApi {
     taskRenderResizeControlsColor: string;
     taskRenderResizeControlsRadius: number;
     taskRenderDepControl: boolean;
-    taskRenderDepRadius: number;
+    _taskRenderDepRadius: number;
     taskRenderDepLineColor: string;
     taskRenderDepBackground: string;
     _taskRenderDepOffsetX: number;
@@ -200,6 +200,7 @@ export declare class RootApi {
     get taskSubtitleOffset(): number;
     get taskHeight(): number;
     get taskPadding(): number;
+    get taskRadius(): number;
     get minTaskWidth(): number;
     get taskRenderResizeControlsWidth(): number;
     get taskRenderDepOffsetX(): number;
@@ -209,6 +210,7 @@ export declare class RootApi {
     get weekViewColWidth(): number;
     get monthViewColWidth(): number;
     get rowHeight(): number;
+    get taskRenderDepRadius(): number;
     get dayFont(): string;
     get taskFont(): string;
     updateTasks(tasks: Task[]): void;
