@@ -91,18 +91,35 @@ export class TaskEntity {
 		if(!task) return;
 		let x = source.x + source.w;
 		let y = source.y + (h / 2);
-		const targetY = task.y + (h / 2);
+		const isHover = task.hover || source.hover;
+		// clear previous lines due to making a new line clear
+		if(isHover) this.renderArrowLine(x, y, task, isHover, true);
+		this.renderArrowLine(x, y, task, isHover, false);
+	}
+
+	renderArrowLine(
+		x: number,
+		y: number,
+		task: TaskRender,
+		isHover: boolean,
+		isClear: boolean,
+	) {
 		const ctx = this.root.ctx;
+		const r = this.root.api.arrowRadius;
+		const h = this.root.grid.view.rowHeight;
+		const startOffsetX = this.getDepOffsetX() || 10;
+		const targetY = task.y + (h / 2);
 		ctx.strokeStyle =  this.root.api.arrowColor;
 		ctx.fillStyle =  this.root.api.arrowColor;
 		const oldLineWidth = ctx.lineWidth;
-		if(task.hover || source.hover) {
+		if(isClear) {
+			ctx.strokeStyle = '#fff';
+			ctx.fillStyle = '#fff';
+		} else if(isHover) {
 			ctx.strokeStyle = this.root.api.arrowHoverColor;
 			ctx.fillStyle = this.root.api.arrowHoverColor;
 			ctx.lineWidth = this.root.api.arrowHoverWidth;
 		}
-		const r = this.root.api.arrowRadius;
-		const startOffsetX = this.getDepOffsetX() || 10;
 		if(task.x >= x + (startOffsetX * 2)) {
 			ctx.beginPath();
 			ctx.moveTo(x, y);
@@ -112,7 +129,7 @@ export class TaskEntity {
 			ctx.quadraticCurveTo(x + startOffsetX, targetY, x + startOffsetX + r, targetY);
 			ctx.lineTo(task.x - ctx.lineWidth, targetY);
 			ctx.stroke();
-			this.renderArrowHead(x + startOffsetX,  targetY, task.x, targetY, task.hover || source.hover)
+			this.renderArrowHead(x + startOffsetX,  targetY, task.x, targetY, isHover)
 		} else {
 			ctx.beginPath();
 			ctx.moveTo(x, y);
@@ -125,7 +142,7 @@ export class TaskEntity {
 			ctx.lineTo(task.x - 20, targetY);
 			ctx.lineTo(task.x - ctx.lineWidth, targetY);
 			ctx.stroke();
-			this.renderArrowHead(task.x - 20,  targetY, task.x, targetY, task.hover || source.hover)
+			this.renderArrowHead(task.x - 20,  targetY, task.x, targetY, isHover)
 		}
 		ctx.lineWidth = oldLineWidth;
 	}
@@ -168,6 +185,8 @@ export class TaskEntity {
 		if(hover) {
 			ctx.lineWidth = this.root.api.arrowHoverHeadWidth;
 			tox -= this.root.api.arrowHoverHeadWidth;
+		} else {
+			tox -= 1;
 		}
 		//variables to be used when creating the arrow
 		var headlen = 10;

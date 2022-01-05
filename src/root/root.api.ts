@@ -312,8 +312,8 @@ export class RootApi {
 		this.arrowColor = props.arrowColor ?? COLORS.BLUE;
 		this.arrowActiveColor = props.arrowActiveColor ?? COLORS.D_BLUE;
 		this.arrowHoverColor = props.arrowHoverColor ?? COLORS.D_VIOLET;
-		this._arrowHoverWidth = props.arrowHoverWidth ?? 3;
-		this._arrowHoverHeadWidth = props.arrowHoverHeadWidth ?? 3;
+		this._arrowHoverWidth = props.arrowHoverWidth ?? 2;
+		this._arrowHoverHeadWidth = props.arrowHoverHeadWidth ?? 2;
 		this.arrowRadius = props.arrowRadius ?? 2;
 
 		this.scrollbarXHeight = props.scrollbarXHeight ?? 12;
