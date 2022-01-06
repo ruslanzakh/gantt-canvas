@@ -112,6 +112,7 @@ export class TaskEntity {
 		ctx.strokeStyle =  this.root.api.arrowColor;
 		ctx.fillStyle =  this.root.api.arrowColor;
 		const oldLineWidth = ctx.lineWidth;
+		ctx.lineWidth = this.root.api.arrowWidth;
 		if(isClear) {
 			ctx.strokeStyle = '#fff';
 			ctx.fillStyle = '#fff';
@@ -186,10 +187,11 @@ export class TaskEntity {
 			ctx.lineWidth = this.root.api.arrowHoverHeadWidth;
 			tox -= this.root.api.arrowHoverHeadWidth;
 		} else {
-			tox -= 1;
+			ctx.lineWidth = this.root.api.arrowWidth;
+			tox -= this.root.api.arrowWidth;
 		}
 		//variables to be used when creating the arrow
-		var headlen = 10;
+		var headlen = 10 * this.root.api.scale;
 		var angle = Math.atan2(toy-fromy,tox-fromx);
 
 		//starting a new path from the head of the arrow to one of the sides of

@@ -107,6 +107,7 @@ export interface RootApiProps {
 	taskRenderDepOffsetX?: number;
 
 	arrowColor?: string;
+	arrowWidth?: number;
 	arrowActiveColor?: string;
 	arrowHoverColor?: string;
 	arrowHoverWidth?: number;
@@ -211,11 +212,12 @@ export class RootApi {
 	_taskRenderDepOffsetX: number;
 
 	arrowColor: string;
+	_arrowWidth: number;
 	arrowActiveColor: string;
 	arrowHoverColor: string;
 	_arrowHoverWidth: number;
 	_arrowHoverHeadWidth: number;
-	arrowRadius: number;
+	_arrowRadius: number;
 
 	scrollbarXHeight: number;
 	scrollbarXBackground: string;
@@ -310,11 +312,12 @@ export class RootApi {
 		this.taskRenderDepBackground = props.taskRenderDepBackground ?? COLORS.WHITE;
 
 		this.arrowColor = props.arrowColor ?? COLORS.BLUE;
+		this._arrowWidth = props.arrowWidth ?? 1;
 		this.arrowActiveColor = props.arrowActiveColor ?? COLORS.D_BLUE;
 		this.arrowHoverColor = props.arrowHoverColor ?? COLORS.D_VIOLET;
 		this._arrowHoverWidth = props.arrowHoverWidth ?? 2;
 		this._arrowHoverHeadWidth = props.arrowHoverHeadWidth ?? 2;
-		this.arrowRadius = props.arrowRadius ?? 2;
+		this._arrowRadius = props.arrowRadius ?? 2;
 
 		this.scrollbarXHeight = props.scrollbarXHeight ?? 12;
 		this.scrollbarXBackground = props.scrollbarXBackground ?? COLORS.L_GREY;
@@ -362,12 +365,19 @@ export class RootApi {
 		return this._taskRenderDepOffsetX * this.scale;
 	}
 
+	get arrowWidth() {
+		return this._arrowWidth * this.scale;
+	}
 	get arrowHoverWidth() {
 		return this._arrowHoverWidth * this.scale;
 	}
 
 	get arrowHoverHeadWidth() {
 		return this._arrowHoverHeadWidth * this.scale;
+	}
+
+	get arrowRadius() {
+		return this._arrowRadius * this.scale;
 	}
 
 	get dayColWidth() {

@@ -92,6 +92,7 @@ export interface RootApiProps {
     taskRenderDepBackground?: string;
     taskRenderDepOffsetX?: number;
     arrowColor?: string;
+    arrowWidth?: number;
     arrowActiveColor?: string;
     arrowHoverColor?: string;
     arrowHoverWidth?: number;
@@ -180,11 +181,12 @@ export declare class RootApi {
     taskRenderDepBackground: string;
     _taskRenderDepOffsetX: number;
     arrowColor: string;
+    _arrowWidth: number;
     arrowActiveColor: string;
     arrowHoverColor: string;
     _arrowHoverWidth: number;
     _arrowHoverHeadWidth: number;
-    arrowRadius: number;
+    _arrowRadius: number;
     scrollbarXHeight: number;
     scrollbarXBackground: string;
     scrollbarXLineBackground: string;
@@ -204,8 +206,10 @@ export declare class RootApi {
     get minTaskWidth(): number;
     get taskRenderResizeControlsWidth(): number;
     get taskRenderDepOffsetX(): number;
+    get arrowWidth(): number;
     get arrowHoverWidth(): number;
     get arrowHoverHeadWidth(): number;
+    get arrowRadius(): number;
     get dayColWidth(): number;
     get weekViewColWidth(): number;
     get monthViewColWidth(): number;

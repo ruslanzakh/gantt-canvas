@@ -16,7 +16,7 @@ var config_1 = require("../utils/config");
 var animate_1 = require("../utils/animate");
 var RootApi = /** @class */ (function () {
     function RootApi(root, props) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39, _40, _41, _42, _43, _44, _45, _46, _47, _48, _49, _50, _51;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39, _40, _41, _42, _43, _44, _45, _46, _47, _48, _49, _50, _51, _52;
         this.root = root;
         this.tasks = props.tasks;
         this.moveDependedOnResizeRight = (_a = props.moveDependedOnResizeRight) !== null && _a !== void 0 ? _a : true;
@@ -88,19 +88,20 @@ var RootApi = /** @class */ (function () {
         this.taskRenderDepLineColor = (_36 = props.taskRenderDepLineColor) !== null && _36 !== void 0 ? _36 : config_1.COLORS.BLACK;
         this.taskRenderDepBackground = (_37 = props.taskRenderDepBackground) !== null && _37 !== void 0 ? _37 : config_1.COLORS.WHITE;
         this.arrowColor = (_38 = props.arrowColor) !== null && _38 !== void 0 ? _38 : config_1.COLORS.BLUE;
-        this.arrowActiveColor = (_39 = props.arrowActiveColor) !== null && _39 !== void 0 ? _39 : config_1.COLORS.D_BLUE;
-        this.arrowHoverColor = (_40 = props.arrowHoverColor) !== null && _40 !== void 0 ? _40 : config_1.COLORS.D_VIOLET;
-        this._arrowHoverWidth = (_41 = props.arrowHoverWidth) !== null && _41 !== void 0 ? _41 : 2;
-        this._arrowHoverHeadWidth = (_42 = props.arrowHoverHeadWidth) !== null && _42 !== void 0 ? _42 : 2;
-        this.arrowRadius = (_43 = props.arrowRadius) !== null && _43 !== void 0 ? _43 : 2;
-        this.scrollbarXHeight = (_44 = props.scrollbarXHeight) !== null && _44 !== void 0 ? _44 : 12;
-        this.scrollbarXBackground = (_45 = props.scrollbarXBackground) !== null && _45 !== void 0 ? _45 : config_1.COLORS.L_GREY;
-        this.scrollbarXLineBackground = (_46 = props.scrollbarXLineBackground) !== null && _46 !== void 0 ? _46 : config_1.COLORS.GREY;
-        this.scrollbarXLineRadius = (_47 = props.scrollbarXLineRadius) !== null && _47 !== void 0 ? _47 : 6;
-        this.scrollbarYWidth = (_48 = props.scrollbarYWidth) !== null && _48 !== void 0 ? _48 : 12;
-        this.scrollbarYBackground = (_49 = props.scrollbarYBackground) !== null && _49 !== void 0 ? _49 : config_1.COLORS.L_GREY;
-        this.scrollbarYLineBackground = (_50 = props.scrollbarYLineBackground) !== null && _50 !== void 0 ? _50 : config_1.COLORS.GREY;
-        this.scrollbarYLineRadius = (_51 = props.scrollbarYLineRadius) !== null && _51 !== void 0 ? _51 : 6;
+        this._arrowWidth = (_39 = props.arrowWidth) !== null && _39 !== void 0 ? _39 : 1;
+        this.arrowActiveColor = (_40 = props.arrowActiveColor) !== null && _40 !== void 0 ? _40 : config_1.COLORS.D_BLUE;
+        this.arrowHoverColor = (_41 = props.arrowHoverColor) !== null && _41 !== void 0 ? _41 : config_1.COLORS.D_VIOLET;
+        this._arrowHoverWidth = (_42 = props.arrowHoverWidth) !== null && _42 !== void 0 ? _42 : 2;
+        this._arrowHoverHeadWidth = (_43 = props.arrowHoverHeadWidth) !== null && _43 !== void 0 ? _43 : 2;
+        this._arrowRadius = (_44 = props.arrowRadius) !== null && _44 !== void 0 ? _44 : 2;
+        this.scrollbarXHeight = (_45 = props.scrollbarXHeight) !== null && _45 !== void 0 ? _45 : 12;
+        this.scrollbarXBackground = (_46 = props.scrollbarXBackground) !== null && _46 !== void 0 ? _46 : config_1.COLORS.L_GREY;
+        this.scrollbarXLineBackground = (_47 = props.scrollbarXLineBackground) !== null && _47 !== void 0 ? _47 : config_1.COLORS.GREY;
+        this.scrollbarXLineRadius = (_48 = props.scrollbarXLineRadius) !== null && _48 !== void 0 ? _48 : 6;
+        this.scrollbarYWidth = (_49 = props.scrollbarYWidth) !== null && _49 !== void 0 ? _49 : 12;
+        this.scrollbarYBackground = (_50 = props.scrollbarYBackground) !== null && _50 !== void 0 ? _50 : config_1.COLORS.L_GREY;
+        this.scrollbarYLineBackground = (_51 = props.scrollbarYLineBackground) !== null && _51 !== void 0 ? _51 : config_1.COLORS.GREY;
+        this.scrollbarYLineRadius = (_52 = props.scrollbarYLineRadius) !== null && _52 !== void 0 ? _52 : 6;
         this.handleChange = props.handleChange;
         this.handleTaskClick = props.handleTaskClick;
     }
@@ -160,6 +161,13 @@ var RootApi = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(RootApi.prototype, "arrowWidth", {
+        get: function () {
+            return this._arrowWidth * this.scale;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(RootApi.prototype, "arrowHoverWidth", {
         get: function () {
             return this._arrowHoverWidth * this.scale;
@@ -170,6 +178,13 @@ var RootApi = /** @class */ (function () {
     Object.defineProperty(RootApi.prototype, "arrowHoverHeadWidth", {
         get: function () {
             return this._arrowHoverHeadWidth * this.scale;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(RootApi.prototype, "arrowRadius", {
+        get: function () {
+            return this._arrowRadius * this.scale;
         },
         enumerable: false,
         configurable: true
