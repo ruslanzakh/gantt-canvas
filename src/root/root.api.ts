@@ -453,6 +453,10 @@ export class RootApi {
 				this.scale = initialScale + (diff * progress);
 				this.root.grid.init();
 				this.root.grid.service.showDay(firstTsOnScreen, true, false, false);
+				let height = this.root.view.offsetY * scale;
+				const maxHeight = this.root.grid.service.getLeftAvailableHeight();
+				if(height > maxHeight) height = maxHeight;
+				this.root.view.handleSetOffsetY(height);
 			}
 		})
 	}
