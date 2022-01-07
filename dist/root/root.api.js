@@ -283,11 +283,13 @@ var RootApi = /** @class */ (function () {
                 _this.scale = initialScale + (diff * progress);
                 _this.root.grid.init();
                 _this.root.grid.service.showDay(firstTsOnScreen, true, false, false);
-                var height = _this.root.view.offsetY * scale;
-                var maxHeight = _this.root.grid.service.getLeftAvailableHeight();
-                if (height > maxHeight)
-                    height = maxHeight;
-                _this.root.view.handleSetOffsetY(height);
+                if (scale < initialScale) {
+                    var height = _this.root.view.offsetY * scale;
+                    var maxHeight = _this.root.grid.service.getLeftAvailableHeight();
+                    if (height > maxHeight)
+                        height = maxHeight;
+                    _this.root.view.handleSetOffsetY(height);
+                }
             }
         });
     };
