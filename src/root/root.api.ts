@@ -42,6 +42,7 @@ export interface RootApiProps {
 	scale?: number;
 
 	showMonthMiddle?: boolean;
+	showMonthFromStartOnDayView?: boolean;
 	monthHeight?: number;
 	renderMonthBottomLine?: boolean;
 	renderMonthLeftLine?: boolean;
@@ -148,6 +149,7 @@ export class RootApi {
 	scale: number;
 
 	showMonthMiddle: boolean;
+	showMonthFromStartOnDayView: boolean;
 	monthHeight: number;
 	renderMonthBottomLine: boolean;
 	renderMonthLeftLine: boolean;
@@ -242,6 +244,7 @@ export class RootApi {
 		this.startFromToday = props.startFromToday ?? true;
 		this.renderAllTasksFromStart = props.renderAllTasksFromStart ?? true;
 		this.showMonthMiddle = props.showMonthMiddle ?? false;
+		this.showMonthFromStartOnDayView = props.showMonthFromStartOnDayView ?? false;
 		this.viewMode = props.viewMode ?? 'day';
 		this.isLoading = props.isLoading ?? false;
 		this.monthNames = { ...MONTH_NAMES, ...props.monthNames ?? {} };

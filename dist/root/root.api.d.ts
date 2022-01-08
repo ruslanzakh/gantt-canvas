@@ -35,6 +35,7 @@ export interface RootApiProps {
     lang?: string;
     scale?: number;
     showMonthMiddle?: boolean;
+    showMonthFromStartOnDayView?: boolean;
     monthHeight?: number;
     renderMonthBottomLine?: boolean;
     renderMonthLeftLine?: boolean;
@@ -124,6 +125,7 @@ export declare class RootApi {
     lang: string;
     scale: number;
     showMonthMiddle: boolean;
+    showMonthFromStartOnDayView: boolean;
     monthHeight: number;
     renderMonthBottomLine: boolean;
     renderMonthLeftLine: boolean;

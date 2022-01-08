@@ -6,7 +6,7 @@ var MonthEntity = /** @class */ (function () {
         this.root = root;
     }
     MonthEntity.prototype.renderItem = function (_a, height) {
-        var x = _a.x, xx = _a.xx, title = _a.title, middle = _a.middle;
+        var x = _a.x, xx = _a.xx, title = _a.title, middle = _a.middle, startMonthX = _a.startMonthX;
         var ctx = this.root.ctx;
         ctx.beginPath();
         ctx.strokeStyle = this.root.api.monthLineColor;
@@ -24,7 +24,17 @@ var MonthEntity = /** @class */ (function () {
             if (width >= (ctx.measureText(title).width * 1.5))
                 middle = (xx + x) / 2;
         }
-        if (middle) {
+        if (this.root.api.showMonthFromStartOnDayView && this.root.api.viewMode === 'day') {
+            if (!startMonthX)
+                return;
+            ctx.font = this.root.api.monthTitleFont;
+            ctx.fillStyle = this.root.api.monthTitleColor;
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(title, startMonthX, height / 2);
+            ctx.textBaseline = 'alphabetic';
+        }
+        else if (middle) {
             ctx.font = this.root.api.monthTitleFont;
             ctx.fillStyle = this.root.api.monthTitleColor;
             ctx.textAlign = 'center';

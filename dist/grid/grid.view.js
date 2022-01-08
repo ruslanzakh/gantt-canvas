@@ -147,7 +147,7 @@ var GridView = /** @class */ (function () {
         var isPartDayView = ['half-day', 'quarter-day'].indexOf(this.root.api.viewMode) !== -1;
         var isHourView = ['three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1;
         var data = this.columns.reduce(function (prev, _a) {
-            var month = _a.month, x = _a.x, year = _a.year, isMiddleDayMonth = _a.isMiddleDayMonth, taskTitle = _a.title;
+            var month = _a.month, x = _a.x, year = _a.year, isMiddleDayMonth = _a.isMiddleDayMonth, taskTitle = _a.title, isStartMonth = _a.isStartMonth;
             var xx = x + _this.colWidth;
             var label = month + '.' + year;
             if (isMonthView)
@@ -167,6 +167,8 @@ var GridView = /** @class */ (function () {
                     x: x,
                     xx: xx,
                 };
+                if (isStartMonth)
+                    prev[label].startMonthX = x;
                 return prev;
             }
             if (prev[label].x > x)

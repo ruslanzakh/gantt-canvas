@@ -4,9 +4,10 @@ export interface MonthRender {
     xx: number;
     middle?: number;
     title: string;
+    startMonthX?: number;
 }
 export declare class MonthEntity {
     root: RootModule;
     constructor(root: RootModule);
-    renderItem({ x, xx, title, middle }: MonthRender, height: number): void;
+    renderItem({ x, xx, title, middle, startMonthX }: MonthRender, height: number): void;
 }
