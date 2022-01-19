@@ -6,7 +6,7 @@ var ColumnEntity = /** @class */ (function () {
         this.root = root;
     }
     ColumnEntity.prototype.renderDay = function (_a, _b) {
-        var x = _a.x, title = _a.title, isStartMonth = _a.isStartMonth, weekend = _a.weekend, month = _a.month, hour = _a.hour;
+        var x = _a.x, title = _a.title, isStartMonth = _a.isStartMonth, weekend = _a.weekend, month = _a.month, hour = _a.hour, weekdayTitle = _a.weekdayTitle;
         var monthHeight = _b.monthHeight, width = _b.width, dayHeight = _b.dayHeight;
         var ctx = this.root.ctx;
         ctx.beginPath();
@@ -32,7 +32,18 @@ var ColumnEntity = /** @class */ (function () {
             title = this.root.grid.view.getMonthTitle(month);
         else if (['half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1)
             title = hour.toString();
-        ctx.fillText(title, x + (width / 2), monthHeight + (dayHeight / 2));
+        if (weekdayTitle) {
+            ctx.fillText(title, x + (width / 2), monthHeight + (dayHeight / 3));
+            ctx.font = this.root.api.weekdayFont;
+            if (weekend && this.root.api.weekdayWeekendColor)
+                ctx.fillStyle = this.root.api.weekdayWeekendColor;
+            else
+                ctx.fillStyle = this.root.api.weekdayColor;
+            ctx.fillText(weekdayTitle, x + (width / 2), monthHeight + (dayHeight / 1.35));
+        }
+        else {
+            ctx.fillText(title, x + (width / 2), monthHeight + (dayHeight / 2));
+        }
         ctx.textAlign = 'left';
         ctx.textBaseline = 'alphabetic';
     };

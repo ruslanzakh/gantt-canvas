@@ -10,6 +10,7 @@ interface RichedColumnRender extends ColumnRender {
 	year: number;
 	ts: number;
 	isMiddleDayMonth: boolean;
+	weekdayTitle: string;
 }
 export class GridView {
 
@@ -118,6 +119,8 @@ export class GridView {
 				isMiddleDayMonth: el.isMiddleDayMonth,
 				today: el.today,
 				weekend: el.weekend,
+				weekday: el.weekday,
+				weekdayTitle: this.getWeekDayTitle(el.weekday)
 			});
 		}
 		
@@ -161,6 +164,12 @@ export class GridView {
 			return months[month] + ' ' + year;
 		}
 		return months[month];
+	}
+
+	getWeekDayTitle(weekday: number) {
+		if(!this.root.api.showDayWeekday || this.root.api.viewMode !== 'day') return '';
+		const weekdays = this.root.api.weekdayNames[this.root.api.lang] ?? this.root.api.weekdayNames['ru'];
+		return weekdays[weekday];
 	}
 
 	getMonthNumber(month: number) {

@@ -8,6 +8,7 @@ interface RichedColumnRender extends ColumnRender {
     year: number;
     ts: number;
     isMiddleDayMonth: boolean;
+    weekdayTitle: string;
 }
 export declare class GridView {
     root: RootModule;
@@ -39,6 +40,7 @@ export declare class GridView {
     fillColumns(): void;
     fillMonths(): void;
     getMonthTitle(month: number, year?: number): string;
+    getWeekDayTitle(weekday: number): string;
     getMonthNumber(month: number): string;
     fillRows(): void;
     updateStore(): void;

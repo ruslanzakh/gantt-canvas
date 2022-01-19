@@ -42,3 +42,24 @@ export const MONTH_NAMES = {
         'December'
     ],
 }
+
+export const WEEKDAY_NAMES = {
+	ru: [
+		'вс',
+		'пн',
+		'вт',
+		'ср',
+		'чт',
+		'пт',
+		'сб',
+	],
+	en: [
+		'su',
+		'mo',
+		'tu',
+		'we',
+		'th',
+		'fr',
+		'sa',
+	],
+}

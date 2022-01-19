@@ -137,6 +137,8 @@ var GridView = /** @class */ (function () {
                 isMiddleDayMonth: el.isMiddleDayMonth,
                 today: el.today,
                 weekend: el.weekend,
+                weekday: el.weekday,
+                weekdayTitle: this.getWeekDayTitle(el.weekday)
             });
         }
         this.columns = data;
@@ -188,6 +190,13 @@ var GridView = /** @class */ (function () {
             return months[month] + ' ' + year;
         }
         return months[month];
+    };
+    GridView.prototype.getWeekDayTitle = function (weekday) {
+        var _a;
+        if (!this.root.api.showDayWeekday || this.root.api.viewMode !== 'day')
+            return '';
+        var weekdays = (_a = this.root.api.weekdayNames[this.root.api.lang]) !== null && _a !== void 0 ? _a : this.root.api.weekdayNames['ru'];
+        return weekdays[weekday];
     };
     GridView.prototype.getMonthNumber = function (month) {
         month++;

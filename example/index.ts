@@ -164,7 +164,12 @@ const gantt = new Gantt('#app', {
 			'Noviembre',
 			'Diciembre'
 		],
-	}
+	},
+	showDayWeekday: true,
+	weekdayColor: 'red',
+	weekdayFontLineHeight: 10,
+	weekdayFontSize: 20,
+	weekdayWeekendColor: 'blue',
 });
 
 const scrollToday = document.getElementById('scroll-today');

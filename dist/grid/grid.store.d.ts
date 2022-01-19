@@ -10,6 +10,7 @@ interface GridDate {
     isMiddleDayMonth: boolean;
     today: boolean;
     weekend: boolean;
+    weekday: number;
 }
 export declare class GridStore {
     root: RootModule;

@@ -1,5 +1,5 @@
 import { RootModule } from './root.module';
-import { COLORS, MONTH_NAMES } from '../utils/config';
+import { COLORS, MONTH_NAMES, WEEKDAY_NAMES } from '../utils/config';
 import { ObjectList } from '../utils/interfaces';
 import { animate, timing } from '../utils/animate';
 
@@ -37,6 +37,7 @@ export interface RootApiProps {
 	viewMode?: ViewMode;
 	isLoading?: boolean;
 	monthNames?: ObjectList<string[]>;
+	weekdayNames?: ObjectList<string[]>;
 	lang?: string;
 
 	scale?: number;
@@ -60,9 +61,16 @@ export interface RootApiProps {
 	dayFontLineHeight?: number;
 	dayFontWeight?: number;
 	dayFontFamily?: string;
+	weekdayColor?: string;
+	weekdayFontSize?: number;
+	weekdayFontLineHeight?: number;
+	weekdayFontWeight?: number;
+	weekdayFontFamily?: string;
+	weekdayWeekendColor?: string;
 	dayTodayBackground?: string;
 	dayWeekendBackground?: string;
 	dayWeekendColor?: string;
+	showDayWeekday?: boolean;
 
 	dayColWidth?: number;
 	weekViewColWidth?: number;
@@ -144,6 +152,7 @@ export class RootApi {
 	viewMode: ViewMode;
 	isLoading: boolean;
 	monthNames: ObjectList<string[]>;
+	weekdayNames: ObjectList<string[]>;
 	lang: string;
 
 	scale: number;
@@ -167,9 +176,16 @@ export class RootApi {
 	dayFontLineHeight: number;
 	dayFontWeight: number;
 	dayFontFamily: string;
+	weekdayColor: string;
+	weekdayFontSize: number;
+	weekdayFontLineHeight: number;
+	weekdayFontWeight: number;
+	weekdayFontFamily: string;
+	weekdayWeekendColor?: string;
 	dayTodayBackground: string;
 	dayWeekendBackground?: string;
 	dayWeekendColor?: string;
+	showDayWeekday: boolean;
 
 	_dayColWidth: number;
 	_weekViewColWidth: number;
@@ -248,6 +264,7 @@ export class RootApi {
 		this.viewMode = props.viewMode ?? 'day';
 		this.isLoading = props.isLoading ?? false;
 		this.monthNames = { ...MONTH_NAMES, ...props.monthNames ?? {} };
+		this.weekdayNames = { ...WEEKDAY_NAMES, ...props.weekdayNames ?? {} };
 		this.lang = props.lang ?? 'ru';
 
 		this.scale = props.scale ?? 1;
@@ -260,18 +277,25 @@ export class RootApi {
 		this.monthTitleColor = props.monthTitleColor ?? COLORS.BLACK;
 		this.monthTitleShowYear = props.monthTitleShowYear ?? true;
 
-		this._dayHeight = props.dayHeight ?? 28;
+		this._dayHeight = props.dayHeight ?? props.showDayWeekday ? 48 : 28;
 		this.renderDayStartMonthLine = props.renderDayStartMonthLine ?? true;
 		this.dayStartMonthLine = props.dayStartMonthLine ?? COLORS.L_GREY;
 		this.dayBottomLineColor = props.dayBottomLineColor ?? COLORS.L_GREY;
 		this.dayTodayBackground = props.dayTodayBackground ?? COLORS.L_BLUE;
 		this.dayWeekendBackground = props.dayWeekendBackground;
 		this.dayWeekendColor = props.dayWeekendColor;
+		this.showDayWeekday = props.showDayWeekday ?? false;
 		this.dayFontSize = props.dayFontSize ?? 14;
 		this.dayFontLineHeight = props.dayFontLineHeight ?? this.dayFontSize;
 		this.dayFontWeight = props.dayFontWeight ?? 500;
 		this.dayFontFamily = props.dayFontFamily ?? 'Arial';
 		this.dayColor = props.dayColor ?? COLORS.BLACK;
+		this.weekdayFontSize = props.weekdayFontSize ?? 14;
+		this.weekdayFontLineHeight = props.weekdayFontLineHeight ?? this.weekdayFontSize;
+		this.weekdayFontWeight = props.weekdayFontWeight ?? 500;
+		this.weekdayFontFamily = props.weekdayFontFamily ?? 'Arial';
+		this.weekdayColor = props.weekdayColor ?? COLORS.BLACK;
+		this.weekdayWeekendColor = props.weekdayWeekendColor;
 
 		this._dayColWidth = props.dayColWidth ?? 40;
 		this._weekViewColWidth = props.weekViewColWidth ?? 120;
@@ -407,6 +431,12 @@ export class RootApi {
 		const size = this.dayFontSize * this.scale;
 		const lineHeight = this.dayFontLineHeight * this.scale;
 		return `${this.dayFontWeight} ${size}px/${lineHeight}px ${this.dayFontFamily}`;
+	}
+
+	get weekdayFont() {
+		const size = this.weekdayFontSize * this.scale;
+		const lineHeight = this.weekdayFontLineHeight * this.scale;
+		return `${this.weekdayFontWeight} ${size}px/${lineHeight}px ${this.weekdayFontFamily}`;
 	}
 
 	get taskFont() {

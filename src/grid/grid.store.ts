@@ -12,6 +12,7 @@ interface GridDate {
 	isMiddleDayMonth: boolean;
 	today: boolean;
 	weekend: boolean;
+	weekday: number;
 }
 
 export class GridStore {
@@ -56,13 +57,14 @@ export class GridStore {
 		let isMiddleDayMonth = false;
 		let isStartMonth = false;
 		let weekend = false;
+		let weekday = date.getDay();
 		if(this.root.api.viewMode === 'day') {
 			const middleDayInMonth = Math.floor(getDaysInMonth(date.getMonth() + 1, date.getFullYear()) / 2);
 			isMiddleDayMonth = day === middleDayInMonth;
 		}
 		if(['day', 'half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1) {
 			isStartMonth = day === 1 && date.getHours() === 0;
-			weekend = [0, 6].includes(date.getDay());
+			weekend = [0, 6].includes(weekday);
 		}
 		const todayTs = getDate().getTime();
 		const today = todayTs === getDate(date.getTime()).getTime();
@@ -73,7 +75,8 @@ export class GridStore {
 			year: date.getFullYear(),
 			hour: date.getHours(),
 			isStartMonth,
-			weekend, 
+			weekend,
+			weekday,
 			isMiddleDayMonth,
 			today,
 		}

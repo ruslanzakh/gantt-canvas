@@ -8,6 +8,8 @@ export interface ColumnRender {
 	isStartMonth: boolean;
 	today: boolean;
 	weekend: boolean;
+	weekday: number;
+	weekdayTitle: string;
 }
 
 export interface ColumnRenderCommon {
@@ -24,7 +26,7 @@ export class ColumnEntity {
 	}
 
 
-	renderDay({x, title, isStartMonth, weekend, month, hour}: ColumnRender, { monthHeight, width, dayHeight }: ColumnRenderCommon) {
+	renderDay({x, title, isStartMonth, weekend, month, hour, weekdayTitle}: ColumnRender, { monthHeight, width, dayHeight }: ColumnRenderCommon) {
 		const ctx = this.root.ctx;
 		ctx.beginPath();
 		ctx.strokeStyle = this.root.api.dayBottomLineColor;
@@ -45,7 +47,15 @@ export class ColumnEntity {
 		ctx.textBaseline = 'middle';
 		if(this.root.api.viewMode === 'month') title = this.root.grid.view.getMonthTitle(month);
 		else if(['half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1) title = hour.toString();
-  		ctx.fillText(title, x + (width / 2), monthHeight + (dayHeight  / 2));
+		if(weekdayTitle) {
+			ctx.fillText(title, x + (width / 2), monthHeight + (dayHeight / 3));
+			ctx.font = this.root.api.weekdayFont;
+			if(weekend && this.root.api.weekdayWeekendColor) ctx.fillStyle = this.root.api.weekdayWeekendColor;
+			else ctx.fillStyle = this.root.api.weekdayColor;
+			ctx.fillText(weekdayTitle, x + (width / 2), monthHeight + (dayHeight  / 1.35));
+		} else {
+			ctx.fillText(title, x + (width / 2), monthHeight + (dayHeight  / 2));
+		}
 		ctx.textAlign = 'left';
 		ctx.textBaseline = 'alphabetic';
 	}

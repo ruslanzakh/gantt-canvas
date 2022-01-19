@@ -32,6 +32,7 @@ export interface RootApiProps {
     viewMode?: ViewMode;
     isLoading?: boolean;
     monthNames?: ObjectList<string[]>;
+    weekdayNames?: ObjectList<string[]>;
     lang?: string;
     scale?: number;
     showMonthMiddle?: boolean;
@@ -52,9 +53,16 @@ export interface RootApiProps {
     dayFontLineHeight?: number;
     dayFontWeight?: number;
     dayFontFamily?: string;
+    weekdayColor?: string;
+    weekdayFontSize?: number;
+    weekdayFontLineHeight?: number;
+    weekdayFontWeight?: number;
+    weekdayFontFamily?: string;
+    weekdayWeekendColor?: string;
     dayTodayBackground?: string;
     dayWeekendBackground?: string;
     dayWeekendColor?: string;
+    showDayWeekday?: boolean;
     dayColWidth?: number;
     weekViewColWidth?: number;
     monthViewColWidth?: number;
@@ -122,6 +130,7 @@ export declare class RootApi {
     viewMode: ViewMode;
     isLoading: boolean;
     monthNames: ObjectList<string[]>;
+    weekdayNames: ObjectList<string[]>;
     lang: string;
     scale: number;
     showMonthMiddle: boolean;
@@ -142,9 +151,16 @@ export declare class RootApi {
     dayFontLineHeight: number;
     dayFontWeight: number;
     dayFontFamily: string;
+    weekdayColor: string;
+    weekdayFontSize: number;
+    weekdayFontLineHeight: number;
+    weekdayFontWeight: number;
+    weekdayFontFamily: string;
+    weekdayWeekendColor?: string;
     dayTodayBackground: string;
     dayWeekendBackground?: string;
     dayWeekendColor?: string;
+    showDayWeekday: boolean;
     _dayColWidth: number;
     _weekViewColWidth: number;
     _monthViewColWidth: number;
@@ -218,6 +234,7 @@ export declare class RootApi {
     get rowHeight(): number;
     get taskRenderDepRadius(): number;
     get dayFont(): string;
+    get weekdayFont(): string;
     get taskFont(): string;
     updateTasks(tasks: Task[]): void;
     scrollToToday(scrollTop?: boolean): void;
