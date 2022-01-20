@@ -1,11 +1,10 @@
 {
   "name": "gantt-canvas",
-  "version": "0.1.26",
+  "version": "0.2.0",
   "description": "Light-weight plugin for build gantt",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "dev": "parcel example/index.html --out-dir dev",
     "build": "tsc"
   },
   "keywords": [
@@ -18,8 +17,9 @@
   "author": "Ruslan Zakharov",
   "license": "MIT",
   "devDependencies": {
-    "@types/css-font-loading-module": "0.0.6",
-    "parcel-bundler": "^1.12.5",
     "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "@types/css-font-loading-module": "0.0.7"
   }
 }
