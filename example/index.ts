@@ -170,6 +170,7 @@ const gantt = new Gantt('#app', {
 	weekdayFontLineHeight: 10,
 	weekdayFontSize: 20,
 	weekdayWeekendColor: 'blue',
+	showMonthFromStartOnDayView: true,
 });
 
 const scrollToday = document.getElementById('scroll-today');

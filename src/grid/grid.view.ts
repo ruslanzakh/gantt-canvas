@@ -106,7 +106,7 @@ export class GridView {
 			const el = this.module.store.dates[i];
 			const x = (i * this.colWidth) - offsetX;
 			
-			if(x < -this.colWidth) continue;
+			if(x < (-this.colWidth * 10)) continue;
 			if(x > (width + this.colWidth)) break;
 			data.push({
 				ts: el.ts,
