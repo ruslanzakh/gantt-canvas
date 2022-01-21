@@ -122,7 +122,7 @@ var GridView = /** @class */ (function () {
         for (var i = 0; i < length; i++) {
             var el = this.module.store.dates[i];
             var x = (i * this.colWidth) - offsetX;
-            if (x < -this.colWidth)
+            if (x < (-this.colWidth * 10))
                 continue;
             if (x > (width + this.colWidth))
                 break;

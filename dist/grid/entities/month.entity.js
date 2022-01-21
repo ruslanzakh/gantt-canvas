@@ -25,7 +25,7 @@ var MonthEntity = /** @class */ (function () {
                 middle = (xx + x) / 2;
         }
         if (this.root.api.showMonthFromStartOnDayView && this.root.api.viewMode === 'day') {
-            if (!startMonthX)
+            if (!startMonthX && startMonthX !== 0)
                 return;
             ctx.font = this.root.api.monthTitleFont;
             ctx.fillStyle = this.root.api.monthTitleColor;
