@@ -9,8 +9,6 @@ var RootView = /** @class */ (function () {
     function RootView(root) {
         this.offsetX = 0;
         this.offsetY = 0;
-        this.scaleX = 1;
-        this.scaleY = 1;
         this.pixelRatio = 1;
         this.canvasWidth = 1;
         this.canvasHeight = 1;

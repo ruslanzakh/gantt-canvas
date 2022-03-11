@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MONTH_NAMES = exports.COLORS = void 0;
+exports.WEEKDAY_NAMES = exports.MONTH_NAMES = exports.COLORS = void 0;
 exports.COLORS = {
     WHITE: '#fff',
     BLACK: '#222',
@@ -40,5 +40,25 @@ exports.MONTH_NAMES = {
         'October',
         'November',
         'December'
+    ],
+};
+exports.WEEKDAY_NAMES = {
+    ru: [
+        'вс',
+        'пн',
+        'вт',
+        'ср',
+        'чт',
+        'пт',
+        'сб',
+    ],
+    en: [
+        'su',
+        'mo',
+        'tu',
+        'we',
+        'th',
+        'fr',
+        'sa',
     ],
 };

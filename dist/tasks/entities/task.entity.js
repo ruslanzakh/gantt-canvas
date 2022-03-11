@@ -66,22 +66,41 @@ var TaskEntity = /** @class */ (function () {
             return;
         var x = source.x + source.w;
         var y = source.y + (h / 2);
-        var targetY = task.y + (h / 2);
+        var isHover = task.hover || source.hover;
+        // clear previous lines due to making a new line clear
+        if (isHover)
+            this.renderArrowLine(x, y, task, isHover, true);
+        this.renderArrowLine(x, y, task, isHover, false);
+    };
+    TaskEntity.prototype.renderArrowLine = function (x, y, task, isHover, isClear) {
         var ctx = this.root.ctx;
+        var r = this.root.api.arrowRadius;
+        var h = this.root.grid.view.rowHeight;
+        var startOffsetX = this.getDepOffsetX() || 10;
+        var targetY = task.y + (h / 2);
         ctx.strokeStyle = this.root.api.arrowColor;
         ctx.fillStyle = this.root.api.arrowColor;
-        var r = this.root.api.arrowRadius;
-        var startOffsetX = this.getDepOffsetX() || 10;
-        if (task.x >= x + 1) {
+        var oldLineWidth = ctx.lineWidth;
+        ctx.lineWidth = this.root.api.arrowWidth;
+        if (isClear) {
+            ctx.strokeStyle = '#fff';
+            ctx.fillStyle = '#fff';
+        }
+        else if (isHover) {
+            ctx.strokeStyle = this.root.api.arrowHoverColor;
+            ctx.fillStyle = this.root.api.arrowHoverColor;
+            ctx.lineWidth = this.root.api.arrowHoverWidth;
+        }
+        if (task.x >= x + (startOffsetX * 2)) {
             ctx.beginPath();
             ctx.moveTo(x, y);
             ctx.lineTo(x + startOffsetX - r, y);
             ctx.quadraticCurveTo(x + startOffsetX, y, x + startOffsetX, targetY < y ? y - r : y + r);
             ctx.lineTo(x + startOffsetX, targetY > y ? targetY - r : targetY + r);
             ctx.quadraticCurveTo(x + startOffsetX, targetY, x + startOffsetX + r, targetY);
-            ctx.lineTo(task.x, targetY);
+            ctx.lineTo(task.x - ctx.lineWidth, targetY);
             ctx.stroke();
-            this.renderArrowHead(x + startOffsetX, targetY, task.x, targetY);
+            this.renderArrowHead(x + startOffsetX, targetY, task.x, targetY, isHover);
         }
         else {
             ctx.beginPath();
@@ -93,12 +112,13 @@ var TaskEntity = /** @class */ (function () {
             ctx.lineTo(task.x - 20 + r, y + (h / 2));
             ctx.quadraticCurveTo(task.x - 20, y + (h / 2), task.x - 20, targetY > y ? y + (h / 2) + r : y + (h / 2) - r);
             ctx.lineTo(task.x - 20, targetY);
-            ctx.lineTo(task.x, targetY);
+            ctx.lineTo(task.x - ctx.lineWidth, targetY);
             ctx.stroke();
-            this.renderArrowHead(task.x - 20, targetY, task.x, targetY);
+            this.renderArrowHead(task.x - 20, targetY, task.x, targetY, isHover);
         }
+        ctx.lineWidth = oldLineWidth;
     };
-    TaskEntity.prototype.renderArrowFrom = function (id, x, y) {
+    TaskEntity.prototype.renderArrowConnection = function (id, x, y) {
         var task = this.root.tasks.service.getRenderedViewTaskById(id) || this.root.tasks.service.getViewTaskById(id);
         if (!task)
             return;
@@ -130,10 +150,20 @@ var TaskEntity = /** @class */ (function () {
             this.renderArrowHead(x - 20, y, x, y);
         }
     };
-    TaskEntity.prototype.renderArrowHead = function (fromx, fromy, tox, toy) {
+    TaskEntity.prototype.renderArrowHead = function (fromx, fromy, tox, toy, hover) {
+        if (hover === void 0) { hover = false; }
         var ctx = this.root.ctx;
+        var oldLineWidth = ctx.lineWidth;
+        if (hover) {
+            ctx.lineWidth = this.root.api.arrowHoverHeadWidth;
+            tox -= this.root.api.arrowHoverHeadWidth;
+        }
+        else {
+            ctx.lineWidth = this.root.api.arrowWidth;
+            tox -= this.root.api.arrowWidth;
+        }
         //variables to be used when creating the arrow
-        var headlen = 10;
+        var headlen = 10 * this.root.api.scale;
         var angle = Math.atan2(toy - fromy, tox - fromx);
         //starting a new path from the head of the arrow to one of the sides of
         //the point
@@ -149,32 +179,49 @@ var TaskEntity = /** @class */ (function () {
         //draws the paths created above
         ctx.stroke();
         ctx.fill();
+        ctx.lineWidth = oldLineWidth;
     };
     TaskEntity.prototype.renderTaskText = function (task, top) {
-        var _a;
-        var x = task.x, w = task.w, title = task.title;
+        var _a, _b;
+        var x = task.x, w = task.w, title = task.title, subtitle = task.subtitle, hover = task.hover, colorSubtitle = task.colorSubtitle;
         var ctx = this.root.ctx;
-        var _b = this.root.api, taskFont = _b.taskFont, taskPadding = _b.taskPadding, taskRenderResizeControls = _b.taskRenderResizeControls, taskRenderResizeControlsWidth = _b.taskRenderResizeControlsWidth, taskHeight = _b.taskHeight, taskDefaultOutlineColor = _b.taskDefaultOutlineColor, taskRenderDepRadius = _b.taskRenderDepRadius;
+        var _c = this.root.api, taskFont = _c.taskFont, taskPadding = _c.taskPadding, taskRenderResizeControls = _c.taskRenderResizeControls, taskRenderResizeControlsWidth = _c.taskRenderResizeControlsWidth, taskHeight = _c.taskHeight, taskDefaultOutlineColor = _c.taskDefaultOutlineColor, taskDefaultSubtitleColor = _c.taskDefaultSubtitleColor, taskDefaultSubtitleOutlineColor = _c.taskDefaultSubtitleOutlineColor, taskRenderDepRadius = _c.taskRenderDepRadius, taskSubtitleOffset = _c.taskSubtitleOffset;
         ctx.font = taskFont;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         var maxWidth = w - (taskPadding * 2);
         if (taskRenderResizeControls)
             maxWidth -= (taskRenderResizeControlsWidth * 2) + (taskPadding * 2);
-        if (ctx.measureText(title).width < maxWidth) {
-            ctx.fillStyle = this.getTaskColor(task);
-            ctx.textAlign = 'center';
-            ctx.fillText(title, x + (w / 2), top + (taskHeight / 2));
+        var titleWidth = ctx.measureText(title).width;
+        var subtitleWidth = subtitle ? ctx.measureText(subtitle).width + taskSubtitleOffset : 0;
+        if (titleWidth + subtitleWidth < maxWidth) {
+            ctx.fillStyle = this.getTitleColor(task);
+            ctx.textAlign = 'left';
+            var titleX = x + (taskPadding * 2) + taskRenderResizeControlsWidth;
+            ctx.fillText(title, titleX, top + (taskHeight / 2));
             if (task.underline)
-                canvas_1.renderUnderline(ctx, title, x + (w / 2), top + (taskHeight / 4));
+                canvas_1.renderUnderline(ctx, title, titleX, top + (taskHeight / 4));
+            if (subtitle && hover) {
+                ctx.fillStyle = colorSubtitle !== null && colorSubtitle !== void 0 ? colorSubtitle : taskDefaultSubtitleColor;
+                ctx.fillText(subtitle, titleX + titleWidth + taskSubtitleOffset, top + (taskHeight / 2));
+                if (task.underline)
+                    canvas_1.renderUnderline(ctx, subtitle, titleX + titleWidth + taskSubtitleOffset, top + (taskHeight / 4));
+            }
         }
         else {
             ctx.fillStyle = (_a = task.outlineColor) !== null && _a !== void 0 ? _a : taskDefaultOutlineColor;
             ctx.textAlign = 'left';
             var offsetX = this.getDepOffsetX();
-            ctx.fillText(title, x + w + offsetX + (taskRenderDepRadius * 2), top + (taskHeight / 2));
+            var titleX = x + w + offsetX + (taskRenderDepRadius * 2);
+            ctx.fillText(title, titleX, top + (taskHeight / 2));
             if (task.underline)
-                canvas_1.renderUnderline(ctx, title, x + w + offsetX + (taskRenderDepRadius * 2), top + (taskHeight / 4));
+                canvas_1.renderUnderline(ctx, title, titleX, top + (taskHeight / 4));
+            if (subtitle && hover) {
+                ctx.fillStyle = (_b = task.outlineSubtitleColor) !== null && _b !== void 0 ? _b : taskDefaultSubtitleOutlineColor;
+                ctx.fillText(subtitle, titleX + titleWidth + taskSubtitleOffset, top + (taskHeight / 2));
+                if (task.underline)
+                    canvas_1.renderUnderline(ctx, subtitle, titleX + titleWidth + taskSubtitleOffset, top + (taskHeight / 4));
+            }
         }
     };
     TaskEntity.prototype.renderResizeControls = function (task, top) {
@@ -259,7 +306,7 @@ var TaskEntity = /** @class */ (function () {
         }
         return stroke !== null && stroke !== void 0 ? stroke : taskDefaultStrokeColor;
     };
-    TaskEntity.prototype.getTaskColor = function (task) {
+    TaskEntity.prototype.getTitleColor = function (task) {
         var hover = task.hover, hoverConnection = task.hoverConnection, color = task.color, colorHover = task.colorHover;
         if (hover || hoverConnection) {
             return colorHover !== null && colorHover !== void 0 ? colorHover : this.root.api.taskDefaultHoverColor;

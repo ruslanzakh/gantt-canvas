@@ -10,6 +10,7 @@ interface RichedColumnRender extends ColumnRender {
 	year: number;
 	ts: number;
 	isMiddleDayMonth: boolean;
+	weekdayTitle: string;
 }
 export class GridView {
 
@@ -42,10 +43,10 @@ export class GridView {
 
 	get colWidth() {
 		if(['day', 'half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1)
-			return this.root.api.dayColWidth * this.root.view.scaleX;
+			return this.root.api.dayColWidth;
 		if(this.root.api.viewMode === 'week')
-			return this.root.api.weekViewColWidth * this.root.view.scaleX;
-		return this.root.api.monthViewColWidth * this.root.view.scaleX;
+			return this.root.api.weekViewColWidth;
+		return this.root.api.monthViewColWidth;
 	}
 	
 	get colsOnScreen() {
@@ -75,7 +76,7 @@ export class GridView {
 	}
 
 	get rowHeight() {
-		return this.root.api.rowHeight * this.root.view.scaleY;
+		return this.root.api.rowHeight;
 	}
 	
 	get monthHeight() {
@@ -105,7 +106,7 @@ export class GridView {
 			const el = this.module.store.dates[i];
 			const x = (i * this.colWidth) - offsetX;
 			
-			if(x < -this.colWidth) continue;
+			if(x < (-this.colWidth * 10)) continue;
 			if(x > (width + this.colWidth)) break;
 			data.push({
 				ts: el.ts,
@@ -118,6 +119,8 @@ export class GridView {
 				isMiddleDayMonth: el.isMiddleDayMonth,
 				today: el.today,
 				weekend: el.weekend,
+				weekday: el.weekday,
+				weekdayTitle: this.getWeekDayTitle(el.weekday)
 			});
 		}
 		
@@ -129,7 +132,7 @@ export class GridView {
 		const isMonthView = this.root.api.viewMode === 'month';
 		const isPartDayView = ['half-day', 'quarter-day'].indexOf(this.root.api.viewMode) !== -1;
 		const isHourView = ['three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1;
-		const data = this.columns.reduce((prev: ObjectList<MonthRender>, {month, x, year, isMiddleDayMonth, title: taskTitle}) => {
+		const data = this.columns.reduce((prev: ObjectList<MonthRender>, {month, x, year, isMiddleDayMonth, title: taskTitle, isStartMonth}) => {
 			const xx = x + this.colWidth;
 			let label: number | string = month + '.' + year;
 			if(isMonthView) label = year;
@@ -144,6 +147,7 @@ export class GridView {
 					x: x,
 					xx: xx,
 				};
+				if(isStartMonth) prev[label].startMonthX = x;
 				return prev;
 			}
 			if(prev[label].x > x) prev[label].x = x;
@@ -160,6 +164,12 @@ export class GridView {
 			return months[month] + ' ' + year;
 		}
 		return months[month];
+	}
+
+	getWeekDayTitle(weekday: number) {
+		if(!this.root.api.showDayWeekday || this.root.api.viewMode !== 'day') return '';
+		const weekdays = this.root.api.weekdayNames[this.root.api.lang] ?? this.root.api.weekdayNames['ru'];
+		return weekdays[weekday];
 	}
 
 	getMonthNumber(month: number) {

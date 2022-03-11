@@ -11,8 +11,6 @@ export class RootView {
 
 	offsetX = 0;
 	offsetY = 0;
-	scaleX = 1;
-	scaleY = 1;
 	pixelRatio = 1;
 	canvasWidth = 1;
 	canvasHeight = 1;

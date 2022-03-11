@@ -11,6 +11,6 @@ export declare class TasksView {
     fillTasks(): void;
     render(): void;
     renderArrows(): void;
-    renderArrowFrom(): void;
+    renderArrowConnection(): void;
     renderTasks(): void;
 }

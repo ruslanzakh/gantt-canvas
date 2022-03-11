@@ -47,6 +47,7 @@ export class TasksService {
 		return {
 			...task,
 			hover: hoverId === task.id,
+			hoverConnection: this.module.store.hoverConnectionTask === id,
 			y, x, w,
 			error
 		}

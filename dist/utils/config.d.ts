@@ -13,3 +13,7 @@ export declare const MONTH_NAMES: {
     ru: string[];
     en: string[];
 };
+export declare const WEEKDAY_NAMES: {
+    ru: string[];
+    en: string[];
+};

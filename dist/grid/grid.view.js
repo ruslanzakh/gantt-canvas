@@ -24,10 +24,10 @@ var GridView = /** @class */ (function () {
     Object.defineProperty(GridView.prototype, "colWidth", {
         get: function () {
             if (['day', 'half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1)
-                return this.root.api.dayColWidth * this.root.view.scaleX;
+                return this.root.api.dayColWidth;
             if (this.root.api.viewMode === 'week')
-                return this.root.api.weekViewColWidth * this.root.view.scaleX;
-            return this.root.api.monthViewColWidth * this.root.view.scaleX;
+                return this.root.api.weekViewColWidth;
+            return this.root.api.monthViewColWidth;
         },
         enumerable: false,
         configurable: true
@@ -81,7 +81,7 @@ var GridView = /** @class */ (function () {
     });
     Object.defineProperty(GridView.prototype, "rowHeight", {
         get: function () {
-            return this.root.api.rowHeight * this.root.view.scaleY;
+            return this.root.api.rowHeight;
         },
         enumerable: false,
         configurable: true
@@ -122,7 +122,7 @@ var GridView = /** @class */ (function () {
         for (var i = 0; i < length; i++) {
             var el = this.module.store.dates[i];
             var x = (i * this.colWidth) - offsetX;
-            if (x < -this.colWidth)
+            if (x < (-this.colWidth * 10))
                 continue;
             if (x > (width + this.colWidth))
                 break;
@@ -137,6 +137,8 @@ var GridView = /** @class */ (function () {
                 isMiddleDayMonth: el.isMiddleDayMonth,
                 today: el.today,
                 weekend: el.weekend,
+                weekday: el.weekday,
+                weekdayTitle: this.getWeekDayTitle(el.weekday)
             });
         }
         this.columns = data;
@@ -147,7 +149,7 @@ var GridView = /** @class */ (function () {
         var isPartDayView = ['half-day', 'quarter-day'].indexOf(this.root.api.viewMode) !== -1;
         var isHourView = ['three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1;
         var data = this.columns.reduce(function (prev, _a) {
-            var month = _a.month, x = _a.x, year = _a.year, isMiddleDayMonth = _a.isMiddleDayMonth, taskTitle = _a.title;
+            var month = _a.month, x = _a.x, year = _a.year, isMiddleDayMonth = _a.isMiddleDayMonth, taskTitle = _a.title, isStartMonth = _a.isStartMonth;
             var xx = x + _this.colWidth;
             var label = month + '.' + year;
             if (isMonthView)
@@ -167,6 +169,8 @@ var GridView = /** @class */ (function () {
                     x: x,
                     xx: xx,
                 };
+                if (isStartMonth)
+                    prev[label].startMonthX = x;
                 return prev;
             }
             if (prev[label].x > x)
@@ -186,6 +190,13 @@ var GridView = /** @class */ (function () {
             return months[month] + ' ' + year;
         }
         return months[month];
+    };
+    GridView.prototype.getWeekDayTitle = function (weekday) {
+        var _a;
+        if (!this.root.api.showDayWeekday || this.root.api.viewMode !== 'day')
+            return '';
+        var weekdays = (_a = this.root.api.weekdayNames[this.root.api.lang]) !== null && _a !== void 0 ? _a : this.root.api.weekdayNames['ru'];
+        return weekdays[weekday];
     };
     GridView.prototype.getMonthNumber = function (month) {
         month++;

@@ -15,12 +15,14 @@ export declare class TasksService {
     getRenderedViewTaskById(id: string): import("./entities/task.entity").TaskRender | null;
     getViewTaskById(id: string): {
         hover: boolean;
+        hoverConnection: boolean;
         y: number;
         x: number;
         w: number;
         error: boolean;
         id: string;
         title: string;
+        subtitle?: string | undefined;
         start_date_ts: number;
         all_day?: boolean | undefined;
         end_date_ts: number;
@@ -29,10 +31,13 @@ export declare class TasksService {
         backgroundHover?: string | undefined;
         color?: string | undefined;
         colorHover?: string | undefined;
+        outlineColor?: string | undefined;
+        colorSubtitle?: string | undefined;
+        /** Start getters */
+        outlineSubtitleColor?: string | undefined;
         stroke?: string | undefined;
         strokeHover?: string | undefined;
         underline?: boolean | undefined;
-        outlineColor?: string | undefined;
         noEditable?: boolean | undefined;
     } | null;
     getStoreDependedTasksById(id: string, tasks?: Task[]): Task[];

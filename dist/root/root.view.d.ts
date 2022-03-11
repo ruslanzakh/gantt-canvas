@@ -7,8 +7,6 @@ export declare class RootView {
     scrollbarY: ScrollbarYEntity;
     offsetX: number;
     offsetY: number;
-    scaleX: number;
-    scaleY: number;
     pixelRatio: number;
     canvasWidth: number;
     canvasHeight: number;

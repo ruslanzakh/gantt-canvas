@@ -5,6 +5,7 @@ export interface MonthRender {
 	xx: number
 	middle?: number
 	title: string;
+	startMonthX?: number;
 }
 
 export class MonthEntity {
@@ -15,7 +16,7 @@ export class MonthEntity {
 		this.root = root;
 	}
 
-	renderItem({x, xx, title, middle}: MonthRender, height: number) {
+	renderItem({x, xx, title, middle, startMonthX}: MonthRender, height: number) {
 		const ctx = this.root.ctx;
 		ctx.beginPath();
 		ctx.strokeStyle = this.root.api.monthLineColor;
@@ -34,7 +35,16 @@ export class MonthEntity {
 			if(width >= (ctx.measureText(title).width * 1.5))
 				middle = (xx + x) / 2;
 		}
-		if(middle) {
+		if(this.root.api.showMonthFromStartOnDayView && this.root.api.viewMode === 'day') {
+			if(!startMonthX && startMonthX !== 0) return;
+			ctx.font = this.root.api.monthTitleFont;
+			ctx.fillStyle = this.root.api.monthTitleColor;
+			ctx.textAlign = 'left';
+			ctx.textBaseline = 'middle';
+			ctx.fillText(title, startMonthX, height / 2);
+			ctx.textBaseline = 'alphabetic'
+		}
+		else if(middle) {
 			ctx.font = this.root.api.monthTitleFont;
 			ctx.fillStyle = this.root.api.monthTitleColor;
 			ctx.textAlign = 'center';

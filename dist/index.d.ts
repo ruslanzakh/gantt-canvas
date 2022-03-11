@@ -8,6 +8,7 @@ declare class Gantt {
     scrollToTask(id: string): void;
     updateViewMode(mode: ViewMode): void;
     updateIsLoading(isLoading: boolean): void;
+    updateScale(scale: number): void;
     destroy(): void;
 }
 export default Gantt;

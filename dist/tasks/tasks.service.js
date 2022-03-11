@@ -51,7 +51,7 @@ var TasksService = /** @class */ (function () {
         var w = xx - x;
         var offsetY = rowsOffsetY - this.root.view.offsetY;
         var y = (rowHeight * index) + offsetY;
-        return __assign(__assign({}, task), { hover: hoverId === task.id, y: y, x: x, w: w, error: error });
+        return __assign(__assign({}, task), { hover: hoverId === task.id, hoverConnection: this.module.store.hoverConnectionTask === id, y: y, x: x, w: w, error: error });
     };
     TasksService.prototype.getStoreDependedTasksById = function (id, tasks) {
         var _this = this;
