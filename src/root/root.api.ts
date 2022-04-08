@@ -276,8 +276,8 @@ export class RootApi {
 		this.monthTitleFont = props.monthTitleFont ?? '600 20px Arial';
 		this.monthTitleColor = props.monthTitleColor ?? COLORS.BLACK;
 		this.monthTitleShowYear = props.monthTitleShowYear ?? true;
-
-		this._dayHeight = props.dayHeight ?? props.showDayWeekday ? 48 : 28;
+		
+		this._dayHeight =  props.dayHeight ? props.dayHeight : props.showDayWeekday ? 48 : 28;
 		this.renderDayStartMonthLine = props.renderDayStartMonthLine ?? true;
 		this.dayStartMonthLine = props.dayStartMonthLine ?? COLORS.L_GREY;
 		this.dayBottomLineColor = props.dayBottomLineColor ?? COLORS.L_GREY;
