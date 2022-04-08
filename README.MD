@@ -173,6 +173,7 @@ If ``(showTime === false || task.all_day === true)`` Task fills a space of a who
     	taskRenderDepLineColor?: string;
     	taskRenderDepBackground?: string;
     	taskRenderDepOffsetX?: number;
+    	taskRenderDepLineWidth?: number;
     
     	arrowColor?: string;
     	arrowActiveColor?: string;

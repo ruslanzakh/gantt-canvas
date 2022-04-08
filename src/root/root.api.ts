@@ -114,6 +114,7 @@ export interface RootApiProps {
 	taskRenderDepLineColor?: string;
 	taskRenderDepBackground?: string;
 	taskRenderDepOffsetX?: number;
+	taskRenderDepLineWidth?: number;
 
 	arrowColor?: string;
 	arrowWidth?: number;
@@ -228,6 +229,7 @@ export class RootApi {
 	taskRenderDepLineColor: string;
 	taskRenderDepBackground: string;
 	_taskRenderDepOffsetX: number;
+	_taskRenderDepLineWidth: number;
 
 	arrowColor: string;
 	_arrowWidth: number;
@@ -335,6 +337,7 @@ export class RootApi {
 		this.taskRenderDepControl = props.taskRenderDepControl ?? true;
 		this._taskRenderDepRadius = props.taskRenderDepRadius ?? 7;
 		this._taskRenderDepOffsetX = props.taskRenderDepOffsetX ?? 7;
+		this._taskRenderDepLineWidth = props.taskRenderDepLineWidth ?? 1;
 		this.taskRenderDepLineColor = props.taskRenderDepLineColor ?? COLORS.BLACK;
 		this.taskRenderDepBackground = props.taskRenderDepBackground ?? COLORS.WHITE;
 
@@ -390,6 +393,10 @@ export class RootApi {
 
 	get taskRenderDepOffsetX() {
 		return this._taskRenderDepOffsetX * this.scale;
+	}
+
+	get taskRenderDepLineWidth() {
+		return this._taskRenderDepLineWidth * this.scale;
 	}
 
 	get arrowWidth() {
