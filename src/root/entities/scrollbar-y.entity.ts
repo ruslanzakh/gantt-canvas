@@ -11,10 +11,9 @@ export class ScrollbarYEntity {
 	mouseDownOffset: number | null = null;
 	
 	bottomOffset = 12;
-	width = 12;
 	minLineHeight = 20;
 	isHover = false;
-
+	
 	constructor(root: RootModule) {
 		this.root = root;
 		this.destroyHandleMouseDown = this.root.controller.on('mousedown', this.handleMouseDown.bind(this));
@@ -34,6 +33,10 @@ export class ScrollbarYEntity {
 
 	get backgroundLineHeight() {
 		return this.root.view.canvasHeight - this.bottomOffset - this.top
+	}
+
+	get width() {
+		return this.root.api.scrollbarYWidth;
 	}
 
 	destroyEvents() {
@@ -136,7 +139,7 @@ export class ScrollbarYEntity {
 	renderBackground() {
 		if(!this.needRender()) return;
 		const ctx = this.root.ctx;
-		ctx.fillStyle = '#eee';
+		ctx.fillStyle = this.root.api.scrollbarYBackground;
 		ctx.fillRect(this.left, this.top, this.width, this.backgroundLineHeight);
 	}
 
