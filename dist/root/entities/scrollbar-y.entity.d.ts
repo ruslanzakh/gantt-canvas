@@ -7,13 +7,13 @@ export declare class ScrollbarYEntity {
     destroyHandleTouchEnd: Function;
     mouseDownOffset: number | null;
     bottomOffset: number;
-    width: number;
     minLineHeight: number;
     isHover: boolean;
     constructor(root: RootModule);
     get left(): number;
     get top(): number;
     get backgroundLineHeight(): number;
+    get width(): number;
     destroyEvents(): void;
     isLineClick(event: MouseEvent): boolean;
     isBackgroundClick(event: EventOffsets): boolean;

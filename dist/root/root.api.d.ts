@@ -100,6 +100,7 @@ export interface RootApiProps {
     taskRenderDepLineColor?: string;
     taskRenderDepBackground?: string;
     taskRenderDepOffsetX?: number;
+    taskRenderDepLineWidth?: number;
     arrowColor?: string;
     arrowWidth?: number;
     arrowActiveColor?: string;
@@ -198,6 +199,7 @@ export declare class RootApi {
     taskRenderDepLineColor: string;
     taskRenderDepBackground: string;
     _taskRenderDepOffsetX: number;
+    _taskRenderDepLineWidth: number;
     arrowColor: string;
     _arrowWidth: number;
     arrowActiveColor: string;
@@ -224,6 +226,7 @@ export declare class RootApi {
     get minTaskWidth(): number;
     get taskRenderResizeControlsWidth(): number;
     get taskRenderDepOffsetX(): number;
+    get taskRenderDepLineWidth(): number;
     get arrowWidth(): number;
     get arrowHoverWidth(): number;
     get arrowHoverHeadWidth(): number;

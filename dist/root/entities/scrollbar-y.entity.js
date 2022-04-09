@@ -6,7 +6,6 @@ var ScrollbarYEntity = /** @class */ (function () {
     function ScrollbarYEntity(root) {
         this.mouseDownOffset = null;
         this.bottomOffset = 12;
-        this.width = 12;
         this.minLineHeight = 20;
         this.isHover = false;
         this.root = root;
@@ -33,6 +32,13 @@ var ScrollbarYEntity = /** @class */ (function () {
     Object.defineProperty(ScrollbarYEntity.prototype, "backgroundLineHeight", {
         get: function () {
             return this.root.view.canvasHeight - this.bottomOffset - this.top;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ScrollbarYEntity.prototype, "width", {
+        get: function () {
+            return this.root.api.scrollbarYWidth;
         },
         enumerable: false,
         configurable: true
@@ -131,7 +137,7 @@ var ScrollbarYEntity = /** @class */ (function () {
         if (!this.needRender())
             return;
         var ctx = this.root.ctx;
-        ctx.fillStyle = '#eee';
+        ctx.fillStyle = this.root.api.scrollbarYBackground;
         ctx.fillRect(this.left, this.top, this.width, this.backgroundLineHeight);
     };
     ScrollbarYEntity.prototype.renderLine = function () {

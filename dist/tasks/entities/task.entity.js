@@ -56,8 +56,10 @@ var TaskEntity = /** @class */ (function () {
         ctx.fillStyle = this.root.api.taskRenderDepBackground;
         ctx.arc(x + this.getDepOffsetX(), y, this.root.api.taskRenderDepRadius, 0, Math.PI * 2);
         ctx.strokeStyle = this.root.api.taskRenderDepLineColor;
+        ctx.lineWidth = this.root.api.taskRenderDepLineWidth;
         ctx.stroke();
         ctx.fill();
+        ctx.lineWidth = 1;
     };
     TaskEntity.prototype.renderArrow = function (id, source) {
         var h = this.root.grid.view.rowHeight;

@@ -40,60 +40,61 @@ var RootApi = /** @class */ (function () {
         this.monthTitleFont = (_u = props.monthTitleFont) !== null && _u !== void 0 ? _u : '600 20px Arial';
         this.monthTitleColor = (_v = props.monthTitleColor) !== null && _v !== void 0 ? _v : config_1.COLORS.BLACK;
         this.monthTitleShowYear = (_w = props.monthTitleShowYear) !== null && _w !== void 0 ? _w : true;
-        this._dayHeight = ((_x = props.dayHeight) !== null && _x !== void 0 ? _x : props.showDayWeekday) ? 48 : 28;
-        this.renderDayStartMonthLine = (_y = props.renderDayStartMonthLine) !== null && _y !== void 0 ? _y : true;
-        this.dayStartMonthLine = (_z = props.dayStartMonthLine) !== null && _z !== void 0 ? _z : config_1.COLORS.L_GREY;
-        this.dayBottomLineColor = (_0 = props.dayBottomLineColor) !== null && _0 !== void 0 ? _0 : config_1.COLORS.L_GREY;
-        this.dayTodayBackground = (_1 = props.dayTodayBackground) !== null && _1 !== void 0 ? _1 : config_1.COLORS.L_BLUE;
+        this._dayHeight = props.dayHeight ? props.dayHeight : props.showDayWeekday ? 48 : 28;
+        this.renderDayStartMonthLine = (_x = props.renderDayStartMonthLine) !== null && _x !== void 0 ? _x : true;
+        this.dayStartMonthLine = (_y = props.dayStartMonthLine) !== null && _y !== void 0 ? _y : config_1.COLORS.L_GREY;
+        this.dayBottomLineColor = (_z = props.dayBottomLineColor) !== null && _z !== void 0 ? _z : config_1.COLORS.L_GREY;
+        this.dayTodayBackground = (_0 = props.dayTodayBackground) !== null && _0 !== void 0 ? _0 : config_1.COLORS.L_BLUE;
         this.dayWeekendBackground = props.dayWeekendBackground;
         this.dayWeekendColor = props.dayWeekendColor;
-        this.showDayWeekday = (_2 = props.showDayWeekday) !== null && _2 !== void 0 ? _2 : false;
-        this.dayFontSize = (_3 = props.dayFontSize) !== null && _3 !== void 0 ? _3 : 14;
-        this.dayFontLineHeight = (_4 = props.dayFontLineHeight) !== null && _4 !== void 0 ? _4 : this.dayFontSize;
-        this.dayFontWeight = (_5 = props.dayFontWeight) !== null && _5 !== void 0 ? _5 : 500;
-        this.dayFontFamily = (_6 = props.dayFontFamily) !== null && _6 !== void 0 ? _6 : 'Arial';
-        this.dayColor = (_7 = props.dayColor) !== null && _7 !== void 0 ? _7 : config_1.COLORS.BLACK;
-        this.weekdayFontSize = (_8 = props.weekdayFontSize) !== null && _8 !== void 0 ? _8 : 14;
-        this.weekdayFontLineHeight = (_9 = props.weekdayFontLineHeight) !== null && _9 !== void 0 ? _9 : this.weekdayFontSize;
-        this.weekdayFontWeight = (_10 = props.weekdayFontWeight) !== null && _10 !== void 0 ? _10 : 500;
-        this.weekdayFontFamily = (_11 = props.weekdayFontFamily) !== null && _11 !== void 0 ? _11 : 'Arial';
-        this.weekdayColor = (_12 = props.weekdayColor) !== null && _12 !== void 0 ? _12 : config_1.COLORS.BLACK;
+        this.showDayWeekday = (_1 = props.showDayWeekday) !== null && _1 !== void 0 ? _1 : false;
+        this.dayFontSize = (_2 = props.dayFontSize) !== null && _2 !== void 0 ? _2 : 14;
+        this.dayFontLineHeight = (_3 = props.dayFontLineHeight) !== null && _3 !== void 0 ? _3 : this.dayFontSize;
+        this.dayFontWeight = (_4 = props.dayFontWeight) !== null && _4 !== void 0 ? _4 : 500;
+        this.dayFontFamily = (_5 = props.dayFontFamily) !== null && _5 !== void 0 ? _5 : 'Arial';
+        this.dayColor = (_6 = props.dayColor) !== null && _6 !== void 0 ? _6 : config_1.COLORS.BLACK;
+        this.weekdayFontSize = (_7 = props.weekdayFontSize) !== null && _7 !== void 0 ? _7 : 14;
+        this.weekdayFontLineHeight = (_8 = props.weekdayFontLineHeight) !== null && _8 !== void 0 ? _8 : this.weekdayFontSize;
+        this.weekdayFontWeight = (_9 = props.weekdayFontWeight) !== null && _9 !== void 0 ? _9 : 500;
+        this.weekdayFontFamily = (_10 = props.weekdayFontFamily) !== null && _10 !== void 0 ? _10 : 'Arial';
+        this.weekdayColor = (_11 = props.weekdayColor) !== null && _11 !== void 0 ? _11 : config_1.COLORS.BLACK;
         this.weekdayWeekendColor = props.weekdayWeekendColor;
-        this._dayColWidth = (_13 = props.dayColWidth) !== null && _13 !== void 0 ? _13 : 40;
-        this._weekViewColWidth = (_14 = props.weekViewColWidth) !== null && _14 !== void 0 ? _14 : 120;
-        this._monthViewColWidth = (_15 = props.monthViewColWidth) !== null && _15 !== void 0 ? _15 : 180;
-        this._rowHeight = (_16 = props.rowHeight) !== null && _16 !== void 0 ? _16 : 40;
-        this.colLineColor = (_17 = props.colLineColor) !== null && _17 !== void 0 ? _17 : config_1.COLORS.L_GREY;
+        this._dayColWidth = (_12 = props.dayColWidth) !== null && _12 !== void 0 ? _12 : 40;
+        this._weekViewColWidth = (_13 = props.weekViewColWidth) !== null && _13 !== void 0 ? _13 : 120;
+        this._monthViewColWidth = (_14 = props.monthViewColWidth) !== null && _14 !== void 0 ? _14 : 180;
+        this._rowHeight = (_15 = props.rowHeight) !== null && _15 !== void 0 ? _15 : 40;
+        this.colLineColor = (_16 = props.colLineColor) !== null && _16 !== void 0 ? _16 : config_1.COLORS.L_GREY;
         this.colStartMonthLineColor = props.colStartMonthLineColor;
-        this.rowLineColor = (_18 = props.rowLineColor) !== null && _18 !== void 0 ? _18 : config_1.COLORS.L_GREY;
-        this.rowEvenBackground = (_19 = props.rowEvenBackground) !== null && _19 !== void 0 ? _19 : config_1.COLORS.WHITE;
-        this.rowOddBackground = (_20 = props.rowOddBackground) !== null && _20 !== void 0 ? _20 : config_1.COLORS.WHITE;
-        this.taskDefaultBackground = (_21 = props.taskDefaultBackground) !== null && _21 !== void 0 ? _21 : config_1.COLORS.VIOLET;
-        this.taskDefaultHoverBackground = (_22 = props.taskDefaultHoverBackground) !== null && _22 !== void 0 ? _22 : config_1.COLORS.D_VIOLET;
+        this.rowLineColor = (_17 = props.rowLineColor) !== null && _17 !== void 0 ? _17 : config_1.COLORS.L_GREY;
+        this.rowEvenBackground = (_18 = props.rowEvenBackground) !== null && _18 !== void 0 ? _18 : config_1.COLORS.WHITE;
+        this.rowOddBackground = (_19 = props.rowOddBackground) !== null && _19 !== void 0 ? _19 : config_1.COLORS.WHITE;
+        this.taskDefaultBackground = (_20 = props.taskDefaultBackground) !== null && _20 !== void 0 ? _20 : config_1.COLORS.VIOLET;
+        this.taskDefaultHoverBackground = (_21 = props.taskDefaultHoverBackground) !== null && _21 !== void 0 ? _21 : config_1.COLORS.D_VIOLET;
         this.taskDefaultStrokeColor = props.taskDefaultStrokeColor;
         this.taskDefaultHoverStrokeColor = props.taskDefaultHoverStrokeColor;
-        this.taskDefaultColor = (_23 = props.taskDefaultColor) !== null && _23 !== void 0 ? _23 : config_1.COLORS.WHITE;
-        this.taskDefaultHoverColor = (_24 = props.taskDefaultHoverColor) !== null && _24 !== void 0 ? _24 : config_1.COLORS.WHITE;
-        this.taskDefaultOutlineColor = (_25 = props.taskDefaultOutlineColor) !== null && _25 !== void 0 ? _25 : config_1.COLORS.BLACK;
-        this.taskDefaultSubtitleColor = (_26 = props.taskDefaultSubtitleColor) !== null && _26 !== void 0 ? _26 : config_1.COLORS.WHITE;
-        this.taskDefaultSubtitleOutlineColor = (_27 = props.taskDefaultSubtitleOutlineColor) !== null && _27 !== void 0 ? _27 : config_1.COLORS.BLACK;
-        this._taskSubtitleOffset = (_28 = props.taskSubtitleOffset) !== null && _28 !== void 0 ? _28 : 10;
-        this._taskHeight = (_29 = props.taskHeight) !== null && _29 !== void 0 ? _29 : 34;
-        this._taskPadding = (_30 = props.taskPadding) !== null && _30 !== void 0 ? _30 : 5;
-        this._taskRadius = (_31 = props.taskRadius) !== null && _31 !== void 0 ? _31 : 2;
-        this.taskFontSize = (_32 = props.taskFontSize) !== null && _32 !== void 0 ? _32 : 16;
-        this.taskFontLineHeight = (_33 = props.taskFontLineHeight) !== null && _33 !== void 0 ? _33 : this.taskFontSize;
-        this.taskFontWeight = (_34 = props.taskFontWeight) !== null && _34 !== void 0 ? _34 : 400;
-        this.taskFontFamily = (_35 = props.taskFontFamily) !== null && _35 !== void 0 ? _35 : "serif";
+        this.taskDefaultColor = (_22 = props.taskDefaultColor) !== null && _22 !== void 0 ? _22 : config_1.COLORS.WHITE;
+        this.taskDefaultHoverColor = (_23 = props.taskDefaultHoverColor) !== null && _23 !== void 0 ? _23 : config_1.COLORS.WHITE;
+        this.taskDefaultOutlineColor = (_24 = props.taskDefaultOutlineColor) !== null && _24 !== void 0 ? _24 : config_1.COLORS.BLACK;
+        this.taskDefaultSubtitleColor = (_25 = props.taskDefaultSubtitleColor) !== null && _25 !== void 0 ? _25 : config_1.COLORS.WHITE;
+        this.taskDefaultSubtitleOutlineColor = (_26 = props.taskDefaultSubtitleOutlineColor) !== null && _26 !== void 0 ? _26 : config_1.COLORS.BLACK;
+        this._taskSubtitleOffset = (_27 = props.taskSubtitleOffset) !== null && _27 !== void 0 ? _27 : 10;
+        this._taskHeight = (_28 = props.taskHeight) !== null && _28 !== void 0 ? _28 : 34;
+        this._taskPadding = (_29 = props.taskPadding) !== null && _29 !== void 0 ? _29 : 5;
+        this._taskRadius = (_30 = props.taskRadius) !== null && _30 !== void 0 ? _30 : 2;
+        this.taskFontSize = (_31 = props.taskFontSize) !== null && _31 !== void 0 ? _31 : 16;
+        this.taskFontLineHeight = (_32 = props.taskFontLineHeight) !== null && _32 !== void 0 ? _32 : this.taskFontSize;
+        this.taskFontWeight = (_33 = props.taskFontWeight) !== null && _33 !== void 0 ? _33 : 400;
+        this.taskFontFamily = (_34 = props.taskFontFamily) !== null && _34 !== void 0 ? _34 : "serif";
         this.taskErrorStrokeColor = props.taskErrorStrokeColor;
-        this._minTaskWidth = (_36 = props.minTaskWidth) !== null && _36 !== void 0 ? _36 : 10;
-        this.taskRenderResizeControls = (_37 = props.taskRenderResizeControls) !== null && _37 !== void 0 ? _37 : true;
-        this._taskRenderResizeControlsWidth = (_38 = props.taskRenderResizeControlsWidth) !== null && _38 !== void 0 ? _38 : 6;
-        this.taskRenderResizeControlsColor = (_39 = props.taskRenderResizeControlsColor) !== null && _39 !== void 0 ? _39 : config_1.COLORS.WHITE;
-        this.taskRenderResizeControlsRadius = (_40 = props.taskRenderResizeControlsRadius) !== null && _40 !== void 0 ? _40 : 2;
-        this.taskRenderDepControl = (_41 = props.taskRenderDepControl) !== null && _41 !== void 0 ? _41 : true;
-        this._taskRenderDepRadius = (_42 = props.taskRenderDepRadius) !== null && _42 !== void 0 ? _42 : 7;
-        this._taskRenderDepOffsetX = (_43 = props.taskRenderDepOffsetX) !== null && _43 !== void 0 ? _43 : 7;
+        this._minTaskWidth = (_35 = props.minTaskWidth) !== null && _35 !== void 0 ? _35 : 10;
+        this.taskRenderResizeControls = (_36 = props.taskRenderResizeControls) !== null && _36 !== void 0 ? _36 : true;
+        this._taskRenderResizeControlsWidth = (_37 = props.taskRenderResizeControlsWidth) !== null && _37 !== void 0 ? _37 : 6;
+        this.taskRenderResizeControlsColor = (_38 = props.taskRenderResizeControlsColor) !== null && _38 !== void 0 ? _38 : config_1.COLORS.WHITE;
+        this.taskRenderResizeControlsRadius = (_39 = props.taskRenderResizeControlsRadius) !== null && _39 !== void 0 ? _39 : 2;
+        this.taskRenderDepControl = (_40 = props.taskRenderDepControl) !== null && _40 !== void 0 ? _40 : true;
+        this._taskRenderDepRadius = (_41 = props.taskRenderDepRadius) !== null && _41 !== void 0 ? _41 : 7;
+        this._taskRenderDepOffsetX = (_42 = props.taskRenderDepOffsetX) !== null && _42 !== void 0 ? _42 : 7;
+        this._taskRenderDepLineWidth = (_43 = props.taskRenderDepLineWidth) !== null && _43 !== void 0 ? _43 : 1;
         this.taskRenderDepLineColor = (_44 = props.taskRenderDepLineColor) !== null && _44 !== void 0 ? _44 : config_1.COLORS.BLACK;
         this.taskRenderDepBackground = (_45 = props.taskRenderDepBackground) !== null && _45 !== void 0 ? _45 : config_1.COLORS.WHITE;
         this.arrowColor = (_46 = props.arrowColor) !== null && _46 !== void 0 ? _46 : config_1.COLORS.BLUE;
@@ -166,6 +167,13 @@ var RootApi = /** @class */ (function () {
     Object.defineProperty(RootApi.prototype, "taskRenderDepOffsetX", {
         get: function () {
             return this._taskRenderDepOffsetX * this.scale;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(RootApi.prototype, "taskRenderDepLineWidth", {
+        get: function () {
+            return this._taskRenderDepLineWidth * this.scale;
         },
         enumerable: false,
         configurable: true
