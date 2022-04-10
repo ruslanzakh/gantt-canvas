@@ -20,6 +20,7 @@ export class GridStore {
 	module: GridModule;
 
 	dates: GridDate[] = [];
+	todayTs = 0;
 
 	constructor(root: RootModule, module: GridModule) {
 		this.root = root;
@@ -27,6 +28,7 @@ export class GridStore {
 	}
 
 	initialData() {
+		this.todayTs = getDate().getTime();
 		if(this.root.api.renderAllTasksFromStart) {
 			let [start_date_ts, end_date_ts] = this.root.tasks.service.getFirstAndLastDeadline();
 			start_date_ts = this.getStartDayByViewMode(start_date_ts);
@@ -57,6 +59,7 @@ export class GridStore {
 		let isMiddleDayMonth = false;
 		let isStartMonth = false;
 		let weekend = false;
+		let today = false;
 		let weekday = date.getDay();
 		if(this.root.api.viewMode === 'day') {
 			const middleDayInMonth = Math.floor(getDaysInMonth(date.getMonth() + 1, date.getFullYear()) / 2);
@@ -65,9 +68,8 @@ export class GridStore {
 		if(['day', 'half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1) {
 			isStartMonth = day === 1 && date.getHours() === 0;
 			weekend = [0, 6].includes(weekday);
+			today = this.todayTs === getDate(date.getTime()).getTime();
 		}
-		const todayTs = getDate().getTime();
-		const today = todayTs === getDate(date.getTime()).getTime();
 		const elem = {
 			ts: date.getTime(),
 			title: date.getDate().toString(),
@@ -91,7 +93,11 @@ export class GridStore {
 		const data = this.dates;
 		const { colsOnScreen, colWidth } = this.module.view;
 		const length = -offsetX / colWidth;
-		let date = getDate(data[0]?.ts, false, null);
+		let ts = data[0]?.ts;
+		if(!ts) {
+			ts = this.getStartDayByViewMode(getDate().getTime());
+		}
+		let date = getDate(ts, false, null);
 		
 		for(let i = 0; i < length + colsOnScreen; i++) {
 			offsetX += colWidth;
@@ -108,7 +114,11 @@ export class GridStore {
 		const width = fullDataWidth - this.root.view.canvasWidth - colWidth
 		if(offsetX < width) return;
 		const length = ((offsetX - width) / colWidth);
-		let date = getDate(data[data.length - 1].ts, false, null);
+		let ts = data[data.length - 1]?.ts;
+		if(!ts) {
+			ts = this.getStartDayByViewMode(getDate().getTime());
+		}
+		let date = getDate(ts, false, null);
 		for(let i = 0; i < length + colsOnScreen; i++) {
 			date = setDateTs(date, this.getOffset(date));
 			this.add(date);
