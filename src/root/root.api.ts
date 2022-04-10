@@ -67,7 +67,10 @@ export interface RootApiProps {
 	weekdayFontWeight?: number;
 	weekdayFontFamily?: string;
 	weekdayWeekendColor?: string;
+	dayHeaderBackground?: string;
+	dayHeaderTodayBackground?: string;
 	dayTodayBackground?: string;
+	dayHeaderWeekendBackground?: string;
 	dayWeekendBackground?: string;
 	dayWeekendColor?: string;
 	showDayWeekday?: boolean;
@@ -184,6 +187,9 @@ export class RootApi {
 	weekdayFontFamily: string;
 	weekdayWeekendColor?: string;
 	dayTodayBackground: string;
+	dayHeaderBackground?: string;
+	dayHeaderTodayBackground?: string;
+	dayHeaderWeekendBackground?: string;
 	dayWeekendBackground?: string;
 	dayWeekendColor?: string;
 	showDayWeekday: boolean;
@@ -284,6 +290,9 @@ export class RootApi {
 		this.dayStartMonthLine = props.dayStartMonthLine ?? COLORS.L_GREY;
 		this.dayBottomLineColor = props.dayBottomLineColor ?? COLORS.L_GREY;
 		this.dayTodayBackground = props.dayTodayBackground ?? COLORS.L_BLUE;
+		this.dayHeaderBackground = props.dayHeaderBackground;
+		this.dayHeaderTodayBackground = props.dayHeaderTodayBackground;
+		this.dayHeaderWeekendBackground = props.dayHeaderWeekendBackground;
 		this.dayWeekendBackground = props.dayWeekendBackground;
 		this.dayWeekendColor = props.dayWeekendColor;
 		this.showDayWeekday = props.showDayWeekday ?? false;

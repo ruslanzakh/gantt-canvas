@@ -105,11 +105,11 @@ If ``(showTime === false || task.all_day === true)`` Task fills a space of a who
     interface RootApiProps {
         ...
         viewMode?: ViewMode; // 'hour', 'three-hours', 'quarter-day', 'half-day', 'day' | 'week' | 'month'. Default day
-    	isLoading?: boolean; // false
-    	monthNames?: ObjectList<string[]>; // for ru and en
-		weekdayNames?: ObjectList<string[]>;
-		lang?: string; // ru
-		scale?: number;
+        isLoading?: boolean; // false
+        monthNames?: ObjectList<string[]>; // for ru and en
+        weekdayNames?: ObjectList<string[]>;
+        lang?: string; // ru
+        scale?: number;
     };
 ```
 #### Month view
@@ -117,14 +117,14 @@ If ``(showTime === false || task.all_day === true)`` Task fills a space of a who
     interface RootApiProps {
         ...
         showMonthMiddle?: boolean; // default false
-		showMonthFromStartOnDayView?: boolean;
-    	monthHeight?: number;
-    	renderMonthBottomLine?: boolean; // true
-    	renderMonthLeftLine?: boolean; // true
-    	monthLineColor?: string;
-    	monthTitleFont?: string;
-    	monthTitleColor?: string;
-    	monthTitleShowYear?: boolean; // true
+        showMonthFromStartOnDayView?: boolean;
+        monthHeight?: number;
+        renderMonthBottomLine?: boolean; // true
+        renderMonthLeftLine?: boolean; // true
+        monthLineColor?: string;
+        monthTitleFont?: string;
+        monthTitleColor?: string;
+        monthTitleShowYear?: boolean; // true
     };
 ```
 #### Col and Row views
@@ -132,35 +132,38 @@ If ``(showTime === false || task.all_day === true)`` Task fills a space of a who
     interface RootApiProps {
         ...
         dayHeight?: number;
-    	renderDayStartMonthLine?: boolean;
-    	dayStartMonthLine?: string;
-    	dayBottomLineColor?: string;
-    	dayColor?: string;
-    	dayFontSize?: number;
-    	dayFontLineHeight?: number;
-    	dayFontWeight?: number;
-    	dayFontFamily?: string;
-		weekdayColor?: string;
-		weekdayFontSize?: number;
-		weekdayFontLineHeight?: number;
-		weekdayFontWeight?: number;
-		weekdayFontFamily?: string;
-		weekdayWeekendColor?: string;
-    	dayTodayBackground?: string;
-		dayWeekendBackground?: string;
-		dayWeekendColor?: string;
-		showDayWeekday?: boolean;
-	
-    	dayColWidth?: number;
-		weekViewColWidth?: number;
-    	monthViewColWidth?: number;
-    	rowHeight?: number;
-	
-    	colLineColor?: string;
-    	colStartMonthLineColor?: string;
-    	rowLineColor?: string;
-    	rowEvenBackground?: string;
-    	rowOddBackground?: string;
+        renderDayStartMonthLine?: boolean;
+        dayStartMonthLine?: string;
+        dayBottomLineColor?: string;
+        dayColor?: string;
+        dayFontSize?: number;
+        dayFontLineHeight?: number;
+        dayFontWeight?: number;
+        dayFontFamily?: string;
+        weekdayColor?: string;
+        weekdayFontSize?: number;
+        weekdayFontLineHeight?: number;
+        weekdayFontWeight?: number;
+        weekdayFontFamily?: string;
+        weekdayWeekendColor?: string;
+        dayHeaderBackground?: string;
+        dayHeaderTodayBackground?: string;
+        dayTodayBackground?: string;
+        dayHeaderWeekendBackground?: string;
+        dayWeekendBackground?: string;
+        dayWeekendColor?: string;
+        showDayWeekday?: boolean;
+
+        dayColWidth?: number;
+        weekViewColWidth?: number;
+        monthViewColWidth?: number;
+        rowHeight?: number;
+
+        colLineColor?: string;
+        colStartMonthLineColor?: string;
+        rowLineColor?: string;
+        rowEvenBackground?: string;
+        rowOddBackground?: string;
     };
 ```
 #### Task view
@@ -168,44 +171,44 @@ If ``(showTime === false || task.all_day === true)`` Task fills a space of a who
     interface RootApiProps {
         ...
         taskDefaultBackground?: string;
-		taskDefaultHoverBackground?: string;
-		taskDefaultStrokeColor?: string;
-		taskDefaultHoverStrokeColor?: string;
-		taskDefaultColor?: string;
-		taskDefaultHoverColor?: string;
-		taskDefaultOutlineColor?: string;
-		taskDefaultSubtitleColor?: string;
-		taskDefaultSubtitleOutlineColor?: string;
-		taskSubtitleOffset?: number;
-		taskHeight?: number;
-		taskFontSize?: number;
-		taskFontLineHeight?: number;
-		taskFontWeight?: number;
-		taskFontFamily?: string;
-		taskPadding?: number;
-		taskRadius?: number;
-		taskErrorStrokeColor?: string;
-		minTaskWidth?: number;
-    
-    	taskRenderResizeControls?: boolean;
-    	taskRenderResizeControlsWidth?: number;
-    	taskRenderResizeControlsColor?: string;
-    	taskRenderResizeControlsRadius?: number;
-    
-    	taskRenderDepControl?: boolean;
-    	taskRenderDepRadius?: number;
-    	taskRenderDepLineColor?: string;
-    	taskRenderDepBackground?: string;
-    	taskRenderDepOffsetX?: number;
-    	taskRenderDepLineWidth?: number;
-    
-    	arrowColor?: string;
-		arrowWidth?: number;
-		arrowActiveColor?: string;
-		arrowHoverColor?: string;
-		arrowHoverWidth?: number;
-		arrowHoverHeadWidth?: number;
-		arrowRadius?: number;
+        taskDefaultHoverBackground?: string;
+        taskDefaultStrokeColor?: string;
+        taskDefaultHoverStrokeColor?: string;
+        taskDefaultColor?: string;
+        taskDefaultHoverColor?: string;
+        taskDefaultOutlineColor?: string;
+        taskDefaultSubtitleColor?: string;
+        taskDefaultSubtitleOutlineColor?: string;
+        taskSubtitleOffset?: number;
+        taskHeight?: number;
+        taskFontSize?: number;
+        taskFontLineHeight?: number;
+        taskFontWeight?: number;
+        taskFontFamily?: string;
+        taskPadding?: number;
+        taskRadius?: number;
+        taskErrorStrokeColor?: string;
+        minTaskWidth?: number;
+
+        taskRenderResizeControls?: boolean;
+        taskRenderResizeControlsWidth?: number;
+        taskRenderResizeControlsColor?: string;
+        taskRenderResizeControlsRadius?: number;
+
+        taskRenderDepControl?: boolean;
+        taskRenderDepRadius?: number;
+        taskRenderDepLineColor?: string;
+        taskRenderDepBackground?: string;
+        taskRenderDepOffsetX?: number;
+        taskRenderDepLineWidth?: number;
+
+        arrowColor?: string;
+        arrowWidth?: number;
+        arrowActiveColor?: string;
+        arrowHoverColor?: string;
+        arrowHoverWidth?: number;
+        arrowHoverHeadWidth?: number;
+        arrowRadius?: number;
     };
 ```
 #### Scrollbar views
@@ -213,14 +216,14 @@ If ``(showTime === false || task.all_day === true)`` Task fills a space of a who
     interface RootApiProps {
         ...
         scrollbarXHeight?: number;
-    	scrollbarXBackground?: string;
-    	scrollbarXLineBackground?: string;
-    	scrollbarXLineRadius?: number;
-    
-    	scrollbarYWidth?: number;
-    	scrollbarYBackground?: string;
-    	scrollbarYLineBackground?: string;
-    	scrollbarYLineRadius?: number;
+        scrollbarXBackground?: string;
+        scrollbarXLineBackground?: string;
+        scrollbarXLineRadius?: number;
+
+        scrollbarYWidth?: number;
+        scrollbarYBackground?: string;
+        scrollbarYLineBackground?: string;
+        scrollbarYLineRadius?: number;
     };
 ```
 If you want to contribute:

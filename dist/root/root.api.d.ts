@@ -59,7 +59,10 @@ export interface RootApiProps {
     weekdayFontWeight?: number;
     weekdayFontFamily?: string;
     weekdayWeekendColor?: string;
+    dayHeaderBackground?: string;
+    dayHeaderTodayBackground?: string;
     dayTodayBackground?: string;
+    dayHeaderWeekendBackground?: string;
     dayWeekendBackground?: string;
     dayWeekendColor?: string;
     showDayWeekday?: boolean;
@@ -159,6 +162,9 @@ export declare class RootApi {
     weekdayFontFamily: string;
     weekdayWeekendColor?: string;
     dayTodayBackground: string;
+    dayHeaderBackground?: string;
+    dayHeaderTodayBackground?: string;
+    dayHeaderWeekendBackground?: string;
     dayWeekendBackground?: string;
     dayWeekendColor?: string;
     showDayWeekday: boolean;
