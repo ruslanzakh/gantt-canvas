@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RootModule = void 0;
 var grid_module_1 = require("../grid/grid.module");
 var tasks_module_1 = require("../tasks/tasks.module");
+var root_service_1 = require("./root.service");
 var root_api_1 = require("./root.api");
 var root_view_1 = require("./root.view");
 var root_controller_1 = require("./root.controller");
@@ -20,6 +21,7 @@ var RootModule = /** @class */ (function () {
             throw new Error('Canvas context doesn\'t gotten');
         canvas_1.scaleCanvas(this.canvas, ctx, this.root.offsetWidth, this.root.offsetHeight);
         this.ctx = ctx;
+        this.service = new root_service_1.RootService(this);
         this.api = new root_api_1.RootApi(this, props);
         this.controller = new root_controller_1.RootController(this);
         this.view = new root_view_1.RootView(this);

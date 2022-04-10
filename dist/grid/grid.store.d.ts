@@ -16,6 +16,7 @@ export declare class GridStore {
     root: RootModule;
     module: GridModule;
     dates: GridDate[];
+    todayTs: number;
     constructor(root: RootModule, module: GridModule);
     initialData(): void;
     fillDataBefore(ts: number): void;

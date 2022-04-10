@@ -1,5 +1,6 @@
 import { GridModule } from '../grid/grid.module';
 import { TasksModule } from '../tasks/tasks.module';
+import { RootService } from './root.service';
 import { RootApi, RootApiProps } from './root.api';
 import { RootView } from './root.view';
 import { RootController } from './root.controller';
@@ -11,6 +12,7 @@ export class RootModule {
 	root: HTMLElement;
 	canvas: HTMLCanvasElement;
 	ctx: CanvasRenderingContext2D;
+	service: RootService;
 	api: RootApi;
 	view: RootView;
 	controller: RootController;
@@ -28,6 +30,7 @@ export class RootModule {
 		scaleCanvas(this.canvas, ctx, this.root.offsetWidth, this.root.offsetHeight);
 		this.ctx = ctx;
 	
+		this.service = new RootService(this);
 		this.api = new RootApi(this, props);
 		this.controller = new RootController(this);
 		this.view = new RootView(this);

@@ -280,53 +280,80 @@ export class RootApi {
 		this.monthHeight = props.monthHeight ?? 55;
 		this.renderMonthBottomLine = props.renderMonthBottomLine ?? true;
 		this.renderMonthLeftLine = props.renderMonthLeftLine ?? true;
-		this.monthLineColor = props.monthLineColor ?? COLORS.L_GREY;
+		this.monthLineColor = props.monthLineColor
+			? this.root.service.convertColor(props.monthLineColor) : COLORS.L_GREY;
 		this.monthTitleFont = props.monthTitleFont ?? '600 20px Arial';
-		this.monthTitleColor = props.monthTitleColor ?? COLORS.BLACK;
+		this.monthTitleColor = props.monthTitleColor 
+			? this.root.service.convertColor(props.monthTitleColor) : COLORS.BLACK;
 		this.monthTitleShowYear = props.monthTitleShowYear ?? true;
 		
 		this._dayHeight =  props.dayHeight ? props.dayHeight : props.showDayWeekday ? 48 : 28;
 		this.renderDayStartMonthLine = props.renderDayStartMonthLine ?? true;
-		this.dayStartMonthLine = props.dayStartMonthLine ?? COLORS.L_GREY;
-		this.dayBottomLineColor = props.dayBottomLineColor ?? COLORS.L_GREY;
-		this.dayTodayBackground = props.dayTodayBackground ?? COLORS.L_BLUE;
-		this.dayHeaderBackground = props.dayHeaderBackground;
-		this.dayHeaderTodayBackground = props.dayHeaderTodayBackground;
-		this.dayHeaderWeekendBackground = props.dayHeaderWeekendBackground;
-		this.dayWeekendBackground = props.dayWeekendBackground;
-		this.dayWeekendColor = props.dayWeekendColor;
+		this.dayStartMonthLine = props.dayStartMonthLine
+			? this.root.service.convertColor(props.dayStartMonthLine) : COLORS.L_GREY;
+		this.dayBottomLineColor = props.dayBottomLineColor
+			? this.root.service.convertColor(props.dayBottomLineColor) : COLORS.L_GREY;
+		this.dayTodayBackground = props.dayTodayBackground
+			? this.root.service.convertColor(props.dayTodayBackground) : COLORS.L_BLUE;
+		this.dayHeaderBackground = props.dayHeaderBackground
+			? this.root.service.convertColor(props.dayHeaderBackground) : undefined;
+		this.dayHeaderTodayBackground = props.dayHeaderTodayBackground
+			? this.root.service.convertColor(props.dayHeaderTodayBackground) : undefined;
+		this.dayHeaderWeekendBackground = props.dayHeaderWeekendBackground
+			? this.root.service.convertColor(props.dayHeaderWeekendBackground) : undefined;
+		this.dayWeekendBackground = props.dayWeekendBackground
+			? this.root.service.convertColor(props.dayWeekendBackground) : undefined;
+		this.dayWeekendColor = props.dayWeekendColor
+			? this.root.service.convertColor(props.dayWeekendColor) : undefined;
 		this.showDayWeekday = props.showDayWeekday ?? false;
 		this.dayFontSize = props.dayFontSize ?? 14;
 		this.dayFontLineHeight = props.dayFontLineHeight ?? this.dayFontSize;
 		this.dayFontWeight = props.dayFontWeight ?? 500;
 		this.dayFontFamily = props.dayFontFamily ?? 'Arial';
-		this.dayColor = props.dayColor ?? COLORS.BLACK;
+		this.dayColor = props.dayColor 
+			? this.root.service.convertColor(props.dayColor) : COLORS.BLACK;
 		this.weekdayFontSize = props.weekdayFontSize ?? 14;
 		this.weekdayFontLineHeight = props.weekdayFontLineHeight ?? this.weekdayFontSize;
 		this.weekdayFontWeight = props.weekdayFontWeight ?? 500;
 		this.weekdayFontFamily = props.weekdayFontFamily ?? 'Arial';
-		this.weekdayColor = props.weekdayColor ?? COLORS.BLACK;
-		this.weekdayWeekendColor = props.weekdayWeekendColor;
+		this.weekdayColor = props.weekdayColor 
+			? this.root.service.convertColor(props.weekdayColor) : COLORS.BLACK;
+		this.weekdayWeekendColor = props.weekdayWeekendColor
+			? this.root.service.convertColor(props.weekdayWeekendColor) : undefined;
 
 		this._dayColWidth = props.dayColWidth ?? 40;
 		this._weekViewColWidth = props.weekViewColWidth ?? 120;
 		this._monthViewColWidth = props.monthViewColWidth ?? 180;
 		this._rowHeight = props.rowHeight ?? 40;
-		this.colLineColor = props.colLineColor ?? COLORS.L_GREY;
-		this.colStartMonthLineColor = props.colStartMonthLineColor;
-		this.rowLineColor = props.rowLineColor ?? COLORS.L_GREY;
-		this.rowEvenBackground = props.rowEvenBackground ?? COLORS.WHITE;
-		this.rowOddBackground = props.rowOddBackground ?? COLORS.WHITE;
+		this.colLineColor = props.colLineColor 
+			? this.root.service.convertColor(props.colLineColor) : COLORS.L_GREY;
+		this.colStartMonthLineColor = props.colStartMonthLineColor
+			? this.root.service.convertColor(props.colStartMonthLineColor) : undefined;
+		this.rowLineColor = props.rowLineColor
+			? this.root.service.convertColor(props.rowLineColor) : COLORS.L_GREY;
+		this.rowEvenBackground = props.rowEvenBackground
+			? this.root.service.convertColor(props.rowEvenBackground) : COLORS.WHITE;
+		this.rowOddBackground = props.rowOddBackground
+			? this.root.service.convertColor(props.rowOddBackground) : COLORS.WHITE;
 
-		this.taskDefaultBackground = props.taskDefaultBackground ?? COLORS.VIOLET;
-		this.taskDefaultHoverBackground = props.taskDefaultHoverBackground ?? COLORS.D_VIOLET;
-		this.taskDefaultStrokeColor = props.taskDefaultStrokeColor;
-		this.taskDefaultHoverStrokeColor = props.taskDefaultHoverStrokeColor;
-		this.taskDefaultColor = props.taskDefaultColor ?? COLORS.WHITE;
-		this.taskDefaultHoverColor = props.taskDefaultHoverColor ?? COLORS.WHITE;
-		this.taskDefaultOutlineColor = props.taskDefaultOutlineColor ?? COLORS.BLACK;
-		this.taskDefaultSubtitleColor = props.taskDefaultSubtitleColor ?? COLORS.WHITE;
-		this.taskDefaultSubtitleOutlineColor = props.taskDefaultSubtitleOutlineColor ?? COLORS.BLACK;
+		this.taskDefaultBackground = props.taskDefaultBackground
+			? this.root.service.convertColor(props.taskDefaultBackground) : COLORS.VIOLET;
+		this.taskDefaultHoverBackground = props.taskDefaultHoverBackground
+			? this.root.service.convertColor(props.taskDefaultHoverBackground) : COLORS.D_VIOLET;
+		this.taskDefaultStrokeColor = props.taskDefaultStrokeColor
+			? this.root.service.convertColor(props.taskDefaultStrokeColor) : undefined;
+		this.taskDefaultHoverStrokeColor = props.taskDefaultHoverStrokeColor
+			? this.root.service.convertColor(props.taskDefaultHoverStrokeColor) : undefined;
+		this.taskDefaultColor = props.taskDefaultColor
+			? this.root.service.convertColor(props.taskDefaultColor) : COLORS.WHITE;
+		this.taskDefaultHoverColor = props.taskDefaultHoverColor
+			? this.root.service.convertColor(props.taskDefaultHoverColor) : COLORS.WHITE;
+		this.taskDefaultOutlineColor = props.taskDefaultOutlineColor
+			? this.root.service.convertColor(props.taskDefaultOutlineColor) : COLORS.BLACK;
+		this.taskDefaultSubtitleColor = props.taskDefaultSubtitleColor
+			? this.root.service.convertColor(props.taskDefaultSubtitleColor) : COLORS.WHITE;
+		this.taskDefaultSubtitleOutlineColor = props.taskDefaultSubtitleOutlineColor
+			? this.root.service.convertColor(props.taskDefaultSubtitleOutlineColor) : COLORS.BLACK;
 		this._taskSubtitleOffset = props.taskSubtitleOffset ?? 10;
 		this._taskHeight = props.taskHeight ?? 34;
 		this._taskPadding = props.taskPadding ?? 5;
@@ -335,41 +362,54 @@ export class RootApi {
 		this.taskFontLineHeight = props.taskFontLineHeight ?? this.taskFontSize;
 		this.taskFontWeight = props.taskFontWeight ?? 400;
 		this.taskFontFamily = props.taskFontFamily ?? "serif";
-		this.taskErrorStrokeColor = props.taskErrorStrokeColor;
+		this.taskErrorStrokeColor = props.taskErrorStrokeColor
+			? this.root.service.convertColor(props.taskErrorStrokeColor) : undefined;
 		this._minTaskWidth = props.minTaskWidth ?? 10;
 
 		this.taskRenderResizeControls = props.taskRenderResizeControls ?? true;
 		this._taskRenderResizeControlsWidth = props.taskRenderResizeControlsWidth ?? 6;
-		this.taskRenderResizeControlsColor = props.taskRenderResizeControlsColor ?? COLORS.WHITE;
+		this.taskRenderResizeControlsColor = props.taskRenderResizeControlsColor
+			? this.root.service.convertColor(props.taskRenderResizeControlsColor) : COLORS.WHITE;
 		this.taskRenderResizeControlsRadius = props.taskRenderResizeControlsRadius ?? 2;
 
 		this.taskRenderDepControl = props.taskRenderDepControl ?? true;
 		this._taskRenderDepRadius = props.taskRenderDepRadius ?? 7;
 		this._taskRenderDepOffsetX = props.taskRenderDepOffsetX ?? 7;
 		this._taskRenderDepLineWidth = props.taskRenderDepLineWidth ?? 1;
-		this.taskRenderDepLineColor = props.taskRenderDepLineColor ?? COLORS.BLACK;
-		this.taskRenderDepBackground = props.taskRenderDepBackground ?? COLORS.WHITE;
+		this.taskRenderDepLineColor = props.taskRenderDepLineColor
+			? this.root.service.convertColor(props.taskRenderDepLineColor) : COLORS.BLACK;
+		this.taskRenderDepBackground = props.taskRenderDepBackground
+			? this.root.service.convertColor(props.taskRenderDepBackground) : COLORS.WHITE;
 
-		this.arrowColor = props.arrowColor ?? COLORS.BLUE;
+		this.arrowColor = props.arrowColor
+			? this.root.service.convertColor(props.arrowColor) : COLORS.BLUE;
 		this._arrowWidth = props.arrowWidth ?? 1;
-		this.arrowActiveColor = props.arrowActiveColor ?? COLORS.D_BLUE;
-		this.arrowHoverColor = props.arrowHoverColor ?? COLORS.D_VIOLET;
+		this.arrowActiveColor = props.arrowActiveColor
+			? this.root.service.convertColor(props.arrowActiveColor) : COLORS.D_BLUE;
+		this.arrowHoverColor = props.arrowHoverColor
+			? this.root.service.convertColor(props.arrowHoverColor) : COLORS.D_VIOLET;
 		this._arrowHoverWidth = props.arrowHoverWidth ?? 2;
 		this._arrowHoverHeadWidth = props.arrowHoverHeadWidth ?? 2;
 		this._arrowRadius = props.arrowRadius ?? 2;
 
 		this.scrollbarXHeight = props.scrollbarXHeight ?? 12;
-		this.scrollbarXBackground = props.scrollbarXBackground ?? COLORS.L_GREY;
-		this.scrollbarXLineBackground = props.scrollbarXLineBackground ?? COLORS.GREY;
+		this.scrollbarXBackground = props.scrollbarXBackground
+			? this.root.service.convertColor(props.scrollbarXBackground) : COLORS.L_GREY;
+		this.scrollbarXLineBackground = props.scrollbarXLineBackground
+			? this.root.service.convertColor(props.scrollbarXLineBackground) : COLORS.GREY;
 		this.scrollbarXLineRadius = props.scrollbarXLineRadius ?? 6;
 
 		this.scrollbarYWidth = props.scrollbarYWidth ?? 12;
-		this.scrollbarYBackground = props.scrollbarYBackground ?? COLORS.L_GREY;
-		this.scrollbarYLineBackground = props.scrollbarYLineBackground ?? COLORS.GREY;
+		this.scrollbarYBackground = props.scrollbarYBackground
+			? this.root.service.convertColor(props.scrollbarYBackground) : COLORS.L_GREY;
+		this.scrollbarYLineBackground = props.scrollbarYLineBackground
+			? this.root.service.convertColor(props.scrollbarYLineBackground) : COLORS.GREY;
 		this.scrollbarYLineRadius = props.scrollbarYLineRadius ?? 6;
 
 		this.handleChange = props.handleChange;
 		this.handleTaskClick = props.handleTaskClick;
+
+		this.root.service.unmountConvertColorDiv();
 	}
 
 	get dayHeight() {
