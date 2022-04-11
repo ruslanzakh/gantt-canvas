@@ -3,28 +3,42 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RootService = void 0;
 var RootService = /** @class */ (function () {
     function RootService(root) {
+        var _this = this;
         this.convertColorDiv = null;
+        this.colorsCache = {};
+        this.clearColorsCache = function () {
+            _this.colorsCache = {};
+        };
+        this.convertOptionalColor = function (color) {
+            if (color)
+                return _this.convertColor(color);
+            return undefined;
+        };
+        this.convertColor = function (color, defaultColor) {
+            if (!color.includes('var'))
+                return color;
+            if (_this.colorsCache[color])
+                return _this.colorsCache[color];
+            if (!_this.convertColorDiv) {
+                _this.convertColorDiv = document.createElement('div');
+                _this.root.root.appendChild(_this.convertColorDiv);
+            }
+            _this.convertColorDiv.style.color = color;
+            var newColor = window
+                .getComputedStyle(_this.convertColorDiv, null)
+                .getPropertyValue("color");
+            if (!newColor && defaultColor)
+                return defaultColor;
+            return newColor;
+        };
+        this.unmountConvertColorDiv = function () {
+            if (!_this.convertColorDiv)
+                return;
+            _this.root.root.removeChild(_this.convertColorDiv);
+            _this.convertColorDiv = null;
+        };
         this.root = root;
     }
-    RootService.prototype.convertColor = function (color) {
-        if (!color.includes('var'))
-            return color;
-        if (!this.convertColorDiv) {
-            this.convertColorDiv = document.createElement('div');
-            this.root.root.appendChild(this.convertColorDiv);
-        }
-        this.convertColorDiv.style.color = color;
-        var newColor = window
-            .getComputedStyle(this.convertColorDiv, null)
-            .getPropertyValue("color");
-        return newColor;
-    };
-    RootService.prototype.unmountConvertColorDiv = function () {
-        if (!this.convertColorDiv)
-            return;
-        this.root.root.removeChild(this.convertColorDiv);
-        this.convertColorDiv = null;
-    };
     return RootService;
 }());
 exports.RootService = RootService;

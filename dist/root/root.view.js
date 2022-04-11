@@ -27,7 +27,7 @@ var RootView = /** @class */ (function () {
         this.canvasWidth = this.root.canvas.width / this.pixelRatio;
         this.canvasHeight = this.root.canvas.height / this.pixelRatio;
         this.root.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-        this.root.ctx.fillStyle = '#ffffff';
+        this.root.ctx.fillStyle = this.root.api.background;
         this.root.ctx.rect(0, 0, this.root.view.canvasWidth, this.root.view.canvasHeight);
         this.root.ctx.fill();
         this.root.grid.view.renderGrid();

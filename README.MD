@@ -109,6 +109,7 @@ If ``(showTime === false || task.all_day === true)`` Task fills a space of a who
         monthNames?: ObjectList<string[]>; // for ru and en
         weekdayNames?: ObjectList<string[]>;
         lang?: string; // ru
+        background?: string;
         scale?: number;
     };
 ```

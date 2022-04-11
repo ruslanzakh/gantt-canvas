@@ -186,6 +186,7 @@ var TaskEntity = /** @class */ (function () {
     TaskEntity.prototype.renderTaskText = function (task, top) {
         var _a, _b;
         var x = task.x, w = task.w, title = task.title, subtitle = task.subtitle, hover = task.hover, colorSubtitle = task.colorSubtitle;
+        var convertColor = this.root.service.convertColor;
         var ctx = this.root.ctx;
         var _c = this.root.api, taskFont = _c.taskFont, taskPadding = _c.taskPadding, taskRenderResizeControls = _c.taskRenderResizeControls, taskRenderResizeControlsWidth = _c.taskRenderResizeControlsWidth, taskHeight = _c.taskHeight, taskDefaultOutlineColor = _c.taskDefaultOutlineColor, taskDefaultSubtitleColor = _c.taskDefaultSubtitleColor, taskDefaultSubtitleOutlineColor = _c.taskDefaultSubtitleOutlineColor, taskRenderDepRadius = _c.taskRenderDepRadius, taskSubtitleOffset = _c.taskSubtitleOffset;
         ctx.font = taskFont;
@@ -204,14 +205,14 @@ var TaskEntity = /** @class */ (function () {
             if (task.underline)
                 canvas_1.renderUnderline(ctx, title, titleX, top + (taskHeight / 4));
             if (subtitle && hover) {
-                ctx.fillStyle = colorSubtitle !== null && colorSubtitle !== void 0 ? colorSubtitle : taskDefaultSubtitleColor;
+                ctx.fillStyle = convertColor(colorSubtitle !== null && colorSubtitle !== void 0 ? colorSubtitle : taskDefaultSubtitleColor);
                 ctx.fillText(subtitle, titleX + titleWidth + taskSubtitleOffset, top + (taskHeight / 2));
                 if (task.underline)
                     canvas_1.renderUnderline(ctx, subtitle, titleX + titleWidth + taskSubtitleOffset, top + (taskHeight / 4));
             }
         }
         else {
-            ctx.fillStyle = (_a = task.outlineColor) !== null && _a !== void 0 ? _a : taskDefaultOutlineColor;
+            ctx.fillStyle = convertColor((_a = task.outlineColor) !== null && _a !== void 0 ? _a : taskDefaultOutlineColor);
             ctx.textAlign = 'left';
             var offsetX = this.getDepOffsetX();
             var titleX = x + w + offsetX + (taskRenderDepRadius * 2);
@@ -219,7 +220,7 @@ var TaskEntity = /** @class */ (function () {
             if (task.underline)
                 canvas_1.renderUnderline(ctx, title, titleX, top + (taskHeight / 4));
             if (subtitle && hover) {
-                ctx.fillStyle = (_b = task.outlineSubtitleColor) !== null && _b !== void 0 ? _b : taskDefaultSubtitleOutlineColor;
+                ctx.fillStyle = convertColor((_b = task.outlineSubtitleColor) !== null && _b !== void 0 ? _b : taskDefaultSubtitleOutlineColor);
                 ctx.fillText(subtitle, titleX + titleWidth + taskSubtitleOffset, top + (taskHeight / 2));
                 if (task.underline)
                     canvas_1.renderUnderline(ctx, subtitle, titleX + titleWidth + taskSubtitleOffset, top + (taskHeight / 4));
@@ -293,27 +294,30 @@ var TaskEntity = /** @class */ (function () {
     };
     TaskEntity.prototype.getTaskFillStyle = function (task) {
         var hover = task.hover, hoverConnection = task.hoverConnection, background = task.background, backgroundHover = task.backgroundHover;
+        var convertColor = this.root.service.convertColor;
         if (hover || hoverConnection) {
-            return backgroundHover !== null && backgroundHover !== void 0 ? backgroundHover : this.root.api.taskDefaultHoverBackground;
+            return convertColor(backgroundHover !== null && backgroundHover !== void 0 ? backgroundHover : this.root.api.taskDefaultHoverBackground);
         }
-        return background !== null && background !== void 0 ? background : this.root.api.taskDefaultBackground;
+        return convertColor(background !== null && background !== void 0 ? background : this.root.api.taskDefaultBackground);
     };
     TaskEntity.prototype.getTaskStrokeStyle = function (task) {
         var hover = task.hover, hoverConnection = task.hoverConnection, error = task.error, stroke = task.stroke, strokeHover = task.strokeHover;
         var _a = this.root.api, taskErrorStrokeColor = _a.taskErrorStrokeColor, taskDefaultStrokeColor = _a.taskDefaultStrokeColor, taskDefaultHoverStrokeColor = _a.taskDefaultHoverStrokeColor;
+        var convertOptionalColor = this.root.service.convertOptionalColor;
         if (error && taskErrorStrokeColor)
             return taskErrorStrokeColor;
         if (hover || hoverConnection) {
-            return strokeHover !== null && strokeHover !== void 0 ? strokeHover : taskDefaultHoverStrokeColor;
+            return convertOptionalColor(strokeHover !== null && strokeHover !== void 0 ? strokeHover : taskDefaultHoverStrokeColor);
         }
-        return stroke !== null && stroke !== void 0 ? stroke : taskDefaultStrokeColor;
+        return convertOptionalColor(stroke !== null && stroke !== void 0 ? stroke : taskDefaultStrokeColor);
     };
     TaskEntity.prototype.getTitleColor = function (task) {
         var hover = task.hover, hoverConnection = task.hoverConnection, color = task.color, colorHover = task.colorHover;
+        var convertColor = this.root.service.convertColor;
         if (hover || hoverConnection) {
-            return colorHover !== null && colorHover !== void 0 ? colorHover : this.root.api.taskDefaultHoverColor;
+            return convertColor(colorHover !== null && colorHover !== void 0 ? colorHover : this.root.api.taskDefaultHoverColor);
         }
-        return color !== null && color !== void 0 ? color : this.root.api.taskDefaultColor;
+        return convertColor(color !== null && color !== void 0 ? color : this.root.api.taskDefaultColor);
     };
     TaskEntity.prototype.needControlOutsideTask = function (task) {
         return (this.root.api.taskRenderResizeControlsWidth + this.root.api.taskPadding) * 2 > task.w;

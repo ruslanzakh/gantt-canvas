@@ -50,6 +50,7 @@ export class RootModule {
 		this.controller.destroyEvents();
 		this.view.destroyEvents();
 		this.tasks.destroy();
+		this.service.unmountConvertColorDiv();
 	}
 
 	render() {

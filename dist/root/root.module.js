@@ -40,6 +40,7 @@ var RootModule = /** @class */ (function () {
         this.controller.destroyEvents();
         this.view.destroyEvents();
         this.tasks.destroy();
+        this.service.unmountConvertColorDiv();
     };
     RootModule.prototype.render = function () {
         this.view.render();

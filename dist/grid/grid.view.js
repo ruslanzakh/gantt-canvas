@@ -241,7 +241,7 @@ var GridView = /** @class */ (function () {
     GridView.prototype.renderHeader = function () {
         var _this = this;
         var width = this.root.view.canvasWidth;
-        this.root.ctx.fillStyle = '#ffffff';
+        this.root.ctx.fillStyle = this.root.api.background;
         this.root.ctx.rect(0, 0, width, this.rowsOffsetY);
         this.root.ctx.fill();
         var colCommon = this.getColumnCommonData();

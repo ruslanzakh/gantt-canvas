@@ -218,7 +218,7 @@ export class GridView {
 
 		const width = this.root.view.canvasWidth;
 
-		this.root.ctx.fillStyle = '#ffffff';
+		this.root.ctx.fillStyle = this.root.api.background;
 		this.root.ctx.rect(0, 0, width, this.rowsOffsetY);
 		this.root.ctx.fill();
 

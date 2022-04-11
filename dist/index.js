@@ -23,6 +23,9 @@ var Gantt = /** @class */ (function () {
     Gantt.prototype.updateScale = function (scale) {
         this.root.api.updateScale(scale);
     };
+    Gantt.prototype.updateColors = function () {
+        this.root.api.updateColors();
+    };
     Gantt.prototype.destroy = function () {
         this.root.destroy();
     };

@@ -31,6 +31,10 @@ class Gantt {
 		this.root.api.updateScale(scale);
 	}
 
+	updateColors() {
+		this.root.api.updateColors();
+	}
+
 	destroy() {
 		this.root.destroy();
 	}

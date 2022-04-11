@@ -62,7 +62,7 @@ export class TaskEntity {
 		if(x >= this.root.view.canvasWidth || w === 0) return;
 		const ctx = this.root.ctx;
 		ctx.beginPath();
-		const top =this.getTaskTop(y);
+		const top = this.getTaskTop(y);
 		const fillStyle = this.getTaskFillStyle(task);
 		const strokeStyle = this.getTaskStrokeStyle(task);
 		roundRect(ctx, x, top, w, this.root.api.taskHeight, this.root.api.taskRadius, fillStyle, strokeStyle);
@@ -222,6 +222,7 @@ export class TaskEntity {
 
 	renderTaskText(task: TaskRender, top: number) {
 		const { x, w, title, subtitle, hover, colorSubtitle } = task;
+		const convertColor = this.root.service.convertColor;
 		const ctx = this.root.ctx;
 		const {
 			taskFont,
@@ -252,13 +253,13 @@ export class TaskEntity {
 				renderUnderline(ctx, title, titleX, top + (taskHeight / 4));
 				
 			if(subtitle && hover) {
-				ctx.fillStyle = colorSubtitle ?? taskDefaultSubtitleColor;
+				ctx.fillStyle = convertColor(colorSubtitle ?? taskDefaultSubtitleColor);
 				ctx.fillText(subtitle, titleX + titleWidth + taskSubtitleOffset, top + (taskHeight / 2) )
 				if(task.underline)
 					renderUnderline(ctx, subtitle, titleX + titleWidth + taskSubtitleOffset, top + (taskHeight / 4));
 			}
 		} else {
-			ctx.fillStyle = task.outlineColor ?? taskDefaultOutlineColor;
+			ctx.fillStyle = convertColor(task.outlineColor ?? taskDefaultOutlineColor);
 			ctx.textAlign = 'left';
 			const offsetX = this.getDepOffsetX();
 			const titleX = x + w + offsetX + (taskRenderDepRadius * 2);
@@ -266,7 +267,7 @@ export class TaskEntity {
 			if(task.underline)
 				renderUnderline(ctx, title, titleX, top + (taskHeight / 4));
 				if(subtitle && hover) {
-					ctx.fillStyle = task.outlineSubtitleColor ?? taskDefaultSubtitleOutlineColor;
+					ctx.fillStyle = convertColor(task.outlineSubtitleColor ?? taskDefaultSubtitleOutlineColor);
 					ctx.fillText(subtitle, titleX + titleWidth + taskSubtitleOffset, top + (taskHeight / 2) )
 					if(task.underline)
 						renderUnderline(ctx, subtitle, titleX + titleWidth + taskSubtitleOffset, top + (taskHeight / 4));
@@ -342,28 +343,31 @@ export class TaskEntity {
 
 	getTaskFillStyle(task: TaskRender): string {
 		const { hover, hoverConnection, background, backgroundHover } = task;
+		const convertColor = this.root.service.convertColor;
 		if(hover || hoverConnection) {
-			return backgroundHover ?? this.root.api.taskDefaultHoverBackground;
+			return convertColor(backgroundHover ?? this.root.api.taskDefaultHoverBackground);
 		}
-		return background ?? this.root.api.taskDefaultBackground;
+		return convertColor(background ?? this.root.api.taskDefaultBackground);
 	}
 
 	getTaskStrokeStyle(task: TaskRender): string | undefined {
 		const { hover, hoverConnection, error, stroke, strokeHover } = task;
 		const { taskErrorStrokeColor, taskDefaultStrokeColor, taskDefaultHoverStrokeColor } = this.root.api;
+		const convertOptionalColor = this.root.service.convertOptionalColor;
 		if(error && taskErrorStrokeColor) return taskErrorStrokeColor;
 		if(hover || hoverConnection) {
-			return strokeHover ?? taskDefaultHoverStrokeColor;
+			return convertOptionalColor(strokeHover ?? taskDefaultHoverStrokeColor);
 		}
-		return stroke ?? taskDefaultStrokeColor;
+		return convertOptionalColor(stroke ?? taskDefaultStrokeColor);
 	}
 
 	getTitleColor(task: TaskRender): string {
 		const {hover, hoverConnection, color, colorHover} = task;
+		const convertColor = this.root.service.convertColor;
 		if(hover || hoverConnection) {
-			return colorHover ?? this.root.api.taskDefaultHoverColor;
+			return convertColor(colorHover ?? this.root.api.taskDefaultHoverColor);
 		}
-		return color ?? this.root.api.taskDefaultColor;
+		return convertColor(color ?? this.root.api.taskDefaultColor);
 	}
 
 	needControlOutsideTask(task: TaskRender) {

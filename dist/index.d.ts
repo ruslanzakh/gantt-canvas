@@ -9,6 +9,7 @@ declare class Gantt {
     updateViewMode(mode: ViewMode): void;
     updateIsLoading(isLoading: boolean): void;
     updateScale(scale: number): void;
+    updateColors(): void;
     destroy(): void;
 }
 export default Gantt;
