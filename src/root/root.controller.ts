@@ -127,14 +127,14 @@ export class RootController {
 		event.preventDefault();
 		const offsetX = event.changedTouches[0]?.screenX;
 		const offsetY = event.changedTouches[0]?.screenY;
-		if(offsetX && this.touchOffsetX !== null) {
+		if(offsetX && this.touchOffsetX !== null && offsetX !== this.touchOffsetX) {
 			const diff = this.touchOffsetX - offsetX;
 			let offset = this.root.view.offsetX + diff;
 			this.root.view.handleSetOffsetX(offset);
 			this.previousTouchOffsetX = this.touchOffsetX;
 			this.touchOffsetX = offsetX;
 		}
-		if(offsetY && this.touchOffsetY !== null) {
+		if(offsetY && this.touchOffsetY !== null && offsetY !== this.touchOffsetY) {
 			const diff = this.touchOffsetY - offsetY;
 			let offset = this.root.view.offsetY + diff;
 			const maxHeight = this.root.grid.service.getLeftAvailableHeight();
@@ -148,7 +148,7 @@ export class RootController {
 
 
 	handleTouchEnd(event: TouchEvent) {
-
+		
 		if(this.events.touchend && !this.previousTouchOffsetX && !this.previousTouchOffsetY) {
 			this.events.touchend.every(cb => {
 				// @ts-ignore
