@@ -88,7 +88,7 @@ export class TasksView {
 	}
 
 	renderTasks() {
-		this.tasks.forEach(x => this.taskEntity.renderItem(x));
+		this.tasks.forEach(x => this.taskEntity.renderItem(x, this.module.controller.isTouchAction));
 	}
 
 

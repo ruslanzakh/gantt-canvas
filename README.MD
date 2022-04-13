@@ -8,6 +8,7 @@
 - Customizable behavior
 - Without any dependencies
 - Full typescript support
+- Support move and resize on mobile
 
 ## Installation
 
@@ -111,6 +112,8 @@ If ``(showTime === false || task.all_day === true)`` Task fills a space of a who
         lang?: string; // ru
         background?: string;
         scale?: number;
+        allowMobileTaskMove: boolean; // false
+        allowMobileTaskResize: boolean; // false
     };
 ```
 #### Month view

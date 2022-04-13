@@ -57,7 +57,7 @@ export class TaskEntity {
 		return { hover, resize, depFrom };
 	}
 
-	renderItem(task: TaskRender) {
+	renderItem(task: TaskRender, isTouchAction = false) {
 		const { x, y, w, hover, noEditable } = task;
 		if(x >= this.root.view.canvasWidth || w === 0) return;
 		const ctx = this.root.ctx;
@@ -68,8 +68,10 @@ export class TaskEntity {
 		roundRect(ctx, x, top, w, this.root.api.taskHeight, this.root.api.taskRadius, fillStyle, strokeStyle);
 		this.renderTaskText(task, top);
 		if(hover && !noEditable) {
-			this.renderResizeControls(task, top);
-			this.renderRightDep(x + w, top + (this.root.api.taskHeight / 2));
+			if(!isTouchAction || this.root.api.allowMobileTaskResize)
+				this.renderResizeControls(task, top);
+			if(!isTouchAction)
+				this.renderRightDep(x + w, top + (this.root.api.taskHeight / 2));
 		}
 	}
 

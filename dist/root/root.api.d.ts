@@ -36,6 +36,8 @@ export interface RootApiProps {
     lang?: string;
     background?: string;
     scale?: number;
+    allowMobileTaskMove?: boolean;
+    allowMobileTaskResize?: boolean;
     showMonthMiddle?: boolean;
     showMonthFromStartOnDayView?: boolean;
     monthHeight?: number;
@@ -139,6 +141,8 @@ export declare class RootApi {
     lang: string;
     _background: string;
     scale: number;
+    allowMobileTaskMove: boolean;
+    allowMobileTaskResize: boolean;
     showMonthMiddle: boolean;
     showMonthFromStartOnDayView: boolean;
     monthHeight: number;

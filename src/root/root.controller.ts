@@ -115,16 +115,29 @@ export class RootController {
 
 	handleTouchStart(event: TouchEvent) {
 		event.preventDefault();
+		this.events.touchstart?.every(cb => {
+			// @ts-ignore
+			if(event._stopPropagation) return false;
+			cb(event);
+			return true;
+		});
 		const offsetX = event.touches[0]?.screenX;
 		const offsetY = event.touches[0]?.screenY;
 		if(offsetX) this.touchOffsetX = offsetX;
 		if(offsetY) this.touchOffsetY = offsetY;
-		
+
 	}
 
 
 	handleTouchMove(event: TouchEvent) {
 		event.preventDefault();
+		this.events.touchmove?.every(cb => {
+			// @ts-ignore
+			if(event._stopPropagation) return false;
+			cb(event);
+			return true;
+		});
+		if(this.root.tasks.controller.mouseDownOffsetX) return;
 		const offsetX = event.changedTouches[0]?.screenX;
 		const offsetY = event.changedTouches[0]?.screenY;
 		if(offsetX && this.touchOffsetX !== null && offsetX !== this.touchOffsetX) {

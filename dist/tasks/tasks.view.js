@@ -88,7 +88,7 @@ var TasksView = /** @class */ (function () {
     };
     TasksView.prototype.renderTasks = function () {
         var _this = this;
-        this.tasks.forEach(function (x) { return _this.taskEntity.renderItem(x); });
+        this.tasks.forEach(function (x) { return _this.taskEntity.renderItem(x, _this.module.controller.isTouchAction); });
     };
     return TasksView;
 }());

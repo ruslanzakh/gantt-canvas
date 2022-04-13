@@ -60,7 +60,7 @@ export declare class TasksService {
         resize: string | null;
         depFromId: string | null;
     };
-    scrollX(event: MouseEvent): void;
+    scrollX(event: EventOffsets): void;
     clearScrollInterval(): void;
     getDiff(offsetX: number, all_day?: boolean): number;
     getColTsForDiff(all_day?: boolean): number;
@@ -70,12 +70,12 @@ export declare class TasksService {
     scrollToTaskX(id: string): void;
     scrollToTaskY(id: string): void;
     /** Start Add Dependencies */
-    handleAddDepMouseMove(event: MouseEvent): void;
-    handleAddDepMouseUp(event: MouseEvent): void;
+    handleAddDepMouseMove(event: EventOffsets): void;
+    handleAddDepMouseUp(event: EventOffsets): void;
     updateDepOffsets(offsetX?: number | null, offsetY?: number | null): void;
     /** End Add Dependencies */
     /** Start Resize Task */
-    handleResizeTaskMouseMove(event: MouseEvent): void;
+    handleResizeTaskMouseMove(event: EventOffsets): void;
     resizeTaskByResizeMode(offsetX: number): void;
     resizeTaskRightSide(task: Task, diff: number): void;
     resizeTaskLeftSide(task: Task, diff: number): void;
@@ -86,7 +86,7 @@ export declare class TasksService {
     handleResizeTaskMouseUp(): void;
     /** End Resize Task */
     /** Start Move Task */
-    handleMoveTaskMouseMove(event: MouseEvent): void;
+    handleMoveTaskMouseMove(event: EventOffsets): void;
     moveTask(offsetX: number): void;
     moveDependedTasks(task: Task, diff: number): void;
     saveMoveTask(task: Task, diff: number): void;

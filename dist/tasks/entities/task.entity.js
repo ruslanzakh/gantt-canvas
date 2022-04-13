@@ -32,7 +32,8 @@ var TaskEntity = /** @class */ (function () {
         }
         return { hover: hover, resize: resize, depFrom: depFrom };
     };
-    TaskEntity.prototype.renderItem = function (task) {
+    TaskEntity.prototype.renderItem = function (task, isTouchAction) {
+        if (isTouchAction === void 0) { isTouchAction = false; }
         var x = task.x, y = task.y, w = task.w, hover = task.hover, noEditable = task.noEditable;
         if (x >= this.root.view.canvasWidth || w === 0)
             return;
@@ -44,8 +45,10 @@ var TaskEntity = /** @class */ (function () {
         canvas_1.roundRect(ctx, x, top, w, this.root.api.taskHeight, this.root.api.taskRadius, fillStyle, strokeStyle);
         this.renderTaskText(task, top);
         if (hover && !noEditable) {
-            this.renderResizeControls(task, top);
-            this.renderRightDep(x + w, top + (this.root.api.taskHeight / 2));
+            if (!isTouchAction || this.root.api.allowMobileTaskResize)
+                this.renderResizeControls(task, top);
+            if (!isTouchAction)
+                this.renderRightDep(x + w, top + (this.root.api.taskHeight / 2));
         }
     };
     TaskEntity.prototype.renderRightDep = function (x, y) {

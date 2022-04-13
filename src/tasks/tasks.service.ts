@@ -144,7 +144,7 @@ export class TasksService {
 	}
 
 	
-	scrollX(event: MouseEvent) {
+	scrollX(event: EventOffsets) {
 		const { offsetX } = event;
 		const width = this.root.view.canvasWidth;
 		const colWidth = this.root.grid.view.colWidth;
@@ -233,7 +233,7 @@ export class TasksService {
 	}
 
 	/** Start Add Dependencies */
-	handleAddDepMouseMove(event: MouseEvent) {
+	handleAddDepMouseMove(event: EventOffsets) {
 		if(this.intervalChangeOffset) {
 			this.updateDepOffsets(undefined, event.offsetY);
 			return this.scrollX(event);
@@ -243,7 +243,7 @@ export class TasksService {
 		this.root.render();
 	}
 
-	handleAddDepMouseUp(event: MouseEvent) {
+	handleAddDepMouseUp(event: EventOffsets) {
 		const { hoverId } = this.getHoverId(event);
 		if(hoverId && this.module.store.hoverId && hoverId !== this.module.store.hoverId) {
 			const hoveredTask = this.getRootStoreTaskById(hoverId);
@@ -270,7 +270,7 @@ export class TasksService {
 	/** End Add Dependencies */
 
 	/** Start Resize Task */
-	handleResizeTaskMouseMove(event: MouseEvent) {
+	handleResizeTaskMouseMove(event: EventOffsets) {
 		if(this.intervalChangeOffset) return this.scrollX(event);
 		this.resizeTaskByResizeMode(event.offsetX);
 		this.scrollX(event);
@@ -359,7 +359,7 @@ export class TasksService {
 	/** End Resize Task */
 
 	/** Start Move Task */
-	handleMoveTaskMouseMove(event: MouseEvent) {
+	handleMoveTaskMouseMove(event: EventOffsets ) {
 		if(this.intervalChangeOffset) return this.scrollX(event);
 		this.moveTask(event.offsetX);
 		this.scrollX(event);

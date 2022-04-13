@@ -41,6 +41,8 @@ export interface RootApiProps {
 	lang?: string;
 	background?: string;
 	scale?: number;
+	allowMobileTaskMove?: boolean;
+	allowMobileTaskResize?: boolean;
 
 	showMonthMiddle?: boolean;
 	showMonthFromStartOnDayView?: boolean;
@@ -161,6 +163,8 @@ export class RootApi {
 	_background: string;
 
 	scale: number;
+	allowMobileTaskMove: boolean;
+	allowMobileTaskResize: boolean;
 
 	showMonthMiddle: boolean;
 	showMonthFromStartOnDayView: boolean;
@@ -279,6 +283,9 @@ export class RootApi {
 		this._background = props.background ?? COLORS.WHITE;
 
 		this.scale = props.scale ?? 1;
+		
+		this.allowMobileTaskMove = props.allowMobileTaskMove ?? false;
+		this.allowMobileTaskResize = props.allowMobileTaskResize ?? false;
 
 		this.monthHeight = props.monthHeight ?? 55;
 		this.renderMonthBottomLine = props.renderMonthBottomLine ?? true;

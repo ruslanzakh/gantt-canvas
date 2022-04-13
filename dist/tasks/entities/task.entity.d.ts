@@ -35,7 +35,7 @@ export declare class TaskEntity {
         resize: string | null;
         depFrom: boolean | null;
     };
-    renderItem(task: TaskRender): void;
+    renderItem(task: TaskRender, isTouchAction?: boolean): void;
     renderRightDep(x: number, y: number): void;
     renderArrow(id: string, source: TaskRender): void;
     renderArrowLine(x: number, y: number, task: TaskRender, isHover: boolean, isClear: boolean): void;

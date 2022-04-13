@@ -114,28 +114,44 @@ var RootController = /** @class */ (function () {
         }
     };
     RootController.prototype.handleTouchStart = function (event) {
-        var _a, _b;
+        var _a, _b, _c;
         event.preventDefault();
-        var offsetX = (_a = event.touches[0]) === null || _a === void 0 ? void 0 : _a.screenX;
-        var offsetY = (_b = event.touches[0]) === null || _b === void 0 ? void 0 : _b.screenY;
+        (_a = this.events.touchstart) === null || _a === void 0 ? void 0 : _a.every(function (cb) {
+            // @ts-ignore
+            if (event._stopPropagation)
+                return false;
+            cb(event);
+            return true;
+        });
+        var offsetX = (_b = event.touches[0]) === null || _b === void 0 ? void 0 : _b.screenX;
+        var offsetY = (_c = event.touches[0]) === null || _c === void 0 ? void 0 : _c.screenY;
         if (offsetX)
             this.touchOffsetX = offsetX;
         if (offsetY)
             this.touchOffsetY = offsetY;
     };
     RootController.prototype.handleTouchMove = function (event) {
-        var _a, _b;
+        var _a, _b, _c;
         event.preventDefault();
-        var offsetX = (_a = event.changedTouches[0]) === null || _a === void 0 ? void 0 : _a.screenX;
-        var offsetY = (_b = event.changedTouches[0]) === null || _b === void 0 ? void 0 : _b.screenY;
-        if (offsetX && this.touchOffsetX !== null) {
+        (_a = this.events.touchmove) === null || _a === void 0 ? void 0 : _a.every(function (cb) {
+            // @ts-ignore
+            if (event._stopPropagation)
+                return false;
+            cb(event);
+            return true;
+        });
+        if (this.root.tasks.controller.mouseDownOffsetX)
+            return;
+        var offsetX = (_b = event.changedTouches[0]) === null || _b === void 0 ? void 0 : _b.screenX;
+        var offsetY = (_c = event.changedTouches[0]) === null || _c === void 0 ? void 0 : _c.screenY;
+        if (offsetX && this.touchOffsetX !== null && offsetX !== this.touchOffsetX) {
             var diff = this.touchOffsetX - offsetX;
             var offset = this.root.view.offsetX + diff;
             this.root.view.handleSetOffsetX(offset);
             this.previousTouchOffsetX = this.touchOffsetX;
             this.touchOffsetX = offsetX;
         }
-        if (offsetY && this.touchOffsetY !== null) {
+        if (offsetY && this.touchOffsetY !== null && offsetY !== this.touchOffsetY) {
             var diff = this.touchOffsetY - offsetY;
             var offset = this.root.view.offsetY + diff;
             var maxHeight = this.root.grid.service.getLeftAvailableHeight();
