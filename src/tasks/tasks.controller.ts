@@ -57,12 +57,12 @@ export class TasksController {
 		if(this.root.api.isLoading) return;
 		const { hoverId, resize, depFromId } = this.module.service.getHoverId(eventOffsets);
 		if(!hoverId) return;
+		this.initialMouseDownOffsetX = eventOffsets.offsetX;
 		if(this.module.service.isNoEditableTask(hoverId)) {
 			return document.addEventListener('touchend', this.handleNoEditableTaskMouseUp);
 		} 
 		if((resize && this.root.api.allowMobileTaskResize)
 			|| this.root.api.allowMobileTaskMove) {
-				this.initialMouseDownOffsetX = eventOffsets.offsetX;
 				this.mouseDownOffsetX = eventOffsets.offsetX;
 				this.isTouchAction = true;
 				this.module.store.setHoverId(hoverId, resize, depFromId);

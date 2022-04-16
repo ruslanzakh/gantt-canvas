@@ -18,12 +18,12 @@ var TasksController = /** @class */ (function () {
             var _a = _this.module.service.getHoverId(eventOffsets), hoverId = _a.hoverId, resize = _a.resize, depFromId = _a.depFromId;
             if (!hoverId)
                 return;
+            _this.initialMouseDownOffsetX = eventOffsets.offsetX;
             if (_this.module.service.isNoEditableTask(hoverId)) {
                 return document.addEventListener('touchend', _this.handleNoEditableTaskMouseUp);
             }
             if ((resize && _this.root.api.allowMobileTaskResize)
                 || _this.root.api.allowMobileTaskMove) {
-                _this.initialMouseDownOffsetX = eventOffsets.offsetX;
                 _this.mouseDownOffsetX = eventOffsets.offsetX;
                 _this.isTouchAction = true;
                 _this.module.store.setHoverId(hoverId, resize, depFromId);
