@@ -1,10 +1,9 @@
 export function debounce<T>(f: (arg: T) => void, ms: number) {
 	let isCooldown = false;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	return function (...args: any[]) {
+	return function () {
 		if (isCooldown) return;
 		// @ts-ignore
-		f.apply(this, args);
+		f.apply(this, arguments);
 		isCooldown = true;
 		setTimeout(() => (isCooldown = false), ms);
 	};
