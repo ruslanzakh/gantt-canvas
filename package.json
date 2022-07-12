@@ -5,7 +5,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "eslint": "eslint --fix -c .eslintrc.js --ext .ts .",
+    "prettier": "prettier --write ./src"
   },
   "keywords": [
     "Gantt",
@@ -18,6 +20,13 @@
   "license": "MIT",
   "devDependencies": {
     "@types/css-font-loading-module": "0.0.7",
+    "@typescript-eslint/eslint-plugin": "^5.30.6",
+    "@typescript-eslint/parser": "^5.30.6",
+    "@typescript-eslint/typescript-estree": "^5.30.6",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1",
     "typescript": "^4.3.5"
   }
 }

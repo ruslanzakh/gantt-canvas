@@ -33,7 +33,6 @@ export declare class TasksService {
         colorHover?: string | undefined;
         outlineColor?: string | undefined;
         colorSubtitle?: string | undefined;
-        /** Start getters */
         outlineSubtitleColor?: string | undefined;
         stroke?: string | undefined;
         strokeHover?: string | undefined;

@@ -1,5 +1,3 @@
-
-
 export const COLORS = {
 	WHITE: '#fff',
 	BLACK: '#222',
@@ -10,7 +8,7 @@ export const COLORS = {
 	D_BLUE: '#001064',
 	VIOLET: '#ae52d4',
 	D_VIOLET: '#7b1fa2',
-}
+};
 
 export const MONTH_NAMES = {
 	ru: [
@@ -25,41 +23,25 @@ export const MONTH_NAMES = {
 		'Сентябрь',
 		'Октябрь',
 		'Ноябрь',
-		'Декабрь'
+		'Декабрь',
 	],
 	en: [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
-    ],
-}
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December',
+	],
+};
 
 export const WEEKDAY_NAMES = {
-	ru: [
-		'вс',
-		'пн',
-		'вт',
-		'ср',
-		'чт',
-		'пт',
-		'сб',
-	],
-	en: [
-		'su',
-		'mo',
-		'tu',
-		'we',
-		'th',
-		'fr',
-		'sa',
-	],
-}
+	ru: ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'],
+	en: ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'],
+};

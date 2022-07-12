@@ -1,5 +1,4 @@
 import { RootModule } from '../root/root.module';
-import { TasksModule } from './tasks.module';
 import { Task } from '../root/root.api';
 import { ObjectList } from '../utils/interfaces';
 
@@ -24,9 +23,9 @@ export class TasksStore {
 
 	fillTasks() {
 		this.tasks = this.root.api.tasks.map(task => {
-			if(this.modifiedTasks[task.id]) return this.modifiedTasks[task.id];
+			if (this.modifiedTasks[task.id]) return this.modifiedTasks[task.id];
 			return task;
-		})
+		});
 		this.tasksList = {};
 		this.tasks.forEach(task => {
 			this.tasksList[task.id] = task;
@@ -47,16 +46,28 @@ export class TasksStore {
 		this.fillTasks();
 	}
 
-	setHoverId(id: null | string, resize: null | string, hoverDrag: null | string) {
-		if(id === this.hoverId && resize === this.hoverResize && hoverDrag === this.hoverDrag) return;
-		if(!this.root.api.isLoading) {
-			if(id) this.root.view.setCursor(resize ? 'col-resize' : hoverDrag ? 'grab' : 'pointer');
+	setHoverId(
+		id: null | string,
+		resize: null | string,
+		hoverDrag: null | string
+	) {
+		if (
+			id === this.hoverId &&
+			resize === this.hoverResize &&
+			hoverDrag === this.hoverDrag
+		)
+			return;
+		if (!this.root.api.isLoading) {
+			if (id)
+				this.root.view.setCursor(
+					resize ? 'col-resize' : hoverDrag ? 'grab' : 'pointer'
+				);
 			else this.root.view.setCursor('auto');
 		}
 
 		this.hoverResize = resize;
 		this.hoverDrag = hoverDrag;
-		if(id !== this.hoverId) {
+		if (id !== this.hoverId) {
 			this.hoverId = id;
 			this.root.render();
 		}
@@ -66,9 +77,11 @@ export class TasksStore {
 		this.hoverConnectionTask = id;
 	}
 
-	updateDepOffsets(offsetX = this.addDepOffsetX, offsetY = this.addDepOffsetY) {
+	updateDepOffsets(
+		offsetX = this.addDepOffsetX,
+		offsetY = this.addDepOffsetY
+	) {
 		this.addDepOffsetX = offsetX;
 		this.addDepOffsetY = offsetY;
 	}
-
 }

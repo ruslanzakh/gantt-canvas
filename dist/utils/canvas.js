@@ -43,28 +43,28 @@ var getEventTouchOffsets = function (event, canvas, ctx) {
     var x_rel = x - rect.left;
     var y_rel = y - rect.top;
     var ratio = getPixelRatio(ctx);
-    var offsetX = Math.round((x_rel * canvas.width / ratio) / rect.width);
-    var offsetY = Math.round((y_rel * canvas.height / ratio) / rect.height);
+    var offsetX = Math.round((x_rel * canvas.width) / ratio / rect.width);
+    var offsetY = Math.round((y_rel * canvas.height) / ratio / rect.height);
     return { offsetX: offsetX, offsetY: offsetY };
 };
 exports.getEventTouchOffsets = getEventTouchOffsets;
 var renderUnderline = function (ctx, text, x, y) {
     var metrics = exports.measureText(ctx, text);
-    var fontSize = Math.floor(metrics.actualHeight * 1.4); // 140% the height 
+    var fontSize = Math.floor(metrics.actualHeight * 1.4); // 140% the height
     switch (ctx.textAlign) {
-        case "center":
-            x -= (metrics.width / 2);
+        case 'center':
+            x -= metrics.width / 2;
             break;
-        case "right":
+        case 'right':
             x -= metrics.width;
             break;
     }
     switch (ctx.textBaseline) {
-        case "top":
-            y += (fontSize);
+        case 'top':
+            y += fontSize;
             break;
-        case "middle":
-            y += (fontSize / 2);
+        case 'middle':
+            y += fontSize / 2;
             break;
     }
     ctx.save();
@@ -81,9 +81,10 @@ var measureText = function (ctx, text) {
     var metrics = ctx.measureText(text);
     return {
         width: Math.floor(metrics.width),
+        height: Math.floor(
         // @ts-ignore
-        height: Math.floor(metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent),
-        actualHeight: Math.floor(metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent)
+        metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent),
+        actualHeight: Math.floor(metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent),
     };
 };
 exports.measureText = measureText;
@@ -91,11 +92,12 @@ function getPixelRatio(context) {
     // assume the device pixel ratio is 1 if the browser doesn't specify it
     var devicePixelRatio = window.devicePixelRatio || 1;
     // determine the 'backing store ratio' of the canvas context
-    var backingStoreRatio = (context.webkitBackingStorePixelRatio ||
+    var backingStoreRatio = context.webkitBackingStorePixelRatio ||
         context.mozBackingStorePixelRatio ||
         context.msBackingStorePixelRatio ||
         context.oBackingStorePixelRatio ||
-        context.backingStorePixelRatio || 1);
+        context.backingStorePixelRatio ||
+        1;
     // determine the actual ratio we want to draw at
     var ratio = devicePixelRatio / backingStoreRatio;
     return ratio;

@@ -12,13 +12,13 @@ var RootModule = /** @class */ (function () {
     function RootModule(el, props) {
         var elem = document.querySelector(el);
         if (!elem)
-            throw new Error('Root element doesn\'t found');
+            throw new Error("Root element doesn't found");
         this.root = elem;
         this.canvas = document.createElement('canvas');
         this.root.append(this.canvas);
         var ctx = this.canvas.getContext('2d');
         if (!ctx)
-            throw new Error('Canvas context doesn\'t gotten');
+            throw new Error("Canvas context doesn't gotten");
         canvas_1.scaleCanvas(this.canvas, ctx, this.root.offsetWidth, this.root.offsetHeight);
         this.ctx = ctx;
         this.service = new root_service_1.RootService(this);

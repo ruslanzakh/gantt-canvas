@@ -63,7 +63,9 @@ var ScrollbarYEntity = /** @class */ (function () {
         if (!this.needRender())
             return false;
         var offsetX = event.offsetX, offsetY = event.offsetY;
-        return offsetX >= this.left && offsetY > this.top && offsetY < this.root.view.canvasHeight - this.bottomOffset;
+        return (offsetX >= this.left &&
+            offsetY > this.top &&
+            offsetY < this.root.view.canvasHeight - this.bottomOffset);
     };
     ScrollbarYEntity.prototype.handleMouseDown = function (event) {
         var isLineClick = this.isLineClick(event);
@@ -151,7 +153,8 @@ var ScrollbarYEntity = /** @class */ (function () {
     ScrollbarYEntity.prototype.getLineYAndHeight = function () {
         var fullHeight = this.root.grid.service.getFullAvailableHeight();
         var y = (this.root.view.offsetY / fullHeight) * this.backgroundLineHeight;
-        var height = (this.backgroundLineHeight / fullHeight) * this.backgroundLineHeight;
+        var height = (this.backgroundLineHeight / fullHeight) *
+            this.backgroundLineHeight;
         if (height < this.minLineHeight)
             height = this.minLineHeight;
         return { y: y, height: height };

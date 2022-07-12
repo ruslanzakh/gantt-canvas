@@ -66,18 +66,18 @@ var ColumnEntity = /** @class */ (function () {
         if (weekdayTitle) {
             var pad = dayHeight / 6;
             ctx.textBaseline = 'top';
-            ctx.fillText(title, x + (width / 2), monthHeight + pad);
+            ctx.fillText(title, x + width / 2, monthHeight + pad);
             ctx.font = this.root.api.weekdayFont;
             if (weekend && this.root.api.weekdayWeekendColor)
                 ctx.fillStyle = this.root.api.weekdayWeekendColor;
             else
                 ctx.fillStyle = this.root.api.weekdayColor;
             ctx.textBaseline = 'bottom';
-            ctx.fillText(weekdayTitle, x + (width / 2), monthHeight + dayHeight - pad);
+            ctx.fillText(weekdayTitle, x + width / 2, monthHeight + dayHeight - pad);
         }
         else {
             ctx.textBaseline = 'middle';
-            ctx.fillText(title, x + (width / 2), monthHeight + (dayHeight / 2));
+            ctx.fillText(title, x + width / 2, monthHeight + dayHeight / 2);
         }
         ctx.textAlign = 'left';
         ctx.textBaseline = 'alphabetic';

@@ -94,7 +94,7 @@ var GridStore = /** @class */ (function () {
         var width = fullDataWidth - this.root.view.canvasWidth - colWidth;
         if (offsetX < width)
             return;
-        var length = ((offsetX - width) / colWidth);
+        var length = (offsetX - width) / colWidth;
         var ts = (_a = data[data.length - 1]) === null || _a === void 0 ? void 0 : _a.ts;
         if (!ts) {
             ts = this.getStartDayByViewMode(date_1.getDate().getTime());
@@ -127,8 +127,10 @@ var GridStore = /** @class */ (function () {
         if (minus === void 0) { minus = false; }
         if (this.root.api.viewMode === 'month') {
             if (minus)
-                return date_1.getDaysInMonth(date.getMonth(), date.getFullYear()) * this.module.view.dayTs;
-            return date_1.getDaysInMonth(date.getMonth() + 1, date.getFullYear()) * this.module.view.dayTs;
+                return (date_1.getDaysInMonth(date.getMonth(), date.getFullYear()) *
+                    this.module.view.dayTs);
+            return (date_1.getDaysInMonth(date.getMonth() + 1, date.getFullYear()) *
+                this.module.view.dayTs);
         }
         return this.module.view.colTs;
     };

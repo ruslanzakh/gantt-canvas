@@ -7,7 +7,6 @@ import { RootController } from './root.controller';
 import { scaleCanvas } from '../utils/canvas';
 export { RootApiProps } from './root.api';
 
-
 export class RootModule {
 	root: HTMLElement;
 	canvas: HTMLCanvasElement;
@@ -21,15 +20,20 @@ export class RootModule {
 
 	constructor(el: string, props: RootApiProps) {
 		const elem: HTMLElement | null = document.querySelector(el);
-		if(!elem) throw new Error('Root element doesn\'t found');
+		if (!elem) throw new Error("Root element doesn't found");
 		this.root = elem;
 		this.canvas = document.createElement('canvas');
 		this.root.append(this.canvas);
 		const ctx = this.canvas.getContext('2d');
-		if(!ctx) throw new Error('Canvas context doesn\'t gotten');
-		scaleCanvas(this.canvas, ctx, this.root.offsetWidth, this.root.offsetHeight);
+		if (!ctx) throw new Error("Canvas context doesn't gotten");
+		scaleCanvas(
+			this.canvas,
+			ctx,
+			this.root.offsetWidth,
+			this.root.offsetHeight
+		);
 		this.ctx = ctx;
-	
+
 		this.service = new RootService(this);
 		this.api = new RootApi(this, props);
 		this.controller = new RootController(this);
@@ -43,7 +47,7 @@ export class RootModule {
 		this.grid.init();
 		this.tasks.init();
 		this.render();
-		if(this.api.isLoading) this.view.setCursor('progress');
+		if (this.api.isLoading) this.view.setCursor('progress');
 	}
 
 	destroy() {
@@ -56,5 +60,4 @@ export class RootModule {
 	render() {
 		this.view.render();
 	}
-
 }

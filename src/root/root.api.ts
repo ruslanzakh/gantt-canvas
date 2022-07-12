@@ -24,10 +24,17 @@ export interface Task {
 	noEditable?: boolean;
 }
 
-export type ViewMode = 'day' | 'week' | 'month' | 'half-day' | 'quarter-day' | 'three-hours' | 'hour';
+export type ViewMode =
+	| 'day'
+	| 'week'
+	| 'month'
+	| 'half-day'
+	| 'quarter-day'
+	| 'three-hours'
+	| 'hour';
 
 export interface RootApiProps {
-	tasks: Task[],
+	tasks: Task[];
 	moveDependedOnResizeRight?: boolean;
 	moveDependedOnResizeLeft?: boolean;
 	moveDependedOnMove?: boolean;
@@ -88,7 +95,6 @@ export interface RootApiProps {
 	rowEvenBackground?: string;
 	rowOddBackground?: string;
 
-
 	taskDefaultBackground?: string;
 	taskDefaultHoverBackground?: string;
 	taskDefaultStrokeColor?: string;
@@ -139,13 +145,11 @@ export interface RootApiProps {
 	scrollbarYLineBackground?: string;
 	scrollbarYLineRadius?: number;
 
-
 	handleChange?(tasks: Task[]): Promise<void>;
 	handleTaskClick?(task: Task): Promise<void>;
 }
 
 export class RootApi {
-
 	root: RootModule;
 
 	tasks: Task[];
@@ -266,24 +270,26 @@ export class RootApi {
 	constructor(root: RootModule, props: RootApiProps) {
 		this.root = root;
 		this.tasks = props.tasks;
-	
-		this.moveDependedOnResizeRight = props.moveDependedOnResizeRight ?? true;
+
+		this.moveDependedOnResizeRight =
+			props.moveDependedOnResizeRight ?? true;
 		this.moveDependedOnResizeLeft = props.moveDependedOnResizeLeft ?? false;
 		this.moveDependedOnMove = props.moveDependedOnMove ?? true;
 		this.showTime = props.showTime ?? false;
 		this.startFromToday = props.startFromToday ?? true;
 		this.renderAllTasksFromStart = props.renderAllTasksFromStart ?? true;
 		this.showMonthMiddle = props.showMonthMiddle ?? false;
-		this.showMonthFromStartOnDayView = props.showMonthFromStartOnDayView ?? false;
+		this.showMonthFromStartOnDayView =
+			props.showMonthFromStartOnDayView ?? false;
 		this.viewMode = props.viewMode ?? 'day';
 		this.isLoading = props.isLoading ?? false;
-		this.monthNames = { ...MONTH_NAMES, ...props.monthNames ?? {} };
-		this.weekdayNames = { ...WEEKDAY_NAMES, ...props.weekdayNames ?? {} };
+		this.monthNames = { ...MONTH_NAMES, ...(props.monthNames ?? {}) };
+		this.weekdayNames = { ...WEEKDAY_NAMES, ...(props.weekdayNames ?? {}) };
 		this.lang = props.lang ?? 'ru';
 		this._background = props.background ?? COLORS.WHITE;
 
 		this.scale = props.scale ?? 1;
-		
+
 		this.allowMobileTaskMove = props.allowMobileTaskMove ?? false;
 		this.allowMobileTaskResize = props.allowMobileTaskResize ?? false;
 
@@ -294,8 +300,12 @@ export class RootApi {
 		this.monthTitleFont = props.monthTitleFont ?? '600 20px Arial';
 		this._monthTitleColor = props.monthTitleColor ?? COLORS.BLACK;
 		this.monthTitleShowYear = props.monthTitleShowYear ?? true;
-		
-		this._dayHeight =  props.dayHeight ? props.dayHeight : props.showDayWeekday ? 48 : 28;
+
+		this._dayHeight = props.dayHeight
+			? props.dayHeight
+			: props.showDayWeekday
+			? 48
+			: 28;
 		this.renderDayStartMonthLine = props.renderDayStartMonthLine ?? true;
 		this._dayStartMonthLine = props.dayStartMonthLine ?? COLORS.L_GREY;
 		this._dayBottomLineColor = props.dayBottomLineColor ?? COLORS.L_GREY;
@@ -312,7 +322,8 @@ export class RootApi {
 		this.dayFontFamily = props.dayFontFamily ?? 'Arial';
 		this._dayColor = props.dayColor ?? COLORS.BLACK;
 		this.weekdayFontSize = props.weekdayFontSize ?? 14;
-		this.weekdayFontLineHeight = props.weekdayFontLineHeight ?? this.weekdayFontSize;
+		this.weekdayFontLineHeight =
+			props.weekdayFontLineHeight ?? this.weekdayFontSize;
 		this.weekdayFontWeight = props.weekdayFontWeight ?? 500;
 		this.weekdayFontFamily = props.weekdayFontFamily ?? 'Arial';
 		this._weekdayColor = props.weekdayColor ?? COLORS.BLACK;
@@ -328,15 +339,21 @@ export class RootApi {
 		this._rowEvenBackground = props.rowEvenBackground ?? COLORS.WHITE;
 		this._rowOddBackground = props.rowOddBackground ?? COLORS.WHITE;
 
-		this._taskDefaultBackground = props.taskDefaultBackground ?? COLORS.VIOLET;
-		this._taskDefaultHoverBackground = props.taskDefaultHoverBackground ?? COLORS.D_VIOLET;
+		this._taskDefaultBackground =
+			props.taskDefaultBackground ?? COLORS.VIOLET;
+		this._taskDefaultHoverBackground =
+			props.taskDefaultHoverBackground ?? COLORS.D_VIOLET;
 		this._taskDefaultStrokeColor = props.taskDefaultStrokeColor;
 		this._taskDefaultHoverStrokeColor = props.taskDefaultHoverStrokeColor;
 		this._taskDefaultColor = props.taskDefaultColor ?? COLORS.WHITE;
-		this._taskDefaultHoverColor = props.taskDefaultHoverColor ?? COLORS.WHITE;
-		this._taskDefaultOutlineColor = props.taskDefaultOutlineColor ?? COLORS.BLACK;
-		this._taskDefaultSubtitleColor = props.taskDefaultSubtitleColor ?? COLORS.WHITE;
-		this._taskDefaultSubtitleOutlineColor = props.taskDefaultSubtitleOutlineColor ?? COLORS.BLACK;
+		this._taskDefaultHoverColor =
+			props.taskDefaultHoverColor ?? COLORS.WHITE;
+		this._taskDefaultOutlineColor =
+			props.taskDefaultOutlineColor ?? COLORS.BLACK;
+		this._taskDefaultSubtitleColor =
+			props.taskDefaultSubtitleColor ?? COLORS.WHITE;
+		this._taskDefaultSubtitleOutlineColor =
+			props.taskDefaultSubtitleOutlineColor ?? COLORS.BLACK;
 		this._taskSubtitleOffset = props.taskSubtitleOffset ?? 10;
 		this._taskHeight = props.taskHeight ?? 34;
 		this._taskPadding = props.taskPadding ?? 5;
@@ -344,21 +361,26 @@ export class RootApi {
 		this.taskFontSize = props.taskFontSize ?? 16;
 		this.taskFontLineHeight = props.taskFontLineHeight ?? this.taskFontSize;
 		this.taskFontWeight = props.taskFontWeight ?? 400;
-		this.taskFontFamily = props.taskFontFamily ?? "serif";
+		this.taskFontFamily = props.taskFontFamily ?? 'serif';
 		this._taskErrorStrokeColor = props.taskErrorStrokeColor;
 		this._minTaskWidth = props.minTaskWidth ?? 10;
 
 		this.taskRenderResizeControls = props.taskRenderResizeControls ?? true;
-		this._taskRenderResizeControlsWidth = props.taskRenderResizeControlsWidth ?? 6;
-		this._taskRenderResizeControlsColor = props.taskRenderResizeControlsColor ?? COLORS.WHITE;
-		this.taskRenderResizeControlsRadius = props.taskRenderResizeControlsRadius ?? 2;
+		this._taskRenderResizeControlsWidth =
+			props.taskRenderResizeControlsWidth ?? 6;
+		this._taskRenderResizeControlsColor =
+			props.taskRenderResizeControlsColor ?? COLORS.WHITE;
+		this.taskRenderResizeControlsRadius =
+			props.taskRenderResizeControlsRadius ?? 2;
 
 		this.taskRenderDepControl = props.taskRenderDepControl ?? true;
 		this._taskRenderDepRadius = props.taskRenderDepRadius ?? 7;
 		this._taskRenderDepOffsetX = props.taskRenderDepOffsetX ?? 7;
 		this._taskRenderDepLineWidth = props.taskRenderDepLineWidth ?? 1;
-		this._taskRenderDepLineColor = props.taskRenderDepLineColor ?? COLORS.BLACK;
-		this._taskRenderDepBackground = props.taskRenderDepBackground ?? COLORS.WHITE;
+		this._taskRenderDepLineColor =
+			props.taskRenderDepLineColor ?? COLORS.BLACK;
+		this._taskRenderDepBackground =
+			props.taskRenderDepBackground ?? COLORS.WHITE;
 
 		this._arrowColor = props.arrowColor ?? COLORS.BLUE;
 		this._arrowWidth = props.arrowWidth ?? 1;
@@ -369,13 +391,17 @@ export class RootApi {
 		this._arrowRadius = props.arrowRadius ?? 2;
 
 		this.scrollbarXHeight = props.scrollbarXHeight ?? 12;
-		this._scrollbarXBackground = props.scrollbarXBackground ?? COLORS.L_GREY;
-		this._scrollbarXLineBackground = props.scrollbarXLineBackground ?? COLORS.GREY;
+		this._scrollbarXBackground =
+			props.scrollbarXBackground ?? COLORS.L_GREY;
+		this._scrollbarXLineBackground =
+			props.scrollbarXLineBackground ?? COLORS.GREY;
 		this.scrollbarXLineRadius = props.scrollbarXLineRadius ?? 6;
 
 		this.scrollbarYWidth = props.scrollbarYWidth ?? 12;
-		this._scrollbarYBackground = props.scrollbarYBackground ?? COLORS.L_GREY;
-		this._scrollbarYLineBackground = props.scrollbarYLineBackground ?? COLORS.GREY;
+		this._scrollbarYBackground =
+			props.scrollbarYBackground ?? COLORS.L_GREY;
+		this._scrollbarYLineBackground =
+			props.scrollbarYLineBackground ?? COLORS.GREY;
 		this.scrollbarYLineRadius = props.scrollbarYLineRadius ?? 6;
 
 		this.handleChange = props.handleChange;
@@ -479,166 +505,257 @@ export class RootApi {
 	 * End Scale
 	 */
 
-
 	/**
 	 * Start Colors
 	 */
 
-
 	get background() {
-		return this.root.service.convertColor(this._background, COLORS.WHITE)
+		return this.root.service.convertColor(this._background, COLORS.WHITE);
 	}
 
 	get monthLineColor() {
-		return this.root.service.convertColor(this._monthLineColor, COLORS.L_GREY)
+		return this.root.service.convertColor(
+			this._monthLineColor,
+			COLORS.L_GREY
+		);
 	}
 
 	get monthTitleColor() {
-		return this.root.service.convertColor(this._monthTitleColor, COLORS.BLACK)
+		return this.root.service.convertColor(
+			this._monthTitleColor,
+			COLORS.BLACK
+		);
 	}
 
 	get dayStartMonthLine() {
-		return this.root.service.convertColor(this._dayStartMonthLine, COLORS.L_GREY)
+		return this.root.service.convertColor(
+			this._dayStartMonthLine,
+			COLORS.L_GREY
+		);
 	}
 
 	get dayBottomLineColor() {
-		return this.root.service.convertColor(this._dayBottomLineColor, COLORS.L_GREY)
+		return this.root.service.convertColor(
+			this._dayBottomLineColor,
+			COLORS.L_GREY
+		);
 	}
 
 	get dayTodayBackground() {
-		return this.root.service.convertColor(this._dayTodayBackground, COLORS.L_BLUE)
+		return this.root.service.convertColor(
+			this._dayTodayBackground,
+			COLORS.L_BLUE
+		);
 	}
 
 	get dayHeaderBackground() {
-		return this.root.service.convertOptionalColor(this._dayHeaderBackground)
+		return this.root.service.convertOptionalColor(
+			this._dayHeaderBackground
+		);
 	}
 
 	get dayHeaderTodayBackground() {
-		return this.root.service.convertOptionalColor(this._dayHeaderTodayBackground)
+		return this.root.service.convertOptionalColor(
+			this._dayHeaderTodayBackground
+		);
 	}
 
 	get dayHeaderWeekendBackground() {
-		return this.root.service.convertOptionalColor(this._dayHeaderWeekendBackground)
+		return this.root.service.convertOptionalColor(
+			this._dayHeaderWeekendBackground
+		);
 	}
 
 	get dayWeekendBackground() {
-		return this.root.service.convertOptionalColor(this._dayWeekendBackground)
+		return this.root.service.convertOptionalColor(
+			this._dayWeekendBackground
+		);
 	}
 
 	get dayWeekendColor() {
-		return this.root.service.convertOptionalColor(this._dayWeekendColor)
+		return this.root.service.convertOptionalColor(this._dayWeekendColor);
 	}
 
 	get dayColor() {
-		return this.root.service.convertColor(this._dayColor, COLORS.BLACK)
+		return this.root.service.convertColor(this._dayColor, COLORS.BLACK);
 	}
 
 	get weekdayColor() {
-		return this.root.service.convertColor(this._weekdayColor, COLORS.BLACK)
+		return this.root.service.convertColor(this._weekdayColor, COLORS.BLACK);
 	}
 
 	get weekdayWeekendColor() {
-		return this.root.service.convertOptionalColor(this._weekdayWeekendColor)
+		return this.root.service.convertOptionalColor(
+			this._weekdayWeekendColor
+		);
 	}
 
 	get colLineColor() {
-		return this.root.service.convertColor(this._colLineColor, COLORS.L_GREY)
+		return this.root.service.convertColor(
+			this._colLineColor,
+			COLORS.L_GREY
+		);
 	}
 
 	get colStartMonthLineColor() {
-		return this.root.service.convertOptionalColor(this._colStartMonthLineColor)
+		return this.root.service.convertOptionalColor(
+			this._colStartMonthLineColor
+		);
 	}
 
 	get rowLineColor() {
-		return this.root.service.convertColor(this._rowLineColor, COLORS.L_GREY)
+		return this.root.service.convertColor(
+			this._rowLineColor,
+			COLORS.L_GREY
+		);
 	}
 
 	get rowEvenBackground() {
-		return this.root.service.convertColor(this._rowEvenBackground, COLORS.WHITE)
+		return this.root.service.convertColor(
+			this._rowEvenBackground,
+			COLORS.WHITE
+		);
 	}
 
 	get rowOddBackground() {
-		return this.root.service.convertColor(this._rowOddBackground, COLORS.WHITE)
+		return this.root.service.convertColor(
+			this._rowOddBackground,
+			COLORS.WHITE
+		);
 	}
 
 	get taskDefaultBackground() {
-		return this.root.service.convertColor(this._taskDefaultBackground, COLORS.VIOLET)
+		return this.root.service.convertColor(
+			this._taskDefaultBackground,
+			COLORS.VIOLET
+		);
 	}
 
 	get taskDefaultHoverBackground() {
-		return this.root.service.convertColor(this._taskDefaultHoverBackground, COLORS.D_VIOLET)
+		return this.root.service.convertColor(
+			this._taskDefaultHoverBackground,
+			COLORS.D_VIOLET
+		);
 	}
 
 	get taskDefaultStrokeColor() {
-		return this.root.service.convertOptionalColor(this._taskDefaultStrokeColor)
+		return this.root.service.convertOptionalColor(
+			this._taskDefaultStrokeColor
+		);
 	}
 
 	get taskDefaultHoverStrokeColor() {
-		return this.root.service.convertOptionalColor(this._taskDefaultHoverStrokeColor)
+		return this.root.service.convertOptionalColor(
+			this._taskDefaultHoverStrokeColor
+		);
 	}
 
 	get taskDefaultColor() {
-		return this.root.service.convertColor(this._taskDefaultColor, COLORS.WHITE)
+		return this.root.service.convertColor(
+			this._taskDefaultColor,
+			COLORS.WHITE
+		);
 	}
 
 	get taskDefaultHoverColor() {
-		return this.root.service.convertColor(this._taskDefaultHoverColor, COLORS.WHITE)
+		return this.root.service.convertColor(
+			this._taskDefaultHoverColor,
+			COLORS.WHITE
+		);
 	}
 
 	get taskDefaultOutlineColor() {
-		return this.root.service.convertColor(this._taskDefaultOutlineColor, COLORS.BLACK)
+		return this.root.service.convertColor(
+			this._taskDefaultOutlineColor,
+			COLORS.BLACK
+		);
 	}
 
 	get taskDefaultSubtitleColor() {
-		return this.root.service.convertColor(this._taskDefaultSubtitleColor, COLORS.WHITE)
+		return this.root.service.convertColor(
+			this._taskDefaultSubtitleColor,
+			COLORS.WHITE
+		);
 	}
 
 	get taskDefaultSubtitleOutlineColor() {
-		return this.root.service.convertColor(this._taskDefaultSubtitleOutlineColor, COLORS.BLACK)
+		return this.root.service.convertColor(
+			this._taskDefaultSubtitleOutlineColor,
+			COLORS.BLACK
+		);
 	}
 
 	get taskErrorStrokeColor() {
-		return this.root.service.convertOptionalColor(this._taskErrorStrokeColor)
+		return this.root.service.convertOptionalColor(
+			this._taskErrorStrokeColor
+		);
 	}
 
 	get taskRenderResizeControlsColor() {
-		return this.root.service.convertColor(this._taskRenderResizeControlsColor, COLORS.WHITE)
+		return this.root.service.convertColor(
+			this._taskRenderResizeControlsColor,
+			COLORS.WHITE
+		);
 	}
 
 	get taskRenderDepLineColor() {
-		return this.root.service.convertColor(this._taskRenderDepLineColor, COLORS.BLACK)
+		return this.root.service.convertColor(
+			this._taskRenderDepLineColor,
+			COLORS.BLACK
+		);
 	}
 
 	get taskRenderDepBackground() {
-		return this.root.service.convertColor(this._taskRenderDepBackground, COLORS.WHITE)
+		return this.root.service.convertColor(
+			this._taskRenderDepBackground,
+			COLORS.WHITE
+		);
 	}
 
 	get arrowColor() {
-		return this.root.service.convertColor(this._arrowColor, COLORS.BLUE)
+		return this.root.service.convertColor(this._arrowColor, COLORS.BLUE);
 	}
 
 	get arrowActiveColor() {
-		return this.root.service.convertColor(this._arrowActiveColor, COLORS.D_BLUE)
+		return this.root.service.convertColor(
+			this._arrowActiveColor,
+			COLORS.D_BLUE
+		);
 	}
 
 	get arrowHoverColor() {
-		return this.root.service.convertColor(this._arrowHoverColor, COLORS.D_VIOLET)
+		return this.root.service.convertColor(
+			this._arrowHoverColor,
+			COLORS.D_VIOLET
+		);
 	}
 
 	get scrollbarXBackground() {
-		return this.root.service.convertColor(this._scrollbarXBackground, COLORS.L_GREY)
+		return this.root.service.convertColor(
+			this._scrollbarXBackground,
+			COLORS.L_GREY
+		);
 	}
 
 	get scrollbarXLineBackground() {
-		return this.root.service.convertColor(this._scrollbarXLineBackground, COLORS.GREY)
+		return this.root.service.convertColor(
+			this._scrollbarXLineBackground,
+			COLORS.GREY
+		);
 	}
 
 	get scrollbarYBackground() {
-		return this.root.service.convertColor(this._scrollbarYBackground, COLORS.L_GREY)
+		return this.root.service.convertColor(
+			this._scrollbarYBackground,
+			COLORS.L_GREY
+		);
 	}
 
 	get scrollbarYLineBackground() {
-		return this.root.service.convertColor(this._scrollbarYLineBackground, COLORS.GREY)
+		return this.root.service.convertColor(
+			this._scrollbarYLineBackground,
+			COLORS.GREY
+		);
 	}
 	/**
 	 * End Colors
@@ -651,7 +768,7 @@ export class RootApi {
 
 	scrollToToday(scrollTop?: boolean) {
 		this.root.grid.service.showDay(undefined, true, true);
-		if(scrollTop) this.root.view.handleSetOffsetY(0, true, true);
+		if (scrollTop) this.root.view.handleSetOffsetY(0, true, true);
 	}
 
 	scrollToTask(id: string) {
@@ -667,9 +784,11 @@ export class RootApi {
 
 	updateIsLoading(isLoading: boolean) {
 		this.isLoading = isLoading;
-		if(isLoading) this.root.view.setCursor('progress');
-		else if(this.root.tasks.store.hoverResize) this.root.view.setCursor('col-resize');
-		else if(this.root.tasks.store.hoverId) this.root.view.setCursor('pointer');
+		if (isLoading) this.root.view.setCursor('progress');
+		else if (this.root.tasks.store.hoverResize)
+			this.root.view.setCursor('col-resize');
+		else if (this.root.tasks.store.hoverId)
+			this.root.view.setCursor('pointer');
 		else this.root.view.setCursor('auto');
 	}
 
@@ -677,27 +796,32 @@ export class RootApi {
 		const initialScale = this.scale;
 		const diff = scale - initialScale;
 		const firstTsOnScreen = this.root.grid.view.firstTsOnScreen;
-		
+
 		animate({
 			duration: 300,
 			timing,
-			draw: (progress) => {
-				this.scale = initialScale + (diff * progress);
+			draw: progress => {
+				this.scale = initialScale + diff * progress;
 				this.root.grid.init();
-				this.root.grid.service.showDay(firstTsOnScreen, true, false, false);
-				if(scale < initialScale) {
+				this.root.grid.service.showDay(
+					firstTsOnScreen,
+					true,
+					false,
+					false
+				);
+				if (scale < initialScale) {
 					let height = this.root.view.offsetY * scale;
-					const maxHeight = this.root.grid.service.getLeftAvailableHeight();
-					if(height > maxHeight) height = maxHeight;
+					const maxHeight =
+						this.root.grid.service.getLeftAvailableHeight();
+					if (height > maxHeight) height = maxHeight;
 					this.root.view.handleSetOffsetY(height);
 				}
-			}
-		})
+			},
+		});
 	}
 
 	updateColors() {
 		this.root.service.clearColorsCache();
 		this.root.render();
 	}
-
 }

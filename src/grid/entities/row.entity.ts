@@ -12,11 +12,13 @@ export class RowEntity {
 		this.root = root;
 	}
 
-	renderItem({y, odd}: RowRender, rowHeight: number) {
+	renderItem({ y, odd }: RowRender, rowHeight: number) {
 		const ctx = this.root.ctx;
 		ctx.beginPath();
 		ctx.rect(0, y, this.root.view.canvasWidth, rowHeight);
-		ctx.fillStyle = odd ? this.root.api.rowOddBackground :this.root.api.rowEvenBackground;
+		ctx.fillStyle = odd
+			? this.root.api.rowOddBackground
+			: this.root.api.rowEvenBackground;
 		ctx.fill();
 		ctx.beginPath();
 		ctx.strokeStyle = this.root.api.rowLineColor;

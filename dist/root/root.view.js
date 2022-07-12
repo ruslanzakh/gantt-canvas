@@ -13,7 +13,8 @@ var RootView = /** @class */ (function () {
         this.canvasWidth = 1;
         this.canvasHeight = 1;
         this.root = root;
-        this.updateCanvasSizeAndRender = this.updateCanvasSizeAndRender.bind(this);
+        this.updateCanvasSizeAndRender =
+            this.updateCanvasSizeAndRender.bind(this);
         this.updateCanvasSize();
         this.attachEvents();
         this.scrollbarX = new scrollbar_x_entity_1.ScrollbarXEntity(root);
@@ -69,20 +70,23 @@ var RootView = /** @class */ (function () {
             var diff_1 = offsetX - initialOffset_1;
             var positiveDiff = diff_1 > 0 ? diff_1 : diff_1 * -1;
             if (!duration)
-                duration = (positiveDiff / this.root.grid.service.getFullAvailableWidth()) * 1500;
+                duration =
+                    (positiveDiff /
+                        this.root.grid.service.getFullAvailableWidth()) *
+                        1500;
             if (diff_1 === 0)
                 return;
             animate_1.animate({
                 duration: duration,
                 timing: animate_1.timing,
                 draw: function (progress) {
-                    _this.offsetX = initialOffset_1 + (diff_1 * progress);
+                    _this.offsetX = initialOffset_1 + diff_1 * progress;
                     if (_this.offsetX < 0)
                         _this.offsetX = 0;
                     if (progress === 1 || diff_1 > 0)
                         _this.root.grid.service.validateOffsetX();
                     _this.render();
-                }
+                },
             });
         }
         else {
@@ -104,18 +108,21 @@ var RootView = /** @class */ (function () {
             var diff_2 = offsetY - initialOffset_2;
             var positiveDiff = diff_2 > 0 ? diff_2 : diff_2 * -1;
             if (!duration)
-                duration = (positiveDiff / this.root.grid.service.getFullAvailableHeight()) * 1500;
+                duration =
+                    (positiveDiff /
+                        this.root.grid.service.getFullAvailableHeight()) *
+                        1500;
             if (diff_2 === 0)
                 return;
             animate_1.animate({
                 duration: duration,
                 timing: animate_1.timing,
                 draw: function (progress) {
-                    _this.offsetY = initialOffset_2 + (diff_2 * progress);
+                    _this.offsetY = initialOffset_2 + diff_2 * progress;
                     if (_this.offsetY < 0)
                         _this.offsetY = 0;
                     _this.render();
-                }
+                },
             });
         }
         else {

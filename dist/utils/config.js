@@ -25,7 +25,7 @@ exports.MONTH_NAMES = {
         'Сентябрь',
         'Октябрь',
         'Ноябрь',
-        'Декабрь'
+        'Декабрь',
     ],
     en: [
         'January',
@@ -39,26 +39,10 @@ exports.MONTH_NAMES = {
         'September',
         'October',
         'November',
-        'December'
+        'December',
     ],
 };
 exports.WEEKDAY_NAMES = {
-    ru: [
-        'вс',
-        'пн',
-        'вт',
-        'ср',
-        'чт',
-        'пт',
-        'сб',
-    ],
-    en: [
-        'su',
-        'mo',
-        'tu',
-        'we',
-        'th',
-        'fr',
-        'sa',
-    ],
+    ru: ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'],
+    en: ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'],
 };

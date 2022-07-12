@@ -50,7 +50,7 @@ var TasksService = /** @class */ (function () {
         var _b = this.getTaskPos(task, dayType), x = _b.x, xx = _b.xx, error = _b.error;
         var w = xx - x;
         var offsetY = rowsOffsetY - this.root.view.offsetY;
-        var y = (rowHeight * index) + offsetY;
+        var y = rowHeight * index + offsetY;
         return __assign(__assign({}, task), { hover: hoverId === task.id, hoverConnection: this.module.store.hoverConnectionTask === id, y: y, x: x, w: w, error: error });
     };
     TasksService.prototype.getStoreDependedTasksById = function (id, tasks) {
@@ -154,16 +154,20 @@ var TasksService = /** @class */ (function () {
         var colWidth = this.root.grid.view.colWidth;
         var pos = offsetX / width;
         var changeOffsetValue = 0;
-        if (pos > 0.9 && (this.scrollXOffset && offsetX > this.scrollXOffset)) {
+        if (pos > 0.9 && this.scrollXOffset && offsetX > this.scrollXOffset) {
             changeOffsetValue = colWidth;
         }
-        else if (pos < 0.1 && (this.scrollXOffset && offsetX < this.scrollXOffset))
+        else if (pos < 0.1 &&
+            this.scrollXOffset &&
+            offsetX < this.scrollXOffset)
             changeOffsetValue = -colWidth;
         this.scrollXOffset = offsetX;
         var tick = this.root.api.viewMode === 'month' ? 132 : 66;
         if (changeOffsetValue !== 0 && !this.intervalChangeOffset) {
             this.intervalChangeOffset = setInterval(function () {
-                _this.module.controller.mouseDownOffsetX = (_this.module.controller.mouseDownOffsetX || 0) - changeOffsetValue;
+                _this.module.controller.mouseDownOffsetX =
+                    (_this.module.controller.mouseDownOffsetX || 0) -
+                        changeOffsetValue;
                 if (_this.module.controller.addDepMode)
                     _this.updateDepOffsets(offsetX);
                 else if (_this.module.controller.resizeMoveMode)
@@ -189,7 +193,7 @@ var TasksService = /** @class */ (function () {
         var diff = this.root.grid.service.getTsByOffsetDiff(offsetDiff);
         if (all_day || !this.root.api.showTime) {
             var colTs = this.getColTsForDiff(all_day);
-            var dayDiff = (diff - diff % colTs) / colTs;
+            var dayDiff = (diff - (diff % colTs)) / colTs;
             diff = colTs * dayDiff;
         }
         return diff;
@@ -253,14 +257,19 @@ var TasksService = /** @class */ (function () {
     };
     TasksService.prototype.handleAddDepMouseUp = function (event) {
         var hoverId = this.getHoverId(event).hoverId;
-        if (hoverId && this.module.store.hoverId && hoverId !== this.module.store.hoverId) {
+        if (hoverId &&
+            this.module.store.hoverId &&
+            hoverId !== this.module.store.hoverId) {
             var hoveredTask = this.getRootStoreTaskById(hoverId);
             var currentTask = this.getRootStoreTaskById(this.module.store.hoverId);
-            if (hoveredTask && currentTask && !currentTask.next_ids.includes(hoverId)) {
+            if (hoveredTask &&
+                currentTask &&
+                !currentTask.next_ids.includes(hoverId)) {
                 var task = __assign(__assign({}, currentTask), { next_ids: __spreadArray(__spreadArray([], currentTask.next_ids), [hoverId]) });
                 this.module.store.addModTask(task);
                 this.module.store.saveModTasks();
-                this.root.api.handleChange && this.root.api.handleChange([task]);
+                this.root.api.handleChange &&
+                    this.root.api.handleChange([task]);
             }
         }
         this.clearScrollInterval();
@@ -322,7 +331,8 @@ var TasksService = /** @class */ (function () {
             if (!task.all_day)
                 newTask.start_date_ts = newTask.end_date_ts;
             else {
-                var days = Math.floor((newTask.start_date_ts - newTask.end_date_ts) / this.root.grid.view.dayTs) + 1;
+                var days = Math.floor((newTask.start_date_ts - newTask.end_date_ts) /
+                    this.root.grid.view.dayTs) + 1;
                 var start = new Date(newTask.start_date_ts);
                 start.setDate(start.getDate() - days);
                 newTask.start_date_ts = start.getTime();
@@ -346,12 +356,12 @@ var TasksService = /** @class */ (function () {
             if (!task.all_day)
                 newTask.end_date_ts = newTask.start_date_ts;
             else {
-                var days = Math.floor((newTask.start_date_ts - newTask.end_date_ts) / this.root.grid.view.dayTs) + 1;
+                var days = Math.floor((newTask.start_date_ts - newTask.end_date_ts) /
+                    this.root.grid.view.dayTs) + 1;
                 var end = new Date(newTask.end_date_ts);
                 end.setDate(end.getDate() + days);
                 newTask.end_date_ts = end.getTime();
             }
-            ;
         }
         this.module.store.addModTask(newTask);
     };

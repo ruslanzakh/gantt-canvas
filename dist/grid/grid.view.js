@@ -121,10 +121,10 @@ var GridView = /** @class */ (function () {
         var data = [];
         for (var i = 0; i < length; i++) {
             var el = this.module.store.dates[i];
-            var x = (i * this.colWidth) - offsetX;
-            if (x < (-this.colWidth * 10))
+            var x = i * this.colWidth - offsetX;
+            if (x < -this.colWidth * 10)
                 continue;
-            if (x > (width + this.colWidth))
+            if (x > width + this.colWidth)
                 break;
             data.push({
                 ts: el.ts,
@@ -138,7 +138,7 @@ var GridView = /** @class */ (function () {
                 today: el.today,
                 weekend: el.weekend,
                 weekday: el.weekday,
-                weekdayTitle: this.getWeekDayTitle(el.weekday)
+                weekdayTitle: this.getWeekDayTitle(el.weekday),
             });
         }
         this.columns = data;
@@ -178,7 +178,7 @@ var GridView = /** @class */ (function () {
             if (prev[label].xx < xx)
                 prev[label].xx = xx;
             if (isMiddleDayMonth)
-                prev[label].middle = x + (_this.colWidth / 2);
+                prev[label].middle = x + _this.colWidth / 2;
             return prev;
         }, {});
         this.months = Object.values(data);
@@ -214,7 +214,7 @@ var GridView = /** @class */ (function () {
         var i = Math.floor((-offsetY + minY) / this.rowHeight);
         var y = 0;
         do {
-            y = (i * this.rowHeight) + offsetY;
+            y = i * this.rowHeight + offsetY;
             i++;
             odd = i % 2 === 1;
             if (y > height)
@@ -246,7 +246,9 @@ var GridView = /** @class */ (function () {
         this.root.ctx.fill();
         var colCommon = this.getColumnCommonData();
         this.columns.forEach(function (x) { return _this.columnEntity.renderDay(x, colCommon); });
-        this.months.forEach(function (x) { return _this.monthEntity.renderItem(x, _this.monthHeight); });
+        this.months.forEach(function (x) {
+            return _this.monthEntity.renderItem(x, _this.monthHeight);
+        });
     };
     GridView.prototype.getColumnCommonData = function () {
         return {

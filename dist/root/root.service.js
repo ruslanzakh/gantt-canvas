@@ -26,7 +26,7 @@ var RootService = /** @class */ (function () {
             _this.convertColorDiv.style.color = color;
             var newColor = window
                 .getComputedStyle(_this.convertColorDiv, null)
-                .getPropertyValue("color");
+                .getPropertyValue('color');
             if (!newColor && defaultColor)
                 return defaultColor;
             return newColor;

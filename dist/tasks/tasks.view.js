@@ -33,14 +33,14 @@ var TasksView = /** @class */ (function () {
             var w = xx - x;
             if (w < _this.root.api.minTaskWidth)
                 w = _this.root.api.minTaskWidth;
-            var y = (rowHeight * index) + offsetY;
+            var y = rowHeight * index + offsetY;
             data[task.id] = __assign(__assign({}, task), { hover: hoverId === task.id, hoverConnection: hoverConnectionTask === task.id, y: y, x: x, w: w, error: error });
         });
         this.tasksForArrows = Object.values(data).filter(function (task) {
-            if ((task.y + rowHeight) >= rowsOffsetY
-                && task.y <= _this.root.view.canvasHeight
-                && (task.x + task.w) >= 0
-                && task.x <= _this.root.view.canvasWidth)
+            if (task.y + rowHeight >= rowsOffsetY &&
+                task.y <= _this.root.view.canvasHeight &&
+                task.x + task.w >= 0 &&
+                task.x <= _this.root.view.canvasWidth)
                 return true;
             return task.next_ids.some(function (id) {
                 var target = data[id];
@@ -48,17 +48,21 @@ var TasksView = /** @class */ (function () {
                     return false;
                 if (task.y < rowsOffsetY && target.y < rowsOffsetY)
                     return false;
-                if (task.y > _this.root.view.canvasHeight && target.y > _this.root.view.canvasHeight)
+                if (task.y > _this.root.view.canvasHeight &&
+                    target.y > _this.root.view.canvasHeight)
                     return false;
                 if (task.x + task.w < 0 && target.x + target.w < 0)
                     return false;
-                if (task.x > _this.root.view.canvasWidth && target.x > _this.root.view.canvasWidth)
+                if (task.x > _this.root.view.canvasWidth &&
+                    target.x > _this.root.view.canvasWidth)
                     return false;
                 return true;
             });
         });
-        this.tasks = this.tasksForArrows.filter(function (task) { return (task.y + rowHeight) >= rowsOffsetY
-            && task.y <= _this.root.view.canvasHeight; });
+        this.tasks = this.tasksForArrows.filter(function (task) {
+            return task.y + rowHeight >= rowsOffsetY &&
+                task.y <= _this.root.view.canvasHeight;
+        });
     };
     TasksView.prototype.render = function () {
         this.module.store.fillTasks();
@@ -71,14 +75,21 @@ var TasksView = /** @class */ (function () {
         var _this = this;
         var hoverTask = this.tasksForArrows.find(function (el) { return el.hover; });
         this.tasksForArrows.forEach(function (el) {
-            el.next_ids.forEach(function (id) { return (!hoverTask || hoverTask.id !== id) && _this.taskEntity.renderArrow(id, el); });
+            el.next_ids.forEach(function (id) {
+                return (!hoverTask || hoverTask.id !== id) &&
+                    _this.taskEntity.renderArrow(id, el);
+            });
         });
         if (hoverTask) {
-            this.tasksForArrows
-                .forEach(function (el) {
-                el.next_ids.forEach(function (id) { return hoverTask.id === id && _this.taskEntity.renderArrow(id, el); });
+            this.tasksForArrows.forEach(function (el) {
+                el.next_ids.forEach(function (id) {
+                    return hoverTask.id === id &&
+                        _this.taskEntity.renderArrow(id, el);
+                });
             });
-            hoverTask.next_ids.forEach(function (id) { return _this.taskEntity.renderArrow(id, hoverTask); });
+            hoverTask.next_ids.forEach(function (id) {
+                return _this.taskEntity.renderArrow(id, hoverTask);
+            });
         }
     };
     TasksView.prototype.renderArrowConnection = function () {
@@ -88,7 +99,9 @@ var TasksView = /** @class */ (function () {
     };
     TasksView.prototype.renderTasks = function () {
         var _this = this;
-        this.tasks.forEach(function (x) { return _this.taskEntity.renderItem(x, _this.module.controller.isTouchAction); });
+        this.tasks.forEach(function (x) {
+            return _this.taskEntity.renderItem(x, _this.module.controller.isTouchAction);
+        });
     };
     return TasksView;
 }());

@@ -70,11 +70,10 @@ var GridService = /** @class */ (function () {
     };
     GridService.prototype.getFirstTsOnScreen = function () {
         var colWidth = this.module.view.colWidth;
-        var col = this.module.view.columns
-            .find(function (el) { return el.x <= 0 && el.x + colWidth > 0; });
+        var col = this.module.view.columns.find(function (el) { return el.x <= 0 && el.x + colWidth > 0; });
         if (!col)
             return 0;
-        var ts = col.ts + ((-col.x) * this.module.view.tsHasOneX);
+        var ts = col.ts + -col.x * this.module.view.tsHasOneX;
         return ts;
     };
     GridService.prototype.getTsByOffsetDiff = function (x) {
@@ -95,7 +94,9 @@ var GridService = /** @class */ (function () {
         return fullWidth;
     };
     GridService.prototype.getViewHeight = function () {
-        return this.root.view.canvasHeight - this.root.grid.view.headerHeight - this.root.view.scrollbarY.bottomOffset;
+        return (this.root.view.canvasHeight -
+            this.root.grid.view.headerHeight -
+            this.root.view.scrollbarY.bottomOffset);
     };
     GridService.prototype.getFullAvailableHeight = function () {
         var fullHeight = this.module.view.rowHeight * this.root.api.tasks.length;
@@ -105,14 +106,16 @@ var GridService = /** @class */ (function () {
         return fullHeight;
     };
     GridService.prototype.getLeftAvailableHeight = function () {
-        return this.root.grid.service.getFullAvailableHeight() - this.getViewHeight();
+        return (this.root.grid.service.getFullAvailableHeight() -
+            this.getViewHeight());
     };
     GridService.prototype.validateOffsetX = function () {
         var offsetX = this.root.view.offsetX;
         if (offsetX < this.root.view.canvasWidth) {
             this.module.store.addDatesBefore(offsetX);
         }
-        else if (offsetX > this.getFullAvailableWidth() - this.root.view.canvasWidth) {
+        else if (offsetX >
+            this.getFullAvailableWidth() - this.root.view.canvasWidth) {
             this.module.store.addDatesAfter(offsetX);
         }
     };

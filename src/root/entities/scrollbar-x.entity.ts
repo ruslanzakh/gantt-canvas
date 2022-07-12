@@ -2,13 +2,12 @@ import { RootModule } from '../root.module';
 import { roundRect, getEventTouchOffsets } from '../../utils/canvas';
 import { EventOffsets } from '../../utils/interfaces';
 
-
 export class ScrollbarXEntity {
 	root: RootModule;
-	destroyHandleMouseDown: Function;
-	destroyHandleTouchEnd: Function;
-	destroyMouseMove: Function;
-	
+	destroyHandleMouseDown: () => void;
+	destroyHandleTouchEnd: () => void;
+	destroyMouseMove: () => void;
+
 	mouseDownOffset: number | null = null;
 
 	isHover = false;
@@ -16,9 +15,18 @@ export class ScrollbarXEntity {
 
 	constructor(root: RootModule) {
 		this.root = root;
-		this.destroyHandleMouseDown = this.root.controller.on('mousedown', this.handleMouseDown.bind(this));
-		this.destroyHandleTouchEnd = this.root.controller.on('touchend', this.handleTouchEnd.bind(this));
-		this.destroyMouseMove = this.root.controller.on('mousemove', this.handleMouseMove.bind(this));
+		this.destroyHandleMouseDown = this.root.controller.on(
+			'mousedown',
+			this.handleMouseDown.bind(this)
+		);
+		this.destroyHandleTouchEnd = this.root.controller.on(
+			'touchend',
+			this.handleTouchEnd.bind(this)
+		);
+		this.destroyMouseMove = this.root.controller.on(
+			'mousemove',
+			this.handleMouseMove.bind(this)
+		);
 		this.handleMouseUp = this.handleMouseUp.bind(this);
 		this.handleMoveScrollbar = this.handleMoveScrollbar.bind(this);
 	}
@@ -44,8 +52,8 @@ export class ScrollbarXEntity {
 	isLineClick(event: MouseEvent) {
 		const { offsetX, offsetY } = event;
 		const { x, width } = this.getLineXAndWidth();
-		if(offsetX < x || offsetX > x + width) return false;
-		if(offsetY < this.top) return false;
+		if (offsetX < x || offsetX > x + width) return false;
+		if (offsetY < this.top) return false;
 		return true;
 	}
 
@@ -57,16 +65,21 @@ export class ScrollbarXEntity {
 	handleMouseDown(event: MouseEvent) {
 		const isLineClick = this.isLineClick(event);
 		const isBackgroundClick = this.isBackgroundClick(event);
-		if(isLineClick) this.handleLinkMouseDown(event);
-		else if(isBackgroundClick) this.handleBackgroundMouseDown(event);
+		if (isLineClick) this.handleLinkMouseDown(event);
+		else if (isBackgroundClick) this.handleBackgroundMouseDown(event);
 
-		if(isLineClick || isBackgroundClick) this.root.controller.stopPropagation(event);
+		if (isLineClick || isBackgroundClick)
+			this.root.controller.stopPropagation(event);
 	}
 
 	handleTouchEnd(event: TouchEvent) {
-		const eventOffsets = getEventTouchOffsets(event, this.root.canvas, this.root.ctx); 
+		const eventOffsets = getEventTouchOffsets(
+			event,
+			this.root.canvas,
+			this.root.ctx
+		);
 		const isBackgroundClick = this.isBackgroundClick(eventOffsets);
-		if(!isBackgroundClick) return;
+		if (!isBackgroundClick) return;
 		this.handleBackgroundMouseDown(eventOffsets);
 		this.root.controller.stopPropagation(event);
 	}
@@ -97,24 +110,23 @@ export class ScrollbarXEntity {
 	handleMouseMove(event: MouseEvent) {
 		const isLineClick = this.isLineClick(event);
 		const isBackgroundClick = this.isBackgroundClick(event);
-		if(isLineClick) this.root.view.setCursor('grab');
-		else if(isBackgroundClick) this.root.view.setCursor('pointer');
+		if (isLineClick) this.root.view.setCursor('grab');
+		else if (isBackgroundClick) this.root.view.setCursor('pointer');
 
-		if(isLineClick || isBackgroundClick) {
+		if (isLineClick || isBackgroundClick) {
 			this.root.controller.stopPropagation(event);
 			this.isHover = true;
-		}
-		else if(this.isHover) {
+		} else if (this.isHover) {
 			this.isHover = false;
 			this.root.view.setCursor('auto');
 		}
 	}
 
 	handleMoveScrollbar(event: MouseEvent) {
-		if(this.mouseDownOffset !== null) {
+		if (this.mouseDownOffset !== null) {
 			const diff = event.screenX - this.mouseDownOffset;
-			let offset = this.root.view.offsetX + this.getScaledOffset(diff);
-			
+			const offset = this.root.view.offsetX + this.getScaledOffset(diff);
+
 			this.root.view.handleSetOffsetX(offset);
 			this.mouseDownOffset = event.screenX;
 		}
@@ -130,16 +142,25 @@ export class ScrollbarXEntity {
 		const ctx = this.root.ctx;
 		const { x, width } = this.getLineXAndWidth();
 		ctx.fillStyle = this.root.api.scrollbarXLineBackground;
-		roundRect(ctx, x, this.top, width, this.height, this.root.api.scrollbarXLineRadius, this.root.api.scrollbarXLineBackground);
+		roundRect(
+			ctx,
+			x,
+			this.top,
+			width,
+			this.height,
+			this.root.api.scrollbarXLineRadius,
+			this.root.api.scrollbarXLineBackground
+		);
 	}
 
 	getLineXAndWidth() {
-		const fullWidth= this.root.grid.service.getFullAvailableWidth();
+		const fullWidth = this.root.grid.service.getFullAvailableWidth();
 		let x = (this.root.view.offsetX / fullWidth) * this.backgroundLineWidth;
-		let width = (this.backgroundLineWidth / fullWidth) * this.backgroundLineWidth;
-		if(width < this.minLineWidth) {
+		let width =
+			(this.backgroundLineWidth / fullWidth) * this.backgroundLineWidth;
+		if (width < this.minLineWidth) {
 			width = this.minLineWidth;
-			if(x + width > this.root.view.canvasWidth - this.minLineWidth) {
+			if (x + width > this.root.view.canvasWidth - this.minLineWidth) {
 				x = this.root.view.canvasWidth - width - this.minLineWidth;
 			}
 		}
@@ -148,6 +169,6 @@ export class ScrollbarXEntity {
 
 	render() {
 		this.renderBackground();
-		this.renderLine()
+		this.renderLine();
 	}
 }

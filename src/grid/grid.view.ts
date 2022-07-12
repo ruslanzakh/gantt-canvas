@@ -1,6 +1,10 @@
 import { RootModule } from '../root/root.module';
 import { GridModule } from './grid.module';
-import { ColumnEntity, ColumnRender, ColumnRenderCommon } from './entities/column.entity';
+import {
+	ColumnEntity,
+	ColumnRender,
+	ColumnRenderCommon,
+} from './entities/column.entity';
 import { MonthEntity, MonthRender } from './entities/month.entity';
 import { RowEntity, RowRender } from './entities/row.entity';
 import { ObjectList } from '../utils/interfaces';
@@ -13,7 +17,6 @@ interface RichedColumnRender extends ColumnRender {
 	weekdayTitle: string;
 }
 export class GridView {
-
 	root: RootModule;
 	module: GridModule;
 
@@ -42,24 +45,28 @@ export class GridView {
 	}
 
 	get colWidth() {
-		if(['day', 'half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1)
+		if (
+			['day', 'half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(
+				this.root.api.viewMode
+			) !== -1
+		)
 			return this.root.api.dayColWidth;
-		if(this.root.api.viewMode === 'week')
+		if (this.root.api.viewMode === 'week')
 			return this.root.api.weekViewColWidth;
 		return this.root.api.monthViewColWidth;
 	}
-	
+
 	get colsOnScreen() {
 		return this.root.view.canvasWidth / this.colWidth;
 	}
 
 	get colTs() {
-		if(this.root.api.viewMode === 'day') return this.dayTs;
-		if(this.root.api.viewMode === 'half-day') return this.halfDayTs;
-		if(this.root.api.viewMode === 'quarter-day') return this.quarterDayTs;
-		if(this.root.api.viewMode === 'three-hours') return this.threeHoursTs;
-		if(this.root.api.viewMode === 'hour') return this.hourTs;
-		else if(this.root.api.viewMode === 'week') return this.weekTs;
+		if (this.root.api.viewMode === 'day') return this.dayTs;
+		if (this.root.api.viewMode === 'half-day') return this.halfDayTs;
+		if (this.root.api.viewMode === 'quarter-day') return this.quarterDayTs;
+		if (this.root.api.viewMode === 'three-hours') return this.threeHoursTs;
+		if (this.root.api.viewMode === 'hour') return this.hourTs;
+		else if (this.root.api.viewMode === 'week') return this.weekTs;
 		return this.monthTs;
 	}
 
@@ -78,7 +85,7 @@ export class GridView {
 	get rowHeight() {
 		return this.root.api.rowHeight;
 	}
-	
+
 	get monthHeight() {
 		return this.root.api.monthHeight;
 	}
@@ -97,17 +104,17 @@ export class GridView {
 
 	fillColumns() {
 		const offsetX = this.root.view.offsetX;
-		
+
 		const width = this.root.view.canvasWidth;
 		const length = this.module.store.dates.length;
 		const data: RichedColumnRender[] = [];
-		
-		for(let i = 0; i < length; i++) {
+
+		for (let i = 0; i < length; i++) {
 			const el = this.module.store.dates[i];
-			const x = (i * this.colWidth) - offsetX;
-			
-			if(x < (-this.colWidth * 10)) continue;
-			if(x > (width + this.colWidth)) break;
+			const x = i * this.colWidth - offsetX;
+
+			if (x < -this.colWidth * 10) continue;
+			if (x > width + this.colWidth) break;
 			data.push({
 				ts: el.ts,
 				x,
@@ -120,61 +127,84 @@ export class GridView {
 				today: el.today,
 				weekend: el.weekend,
 				weekday: el.weekday,
-				weekdayTitle: this.getWeekDayTitle(el.weekday)
+				weekdayTitle: this.getWeekDayTitle(el.weekday),
 			});
 		}
-		
+
 		this.columns = data;
 	}
 
-
 	fillMonths() {
 		const isMonthView = this.root.api.viewMode === 'month';
-		const isPartDayView = ['half-day', 'quarter-day'].indexOf(this.root.api.viewMode) !== -1;
-		const isHourView = ['three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1;
-		const data = this.columns.reduce((prev: ObjectList<MonthRender>, {month, x, year, isMiddleDayMonth, title: taskTitle, isStartMonth}) => {
-			const xx = x + this.colWidth;
-			let label: number | string = month + '.' + year;
-			if(isMonthView) label = year;
-			else if(isPartDayView || isHourView) label = taskTitle + '.' + month;
-			let title = this.getMonthTitle(month, year);
-			if(isMonthView) title = year.toString();
-			else if(isPartDayView) title = taskTitle + '.' + this.getMonthNumber(month);
-			else if(isHourView) title = taskTitle + ' ' + this.getMonthTitle(month);
-			if(!prev[label]) {
-				prev[label] = {
-					title,
-					x: x,
-					xx: xx,
-				};
-				if(isStartMonth) prev[label].startMonthX = x;
+		const isPartDayView =
+			['half-day', 'quarter-day'].indexOf(this.root.api.viewMode) !== -1;
+		const isHourView =
+			['three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1;
+		const data = this.columns.reduce(
+			(
+				prev: ObjectList<MonthRender>,
+				{
+					month,
+					x,
+					year,
+					isMiddleDayMonth,
+					title: taskTitle,
+					isStartMonth,
+				}
+			) => {
+				const xx = x + this.colWidth;
+				let label: number | string = month + '.' + year;
+				if (isMonthView) label = year;
+				else if (isPartDayView || isHourView)
+					label = taskTitle + '.' + month;
+				let title = this.getMonthTitle(month, year);
+				if (isMonthView) title = year.toString();
+				else if (isPartDayView)
+					title = taskTitle + '.' + this.getMonthNumber(month);
+				else if (isHourView)
+					title = taskTitle + ' ' + this.getMonthTitle(month);
+				if (!prev[label]) {
+					prev[label] = {
+						title,
+						x: x,
+						xx: xx,
+					};
+					if (isStartMonth) prev[label].startMonthX = x;
+					return prev;
+				}
+				if (prev[label].x > x) prev[label].x = x;
+				if (prev[label].xx < xx) prev[label].xx = xx;
+				if (isMiddleDayMonth)
+					prev[label].middle = x + this.colWidth / 2;
 				return prev;
-			}
-			if(prev[label].x > x) prev[label].x = x;
-			if(prev[label].xx < xx) prev[label].xx = xx;
-			if(isMiddleDayMonth) prev[label].middle = x + (this.colWidth / 2);
-			return prev;
-		}, {});
+			},
+			{}
+		);
 		this.months = Object.values(data);
 	}
 
 	getMonthTitle(month: number, year?: number) {
-		const months = this.root.api.monthNames[this.root.api.lang] ?? this.root.api.monthNames['ru'];
-		if(this.root.api.monthTitleShowYear && year) {
+		const months =
+			this.root.api.monthNames[this.root.api.lang] ??
+			this.root.api.monthNames['ru'];
+		if (this.root.api.monthTitleShowYear && year) {
 			return months[month] + ' ' + year;
 		}
 		return months[month];
 	}
 
 	getWeekDayTitle(weekday: number) {
-		if(!this.root.api.showDayWeekday || this.root.api.viewMode !== 'day') return '';
-		const weekdays = this.root.api.weekdayNames[this.root.api.lang] ?? this.root.api.weekdayNames['ru'];
+		if (!this.root.api.showDayWeekday || this.root.api.viewMode !== 'day')
+			return '';
+		const weekdays =
+			this.root.api.weekdayNames[this.root.api.lang] ??
+			this.root.api.weekdayNames['ru'];
 		return weekdays[weekday];
 	}
 
 	getMonthNumber(month: number) {
 		month++;
-		if(month < 10) return '0' + month;
+		if (month < 10) return '0' + month;
 		return month.toString();
 	}
 
@@ -188,13 +218,13 @@ export class GridView {
 		let i = Math.floor((-offsetY + minY) / this.rowHeight);
 		let y = 0;
 		do {
-			y = (i * this.rowHeight) + offsetY;
+			y = i * this.rowHeight + offsetY;
 			i++;
 			odd = i % 2 === 1;
-			if(y > height) break;
-			if(y < minY) continue;
+			if (y > height) break;
+			if (y < minY) continue;
 			data.push({ y, odd });
-		} while(y <= height)
+		} while (y <= height);
 		this.rows = data;
 	}
 
@@ -211,11 +241,9 @@ export class GridView {
 
 		const colCommon = this.getColumnCommonData();
 		this.columns.forEach(x => this.columnEntity.renderCol(x, colCommon));
-		
 	}
 
 	renderHeader() {
-
 		const width = this.root.view.canvasWidth;
 
 		this.root.ctx.fillStyle = this.root.api.background;
@@ -224,15 +252,16 @@ export class GridView {
 
 		const colCommon = this.getColumnCommonData();
 		this.columns.forEach(x => this.columnEntity.renderDay(x, colCommon));
-		this.months.forEach(x => this.monthEntity.renderItem(x, this.monthHeight));
+		this.months.forEach(x =>
+			this.monthEntity.renderItem(x, this.monthHeight)
+		);
 	}
 
 	getColumnCommonData(): ColumnRenderCommon {
-		return  {
+		return {
 			monthHeight: this.monthHeight,
 			width: this.colWidth,
 			dayHeight: this.dayHeight,
-		}
+		};
 	}
-
 }

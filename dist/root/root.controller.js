@@ -144,14 +144,18 @@ var RootController = /** @class */ (function () {
             return;
         var offsetX = (_b = event.changedTouches[0]) === null || _b === void 0 ? void 0 : _b.screenX;
         var offsetY = (_c = event.changedTouches[0]) === null || _c === void 0 ? void 0 : _c.screenY;
-        if (offsetX && this.touchOffsetX !== null && offsetX !== this.touchOffsetX) {
+        if (offsetX &&
+            this.touchOffsetX !== null &&
+            offsetX !== this.touchOffsetX) {
             var diff = this.touchOffsetX - offsetX;
             var offset = this.root.view.offsetX + diff;
             this.root.view.handleSetOffsetX(offset);
             this.previousTouchOffsetX = this.touchOffsetX;
             this.touchOffsetX = offsetX;
         }
-        if (offsetY && this.touchOffsetY !== null && offsetY !== this.touchOffsetY) {
+        if (offsetY &&
+            this.touchOffsetY !== null &&
+            offsetY !== this.touchOffsetY) {
             var diff = this.touchOffsetY - offsetY;
             var offset = this.root.view.offsetY + diff;
             var maxHeight = this.root.grid.service.getLeftAvailableHeight();
@@ -163,7 +167,9 @@ var RootController = /** @class */ (function () {
         }
     };
     RootController.prototype.handleTouchEnd = function (event) {
-        if (this.events.touchend && !this.previousTouchOffsetX && !this.previousTouchOffsetY) {
+        if (this.events.touchend &&
+            !this.previousTouchOffsetX &&
+            !this.previousTouchOffsetY) {
             this.events.touchend.every(function (cb) {
                 // @ts-ignore
                 if (event._stopPropagation)

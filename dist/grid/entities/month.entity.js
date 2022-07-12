@@ -19,12 +19,21 @@ var MonthEntity = /** @class */ (function () {
             ctx.lineTo(xx, height);
         }
         ctx.stroke();
-        if (this.root.api.showMonthMiddle || ['week', 'month', 'half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1) {
+        if (this.root.api.showMonthMiddle ||
+            [
+                'week',
+                'month',
+                'half-day',
+                'quarter-day',
+                'three-hours',
+                'hour',
+            ].indexOf(this.root.api.viewMode) !== -1) {
             var width = xx - x;
-            if (width >= (ctx.measureText(title).width * 1.5))
+            if (width >= ctx.measureText(title).width * 1.5)
                 middle = (xx + x) / 2;
         }
-        if (this.root.api.showMonthFromStartOnDayView && this.root.api.viewMode === 'day') {
+        if (this.root.api.showMonthFromStartOnDayView &&
+            this.root.api.viewMode === 'day') {
             if (!startMonthX && startMonthX !== 0)
                 return;
             ctx.font = this.root.api.monthTitleFont;

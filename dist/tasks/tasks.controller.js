@@ -22,8 +22,8 @@ var TasksController = /** @class */ (function () {
             if (_this.module.service.isNoEditableTask(hoverId)) {
                 return document.addEventListener('touchend', _this.handleNoEditableTaskMouseUp);
             }
-            if ((resize && _this.root.api.allowMobileTaskResize)
-                || _this.root.api.allowMobileTaskMove) {
+            if ((resize && _this.root.api.allowMobileTaskResize) ||
+                _this.root.api.allowMobileTaskMove) {
                 _this.mouseDownOffsetX = eventOffsets.offsetX;
                 _this.isTouchAction = true;
                 _this.module.store.setHoverId(hoverId, resize, depFromId);
@@ -45,11 +45,13 @@ var TasksController = /** @class */ (function () {
         this.handleTaskMoveMouseUp = this.handleTaskMoveMouseUp.bind(this);
         this.handleTaskMoveTouchEnd = this.handleTaskMoveTouchEnd.bind(this);
         this.handleAddDepMouseUp = this.handleAddDepMouseUp.bind(this);
-        this.handleNoEditableTaskMouseUp = this.handleNoEditableTaskMouseUp.bind(this);
+        this.handleNoEditableTaskMouseUp =
+            this.handleNoEditableTaskMouseUp.bind(this);
     }
     TasksController.prototype.attachEvents = function () {
         this.root.controller.on('mousedown', this.handleMouseDown.bind(this));
-        if (this.root.api.allowMobileTaskMove || this.root.api.allowMobileTaskResize) {
+        if (this.root.api.allowMobileTaskMove ||
+            this.root.api.allowMobileTaskResize) {
             this.root.controller.on('touchstart', this.handleTouchStart.bind(this));
         }
         this.root.controller.on('mousemove', this.handleMouseMove.bind(this));
@@ -64,7 +66,8 @@ var TasksController = /** @class */ (function () {
     };
     TasksController.prototype.handleTouchEnd = function (event) {
         var eventOffsets = canvas_1.getEventTouchOffsets(event, this.root.canvas, this.root.ctx);
-        if (this.initialMouseDownOffsetX === eventOffsets.offsetX || this.root.api.isLoading)
+        if (this.initialMouseDownOffsetX === eventOffsets.offsetX ||
+            this.root.api.isLoading)
             this.module.service.handleClickTask(eventOffsets);
     };
     TasksController.prototype.handleMouseDown = function (event) {
@@ -171,7 +174,7 @@ var TasksController = /** @class */ (function () {
     // this method helps to prevent small, random mouse and touch moves
     TasksController.prototype.shouldSkipMove = function (offsetX, gap) {
         if (gap === void 0) { gap = 5; }
-        return offsetX > this.moveOffsetX - gap && offsetX < this.moveOffsetX + gap;
+        return (offsetX > this.moveOffsetX - gap && offsetX < this.moveOffsetX + gap);
     };
     TasksController.prototype.handleTaskMoveMouseUp = function (event) {
         this.handleTaskMoveEnd();
@@ -197,7 +200,8 @@ var TasksController = /** @class */ (function () {
         this.module.store.setHoverConnectionTask(null);
     };
     TasksController.prototype.handleMouseUp = function (event) {
-        if (this.initialMouseDownOffsetX === event.offsetX || this.root.api.isLoading)
+        if (this.initialMouseDownOffsetX === event.offsetX ||
+            this.root.api.isLoading)
             this.module.service.handleClickTask(event);
     };
     return TasksController;

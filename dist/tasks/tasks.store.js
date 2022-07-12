@@ -38,7 +38,9 @@ var TasksStore = /** @class */ (function () {
         this.fillTasks();
     };
     TasksStore.prototype.setHoverId = function (id, resize, hoverDrag) {
-        if (id === this.hoverId && resize === this.hoverResize && hoverDrag === this.hoverDrag)
+        if (id === this.hoverId &&
+            resize === this.hoverResize &&
+            hoverDrag === this.hoverDrag)
             return;
         if (!this.root.api.isLoading) {
             if (id)

@@ -14,21 +14,25 @@ export const roundRect = (
 	fill?: string,
 	stroke?: string
 ) => {
-
 	if (typeof radius === 'number') {
-		radius = {tl: radius, tr: radius, br: radius, bl: radius};
-	} else if(typeof radius === 'object' && Array.isArray(radius)) {
-		radius = {tl: radius[0], tr: radius[1], br: radius[2], bl: radius[3]};
+		radius = { tl: radius, tr: radius, br: radius, bl: radius };
+	} else if (typeof radius === 'object' && Array.isArray(radius)) {
+		radius = { tl: radius[0], tr: radius[1], br: radius[2], bl: radius[3] };
 	}
 
-	if(fill) ctx.fillStyle = fill;
-	if(stroke) ctx.strokeStyle = stroke;
+	if (fill) ctx.fillStyle = fill;
+	if (stroke) ctx.strokeStyle = stroke;
 	ctx.beginPath();
 	ctx.moveTo(x + radius.tl, y);
 	ctx.lineTo(x + width - radius.tr, y);
 	ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
 	ctx.lineTo(x + width, y + height - radius.br);
-	ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+	ctx.quadraticCurveTo(
+		x + width,
+		y + height,
+		x + width - radius.br,
+		y + height
+	);
 	ctx.lineTo(x + radius.bl, y + height);
 	ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
 	ctx.lineTo(x, y + radius.tl);
@@ -44,10 +48,13 @@ export const roundRect = (
 	// don't understand why - magic
 	ctx.beginPath();
 	ctx.closePath();
-}
+};
 
-
-export const getEventTouchOffsets = (event: TouchEvent, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext) => {
+export const getEventTouchOffsets = (
+	event: TouchEvent,
+	canvas: HTMLCanvasElement,
+	ctx: CanvasRenderingContext
+) => {
 	const rect = canvas.getBoundingClientRect();
 	const x = event.changedTouches[0]?.clientX ?? 0;
 	const y = event.changedTouches[0]?.clientY ?? 0;
@@ -55,23 +62,35 @@ export const getEventTouchOffsets = (event: TouchEvent, canvas: HTMLCanvasElemen
 	const x_rel = x - rect.left;
 	const y_rel = y - rect.top;
 	const ratio = getPixelRatio(ctx);
-	const offsetX = Math.round((x_rel * canvas.width / ratio) / rect.width);
-	const offsetY = Math.round((y_rel * canvas.height / ratio) / rect.height);
+	const offsetX = Math.round((x_rel * canvas.width) / ratio / rect.width);
+	const offsetY = Math.round((y_rel * canvas.height) / ratio / rect.height);
 	return { offsetX, offsetY };
-}
+};
 
+export const renderUnderline = (
+	ctx: CanvasRenderingContext2D,
+	text: string,
+	x: number,
+	y: number
+) => {
+	const metrics = measureText(ctx, text);
 
-export const renderUnderline = (ctx: CanvasRenderingContext2D, text: string, x: number, y: number) => {
-	let metrics = measureText(ctx, text);
-	
-	let fontSize = Math.floor(metrics.actualHeight * 1.4); // 140% the height 
+	const fontSize = Math.floor(metrics.actualHeight * 1.4); // 140% the height
 	switch (ctx.textAlign) {
-		case "center" : x -= (metrics.width / 2) ; break
-		case "right"  : x -= metrics.width       ; break
+		case 'center':
+			x -= metrics.width / 2;
+			break;
+		case 'right':
+			x -= metrics.width;
+			break;
 	}
 	switch (ctx.textBaseline) {
-		case "top"    : y += (fontSize)     ; break
-		case "middle" : y += (fontSize / 2) ; break
+		case 'top':
+			y += fontSize;
+			break;
+		case 'middle':
+			y += fontSize / 2;
+			break;
 	}
 	ctx.save();
 	ctx.beginPath();
@@ -81,18 +100,21 @@ export const renderUnderline = (ctx: CanvasRenderingContext2D, text: string, x: 
 	ctx.lineTo(x + metrics.width, y);
 	ctx.stroke();
 	ctx.restore();
-}
-
+};
 
 export const measureText = (ctx: CanvasRenderingContext2D, text: string) => {
-	let metrics = ctx.measureText(text)
+	const metrics = ctx.measureText(text);
 	return {
 		width: Math.floor(metrics.width),
-		// @ts-ignore
-		height: Math.floor(metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent),
-		actualHeight: Math.floor(metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent)
-	}
-}
+		height: Math.floor(
+			// @ts-ignore
+			metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent
+		),
+		actualHeight: Math.floor(
+			metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
+		),
+	};
+};
 
 interface CanvasRenderingContext extends CanvasRenderingContext2D {
 	webkitBackingStorePixelRatio?: number;
@@ -105,41 +127,44 @@ interface CanvasRenderingContext extends CanvasRenderingContext2D {
 export function getPixelRatio(context: CanvasRenderingContext) {
 	// assume the device pixel ratio is 1 if the browser doesn't specify it
 	const devicePixelRatio = window.devicePixelRatio || 1;
-  
+
 	// determine the 'backing store ratio' of the canvas context
-	const backingStoreRatio = (
-	  context.webkitBackingStorePixelRatio ||
-	  context.mozBackingStorePixelRatio ||
-	  context.msBackingStorePixelRatio ||
-	  context.oBackingStorePixelRatio ||
-	  context.backingStorePixelRatio || 1
-	);
-  
+	const backingStoreRatio =
+		context.webkitBackingStorePixelRatio ||
+		context.mozBackingStorePixelRatio ||
+		context.msBackingStorePixelRatio ||
+		context.oBackingStorePixelRatio ||
+		context.backingStorePixelRatio ||
+		1;
+
 	// determine the actual ratio we want to draw at
 	const ratio = devicePixelRatio / backingStoreRatio;
 	return ratio;
 }
 
-export function scaleCanvas(canvas: HTMLCanvasElement, context: CanvasRenderingContext , width: number, height: number) {
-	
+export function scaleCanvas(
+	canvas: HTMLCanvasElement,
+	context: CanvasRenderingContext,
+	width: number,
+	height: number
+) {
 	const ratio = getPixelRatio(context);
 	if (ratio !== 1) {
-	  // set the 'real' canvas size to the higher width/height
-	  canvas.width = width * ratio;
-	  canvas.height = height * ratio;
-  
-	  // ...then scale it back down with CSS
-	  canvas.style.width = width + 'px';
-	  canvas.style.height = height + 'px';
+		// set the 'real' canvas size to the higher width/height
+		canvas.width = width * ratio;
+		canvas.height = height * ratio;
+
+		// ...then scale it back down with CSS
+		canvas.style.width = width + 'px';
+		canvas.style.height = height + 'px';
+	} else {
+		// this is a normal 1:1 device; just scale it simply
+		canvas.width = width;
+		canvas.height = height;
+		canvas.style.width = '';
+		canvas.style.height = '';
 	}
-	else {
-	  // this is a normal 1:1 device; just scale it simply
-	  canvas.width = width;
-	  canvas.height = height;
-	  canvas.style.width = '';
-	  canvas.style.height = '';
-	}
-  
+
 	// scale the drawing context so everything will work at the higher ratio
 	context.scale(ratio, ratio);
-  }
+}

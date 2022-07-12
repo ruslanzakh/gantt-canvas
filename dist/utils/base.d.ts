@@ -1,1 +1,1 @@
-export declare function debounce(f: Function, ms: number): () => void;
+export declare function debounce<T>(f: (arg: T) => void, ms: number): (...args: any[]) => void;
