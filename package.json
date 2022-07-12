@@ -13,7 +13,6 @@
   },
   "lint-staged": {
     "./src/**/*.ts": [
-      "eslint --fix -c .eslintrc.js --ext .ts",
       "prettier --write ./src"
     ]
   },
