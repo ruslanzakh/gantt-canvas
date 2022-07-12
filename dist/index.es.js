@@ -6,8 +6,6 @@
    * Released under the MIT license.
    */
 
-'use strict';
-
 var ColumnEntity = /** @class */ (function () {
     function ColumnEntity(root) {
         this.root = root;
@@ -3590,4 +3588,4 @@ var Gantt = /** @class */ (function () {
     return Gantt;
 }());
 
-module.exports = Gantt;
+export { Gantt as default };
