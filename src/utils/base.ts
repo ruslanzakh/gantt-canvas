@@ -1,9 +1,9 @@
 export function debounce<T>(f: (arg: T) => void, ms: number) {
 	let isCooldown = false;
-	return function () {
+	return function (...args: any[]) {
 		if (isCooldown) return;
 		// @ts-ignore
-		f.apply(this, arguments);
+		f.apply(this, args);
 		isCooldown = true;
 		setTimeout(() => (isCooldown = false), ms);
 	};

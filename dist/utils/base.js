@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.debounce = void 0;
 function debounce(f, ms) {
     var isCooldown = false;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return function () {
         var args = [];
         for (var _i = 0; _i < arguments.length; _i++) {

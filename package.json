@@ -11,9 +11,9 @@
     "prepare": "husky install",
     "precommit": "lint-staged"
   },
-  "lint-stages": {
+  "lint-staged": {
     "./src/**/*.ts": [
-      "eslint --fix -c .eslintrc.js --ext .ts .",
+      "eslint --fix -c .eslintrc.js --ext .ts",
       "prettier --write ./src"
     ]
   },
@@ -34,7 +34,8 @@
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "husky": "^8.0.1",
+    "husky": "^6.0.0",
+    "lint-staged": "^13.0.1",
     "prettier": "^2.7.1",
     "typescript": "^4.3.5"
   }
