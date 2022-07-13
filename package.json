@@ -8,6 +8,7 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "rollup -c && tsc --emitDeclarationOnly",
+		"dev": "rollup -c --watch",
 		"eslint": "eslint --fix -c .eslintrc.js --ext .ts .",
 		"prettier": "prettier --write ./src",
 		"prepare": "husky install",
