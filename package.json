@@ -1,6 +1,6 @@
 {
 	"name": "gantt-canvas",
-	"version": "0.2.6",
+	"version": "0.2.8",
 	"description": "Light-weight plugin for build gantt",
 	"main": "dist/index.js",
 	"module": "dist/index.es.js",
