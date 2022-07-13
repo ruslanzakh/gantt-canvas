@@ -18,7 +18,7 @@ export class TasksService {
 
 	/** Start getters */
 	getRootStoreTaskById(id: string | null) {
-		if(!id) return null;
+		if (!id) return null;
 		const task = this.root.api.tasks.find(task => task.id === id);
 		return task || null;
 	}
@@ -34,32 +34,33 @@ export class TasksService {
 	}
 
 	getViewTaskById(id: string) {
-		const { rowHeight, rowsOffsetY} = this.root.grid.view;
+		const { rowHeight, rowsOffsetY } = this.root.grid.view;
 		const hoverId = this.module.store.hoverId;
 		const dayType = this.root.grid.service.getDayType();
 		const task = this.getModuleStoreTaskById(id);
-		if(!task) return null;
+		if (!task) return null;
 		const index = this.module.store.tasks.indexOf(task);
 		const { x, xx, error } = this.getTaskPos(task, dayType);
 		const w = xx - x;
 		const offsetY = rowsOffsetY - this.root.view.offsetY;
-		const y = (rowHeight * index) + offsetY;
+		const y = rowHeight * index + offsetY;
 		return {
 			...task,
 			hover: hoverId === task.id,
 			hoverConnection: this.module.store.hoverConnectionTask === id,
-			y, x, w,
-			error
-		}
-
+			y,
+			x,
+			w,
+			error,
+		};
 	}
 
 	getStoreDependedTasksById(id: string, tasks: Task[] = []) {
 		const task = this.getRootStoreTaskById(id);
-		if(!task) return tasks;
+		if (!task) return tasks;
 		tasks.push(task);
 		task.next_ids.forEach(id => {
-			if(tasks.find(task => task.id === id)) return;
+			if (tasks.find(task => task.id === id)) return;
 			tasks = this.getStoreDependedTasksById(id, tasks);
 		});
 		return tasks;
@@ -72,31 +73,39 @@ export class TasksService {
 	getTaskPos(task: Task, dayType: SetHoursName = 'day') {
 		const fullDay = task.all_day || !this.root.api.showTime;
 		const x = fullDay
-			? this.root.grid.service.getPosXByFullDayTs(task.start_date_ts, false, dayType)
+			? this.root.grid.service.getPosXByFullDayTs(
+					task.start_date_ts,
+					false,
+					dayType
+			  )
 			: this.root.grid.service.getPosXByTs(task.start_date_ts);
 		let xx = fullDay
-			? this.root.grid.service.getPosXByFullDayTs(task.end_date_ts, true, dayType)
+			? this.root.grid.service.getPosXByFullDayTs(
+					task.end_date_ts,
+					true,
+					dayType
+			  )
 			: this.root.grid.service.getPosXByTs(task.end_date_ts);
 		let error = false;
 		const minTaskWidth = this.root.api.minTaskWidth;
-		if(xx < x) error = true;
-		if(minTaskWidth && xx - minTaskWidth < x) xx = x + minTaskWidth;
+		if (xx < x) error = true;
+		if (minTaskWidth && xx - minTaskWidth < x) xx = x + minTaskWidth;
 		return { x, xx, error };
 	}
 
 	getFirstTaskByDeadline() {
 		const task = this.root.api.tasks.reduce((prev: Task, item: Task) => {
-			if(!prev) return item;
-			if(prev.start_date_ts > item.start_date_ts) return item;
+			if (!prev) return item;
+			if (prev.start_date_ts > item.start_date_ts) return item;
 			return prev;
-		},  this.root.api.tasks[0]);
+		}, this.root.api.tasks[0]);
 		return task;
 	}
 
 	getLastTaskByDeadline() {
 		const task = this.root.api.tasks.reduce((prev: Task, item: Task) => {
-			if(!prev) return item;
-			if(prev.end_date_ts < item.end_date_ts) return item;
+			if (!prev) return item;
+			if (prev.end_date_ts < item.end_date_ts) return item;
 			return prev;
 		}, this.root.api.tasks[0]);
 		return task;
@@ -130,12 +139,12 @@ export class TasksService {
 		let resize: string | null = null;
 		let depFromId: string | null = null;
 		const { tasks, taskEntity } = this.module.view;
-		for(let item of tasks) {
+		for (const item of tasks) {
 			const data = taskEntity.isHover(event, item);
 
-			if(data.depFrom) depFromId = item.id;
-			if(data.resize) resize = data.resize;
-			if(data.hover) {
+			if (data.depFrom) depFromId = item.id;
+			if (data.resize) resize = data.resize;
+			if (data.hover) {
 				hoverId = item.id;
 				break;
 			}
@@ -143,74 +152,84 @@ export class TasksService {
 		return { hoverId, resize, depFromId };
 	}
 
-	
 	scrollX(event: EventOffsets) {
 		const { offsetX } = event;
 		const width = this.root.view.canvasWidth;
 		const colWidth = this.root.grid.view.colWidth;
 		const pos = offsetX / width;
 		let changeOffsetValue = 0;
-		if(pos > 0.9 && (this.scrollXOffset && offsetX > this.scrollXOffset)) {
+		if (pos > 0.9 && this.scrollXOffset && offsetX > this.scrollXOffset) {
 			changeOffsetValue = colWidth;
-		} else if(pos < 0.1 && (this.scrollXOffset && offsetX < this.scrollXOffset))
+		} else if (
+			pos < 0.1 &&
+			this.scrollXOffset &&
+			offsetX < this.scrollXOffset
+		)
 			changeOffsetValue = -colWidth;
 		this.scrollXOffset = offsetX;
 		const tick = this.root.api.viewMode === 'month' ? 132 : 66;
-		if(changeOffsetValue !== 0 && !this.intervalChangeOffset) {
+		if (changeOffsetValue !== 0 && !this.intervalChangeOffset) {
 			this.intervalChangeOffset = setInterval(() => {
-				this.module.controller.mouseDownOffsetX = (this.module.controller.mouseDownOffsetX || 0) -changeOffsetValue;
+				this.module.controller.mouseDownOffsetX =
+					(this.module.controller.mouseDownOffsetX || 0) -
+					changeOffsetValue;
 
-				if(this.module.controller.addDepMode) this.updateDepOffsets(offsetX)
-				else if(this.module.controller.resizeMoveMode) this.resizeTaskByResizeMode(offsetX);
+				if (this.module.controller.addDepMode)
+					this.updateDepOffsets(offsetX);
+				else if (this.module.controller.resizeMoveMode)
+					this.resizeTaskByResizeMode(offsetX);
 				else this.moveTask(offsetX);
 
 				this.root.view.handleChangeOffsetX(changeOffsetValue);
-			}, tick)
-		} else if(changeOffsetValue === 0 ) {
+			}, tick);
+		} else if (changeOffsetValue === 0) {
 			this.clearScrollInterval();
 		}
 	}
 
-
 	clearScrollInterval() {
-		if(this.intervalChangeOffset) {
+		if (this.intervalChangeOffset) {
 			clearInterval(this.intervalChangeOffset);
 			this.intervalChangeOffset = null;
 		}
 	}
 
 	getDiff(offsetX: number, all_day = false) {
-		const offsetDiff = offsetX - (this.module.controller.mouseDownOffsetX || 0);
+		const offsetDiff =
+			offsetX - (this.module.controller.mouseDownOffsetX || 0);
 		let diff = this.root.grid.service.getTsByOffsetDiff(offsetDiff);
-		if(all_day || !this.root.api.showTime) {
+		if (all_day || !this.root.api.showTime) {
 			const colTs = this.getColTsForDiff(all_day);
-			const dayDiff = (diff - diff % colTs) / colTs;
+			const dayDiff = (diff - (diff % colTs)) / colTs;
 			diff = colTs * dayDiff;
 		}
 		return diff;
 	}
 
-
 	getColTsForDiff(all_day = false) {
-		if(!all_day && !this.root.api.showTime) {
-			if(this.root.api.viewMode === 'half-day') return this.root.grid.view.halfDayTs;
-			else if(this.root.api.viewMode === 'quarter-day') return this.root.grid.view.quarterDayTs;
-			else if(this.root.api.viewMode === 'three-hours') return this.root.grid.view.threeHoursTs;
-			else if(this.root.api.viewMode === 'hour') return this.root.grid.view.hourTs;
+		if (!all_day && !this.root.api.showTime) {
+			if (this.root.api.viewMode === 'half-day')
+				return this.root.grid.view.halfDayTs;
+			else if (this.root.api.viewMode === 'quarter-day')
+				return this.root.grid.view.quarterDayTs;
+			else if (this.root.api.viewMode === 'three-hours')
+				return this.root.grid.view.threeHoursTs;
+			else if (this.root.api.viewMode === 'hour')
+				return this.root.grid.view.hourTs;
 		}
-		return this.root.grid.view.dayTs
+		return this.root.grid.view.dayTs;
 	}
 	/** End commons */
 
 	handleClickTask(event: EventOffsets) {
-		if(!this.root.api.handleTaskClick) return;
+		if (!this.root.api.handleTaskClick) return;
 		const { hoverId, depFromId } = this.getHoverId(event);
-		if(!hoverId || depFromId) return;
+		if (!hoverId || depFromId) return;
 		const hoveredTask = this.getRootStoreTaskById(hoverId);
-		if(!hoveredTask) return;
+		if (!hoveredTask) return;
 		this.root.api.handleTaskClick(hoveredTask);
 	}
-	
+
 	scrollToTask(id: string) {
 		this.scrollToTaskX(id);
 		this.scrollToTaskY(id);
@@ -218,23 +237,24 @@ export class TasksService {
 
 	scrollToTaskX(id: string) {
 		const task = this.getRootStoreTaskById(id);
-		if(!task) return;
+		if (!task) return;
 		this.root.grid.service.showDay(task.start_date_ts, true, true);
 	}
 
 	scrollToTaskY(id: string) {
 		const viewTask = this.getViewTaskById(id);
-		if(!viewTask) return;
-		const offsetY = this.root.view.offsetY - this.root.grid.view.rowsOffsetY;
+		if (!viewTask) return;
+		const offsetY =
+			this.root.view.offsetY - this.root.grid.view.rowsOffsetY;
 		const maxHeight = this.root.grid.service.getLeftAvailableHeight();
 		let y = viewTask.y + offsetY;
-		if(y > maxHeight) y = maxHeight; 
+		if (y > maxHeight) y = maxHeight;
 		this.root.view.handleSetOffsetY(y, true, true);
 	}
 
 	/** Start Add Dependencies */
 	handleAddDepMouseMove(event: EventOffsets) {
-		if(this.intervalChangeOffset) {
+		if (this.intervalChangeOffset) {
 			this.updateDepOffsets(undefined, event.offsetY);
 			return this.scrollX(event);
 		}
@@ -245,23 +265,35 @@ export class TasksService {
 
 	handleAddDepMouseUp(event: EventOffsets) {
 		const { hoverId } = this.getHoverId(event);
-		if(hoverId && this.module.store.hoverId && hoverId !== this.module.store.hoverId) {
+		if (
+			hoverId &&
+			this.module.store.hoverId &&
+			hoverId !== this.module.store.hoverId
+		) {
 			const hoveredTask = this.getRootStoreTaskById(hoverId);
-			const currentTask = this.getRootStoreTaskById(this.module.store.hoverId);
-			if(hoveredTask && currentTask && !currentTask.next_ids.includes(hoverId)) {
+			const currentTask = this.getRootStoreTaskById(
+				this.module.store.hoverId
+			);
+			if (
+				hoveredTask &&
+				currentTask &&
+				!currentTask.next_ids.includes(hoverId)
+			) {
 				const task = {
 					...currentTask,
-					next_ids: [...currentTask.next_ids, hoverId]
+					next_ids: [...currentTask.next_ids, hoverId],
 				};
 				this.module.store.addModTask(task);
 				this.module.store.saveModTasks();
-				this.root.api.handleChange && this.root.api.handleChange([task]);
+				this.root.api.handleChange &&
+					this.root.api.handleChange([task]);
 			}
 		}
 		this.clearScrollInterval();
 		this.module.store.updateDepOffsets(null, null);
 		this.module.store.setHoverConnectionTask(null);
-		if(hoverId && hoverId === this.module.store.hoverId) this.root.render()
+		if (hoverId && hoverId === this.module.store.hoverId)
+			this.root.render();
 	}
 
 	updateDepOffsets(offsetX?: number | null, offsetY?: number | null) {
@@ -271,7 +303,7 @@ export class TasksService {
 
 	/** Start Resize Task */
 	handleResizeTaskMouseMove(event: EventOffsets) {
-		if(this.intervalChangeOffset) return this.scrollX(event);
+		if (this.intervalChangeOffset) return this.scrollX(event);
 		this.resizeTaskByResizeMode(event.offsetX);
 		this.scrollX(event);
 		this.root.render();
@@ -280,46 +312,47 @@ export class TasksService {
 	resizeTaskByResizeMode(offsetX: number) {
 		const resizeMoveMode = this.module.controller.resizeMoveMode;
 		const task = this.getHoveredTask();
-		if(!task) return;
+		if (!task) return;
 		const diff = this.getDiff(offsetX, task.all_day);
 
-		if(resizeMoveMode === 'right') {
-			this.resizeTaskRightSide(task, diff)
-		} else if(resizeMoveMode === 'left') {
-			this.resizeTaskLeftSide(task, diff)
+		if (resizeMoveMode === 'right') {
+			this.resizeTaskRightSide(task, diff);
+		} else if (resizeMoveMode === 'left') {
+			this.resizeTaskLeftSide(task, diff);
 		}
 	}
 
 	resizeTaskRightSide(task: Task, diff: number) {
-		if(this.root.api.moveDependedOnResizeRight)
+		if (this.root.api.moveDependedOnResizeRight)
 			this.saveResizeDependedTasksRightSide(task, diff);
-		else
-			this.saveResizeCurrentTaskRight(task, diff);
+		else this.saveResizeCurrentTaskRight(task, diff);
 	}
 
-
 	resizeTaskLeftSide(task: Task, diff: number) {
-		if(this.root.api.moveDependedOnResizeLeft)
+		if (this.root.api.moveDependedOnResizeLeft)
 			this.saveResizeDependedTasksLeftSide(task, diff);
-		else
-			this.saveResizeCurrentTaskLeft(task, diff);
+		else this.saveResizeCurrentTaskLeft(task, diff);
 	}
 
 	saveResizeDependedTasksRightSide(task: Task, diff: number) {
 		const tasks = this.getStoreDependedTasksById(task.id);
-		tasks.forEach((el) => {
-			if(el.id === task.id) this.saveResizeCurrentTaskRight(el, diff);
+		tasks.forEach(el => {
+			if (el.id === task.id) this.saveResizeCurrentTaskRight(el, diff);
 			else this.saveMoveTask(el, diff);
 		});
 	}
 
 	saveResizeCurrentTaskRight(task: Task, diff: number) {
-		const newTask = {...task, end_date_ts: task.end_date_ts + diff};
-		if(newTask.start_date_ts > newTask.end_date_ts) {
-			if(!task.all_day) newTask.start_date_ts = newTask.end_date_ts;
+		const newTask = { ...task, end_date_ts: task.end_date_ts + diff };
+		if (newTask.start_date_ts > newTask.end_date_ts) {
+			if (!task.all_day) newTask.start_date_ts = newTask.end_date_ts;
 			else {
-				const days = Math.floor((newTask.start_date_ts - newTask.end_date_ts) / this.root.grid.view.dayTs) + 1;
-				const start = new Date(newTask.start_date_ts)
+				const days =
+					Math.floor(
+						(newTask.start_date_ts - newTask.end_date_ts) /
+							this.root.grid.view.dayTs
+					) + 1;
+				const start = new Date(newTask.start_date_ts);
 				start.setDate(start.getDate() - days);
 				newTask.start_date_ts = start.getTime();
 			}
@@ -329,22 +362,26 @@ export class TasksService {
 
 	saveResizeDependedTasksLeftSide(task: Task, diff: number) {
 		const tasks = this.getStoreDependedTasksById(task.id);
-		tasks.forEach((el) => {
-			if(el.id === task.id) this.saveResizeCurrentTaskLeft(el, diff);
+		tasks.forEach(el => {
+			if (el.id === task.id) this.saveResizeCurrentTaskLeft(el, diff);
 			else this.saveMoveTask(el, diff);
 		});
 	}
 
 	saveResizeCurrentTaskLeft(task: Task, diff: number) {
-		const newTask = {...task, start_date_ts: task.start_date_ts + diff};
-		if(newTask.start_date_ts > newTask.end_date_ts) {
-			if(!task.all_day)  newTask.end_date_ts = newTask.start_date_ts;
+		const newTask = { ...task, start_date_ts: task.start_date_ts + diff };
+		if (newTask.start_date_ts > newTask.end_date_ts) {
+			if (!task.all_day) newTask.end_date_ts = newTask.start_date_ts;
 			else {
-				const days = Math.floor((newTask.start_date_ts - newTask.end_date_ts) / this.root.grid.view.dayTs) + 1;
-				const end = new Date(newTask.end_date_ts)
+				const days =
+					Math.floor(
+						(newTask.start_date_ts - newTask.end_date_ts) /
+							this.root.grid.view.dayTs
+					) + 1;
+				const end = new Date(newTask.end_date_ts);
 				end.setDate(end.getDate() + days);
 				newTask.end_date_ts = end.getTime();
-			};
+			}
 		}
 		this.module.store.addModTask(newTask);
 	}
@@ -359,8 +396,8 @@ export class TasksService {
 	/** End Resize Task */
 
 	/** Start Move Task */
-	handleMoveTaskMouseMove(event: EventOffsets ) {
-		if(this.intervalChangeOffset) return this.scrollX(event);
+	handleMoveTaskMouseMove(event: EventOffsets) {
+		if (this.intervalChangeOffset) return this.scrollX(event);
 		this.moveTask(event.offsetX);
 		this.scrollX(event);
 		this.root.render();
@@ -368,23 +405,23 @@ export class TasksService {
 
 	moveTask(offsetX: number) {
 		const task = this.getHoveredTask();
-		if(!task || !this.module.controller.mouseDownOffsetX) return;
+		if (!task || !this.module.controller.mouseDownOffsetX) return;
 		const diff = this.getDiff(offsetX, task.all_day);
-		
-		if(this.root.api.moveDependedOnMove) {
-			this.moveDependedTasks(task, diff)
+
+		if (this.root.api.moveDependedOnMove) {
+			this.moveDependedTasks(task, diff);
 		} else {
-			this.saveMoveTask(task, diff)
+			this.saveMoveTask(task, diff);
 		}
 	}
 
 	moveDependedTasks(task: Task, diff: number) {
 		const tasks = this.getStoreDependedTasksById(task.id);
-		tasks.forEach((el) => this.saveMoveTask(el, diff));
+		tasks.forEach(el => this.saveMoveTask(el, diff));
 	}
 
 	saveMoveTask(task: Task, diff: number) {
-		if(task.noEditable) return;
+		if (task.noEditable) return;
 		const newTask = {
 			...task,
 			start_date_ts: task.start_date_ts + diff,
@@ -400,5 +437,4 @@ export class TasksService {
 		this.module.store.saveModTasks();
 	}
 	/** End Move Task */
-	
 }

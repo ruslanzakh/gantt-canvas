@@ -1,5 +1,5 @@
 import { RootModule, RootApiProps } from './root/root.module';
-import { Task, ViewMode } from  './root/root.api';
+import { Task, ViewMode } from './root/root.api';
 class Gantt {
 	root: RootModule;
 
@@ -41,5 +41,5 @@ class Gantt {
 }
 
 export default Gantt;
-export { RootApiProps } from  './root/root.module';
-export { Task } from  './root/root.api';
+export { RootApiProps } from './root/root.module';
+export { Task } from './root/root.api';

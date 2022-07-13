@@ -4,7 +4,6 @@ import { GridStore } from './grid.store';
 import { GridService } from './grid.service';
 
 export class GridModule {
-
 	root: RootModule;
 	view: GridView;
 	store: GridStore;
@@ -20,7 +19,6 @@ export class GridModule {
 	init() {
 		this.store.dates = [];
 		this.store.initialData();
-		if(this.root.api.startFromToday) this.service.showDay();
+		if (this.root.api.startFromToday) this.service.showDay();
 	}
-
 }

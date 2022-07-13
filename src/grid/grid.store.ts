@@ -29,28 +29,28 @@ export class GridStore {
 
 	initialData() {
 		this.todayTs = getDate().getTime();
-		if(this.root.api.renderAllTasksFromStart) {
-			let [start_date_ts, end_date_ts] = this.root.tasks.service.getFirstAndLastDeadline();
+		if (this.root.api.renderAllTasksFromStart) {
+			let [start_date_ts, end_date_ts] =
+				this.root.tasks.service.getFirstAndLastDeadline();
 			start_date_ts = this.getStartDayByViewMode(start_date_ts);
 			let date = getDate(start_date_ts);
 			this.add(date);
 			do {
 				date = setDateTs(date, this.getOffset(date));
 				this.add(date);
-			} while(date.getTime() <= end_date_ts);
+			} while (date.getTime() <= end_date_ts);
 		}
 		this.addDatesBefore(this.root.view.offsetX);
 		this.addDatesAfter(this.root.view.offsetX);
-		
 	}
 
 	fillDataBefore(ts: number) {
 		let date = getDate(this.dates[0].ts);
-		if(date.getTime() > ts) {
+		if (date.getTime() > ts) {
 			do {
 				date = setDateTs(date, -this.getOffset(date, true));
 				this.add(date, true);
-			} while(date.getTime() > ts);
+			} while (date.getTime() > ts);
 		}
 	}
 
@@ -60,12 +60,18 @@ export class GridStore {
 		let isStartMonth = false;
 		let weekend = false;
 		let today = false;
-		let weekday = date.getDay();
-		if(this.root.api.viewMode === 'day') {
-			const middleDayInMonth = Math.floor(getDaysInMonth(date.getMonth() + 1, date.getFullYear()) / 2);
+		const weekday = date.getDay();
+		if (this.root.api.viewMode === 'day') {
+			const middleDayInMonth = Math.floor(
+				getDaysInMonth(date.getMonth() + 1, date.getFullYear()) / 2
+			);
 			isMiddleDayMonth = day === middleDayInMonth;
 		}
-		if(['day', 'half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(this.root.api.viewMode) !== -1) {
+		if (
+			['day', 'half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(
+				this.root.api.viewMode
+			) !== -1
+		) {
 			isStartMonth = day === 1 && date.getHours() === 0;
 			weekend = [0, 6].includes(weekday);
 			today = this.todayTs === getDate(date.getTime()).getTime();
@@ -81,25 +87,24 @@ export class GridStore {
 			weekday,
 			isMiddleDayMonth,
 			today,
-		}
-		if(unshift) this.dates.unshift(elem);
+		};
+		if (unshift) this.dates.unshift(elem);
 		else this.dates.push(elem);
 	}
 
-	
 	addDatesBefore(offsetX: number) {
-		if(offsetX > this.root.view.canvasWidth) return;
-		
+		if (offsetX > this.root.view.canvasWidth) return;
+
 		const data = this.dates;
 		const { colsOnScreen, colWidth } = this.module.view;
 		const length = -offsetX / colWidth;
 		let ts = data[0]?.ts;
-		if(!ts) {
+		if (!ts) {
 			ts = this.getStartDayByViewMode(getDate().getTime());
 		}
 		let date = getDate(ts, false, null);
-		
-		for(let i = 0; i < length + colsOnScreen; i++) {
+
+		for (let i = 0; i < length + colsOnScreen; i++) {
 			offsetX += colWidth;
 			date = setDateTs(date, -this.getOffset(date, true));
 			this.add(date, true);
@@ -111,15 +116,15 @@ export class GridStore {
 		const data = this.dates;
 		const fullDataWidth = this.module.service.getFullAvailableWidth();
 		const { colsOnScreen, colWidth } = this.module.view;
-		const width = fullDataWidth - this.root.view.canvasWidth - colWidth
-		if(offsetX < width) return;
-		const length = ((offsetX - width) / colWidth);
+		const width = fullDataWidth - this.root.view.canvasWidth - colWidth;
+		if (offsetX < width) return;
+		const length = (offsetX - width) / colWidth;
 		let ts = data[data.length - 1]?.ts;
-		if(!ts) {
+		if (!ts) {
 			ts = this.getStartDayByViewMode(getDate().getTime());
 		}
 		let date = getDate(ts, false, null);
-		for(let i = 0; i < length + colsOnScreen; i++) {
+		for (let i = 0; i < length + colsOnScreen; i++) {
 			date = setDateTs(date, this.getOffset(date));
 			this.add(date);
 		}
@@ -127,28 +132,37 @@ export class GridStore {
 
 	getStartDayByViewMode(start_date_ts: number) {
 		const viewMode = this.root.api.viewMode;
-		if(['day', 'half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(viewMode) !== -1) return start_date_ts;
+		if (
+			['day', 'half-day', 'quarter-day', 'three-hours', 'hour'].indexOf(
+				viewMode
+			) !== -1
+		)
+			return start_date_ts;
 		let date = getDate(start_date_ts);
 		const targetDay = 1; // monday or first day of month
 		let day = date.getDay();
-		if(day === 0) day = 7;
-		if(viewMode === 'month') {
+		if (day === 0) day = 7;
+		if (viewMode === 'month') {
 			day = date.getDate();
 		}
-		if(day === targetDay) return start_date_ts;
+		if (day === targetDay) return start_date_ts;
 		const offset = (day - targetDay) * this.module.view.dayTs;
 		date = setDateTs(date, -offset);
 		return date.getTime();
 	}
 
 	getOffset(date: Date, minus = false) {
-		if(this.root.api.viewMode === 'month') {
-			if(minus) return getDaysInMonth(date.getMonth(), date.getFullYear()) * this.module.view.dayTs;
-			return getDaysInMonth(date.getMonth() + 1, date.getFullYear()) * this.module.view.dayTs;
-
+		if (this.root.api.viewMode === 'month') {
+			if (minus)
+				return (
+					getDaysInMonth(date.getMonth(), date.getFullYear()) *
+					this.module.view.dayTs
+				);
+			return (
+				getDaysInMonth(date.getMonth() + 1, date.getFullYear()) *
+				this.module.view.dayTs
+			);
 		}
 		return this.module.view.colTs;
 	}
-
-
 }

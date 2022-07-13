@@ -2,9 +2,9 @@ import { RootModule } from '../root.module';
 import { EventOffsets } from '../../utils/interfaces';
 export declare class ScrollbarYEntity {
     root: RootModule;
-    destroyHandleMouseDown: Function;
-    destroyMouseMove: Function;
-    destroyHandleTouchEnd: Function;
+    destroyHandleMouseDown: () => void;
+    destroyMouseMove: () => void;
+    destroyHandleTouchEnd: () => void;
     mouseDownOffset: number | null;
     bottomOffset: number;
     minLineHeight: number;

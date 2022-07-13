@@ -1,12 +1,10 @@
-
-
-export function debounce(f: Function, ms: number) {
+export function debounce<T>(f: (arg: T) => void, ms: number) {
 	let isCooldown = false;
-	return function() {
-	  if (isCooldown) return;
-	  // @ts-ignore
-	  f.apply(this, arguments);
-	  isCooldown = true;
-	  setTimeout(() => isCooldown = false, ms);
+	return function (...args: any[]) {
+		if (isCooldown) return;
+		// @ts-ignore
+		f.apply(this, args);
+		isCooldown = true;
+		setTimeout(() => (isCooldown = false), ms);
 	};
 }
